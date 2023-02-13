@@ -1,6 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 
 class CustomDropdownButtonFormField extends StatelessWidget {
@@ -13,7 +14,7 @@ class CustomDropdownButtonFormField extends StatelessWidget {
     this.label,
     this.margin = const EdgeInsets.symmetric(vertical: 8.0),
     this.contentPadding =
-        const EdgeInsets.symmetric(horizontal: 12.0, vertical: 18.0),
+        const EdgeInsets.symmetric(horizontal: 12.0, vertical: 25.0),
     this.prefixIcon,
     this.suffixIcon,
     this.textFormFieldStyle = const TextStyle(fontSize: 14.0),
@@ -90,9 +91,9 @@ class CustomDropdownButtonFormField extends StatelessWidget {
             Text(
               '$label',
               style: TextStyle(
-                  fontSize: 13.0,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.greyText),
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.inputLabelColor),
             ),
             SizedBox(height: 8.0),
           ],
@@ -113,13 +114,8 @@ class CustomDropdownButtonFormField extends StatelessWidget {
                 ),
                 prefixText: prefixText,
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(borderRadius),
-                  borderSide: BorderSide(
-                    color: enabledBorderColor,
-                    width: borderWidth,
-                    style: borderStyle,
-                  ),
-                ),
+                    borderRadius: BorderRadius.circular(borderRadius),
+                    borderSide: BorderSide.none),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(borderRadius),
                   borderSide: BorderSide(

@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/components/authentication/view/sign_in_screen.dart';
+import 'package:sprout_mobile/src/components/authentication/view/sign_up_personal.dart';
 import 'package:sprout_mobile/src/components/onboarding/onboarding_content_model.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 
@@ -433,7 +434,7 @@ class _OnboardingState extends State<Onboarding> {
                             InkWell(
                                 onTap: () {
                                   // box.write('isExisting', true);
-                                  // Get.to(() => RegEmailVerification());
+                                  Get.to(() => SignupPersonalScreen());
                                 },
                                 child: Container(
                                   height: 50,

@@ -27,6 +27,11 @@ class Themes {
             fontSize: 20.sp,
             fontWeight: FontWeight.w400,
             color: AppColors.black),
+        subtitle2: TextStyle(
+            fontFamily: "DMSans",
+            fontSize: 13.sp,
+            fontWeight: FontWeight.w500,
+            color: AppColors.greyText),
         bodyText2: TextStyle(
             fontFamily: "DMSans",
             fontSize: 12.sp,
@@ -48,6 +53,11 @@ class Themes {
             fontFamily: "DMSans",
             fontSize: 20.sp,
             fontWeight: FontWeight.w400,
+            color: AppColors.white),
+        subtitle2: TextStyle(
+            fontFamily: "DMSans",
+            fontSize: 13.sp,
+            fontWeight: FontWeight.w500,
             color: AppColors.white),
         bodyText2: TextStyle(
             fontFamily: "DMSans",
