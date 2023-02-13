@@ -3,28 +3,12 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
-import 'package:sprout_mobile/src/app_controller.dart';
 import 'package:sprout_mobile/src/components/onboarding/splash_screen.dart';
-import 'package:sprout_mobile/src/theme/theme_manager.dart';
+import 'package:sprout_mobile/src/theme/theme.dart';
+import 'package:sprout_mobile/src/theme/theme_service.dart';
 import 'package:sprout_mobile/src/utils/navigation_service.dart';
 
-class App extends StatefulWidget {
-  App({Key? key}) : super(key: key);
-
-  @override
-  State<App> createState() => _AppState();
-}
-
-class _AppState extends State<App> {
-  final AppController appController = Get.put(AppController());
-
-  void initState() {
-    super.initState();
-    currentTheme.addListener(() {
-      setState(() {});
-    });
-  }
-
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Listener(
@@ -51,9 +35,9 @@ class _AppState extends State<App> {
                   navigatorKey: NavigationService.navigatorKey,
                   debugShowCheckedModeBanner: false,
                   builder: EasyLoading.init(),
-                  theme: CustomTheme.lightTheme,
-                  darkTheme: CustomTheme.darkTheme,
-                  themeMode: currentTheme.currentTheme,
+                  theme: Themes().lightTheme,
+                  darkTheme: Themes().darkTheme,
+                  themeMode: ThemeService().getThemeMode(),
                   home: SplashScreen(),
                 );
               }),

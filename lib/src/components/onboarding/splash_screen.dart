@@ -37,6 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height * 0.94,
@@ -46,7 +47,9 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Image(
                 height: 180.0.h,
                 width: 120.w,
-                image: AssetImage("assets/images/logo-dark.png"),
+                image: AssetImage(isDarkMode
+                    ? "assets/images/logo-light.png"
+                    : "assets/images/logo-dark.png"),
               ),
             ),
           ],
