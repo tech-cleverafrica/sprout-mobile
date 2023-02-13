@@ -48,7 +48,7 @@ class Themes {
             fontFamily: "DMSans",
             fontSize: 20.sp,
             fontWeight: FontWeight.w400,
-            color: AppColors.black),
+            color: AppColors.white),
         bodyText2: TextStyle(
             fontFamily: "DMSans",
             fontSize: 12.sp,
