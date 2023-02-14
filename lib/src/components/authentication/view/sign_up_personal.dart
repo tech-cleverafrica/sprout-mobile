@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/authentication/view/sign_up_personal2.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
@@ -39,7 +40,9 @@ class SignupPersonalScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.back();
+                      },
                       icon: Icon(
                         Icons.arrow_back,
                         size: 30,
@@ -104,7 +107,9 @@ class SignupPersonalScreen extends StatelessWidget {
                     width: 190.w,
                     child: CustomButton(
                       title: "Continue",
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(() => SignupPersonal2());
+                      },
                     ),
                   ),
                   addHorizontalSpace(8.w),

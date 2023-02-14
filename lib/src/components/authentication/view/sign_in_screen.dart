@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/authentication/view/sign_up_start.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_password_field.dart';
@@ -108,16 +110,21 @@ class SignInScreen extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                         color: isDarkMode ? AppColors.white : AppColors.black),
                   ),
-                  Text(
-                    "Create Account",
-                    style: TextStyle(
-                        fontFamily: "DMSans",
-                        fontSize: 12.sp,
-                        decoration: TextDecoration.underline,
-                        fontWeight: FontWeight.w700,
-                        color: isDarkMode
-                            ? AppColors.mainGreen
-                            : AppColors.primaryColor),
+                  InkWell(
+                    onTap: () {
+                      Get.to(SignUpStart());
+                    },
+                    child: Text(
+                      "Create Account",
+                      style: TextStyle(
+                          fontFamily: "DMSans",
+                          fontSize: 12.sp,
+                          decoration: TextDecoration.underline,
+                          fontWeight: FontWeight.w700,
+                          color: isDarkMode
+                              ? AppColors.mainGreen
+                              : AppColors.primaryColor),
+                    ),
                   ),
                 ],
               ),

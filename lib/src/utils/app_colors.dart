@@ -1,4 +1,3 @@
-import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 
 class AppColors {
@@ -11,6 +10,7 @@ class AppColors {
   static const Color grey = Color(0xFFF2F2F2);
   static const Color inputLabelColor = Color(0xFF656464);
   static const Color inputBackgroundColor = Color(0xFF1c1c1c);
+  static const Color red = Colors.red;
 
   static const Color shadowGrey = Color(0xFF111111);
   static const Color transparent = Color(0x00000000);
@@ -22,4 +22,5 @@ class AppColors {
   static const Color lightGreyBorder = Color(0xFFDBE2EA);
   static const Color lightGrey = Color(0xFFF5F4F8);
   static const Color lightGreyBg = Color(0xFFF4F4F6);
+  static const Color greyBg = Color(0xFFF5F5F5);
 }

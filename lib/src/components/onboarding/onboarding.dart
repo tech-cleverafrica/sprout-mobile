@@ -1,11 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/components/authentication/view/sign_in_screen.dart';
-import 'package:sprout_mobile/src/components/authentication/view/sign_up_personal.dart';
+import 'package:sprout_mobile/src/components/authentication/view/sign_up_start.dart';
 import 'package:sprout_mobile/src/components/onboarding/onboarding_content_model.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 
@@ -112,8 +109,7 @@ class _OnboardingState extends State<Onboarding> {
                             children: [
                               InkWell(
                                   onTap: () {
-                                    // box.write('isExisting', true);
-                                    // Get.to(() => RegEmailVerification());
+                                    Get.to(() => SignUpStart());
                                   },
                                   child: Container(
                                     height: 50,
@@ -136,7 +132,7 @@ class _OnboardingState extends State<Onboarding> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  //Get.to(() => SignIn());
+                                  Get.to(() => SignInScreen());
                                 },
                                 child: Container(
                                   height: 48,
@@ -220,8 +216,7 @@ class _OnboardingState extends State<Onboarding> {
                             children: [
                               InkWell(
                                   onTap: () {
-                                    // box.write('isExisting', true);
-                                    // Get.to(() => RegEmailVerification());
+                                    Get.to(() => SignUpStart());
                                   },
                                   child: Container(
                                     height: 50,
@@ -244,7 +239,7 @@ class _OnboardingState extends State<Onboarding> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  //Get.to(() => SignIn());
+                                  Get.to(() => SignInScreen());
                                 },
                                 child: Container(
                                   height: 48,
@@ -326,8 +321,7 @@ class _OnboardingState extends State<Onboarding> {
                             children: [
                               InkWell(
                                   onTap: () {
-                                    // box.write('isExisting', true);
-                                    // Get.to(() => RegEmailVerification());
+                                    Get.to(() => SignUpStart());
                                   },
                                   child: Container(
                                     height: 50,
@@ -350,7 +344,7 @@ class _OnboardingState extends State<Onboarding> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  //Get.to(() => SignIn());
+                                  Get.to(() => SignInScreen());
                                 },
                                 child: Container(
                                   height: 48,
@@ -433,8 +427,7 @@ class _OnboardingState extends State<Onboarding> {
                           children: [
                             InkWell(
                                 onTap: () {
-                                  // box.write('isExisting', true);
-                                  Get.to(() => SignupPersonalScreen());
+                                  Get.to(() => SignUpStart());
                                 },
                                 child: Container(
                                   height: 50,

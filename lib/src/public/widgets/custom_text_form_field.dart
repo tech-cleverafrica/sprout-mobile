@@ -50,7 +50,7 @@ class CustomTextFormField extends StatelessWidget {
     this.borderRadius = 14,
     this.borderWidth = 0.5,
     this.contentPaddingHorizontal = 12,
-    this.contentPaddingVertical = 25,
+    this.contentPaddingVertical = 20,
     this.hintText,
     this.label,
     this.otherLabel = "",
