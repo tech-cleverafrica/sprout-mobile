@@ -4,22 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:neon_circular_timer/neon_circular_timer.dart';
-import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
-import 'package:sprout_mobile/src/utils/app_svgs.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'package:sprout_mobile/src/public/screens/successful_transaction.dart';
+import 'package:sprout_mobile/src/utils/app_colors.dart';
 
-import '../../../utils/app_colors.dart';
-import '../../../utils/app_images.dart';
-import '../../../utils/helper_widgets.dart';
+import '../../utils/app_images.dart';
+import '../../utils/app_svgs.dart';
+import '../../utils/helper_widgets.dart';
+import '../widgets/general_widgets.dart';
 
-class OTPScreen extends StatelessWidget {
-  OTPScreen({super.key});
+class PinPage extends StatelessWidget {
+  PinPage({super.key});
 
-  //for the timer
-  final CountDownController controller = new CountDownController();
-
-  // for the onscreen pad
   List<String> currentPin = ["", "", "", ""];
   TextEditingController pinOneController = TextEditingController();
   TextEditingController pinTwoController = TextEditingController();
@@ -35,99 +30,41 @@ class OTPScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return SafeArea(
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              addVerticalSpace(10.h),
-              StepProgressIndicator(
-                totalSteps: 4,
-                currentStep: 4,
-                size: 4,
-                roundedEdges: Radius.circular(10),
-                selectedColor: AppColors.mainGreen,
-                unselectedColor: AppColors.grey,
+          body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            getHeader(isDarkMode),
+            addVerticalSpace(15.h),
+            Center(
+              child: Text(
+                "Enter PIN",
+                style: Theme.of(context).textTheme.headline1,
               ),
-              addVerticalSpace(20.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      icon: Icon(
-                        Icons.arrow_back,
-                        size: 30,
-                      )),
-                  Image.asset(
-                    AppImages.question,
-                    height: 20,
-                    color: isDarkMode ? AppColors.white : AppColors.black,
-                  ),
-                ],
-              ),
-              addVerticalSpace(20.h),
-              Text(
-                'Enter OTP',
-                style: theme.textTheme.headline1,
-              ),
-              addVerticalSpace(10.h),
-              Container(
-                width: 300.w,
-                child: Text(
-                  "Confirm your email address by entering otp sent to your mail",
-                  style: theme.textTheme.subtitle2,
-                ),
-              ),
-              addVerticalSpace(20.h),
-
-              //buildExitButton(),
-              Expanded(
-                  child: Container(
-                // alignment: Alignment(0, 0.5),
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    buildPinRow(),
-                    addVerticalSpace(20.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Resend otp in",
-                          style: theme.textTheme.subtitle2,
-                        ),
-                        addHorizontalSpace(15.w),
-                        NeonCircularTimer(
-                          width: 50,
-                          duration: 20,
-                          controller: controller,
-                          isTimerTextShown: true,
-                          neumorphicEffect: false,
-                          strokeWidth: 2,
-                          neon: 1,
-                          textStyle: TextStyle(color: AppColors.greyText),
-                          textFormat: TextFormat.S,
-                          innerFillColor: AppColors.grey,
-                          outerStrokeColor: AppColors.black,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              )),
-              buildnumberPad(isDarkMode),
-            ],
-          ),
+            ),
+            addVerticalSpace(40.h),
+            buildPinRow(),
+            addVerticalSpace(80.h),
+            buildnumberPad(isDarkMode),
+            addVerticalSpace(30.h),
+            Image.asset(
+                isDarkMode ? AppImages.sprout_dark : AppImages.sprout_light),
+            addVerticalSpace(10.h),
+            Text("Forgotten Pin?",
+                style: TextStyle(
+                  fontFamily: "DMSans",
+                  fontSize: 12.sp,
+                  fontStyle: FontStyle.italic,
+                  color: isDarkMode ? AppColors.grey : AppColors.greyText,
+                ))
+          ],
         ),
-      ),
+      )),
     );
   }
 
@@ -278,6 +215,7 @@ class OTPScreen extends StatelessWidget {
     if (pinIndex == 4) {
       print(strPin);
       log(":::::::::: navigation here");
+      Get.to(() => SuccessfultransactionScreen());
     }
   }
 

@@ -6,4 +6,5 @@ class AppImages {
   static const String sprout_dark = path + "sprout_dark.png";
   static const String biometric = path + "biometric-light.png";
   static const String question = path + "question.png";
+  static const String rough_background = path + "rough_background.png";
 }

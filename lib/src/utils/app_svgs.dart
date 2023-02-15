@@ -9,4 +9,16 @@ class AppSvg {
   static const String swap = path + "Swap.svg";
   static const String bill = path + "bill.svg";
   static const String airtime = path + "airtime.svg";
+
+  static const String home = path + "home.svg";
+  static const String home_filled = path + "home-filled.svg";
+  static const String cards = path + "cards.svg";
+  static const String savings = path + "savings.svg";
+  static const String invoice = path + "invoice.svg";
+  static const String profile = path + "profile.svg";
+
+  static const String bank = path + "bank.svg";
+  static const String sprout = path + "sprout.svg";
+  static const String mark = path + "mark.svg";
+  static const String share = path + "share.svg";
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/authentication/view/sign_up_start.dart';
+import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
 import 'package:sprout_mobile/src/components/home/view/homepage.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
@@ -96,7 +97,7 @@ class SignInScreen extends StatelessWidget {
               CustomButton(
                 title: "Login",
                 onTap: () {
-                  Get.to(() => HomePage());
+                  Get.to(() => BottomNav());
                 },
               ),
               SizedBox(

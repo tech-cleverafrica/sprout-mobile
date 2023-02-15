@@ -4,6 +4,8 @@ import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/send-money/send_money.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
@@ -438,24 +440,30 @@ getItems(isDark) {
           color: isDark ? AppColors.greyDot : AppColors.grey,
           title: "Send",
           svg: AppSvg.send,
+          onTap: () {
+            Get.to(() => SendMoney());
+          },
         ),
         itemOptions(
           isDark: isDark,
           color: isDark ? AppColors.greyDot : AppColors.grey,
           title: "Payments",
           svg: AppSvg.swap,
+          onTap: () {},
         ),
         itemOptions(
           isDark: isDark,
           color: isDark ? AppColors.greyDot : AppColors.grey,
           title: "Pay Bills",
           svg: AppSvg.bill,
+          onTap: () {},
         ),
         itemOptions(
           isDark: isDark,
           color: isDark ? AppColors.greyDot : AppColors.grey,
           title: "Buy Airtimes",
           svg: AppSvg.airtime,
+          onTap: () {},
         )
       ],
     ),
@@ -468,12 +476,14 @@ class itemOptions extends StatelessWidget {
       required this.color,
       required this.svg,
       required this.title,
+      required this.onTap,
       required this.isDark})
       : super(key: key);
   final Color color;
   final String svg;
   final String title;
   final bool isDark;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -481,23 +491,28 @@ class itemOptions extends StatelessWidget {
       children: [
         Column(
           children: [
-            Container(
-              height: 100,
-              width: 70,
-              decoration: BoxDecoration(shape: BoxShape.circle, color: color),
-              child: Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: SvgPicture.asset(svg,
-                    height: 20,
-                    width: 20,
-                    color: isDark ? AppColors.white : AppColors.black),
+            InkWell(
+              onTap: onTap,
+              child: Container(
+                height: 100,
+                width: 70,
+                decoration: BoxDecoration(shape: BoxShape.circle, color: color),
+                child: Padding(
+                  padding: const EdgeInsets.all(25.0),
+                  child: SvgPicture.asset(svg,
+                      height: 20,
+                      width: 20,
+                      color: isDark ? AppColors.white : AppColors.black),
+                ),
               ),
             ),
-            addVerticalSpace(10.h),
+            addVerticalSpace(0.h),
             Text(
               title,
               style: TextStyle(
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "DMSans",
+                  fontSize: 10.sp,
                   color: isDark ? AppColors.white : AppColors.black),
             )
           ],
