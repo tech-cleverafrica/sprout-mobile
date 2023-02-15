@@ -490,7 +490,7 @@ class itemOptions extends StatelessWidget {
                 child: SvgPicture.asset(svg,
                     height: 20,
                     width: 20,
-                    color: isDark ? AppColors.white : AppColors.white),
+                    color: isDark ? AppColors.white : AppColors.black),
               ),
             ),
             addVerticalSpace(10.h),
