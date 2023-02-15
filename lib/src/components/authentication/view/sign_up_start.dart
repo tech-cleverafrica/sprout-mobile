@@ -103,7 +103,7 @@ class typeCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
                 color: isDarkMode ? AppColors.grey : AppColors.black,
-                width: 1)),
+                width: 0.5)),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Row(
