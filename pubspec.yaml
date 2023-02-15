@@ -27,6 +27,9 @@ dependencies:
   community_material_icon: ^5.9.55
   dropdown_button2: ^1.1.1
   step_progress_indicator: ^1.0.2
+  flutter_pw_validator: ^1.5.0
+  neon_circular_timer: ^0.0.7
+  flutter_svg: ^1.1.6
 
 
 dev_dependencies:

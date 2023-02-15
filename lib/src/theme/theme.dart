@@ -22,6 +22,18 @@ class Themes {
           fontSize: 24.sp,
           fontWeight: FontWeight.w700,
         ),
+        headline2: TextStyle(
+          color: AppColors.black,
+          fontFamily: "DMSans",
+          fontSize: 18.sp,
+          fontWeight: FontWeight.w700,
+        ),
+        headline3: TextStyle(
+          color: AppColors.black,
+          fontFamily: "DMSans",
+          fontSize: 12.sp,
+          fontWeight: FontWeight.w700,
+        ),
         subtitle1: TextStyle(
             fontFamily: "DMSans",
             fontSize: 20.sp,
@@ -37,6 +49,12 @@ class Themes {
             fontSize: 12.sp,
             fontWeight: FontWeight.w400,
             color: AppColors.greyText),
+        bodyText1: TextStyle(
+          color: AppColors.greyText,
+          fontFamily: "DMSans",
+          fontSize: 10.sp,
+          fontWeight: FontWeight.w500,
+        ),
       ));
 
   final darkTheme = ThemeData.dark().copyWith(
@@ -48,6 +66,24 @@ class Themes {
           fontFamily: "DMSans",
           fontSize: 24.sp,
           fontWeight: FontWeight.w700,
+        ),
+        headline2: TextStyle(
+          color: AppColors.white,
+          fontFamily: "DMSans",
+          fontSize: 18.sp,
+          fontWeight: FontWeight.w700,
+        ),
+        headline3: TextStyle(
+          color: AppColors.white,
+          fontFamily: "DMSans",
+          fontSize: 12.sp,
+          fontWeight: FontWeight.w700,
+        ),
+        bodyText1: TextStyle(
+          color: AppColors.white,
+          fontFamily: "DMSans",
+          fontSize: 10.sp,
+          fontWeight: FontWeight.w500,
         ),
         subtitle1: TextStyle(
             fontFamily: "DMSans",
@@ -63,6 +99,6 @@ class Themes {
             fontFamily: "DMSans",
             fontSize: 12.sp,
             fontWeight: FontWeight.w400,
-            color: AppColors.white),
+            color: AppColors.grey),
       ));
 }
