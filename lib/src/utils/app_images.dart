@@ -7,4 +7,13 @@ class AppImages {
   static const String biometric = path + "biometric-light.png";
   static const String question = path + "question.png";
   static const String rough_background = path + "rough_background.png";
+
+  static const String gotv = path + "gotv.png";
+  static const String dstv = path + "dstv.png";
+  static const String startime = path + "starttimes.png";
+
+  static const String airtel = path + "airtel.png";
+  static const String mtn = path + "mtn.png";
+  static const String nine_mobile = path + "9mobile.png";
+  static const String glo = path + "glo.png";
 }

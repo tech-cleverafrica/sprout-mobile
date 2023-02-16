@@ -55,7 +55,11 @@ class SuccessfultransactionScreen extends StatelessWidget {
                           color: AppColors.white,
                           width: 1.5,
                         )),
-                    child: Center(child: Icon(Icons.more_horiz)),
+                    child: Center(
+                        child: Icon(
+                      Icons.more_horiz,
+                      color: AppColors.white,
+                    )),
                   ),
                 )
               ],

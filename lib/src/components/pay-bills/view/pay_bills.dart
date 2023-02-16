@@ -4,7 +4,10 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:sprout_mobile/src/components/pay-bills/view/cable/cable_tv.dart';
+import 'package:sprout_mobile/src/components/pay-bills/view/internet/internet_data.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
@@ -40,9 +43,18 @@ class PayBillsScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   getItems(isDarkMode, AppSvg.electricity, "Electricity"),
-                  getItems(isDarkMode, AppSvg.cable, "Cable TV"),
-                  getItems(
-                      isDarkMode, AppSvg.mobile, "Mobile Data &\n Internet"),
+                  InkWell(
+                      onTap: () {
+                        Get.to(() => CabletvScreen());
+                      },
+                      child: getItems(isDarkMode, AppSvg.cable, "Cable TV")),
+                  InkWell(
+                    onTap: () {
+                      Get.to(() => InternetDataScreen());
+                    },
+                    child: getItems(
+                        isDarkMode, AppSvg.mobile, "Mobile Data &\n Internet"),
+                  ),
                   getItems(isDarkMode, AppSvg.betting, "Betting")
                 ],
               )
