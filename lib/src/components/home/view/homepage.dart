@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/pay-bills/view/pay_bills.dart';
 import 'package:sprout_mobile/src/components/send-money/send_money.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
@@ -456,7 +457,9 @@ getItems(isDark) {
           color: isDark ? AppColors.greyDot : AppColors.grey,
           title: "Pay Bills",
           svg: AppSvg.bill,
-          onTap: () {},
+          onTap: () {
+            Get.to(() => PayBillsScreen());
+          },
         ),
         itemOptions(
           isDark: isDark,

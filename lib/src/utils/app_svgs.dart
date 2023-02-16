@@ -21,4 +21,10 @@ class AppSvg {
   static const String sprout = path + "sprout.svg";
   static const String mark = path + "mark.svg";
   static const String share = path + "share.svg";
+  static const String search = path + "Search.svg";
+
+  static const String electricity = path + "electricity.svg";
+  static const String cable = path + "cable.svg";
+  static const String mobile = path + "mobile.svg";
+  static const String betting = path + "betting.svg";
 }
