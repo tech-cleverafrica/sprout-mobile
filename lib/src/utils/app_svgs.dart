@@ -27,4 +27,8 @@ class AppSvg {
   static const String cable = path + "cable.svg";
   static const String mobile = path + "mobile.svg";
   static const String betting = path + "betting.svg";
+
+  static const String pay = path + "pay.svg";
+  static const String request = path + "request.svg";
+  static const String nfc = path + "nfc.svg";
 }

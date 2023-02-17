@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../public/screens/pin_confirmation.dart';
-import '../../public/widgets/custom_button.dart';
-import '../../public/widgets/general_widgets.dart';
-import '../../utils/app_colors.dart';
-import '../../utils/helper_widgets.dart';
+import '../../../public/screens/pin_confirmation.dart';
+import '../../../public/widgets/custom_button.dart';
+import '../../../public/widgets/general_widgets.dart';
+import '../../../utils/app_colors.dart';
+import '../../../utils/helper_widgets.dart';
 
 class SendMoneySummaryScreen extends StatelessWidget {
   const SendMoneySummaryScreen({super.key});

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:sprout_mobile/src/components/send-money/send-to-bank/send_to_bank.dart';
-import 'package:sprout_mobile/src/components/send-money/send-to-sprout/send_to_sprout.dart';
+import 'package:sprout_mobile/src/components/send-money/view/send-to-bank/send_to_bank.dart';
+import 'package:sprout_mobile/src/components/send-money/view/send-to-sprout/send_to_sprout.dart';
 
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 
-import '../../public/widgets/general_widgets.dart';
-import '../../utils/app_colors.dart';
-import '../../utils/app_svgs.dart';
+import '../../../public/widgets/general_widgets.dart';
+import '../../../utils/app_colors.dart';
+import '../../../utils/app_svgs.dart';
 
 class SendMoney extends StatelessWidget {
   const SendMoney({super.key});

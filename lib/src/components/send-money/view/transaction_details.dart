@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:sprout_mobile/src/components/send-money/send_money_summary.dart';
+import 'package:sprout_mobile/src/components/send-money/view/send_money_summary.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 
-import '../../public/widgets/custom_button.dart';
-import '../../public/widgets/custom_text_form_field.dart';
+import '../../../public/widgets/custom_button.dart';
+import '../../../public/widgets/custom_text_form_field.dart';
 
 class TransactionDetailsScreen extends StatelessWidget {
   const TransactionDetailsScreen({super.key});

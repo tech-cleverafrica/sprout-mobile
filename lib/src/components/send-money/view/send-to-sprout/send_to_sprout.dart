@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:sprout_mobile/src/components/send-money/transaction_details.dart';
+import 'package:sprout_mobile/src/components/send-money/view/transaction_details.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 
-import '../../../public/widgets/custom_button.dart';
-import '../../../public/widgets/general_widgets.dart';
-import '../../../utils/helper_widgets.dart';
+import '../../../../public/widgets/custom_button.dart';
+import '../../../../public/widgets/general_widgets.dart';
+import '../../../../utils/helper_widgets.dart';
 
 class SendToSprout extends StatelessWidget {
   const SendToSprout({super.key});

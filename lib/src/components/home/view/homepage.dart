@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/borow/borrow.dart';
+import 'package:sprout_mobile/src/components/buy-airtime/view/buy-airtime.dart';
 import 'package:sprout_mobile/src/components/pay-bills/view/pay_bills.dart';
-import 'package:sprout_mobile/src/components/send-money/send_money.dart';
+import 'package:sprout_mobile/src/components/send-money/view/send_money.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
@@ -450,7 +452,9 @@ getItems(isDark) {
           color: isDark ? AppColors.greyDot : AppColors.grey,
           title: "Payments",
           svg: AppSvg.swap,
-          onTap: () {},
+          onTap: () {
+            Get.to(() => BorrowScren());
+          },
         ),
         itemOptions(
           isDark: isDark,
@@ -464,9 +468,11 @@ getItems(isDark) {
         itemOptions(
           isDark: isDark,
           color: isDark ? AppColors.greyDot : AppColors.grey,
-          title: "Buy Airtimes",
+          title: "Buy Airtime",
           svg: AppSvg.airtime,
-          onTap: () {},
+          onTap: () {
+            Get.to(() => BuyAirtimeScreen());
+          },
         )
       ],
     ),

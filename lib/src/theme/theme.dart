@@ -7,15 +7,6 @@ class Themes {
       primaryColor: AppColors.primaryColor,
       scaffoldBackgroundColor: AppColors.white,
       textTheme: TextTheme(
-        // TextStyle? headline2,
-        // TextStyle? headline3,
-        // TextStyle? headline4,
-        // TextStyle? headline5,
-        // TextStyle? headline6,
-        // TextStyle? subtitle1,
-        // TextStyle? subtitle2,
-        // TextStyle? bodyText1,
-
         headline1: TextStyle(
           color: AppColors.black,
           fontFamily: "DMSans",
@@ -29,6 +20,12 @@ class Themes {
           fontWeight: FontWeight.w700,
         ),
         headline3: TextStyle(
+          color: AppColors.black,
+          fontFamily: "DMSans",
+          fontSize: 12.sp,
+          fontWeight: FontWeight.w700,
+        ),
+        headline6: TextStyle(
           color: AppColors.black,
           fontFamily: "DMSans",
           fontSize: 12.sp,
@@ -74,6 +71,12 @@ class Themes {
           fontWeight: FontWeight.w700,
         ),
         headline3: TextStyle(
+          color: AppColors.white,
+          fontFamily: "DMSans",
+          fontSize: 12.sp,
+          fontWeight: FontWeight.w700,
+        ),
+        headline6: TextStyle(
           color: AppColors.white,
           fontFamily: "DMSans",
           fontSize: 12.sp,

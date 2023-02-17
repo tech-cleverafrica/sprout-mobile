@@ -11,6 +11,7 @@ class AppColors {
   static const Color inputLabelColor = Color(0xFF656464);
   static const Color inputBackgroundColor = Color(0xFF1c1c1c);
   static const Color red = Colors.red;
+  static const Color deepOrange = Color(0xFFFF5C00);
   static const Color balanceCardDark = Color(0xFF161618);
 
   static const Color shadowGrey = Color(0xFF111111);

@@ -16,4 +16,6 @@ class AppImages {
   static const String mtn = path + "mtn.png";
   static const String nine_mobile = path + "9mobile.png";
   static const String glo = path + "glo.png";
+  static const String padlock = path + "padlock.png";
+  static const String overlay = path + "overlay.png";
 }
