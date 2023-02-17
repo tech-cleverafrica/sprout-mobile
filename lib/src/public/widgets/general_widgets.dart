@@ -67,15 +67,16 @@ getHeader(bool isDarkMode) {
 class PINNumber extends StatelessWidget {
   final TextEditingController? textEditingController;
   final OutlineInputBorder? outlineInputBorder;
-  PINNumber({this.textEditingController, this.outlineInputBorder});
+  final String? value;
+  PINNumber({this.textEditingController, this.outlineInputBorder, this.value});
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
-      width: 30.0,
-      height: 30.0,
+      width: 25.0,
+      height: 25.0,
       child: Center(
         child: TextField(
           controller: textEditingController,
@@ -87,11 +88,22 @@ class PINNumber extends StatelessWidget {
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(100),
                   borderSide: BorderSide(
-                      width: 10,
+                      width: 1,
+                      style: BorderStyle.solid,
+                      color: isDarkMode ? AppColors.white : AppColors.black)),
+              disabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(100),
+                  borderSide: BorderSide(
+                      width: 1,
                       style: BorderStyle.solid,
                       color: isDarkMode ? AppColors.white : AppColors.black)),
               filled: true,
-              fillColor: isDarkMode ? AppColors.black : Colors.white30),
+              // fillColor: isDarkMode ? AppColors.black : Colors.white30
+              fillColor: value == ""
+                  ? AppColors.transparent
+                  : isDarkMode
+                      ? AppColors.white
+                      : Colors.black),
           style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 21.0,
