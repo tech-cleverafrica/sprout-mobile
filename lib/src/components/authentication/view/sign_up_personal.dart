@@ -30,10 +30,11 @@ class SignupPersonalScreen extends StatelessWidget {
               StepProgressIndicator(
                 totalSteps: 4,
                 currentStep: 1,
-                size: 4,
+                size: 3,
                 roundedEdges: Radius.circular(10),
                 selectedColor: AppColors.mainGreen,
                 unselectedColor: AppColors.grey,
+                padding: 4,
               ),
               addVerticalSpace(20.h),
               Row(
@@ -88,7 +89,10 @@ class SignupPersonalScreen extends StatelessWidget {
                             ? AppColors.inputBackgroundColor
                             : AppColors.grey,
                         label: "Gender",
-                        items: ["Male", "Female"]),
+                        items: ["Male", "Female"],
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 12.0, vertical: 20.0),
+                        borderRadius: 14),
                   ),
                   addHorizontalSpace(20.w),
                   Expanded(

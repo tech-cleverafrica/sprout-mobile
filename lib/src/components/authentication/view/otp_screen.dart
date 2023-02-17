@@ -13,9 +13,14 @@ import '../../../utils/app_colors.dart';
 import '../../../utils/app_images.dart';
 import '../../../utils/helper_widgets.dart';
 
-class OTPScreen extends StatelessWidget {
+class OTPScreen extends StatefulWidget {
   OTPScreen({super.key});
 
+  @override
+  State<OTPScreen> createState() => _OTPScreenState();
+}
+
+class _OTPScreenState extends State<OTPScreen> {
   //for the timer
   final CountDownController controller = new CountDownController();
 
@@ -25,6 +30,10 @@ class OTPScreen extends StatelessWidget {
   TextEditingController pinTwoController = TextEditingController();
   TextEditingController pinThreeController = TextEditingController();
   TextEditingController pinFourController = TextEditingController();
+  String pinOneValue = "";
+  String pinTwoValue = "";
+  String pinThreeValue = "";
+  String pinFourValue = "";
 
   var outlineInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(100.0),
@@ -48,10 +57,11 @@ class OTPScreen extends StatelessWidget {
               StepProgressIndicator(
                 totalSteps: 4,
                 currentStep: 4,
-                size: 4,
+                size: 3,
                 roundedEdges: Radius.circular(10),
                 selectedColor: AppColors.mainGreen,
                 unselectedColor: AppColors.grey,
+                padding: 4,
               ),
               addVerticalSpace(20.h),
               Row(
@@ -285,16 +295,28 @@ class OTPScreen extends StatelessWidget {
     switch (n) {
       case 1:
         pinOneController.text = text;
+        setState(() {
+          pinOneValue = text;
+        });
         break;
 
       case 2:
         pinTwoController.text = text;
+        setState(() {
+          pinTwoValue = text;
+        });
         break;
       case 3:
         pinThreeController.text = text;
+        setState(() {
+          pinThreeValue = text;
+        });
         break;
       case 4:
         pinFourController.text = text;
+        setState(() {
+          pinFourValue = text;
+        });
         break;
     }
   }
@@ -306,18 +328,22 @@ class OTPScreen extends StatelessWidget {
         PINNumber(
           outlineInputBorder: outlineInputBorder,
           textEditingController: pinOneController,
+          value: pinOneValue,
         ),
         PINNumber(
           outlineInputBorder: outlineInputBorder,
           textEditingController: pinTwoController,
+          value: pinTwoValue,
         ),
         PINNumber(
           outlineInputBorder: outlineInputBorder,
           textEditingController: pinThreeController,
+          value: pinThreeValue,
         ),
         PINNumber(
           outlineInputBorder: outlineInputBorder,
           textEditingController: pinFourController,
+          value: pinFourValue,
         ),
       ],
     );
