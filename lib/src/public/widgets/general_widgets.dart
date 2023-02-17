@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
 
@@ -133,5 +134,45 @@ class KeyboardNumber extends StatelessWidget {
             ),
           ),
         ));
+  }
+}
+
+class DecisionButton extends StatelessWidget {
+  const DecisionButton(
+      {Key? key,
+      required this.isDarkMode,
+      required this.buttonText,
+      required this.onTap})
+      : super(key: key);
+
+  final bool isDarkMode;
+  final String buttonText;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          width: 190.w,
+          child: CustomButton(title: buttonText, onTap: onTap),
+        ),
+        addHorizontalSpace(8.w),
+        Expanded(
+            child: Container(
+          height: 50,
+          decoration: BoxDecoration(
+              color:
+                  isDarkMode ? AppColors.inputBackgroundColor : AppColors.black,
+              borderRadius: BorderRadius.circular(10)),
+          child: Center(
+            child: Text(
+              "Go Back",
+              style: TextStyle(fontFamily: "DMSans", color: AppColors.white),
+            ),
+          ),
+        ))
+      ],
+    );
   }
 }

@@ -93,35 +93,12 @@ class SendToBank extends StatelessWidget {
                 ],
               ),
               addVerticalSpace(250.h),
-              Row(
-                children: [
-                  Container(
-                    width: 190.w,
-                    child: CustomButton(
-                      title: "Continue",
-                      onTap: () {
-                        Get.to(() => TransactionDetailsScreen());
-                      },
-                    ),
-                  ),
-                  addHorizontalSpace(8.w),
-                  Expanded(
-                      child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: isDarkMode
-                            ? AppColors.inputBackgroundColor
-                            : AppColors.black,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Center(
-                      child: Text(
-                        "Go Back",
-                        style: TextStyle(
-                            fontFamily: "DMSans", color: AppColors.white),
-                      ),
-                    ),
-                  ))
-                ],
+              DecisionButton(
+                isDarkMode: isDarkMode,
+                buttonText: "Continue",
+                onTap: () {
+                  Get.to(() => TransactionDetailsScreen());
+                },
               ),
             ],
           ),

@@ -214,13 +214,16 @@ class AmountCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: isDarkMode ? AppColors.greyDot : AppColors.white,
+          color: isDarkMode ? AppColors.black : AppColors.white,
           borderRadius: BorderRadius.circular(30)),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text(
           amount,
-          style: TextStyle(fontFamily: "Outfit", fontWeight: FontWeight.w700),
+          style: TextStyle(
+              fontFamily: "Outfit",
+              color: isDarkMode ? AppColors.greyText : AppColors.black,
+              fontWeight: FontWeight.w700),
         ),
       ),
     );

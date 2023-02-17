@@ -18,4 +18,6 @@ class AppImages {
   static const String glo = path + "glo.png";
   static const String padlock = path + "padlock.png";
   static const String overlay = path + "overlay.png";
+
+  static const String emoty = path + "empty.png";
 }

@@ -239,95 +239,8 @@ class HomePage extends StatelessWidget {
           addVerticalSpace(24.h),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Container(
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SvgPicture.asset(
-                            AppSvg.send,
-                            color: AppColors.mainGreen,
-                          ),
-                          addHorizontalSpace(5.w),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Fund Transfer",
-                                style: theme.textTheme.headline3,
-                              ),
-                              addVerticalSpace(5.h),
-                              Container(
-                                width: 180.w,
-                                child: Text(
-                                  "Transfer Ref - TSWTAYSSUISPPLNDVD L - ",
-                                  style: TextStyle(
-                                      fontFamily: "DMSans",
-                                      fontSize: 10.sp,
-                                      color: isDarkMode
-                                          ? AppColors.inputLabelColor
-                                          : AppColors.greyText,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                              addVerticalSpace(5.h),
-                              Container(
-                                width: 180.w,
-                                child: Text(
-                                  "From - TSWTAYSSUISPPLNDsdffadhjjkjhvfdhdVD L - ",
-                                  style: TextStyle(
-                                      fontFamily: "DMSans",
-                                      fontSize: 10.sp,
-                                      color: isDarkMode
-                                          ? AppColors.inputLabelColor
-                                          : AppColors.greyText,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                              addVerticalSpace(5.h),
-                              Container(
-                                width: 180.w,
-                                child: Text(
-                                  "24 July, 2022. 10:40pm ",
-                                  style: TextStyle(
-                                      fontFamily: "DMSans",
-                                      fontSize: 10.sp,
-                                      color: isDarkMode
-                                          ? AppColors.inputLabelColor
-                                          : AppColors.greyText,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                      Text(
-                        "N20,000",
-                        style: TextStyle(
-                            fontFamily: "DMSans",
-                            color: AppColors.mainGreen,
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Divider(
-                      thickness: 2,
-                    ),
-                  )
-                ],
-              ),
-            ),
+            child: HistoryCard(
+                theme: theme, isDarkMode: isDarkMode, text: "Fund Transfer"),
           )
         ])),
       ),
@@ -427,6 +340,115 @@ class HomePage extends StatelessWidget {
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class HistoryCard extends StatelessWidget {
+  const HistoryCard({
+    Key? key,
+    required this.theme,
+    required this.isDarkMode,
+    required this.text,
+  }) : super(key: key);
+
+  final ThemeData theme;
+  final bool isDarkMode;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 0),
+      child: Container(
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset(
+                      AppSvg.send,
+                      color: AppColors.mainGreen,
+                    ),
+                    addHorizontalSpace(5.w),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          text,
+                          style: theme.textTheme.headline3,
+                        ),
+                        addVerticalSpace(5.h),
+                        Container(
+                          width: 180.w,
+                          child: Text(
+                            "Transfer Ref - TSWTAYSSUISPPLNDVD L - ",
+                            style: TextStyle(
+                                fontFamily: "DMSans",
+                                fontSize: 10.sp,
+                                color: isDarkMode
+                                    ? AppColors.inputLabelColor
+                                    : AppColors.greyText,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                        addVerticalSpace(5.h),
+                        Container(
+                          width: 180.w,
+                          child: Text(
+                            "From - TSWTAYSSUISPPLNDsdffadhjjkjhvfdhdVD L - ",
+                            style: TextStyle(
+                                fontFamily: "DMSans",
+                                fontSize: 10.sp,
+                                color: isDarkMode
+                                    ? AppColors.inputLabelColor
+                                    : AppColors.greyText,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                        addVerticalSpace(5.h),
+                        Container(
+                          width: 180.w,
+                          child: Text(
+                            "24 July, 2022. 10:40pm ",
+                            style: TextStyle(
+                                fontFamily: "DMSans",
+                                fontSize: 10.sp,
+                                color: isDarkMode
+                                    ? AppColors.inputLabelColor
+                                    : AppColors.greyText,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                Text(
+                  "N20,000",
+                  style: TextStyle(
+                      fontFamily: "DMSans",
+                      color: AppColors.mainGreen,
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Divider(
+                thickness: 2,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

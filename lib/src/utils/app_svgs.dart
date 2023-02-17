@@ -31,4 +31,6 @@ class AppSvg {
   static const String pay = path + "pay.svg";
   static const String request = path + "request.svg";
   static const String nfc = path + "nfc.svg";
+  static const String cancel = path + "cancel.svg";
+  static const String mark_green = path + "mark-green.svg";
 }

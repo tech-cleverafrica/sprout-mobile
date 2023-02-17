@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/save/view/savings_dashboard.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
@@ -26,10 +28,10 @@ class SavingsScreen extends StatelessWidget {
               addVerticalSpace(20.h),
               Container(
                 width: double.infinity,
-                height: 284.h,
+                //height: 284.h,
                 decoration: BoxDecoration(
                     color: AppColors.deepOrange,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(15),
                     image: DecorationImage(
                         image: AssetImage(AppImages.padlock),
                         fit: BoxFit.cover)),
@@ -48,39 +50,44 @@ class SavingsScreen extends StatelessWidget {
                               fontWeight: FontWeight.w900),
                         )),
                     addVerticalSpace(10.h),
-                    Expanded(
-                        child: Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(AppImages.overlay),
-                              fit: BoxFit.cover)),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              width: 110.w,
-                              child: Text(
-                                "Lorem ipsum dolor sit amet consectetur. Placerat lorem neque risus.",
-                                style: TextStyle(
-                                    fontFamily: "DMSans",
-                                    fontSize: 12.sp,
-                                    color: AppColors.white,
-                                    fontWeight: FontWeight.w500),
+                    Container(
+                        height: 150,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10)),
+                            image: DecorationImage(
+                                image: AssetImage(AppImages.overlay),
+                                fit: BoxFit.cover)),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                width: 110.w,
+                                child: Text(
+                                  "Lorem ipsum dolor sit amet consectetur. Placerat lorem neque risus.",
+                                  style: TextStyle(
+                                      fontFamily: "DMSans",
+                                      fontSize: 12.sp,
+                                      color: AppColors.white,
+                                      fontWeight: FontWeight.w500),
+                                ),
                               ),
-                            ),
-                            Container(
-                                width: 100.w,
-                                child: CustomButton(
-                                  title: "Get Started",
-                                  color: AppColors.black,
-                                ))
-                          ],
-                        ),
-                      ),
-                    ))
+                              Container(
+                                  width: 100.w,
+                                  child: CustomButton(
+                                    title: "Get Started",
+                                    color: AppColors.black,
+                                    onTap: () {
+                                      Get.to(() => SavingsDashboard());
+                                    },
+                                  ))
+                            ],
+                          ),
+                        ))
                   ],
                 ),
               ),
