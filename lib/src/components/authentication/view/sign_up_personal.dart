@@ -88,7 +88,10 @@ class SignupPersonalScreen extends StatelessWidget {
                             ? AppColors.inputBackgroundColor
                             : AppColors.grey,
                         label: "Gender",
-                        items: ["Male", "Female"]),
+                        items: ["Male", "Female"],
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 12.0, vertical: 20.0),
+                        borderRadius: 14),
                   ),
                   addHorizontalSpace(20.w),
                   Expanded(
