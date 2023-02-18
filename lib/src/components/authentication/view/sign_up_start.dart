@@ -21,39 +21,47 @@ class SignUpStart extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
           child: SingleChildScrollView(
+              child: Container(
+            height: MediaQuery.of(context).size.height * 0.9,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                addVerticalSpace(20.h),
-                Center(
-                    child: Image.asset(
-                  isDarkMode ? AppImages.sprout_dark : AppImages.sprout_light,
-                )),
-                addVerticalSpace(30.h),
-                typeCard(
-                  isDarkMode: isDarkMode,
-                  text:
-                      "I do not have a registered business name, LLC or partnership.",
+                Column(
+                  children: [
+                    addVerticalSpace(20.h),
+                    Center(
+                        child: Image.asset(
+                      isDarkMode
+                          ? AppImages.sprout_dark
+                          : AppImages.sprout_light,
+                    )),
+                    addVerticalSpace(30.h),
+                    TypeCard(
+                      isDarkMode: isDarkMode,
+                      text:
+                          "I do not have a registered business name, LLC or partnership.",
+                    ),
+                    addVerticalSpace(10.h),
+                    TypeCard(
+                      isDarkMode: isDarkMode,
+                      text:
+                          "I do not have a registered business name, LLC or partnership.",
+                    ),
+                    addVerticalSpace(10.h),
+                    TypeCard(
+                      isDarkMode: isDarkMode,
+                      text:
+                          "I do not have a registered business name, LLC or partnership.",
+                    ),
+                    addVerticalSpace(10.h),
+                    TypeCard(
+                      isDarkMode: isDarkMode,
+                      text:
+                          "I do not have a registered business name, LLC or partnership.",
+                    ),
+                  ],
                 ),
-                addVerticalSpace(10.h),
-                typeCard(
-                  isDarkMode: isDarkMode,
-                  text:
-                      "I do not have a registered business name, LLC or partnership.",
-                ),
-                addVerticalSpace(10.h),
-                typeCard(
-                  isDarkMode: isDarkMode,
-                  text:
-                      "I do not have a registered business name, LLC or partnership.",
-                ),
-                addVerticalSpace(10.h),
-                typeCard(
-                  isDarkMode: isDarkMode,
-                  text:
-                      "I do not have a registered business name, LLC or partnership.",
-                ),
-                addVerticalSpace(300.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -78,15 +86,15 @@ class SignUpStart extends StatelessWidget {
                 ),
               ],
             ),
-          ),
+          )),
         ),
       ),
     );
   }
 }
 
-class typeCard extends StatelessWidget {
-  const typeCard({Key? key, required this.isDarkMode, required this.text})
+class TypeCard extends StatelessWidget {
+  const TypeCard({Key? key, required this.isDarkMode, required this.text})
       : super(key: key);
 
   final bool isDarkMode;

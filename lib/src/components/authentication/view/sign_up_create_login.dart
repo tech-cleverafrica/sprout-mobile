@@ -40,10 +40,11 @@ class _SignUpCreateLoginState extends State<SignUpCreateLogin> {
                 StepProgressIndicator(
                   totalSteps: 4,
                   currentStep: 3,
-                  size: 4,
+                  size: 3,
                   roundedEdges: Radius.circular(10),
                   selectedColor: AppColors.mainGreen,
                   unselectedColor: AppColors.grey,
+                  padding: 4,
                 ),
                 addVerticalSpace(20.h),
                 Row(
@@ -105,7 +106,7 @@ class _SignUpCreateLoginState extends State<SignUpCreateLogin> {
                   successColor:
                       isDarkMode ? AppColors.mainGreen : AppColors.primaryColor,
                   failureColor: AppColors.red,
-                  width: 350,
+                  width: MediaQuery.of(context).size.width * .6,
                   height: 150,
                   onSuccess: () {
                     setState(() {
