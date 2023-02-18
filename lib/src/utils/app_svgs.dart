@@ -33,4 +33,21 @@ class AppSvg {
   static const String nfc = path + "nfc.svg";
   static const String cancel = path + "cancel.svg";
   static const String mark_green = path + "mark-green.svg";
+
+  static const String add = path + 'add.svg';
+  static const String pendown = path + 'pendown.svg';
+  static const String signature = path + 'signature.svg';
+
+  static const String security = path + 'security.svg';
+  static const String download_statement = path + 'download-statement.svg';
+  static const String support = path + 'support.svg';
+  static const String privacy = path + 'privacy.svg';
+  static const String logout = path + 'Logout.svg';
+
+  static const String change_pin = path + 'change-pin.svg';
+  static const String face_id = path + 'face-id.svg';
+  static const String change_password = path + 'change-password.svg';
+
+  static const String faqs = path + 'faqs.svg';
+  static const String ccs = path + 'ccs.svg';
 }

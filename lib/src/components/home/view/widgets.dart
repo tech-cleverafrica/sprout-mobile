@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/home/controller/home_controller.dart';
 
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_images.dart';
@@ -53,62 +54,6 @@ getHomeHeader(bool isDarkMode) {
               color: isDarkMode ? AppColors.white : AppColors.black,
             ),
           ],
-        )
-      ],
-    ),
-  );
-}
-
-getDisplaySwitch(bool isDarkMode) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 24),
-    child: Row(
-      children: [
-        InkWell(
-          onTap: () {},
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: isDarkMode ? AppColors.greyDot : AppColors.grey),
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    top: 8, bottom: 8, right: 10, left: 10),
-                child: Text(
-                  "Account",
-                  style: TextStyle(
-                      fontFamily: "DmSans",
-                      fontSize: 14.sp,
-                      color:
-                          isDarkMode ? AppColors.white : AppColors.primaryColor,
-                      fontWeight: FontWeight.w700),
-                ),
-              ),
-            ),
-          ),
-        ),
-        InkWell(
-          onTap: () {},
-          child: Container(
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: 8, bottom: 8, right: 10, left: 10),
-                  child: Text(
-                    "Invoice",
-                    style: TextStyle(
-                        fontFamily: "DmSans",
-                        fontSize: 14.sp,
-                        color: isDarkMode ? AppColors.grey : AppColors.greyText,
-                        fontWeight: FontWeight.w700),
-                  ),
-                ),
-              ),
-            ),
-          ),
         )
       ],
     ),

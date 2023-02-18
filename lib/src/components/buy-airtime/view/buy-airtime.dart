@@ -236,7 +236,7 @@ getRecentContacts(isDarkMode) {
         borderRadius: BorderRadius.circular(10),
         color: isDarkMode ? AppColors.greyDot : AppColors.grey),
     child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
       child: Column(
         children: [
           Row(
@@ -251,7 +251,7 @@ getRecentContacts(isDarkMode) {
           ),
           addVerticalSpace(5.h),
           SizedBox(
-            height: 70,
+            height: 60,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [

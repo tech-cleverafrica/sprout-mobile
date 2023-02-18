@@ -2,18 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/home/view/widgets.dart';
+import 'package:sprout_mobile/src/components/invoice/view/invoice.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 
 import '../../../public/widgets/custom_button.dart';
 import '../../../utils/app_images.dart';
+import '../controller/home_controller.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class HomePage extends StatefulWidget {
+  HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late HomeController homeCntroller;
+
+  late bool showInvoice = false;
 
   @override
   Widget build(BuildContext context) {
+    homeCntroller = Get.put(HomeController());
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final theme = Theme.of(context);
 
@@ -25,75 +37,79 @@ class HomePage extends StatelessWidget {
           addVerticalSpace(20.h),
           getHomeHeader(isDarkMode),
           addVerticalSpace(20.h),
-          getDisplaySwitch(isDarkMode)
+          getDisplaySwitch(isDarkMode),
+          showInvoice ? getInvoiceDisplay() : getHomeDisplay(isDarkMode, theme)
         ])),
       ),
     );
   }
 
   getInvoiceDisplay() {
-    return Container(
-      width: double.infinity,
-      //height: 284.h,
-      decoration: BoxDecoration(
-          color: AppColors.deepOrange,
-          borderRadius: BorderRadius.circular(15),
-          image: DecorationImage(
-              image: AssetImage(AppImages.invoice), fit: BoxFit.cover)),
-      child: Column(
-        children: [
-          addVerticalSpace(50.h),
-          Container(
-              width: 200.w,
-              child: Text(
-                "Generate Invoices",
-                style: TextStyle(
-                    fontFamily: "DMSans",
-                    fontSize: 44.sp,
-                    letterSpacing: 1,
-                    color: AppColors.white,
-                    fontWeight: FontWeight.w900),
-              )),
-          addVerticalSpace(10.h),
-          Container(
-              height: 150,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10)),
-                  image: DecorationImage(
-                      image: AssetImage(AppImages.invoice_overlay),
-                      fit: BoxFit.cover)),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: 110.w,
-                      child: Text(
-                        "Lorem ipsum dolor sit amet consectetur. Placerat lorem neque risus.",
-                        style: TextStyle(
-                            fontFamily: "DMSans",
-                            fontSize: 12.sp,
-                            color: AppColors.white,
-                            fontWeight: FontWeight.w500),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+      child: Container(
+        width: double.infinity,
+        //height: 284.h,
+        decoration: BoxDecoration(
+            color: AppColors.deepOrange,
+            borderRadius: BorderRadius.circular(15),
+            image: DecorationImage(
+                image: AssetImage(AppImages.invoice), fit: BoxFit.cover)),
+        child: Column(
+          children: [
+            addVerticalSpace(50.h),
+            Container(
+                width: 200.w,
+                child: Text(
+                  "Generate Invoices",
+                  style: TextStyle(
+                      fontFamily: "DMSans",
+                      fontSize: 44.sp,
+                      letterSpacing: 1,
+                      color: AppColors.white,
+                      fontWeight: FontWeight.w900),
+                )),
+            addVerticalSpace(10.h),
+            Container(
+                height: 150,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10)),
+                    image: DecorationImage(
+                        image: AssetImage(AppImages.invoice_overlay),
+                        fit: BoxFit.cover)),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 110.w,
+                        child: Text(
+                          "Lorem ipsum dolor sit amet consectetur. Placerat lorem neque risus.",
+                          style: TextStyle(
+                              fontFamily: "DMSans",
+                              fontSize: 12.sp,
+                              color: AppColors.white,
+                              fontWeight: FontWeight.w500),
+                        ),
                       ),
-                    ),
-                    Container(
-                        width: 100.w,
-                        child: CustomButton(
-                          title: "Get Started",
-                          color: AppColors.black,
-                          onTap: () {
-                            //  Get.to(() => SavingsDashboard());
-                          },
-                        ))
-                  ],
-                ),
-              ))
-        ],
+                      Container(
+                          width: 100.w,
+                          child: CustomButton(
+                            title: "Get Started",
+                            color: AppColors.black,
+                            onTap: () {
+                              Get.to(() => InvoiceScreen());
+                            },
+                          ))
+                    ],
+                  ),
+                ))
+          ],
+        ),
       ),
     );
   }
@@ -312,6 +328,73 @@ class HomePage extends StatelessWidget {
               theme: theme, isDarkMode: isDarkMode, text: "Fund Transfer"),
         )
       ],
+    );
+  }
+
+  getDisplaySwitch(bool isDarkMode) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Row(
+        children: [
+          InkWell(
+            onTap: () {
+              setState(() {
+                showInvoice = false;
+              });
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: isDarkMode ? AppColors.greyDot : AppColors.grey),
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      top: 8, bottom: 8, right: 10, left: 10),
+                  child: Text(
+                    "Account",
+                    style: TextStyle(
+                        fontFamily: "DmSans",
+                        fontSize: 14.sp,
+                        color: isDarkMode
+                            ? AppColors.white
+                            : AppColors.primaryColor,
+                        fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              setState(() {
+                showInvoice = true;
+              });
+            },
+            child: Container(
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(10)),
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 8, bottom: 8, right: 10, left: 10),
+                    child: Text(
+                      "Invoice",
+                      style: TextStyle(
+                          fontFamily: "DmSans",
+                          fontSize: 14.sp,
+                          color:
+                              isDarkMode ? AppColors.grey : AppColors.greyText,
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

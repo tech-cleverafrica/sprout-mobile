@@ -22,4 +22,5 @@ class AppImages {
   static const String invoice = path + "invoice-image.png";
   static const String invoice_overlay = path + "invoice-overlay.png";
   static const String emoty = path + "empty.png";
+  static const String profile_holder = path + "profile-holder.png";
 }

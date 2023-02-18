@@ -25,26 +25,6 @@ class _OnboardingState extends State<Onboarding> {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: isDarkMode ? AppColors.black : AppColors.white,
-          title: Text(
-            "Switch theme",
-            style: TextStyle(
-              color: isDarkMode ? AppColors.white : AppColors.black,
-            ),
-          ),
-          actions: [
-            IconButton(
-              icon: Icon(
-                Icons.brightness_4_rounded,
-                color: isDarkMode ? AppColors.white : AppColors.black,
-              ),
-              onPressed: () {
-                ThemeService().changeThemeMode();
-              },
-            ),
-          ],
-        ),
         body: Column(
           children: [
             Expanded(

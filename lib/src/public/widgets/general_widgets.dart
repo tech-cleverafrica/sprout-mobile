@@ -32,7 +32,7 @@ getHeader(bool isDarkMode) {
                 padding: const EdgeInsets.all(10.0),
                 child: Center(
                   child: Text(
-                    "HM",
+                    "EU",
                     style: TextStyle(
                         fontFamily: "DMSans",
                         fontSize: 13.sp,
