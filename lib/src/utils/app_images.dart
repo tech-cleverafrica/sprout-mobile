@@ -16,8 +16,10 @@ class AppImages {
   static const String mtn = path + "mtn.png";
   static const String nine_mobile = path + "9mobile.png";
   static const String glo = path + "glo.png";
+
   static const String padlock = path + "padlock.png";
   static const String overlay = path + "overlay.png";
-
+  static const String invoice = path + "invoice-image.png";
+  static const String invoice_overlay = path + "invoice-overlay.png";
   static const String emoty = path + "empty.png";
 }
