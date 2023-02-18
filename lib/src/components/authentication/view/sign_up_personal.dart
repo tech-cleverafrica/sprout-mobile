@@ -135,7 +135,7 @@ class SignupPersonalScreen extends StatelessWidget {
                   ))
                 ],
               ),
-              addVerticalSpace(100.h),
+              addVerticalSpace(70.h),
               Center(
                   child: Image.asset(
                 isDarkMode ? AppImages.sprout_dark : AppImages.sprout_light,

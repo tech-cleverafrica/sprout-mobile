@@ -34,6 +34,7 @@ class _CustomTextFormPasswordFieldState
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return CustomTextFormField(
       controller: widget.controller,
       onChanged: widget.onChanged,
@@ -48,22 +49,24 @@ class _CustomTextFormPasswordFieldState
           child: _obscureText
               ? Container(
                   decoration: BoxDecoration(
-                      color: AppColors.black,
+                      color: isDarkMode ? AppColors.black : AppColors.white,
                       borderRadius: BorderRadius.circular(5)),
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: Icon(CommunityMaterialIcons.eye_off_outline,
-                        size: 18, color: AppColors.white),
+                        size: 18,
+                        color: isDarkMode ? AppColors.white : AppColors.black),
                   ),
                 )
               : Container(
                   decoration: BoxDecoration(
-                      color: AppColors.black,
+                      color: isDarkMode ? AppColors.black : AppColors.white,
                       borderRadius: BorderRadius.circular(5)),
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: Icon(CommunityMaterialIcons.eye_outline,
-                        size: 18, color: AppColors.white),
+                        size: 18,
+                        color: isDarkMode ? AppColors.white : AppColors.black),
                   ),
                 )),
       fillColor: widget.fillColor!,

@@ -50,91 +50,96 @@ class _OTPScreenState extends State<OTPScreen> {
       child: Scaffold(
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              addVerticalSpace(10.h),
-              StepProgressIndicator(
-                totalSteps: 4,
-                currentStep: 4,
-                size: 3,
-                roundedEdges: Radius.circular(10),
-                selectedColor: AppColors.mainGreen,
-                unselectedColor: AppColors.grey,
-                padding: 4,
-              ),
-              addVerticalSpace(20.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      icon: Icon(
-                        Icons.arrow_back,
-                        size: 30,
-                      )),
-                  Image.asset(
-                    AppImages.question,
-                    height: 20,
-                    color: isDarkMode ? AppColors.white : AppColors.black,
-                  ),
-                ],
-              ),
-              addVerticalSpace(20.h),
-              Text(
-                'Enter OTP',
-                style: theme.textTheme.headline1,
-              ),
-              addVerticalSpace(10.h),
-              Container(
-                width: 300.w,
-                child: Text(
-                  "Confirm your email address by entering otp sent to your mail",
-                  style: theme.textTheme.subtitle2,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                addVerticalSpace(10.h),
+                StepProgressIndicator(
+                  totalSteps: 4,
+                  currentStep: 4,
+                  size: 3,
+                  roundedEdges: Radius.circular(10),
+                  selectedColor: AppColors.mainGreen,
+                  unselectedColor: AppColors.grey,
+                  padding: 4,
                 ),
-              ),
-              addVerticalSpace(20.h),
-
-              //buildExitButton(),
-              Expanded(
-                  child: Container(
-                // alignment: Alignment(0, 0.5),
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
+                addVerticalSpace(20.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    buildPinRow(),
-                    addVerticalSpace(20.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Resend otp in",
-                          style: theme.textTheme.subtitle2,
-                        ),
-                        addHorizontalSpace(15.w),
-                        NeonCircularTimer(
-                          width: 50,
-                          duration: 20,
-                          controller: controller,
-                          isTimerTextShown: true,
-                          neumorphicEffect: false,
-                          strokeWidth: 2,
-                          neon: 1,
-                          textStyle: TextStyle(color: AppColors.greyText),
-                          textFormat: TextFormat.S,
-                          innerFillColor: AppColors.grey,
-                          outerStrokeColor: AppColors.black,
-                        ),
-                      ],
+                    IconButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        icon: Icon(
+                          Icons.arrow_back,
+                          size: 30,
+                        )),
+                    Image.asset(
+                      AppImages.question,
+                      height: 20,
+                      color: isDarkMode ? AppColors.white : AppColors.black,
                     ),
                   ],
                 ),
-              )),
-              buildnumberPad(isDarkMode),
-            ],
+                addVerticalSpace(10.h),
+                Text(
+                  'Enter OTP',
+                  style: theme.textTheme.headline1,
+                ),
+                addVerticalSpace(10.h),
+                Container(
+                  width: 300.w,
+                  child: Text(
+                    "Confirm your email address by entering otp sent to your mail",
+                    style: theme.textTheme.subtitle2,
+                  ),
+                ),
+                addVerticalSpace(20.h),
+
+                //buildExitButton(),
+                // Expanded(
+                // child:
+                Container(
+                  // alignment: Alignment(0, 0.5),
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      buildPinRow(),
+                      addVerticalSpace(20.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Resend otp in",
+                            style: theme.textTheme.subtitle2,
+                          ),
+                          addHorizontalSpace(15.w),
+                          NeonCircularTimer(
+                            width: 50,
+                            duration: 20,
+                            controller: controller,
+                            isTimerTextShown: true,
+                            neumorphicEffect: false,
+                            strokeWidth: 2,
+                            neon: 1,
+                            textStyle: TextStyle(color: AppColors.greyText),
+                            textFormat: TextFormat.S,
+                            innerFillColor: AppColors.grey,
+                            outerStrokeColor: AppColors.black,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                addVerticalSpace(20.h),
+                //),
+                buildnumberPad(isDarkMode),
+              ],
+            ),
           ),
         ),
       ),
@@ -145,7 +150,7 @@ class _OTPScreenState extends State<OTPScreen> {
     return Container(
       //alignment: Alignment.bottomCenter,
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 100.0),
+        padding: const EdgeInsets.only(bottom: 20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

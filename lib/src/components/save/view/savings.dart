@@ -51,7 +51,7 @@ class SavingsScreen extends StatelessWidget {
                         )),
                     addVerticalSpace(10.h),
                     Container(
-                        height: 150,
+                        height: 150.h,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(10),
@@ -66,7 +66,7 @@ class SavingsScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                width: 110.w,
+                                width: 90.w,
                                 child: Text(
                                   "Lorem ipsum dolor sit amet consectetur. Placerat lorem neque risus.",
                                   style: TextStyle(

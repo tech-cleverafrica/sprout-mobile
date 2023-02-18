@@ -73,7 +73,7 @@ class SignupPersonal2 extends StatelessWidget {
                       : AppColors.grey,
                 ),
                 CustomTextFormField(
-                  label: "Full Address",
+                  label: "Full address",
                   hintText: "Enter your full address",
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
@@ -81,16 +81,17 @@ class SignupPersonal2 extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Container(
-                      width: 150.w,
-                      child: CustomTextFormField(
-                        fillColor: isDarkMode
-                            ? AppColors.inputBackgroundColor
-                            : AppColors.grey,
-                        label: "City",
+                    Expanded(
+                      child: Container(
+                        child: CustomTextFormField(
+                          fillColor: isDarkMode
+                              ? AppColors.inputBackgroundColor
+                              : AppColors.grey,
+                          label: "City",
+                        ),
                       ),
                     ),
-                    addHorizontalSpace(20.w),
+                    addHorizontalSpace(10.w),
                     Expanded(
                         child: CustomTextFormField(
                       label: "State",
@@ -101,7 +102,7 @@ class SignupPersonal2 extends StatelessWidget {
                   ],
                 ),
                 CustomTextFormField(
-                  label: "State",
+                  label: "Referral code",
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,

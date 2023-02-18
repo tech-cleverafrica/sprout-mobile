@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/send-money/view/transaction_details.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_dropdown_button_field.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 
@@ -26,7 +27,8 @@ class SendToSprout extends StatelessWidget {
             children: [
               getHeader(isDarkMode),
               addVerticalSpace(15.h),
-              CustomTextFormField(
+              CustomDropdownButtonFormField(
+                items: [],
                 label: "Select Sprout Beneficiary",
                 // hintText: "Your Email",
                 fillColor: isDarkMode

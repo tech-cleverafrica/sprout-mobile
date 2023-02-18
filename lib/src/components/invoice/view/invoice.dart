@@ -15,7 +15,7 @@ import '../../../utils/helper_widgets.dart';
 class InvoiceScreen extends StatelessWidget {
   InvoiceScreen({super.key});
 
-  bool isEmpty = true;
+  bool isEmpty = false;
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +89,7 @@ class InvoiceScreen extends StatelessWidget {
           ),
         ),
         bottomNavigationBar: Padding(
-          padding: const EdgeInsets.only(bottom: 40, left: 100, right: 100),
+          padding: const EdgeInsets.only(bottom: 0, left: 50, right: 50),
           child: CustomButton(
             title: "Create Invoice",
             prefixIcon: Icon(

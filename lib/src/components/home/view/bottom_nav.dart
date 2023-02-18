@@ -49,14 +49,15 @@ class _BottomNavState extends State<BottomNav> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                buildMaterialButton("Home", AppSvg.home, AppSvg.home_filled, 0),
-                buildMaterialButton("Cards", AppSvg.cards, AppSvg.cards, 1),
                 buildMaterialButton(
-                    "Savings", AppSvg.savings, AppSvg.savings, 2),
+                    "Home", AppSvg.home, AppSvg.home_filled, 0, isDarkMode),
+                // buildMaterialButton("Cards", AppSvg.cards, AppSvg.cards, 1),
                 buildMaterialButton(
-                    "Invoice", AppSvg.invoice, AppSvg.invoice, 3),
+                    "Savings", AppSvg.savings, AppSvg.savings, 2, isDarkMode),
                 buildMaterialButton(
-                    "Manage", AppSvg.profile, AppSvg.profile, 4),
+                    "Invoice", AppSvg.invoice, AppSvg.invoice, 3, isDarkMode),
+                buildMaterialButton(
+                    "Manage", AppSvg.profile, AppSvg.profile, 4, isDarkMode),
               ],
             ),
           ),
@@ -65,8 +66,8 @@ class _BottomNavState extends State<BottomNav> {
     );
   }
 
-  buildMaterialButton(
-      String title, String image, String imageFilled, int position) {
+  buildMaterialButton(String title, String image, String imageFilled,
+      int position, bool isDark) {
     return StreamBuilder<int>(builder: (context, snapshot) {
       return Expanded(
         child: Container(
@@ -79,25 +80,45 @@ class _BottomNavState extends State<BottomNav> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 SizedBox(height: 5.0),
-                SvgPicture.asset(
-                  currentTabIndex == position ? imageFilled : image,
-                  width: 18.0,
-                  height: 20.0,
-                  color: currentTabIndex == position
-                      ? AppColors.primaryColor
-                      : AppColors.grey,
-                ),
+                isDark
+                    ? SvgPicture.asset(
+                        currentTabIndex == position ? imageFilled : image,
+                        width: 18.0,
+                        height: 20.0,
+                        color: currentTabIndex == position
+                            ? AppColors.primaryColor
+                            : AppColors.greyBg,
+                      )
+                    : SvgPicture.asset(
+                        currentTabIndex == position ? imageFilled : image,
+                        width: 18.0,
+                        height: 20.0,
+                        color: currentTabIndex == position
+                            ? AppColors.primaryColor
+                            : AppColors.black,
+                      ),
                 SizedBox(height: 8.0),
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 12.0.sp,
-                    fontFamily: "DMSans",
-                    color: currentTabIndex == position
-                        ? AppColors.white
-                        : AppColors.greyText,
-                  ),
-                ),
+                isDark
+                    ? Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 12.0.sp,
+                          fontFamily: "DMSans",
+                          color: currentTabIndex == position
+                              ? AppColors.white
+                              : AppColors.greyText,
+                        ),
+                      )
+                    : Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 12.0.sp,
+                          fontFamily: "DMSans",
+                          color: currentTabIndex == position
+                              ? AppColors.black
+                              : AppColors.greyText,
+                        ),
+                      ),
               ],
             ),
           ),
