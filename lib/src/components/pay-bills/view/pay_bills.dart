@@ -1,11 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:sprout_mobile/src/components/pay-bills/view/cable/cable_tv.dart';
 import 'package:sprout_mobile/src/components/pay-bills/view/internet/internet_data.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
@@ -23,13 +19,14 @@ class PayBillsScreen extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
+        bottomNavigationBar: BottomNavigation(),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               getHeader(isDarkMode),
-              addVerticalSpace(20.h),
+              addVerticalSpace(15.h),
               CustomTextFormField(
                 hasPrefixIcon: true,
                 prefixIcon: Icon(Icons.search_outlined),
@@ -38,7 +35,7 @@ class PayBillsScreen extends StatelessWidget {
                     ? AppColors.inputBackgroundColor
                     : AppColors.grey,
               ),
-              addVerticalSpace(30.h),
+              addVerticalSpace(35.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -70,7 +67,7 @@ class PayBillsScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SvgPicture.asset(svg),
-        addVerticalSpace(10.h),
+        addVerticalSpace(6.h),
         Text(
           text,
           textAlign: TextAlign.center,

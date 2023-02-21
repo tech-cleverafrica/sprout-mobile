@@ -16,6 +16,7 @@ class BuyAirtimeScreen extends StatelessWidget {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
       child: Scaffold(
+        bottomNavigationBar: BottomNavigation(),
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
           child: Column(
@@ -30,10 +31,10 @@ class BuyAirtimeScreen extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: isDarkMode ? AppColors.greyDot : AppColors.grey),
+                      color: isDarkMode ? AppColors.blackBg : AppColors.greyBg),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 15),
+                        horizontal: 11, vertical: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -42,13 +43,18 @@ class BuyAirtimeScreen extends StatelessWidget {
                           children: [
                             Text(
                               "Send to my phone number",
-                              style: Theme.of(context).textTheme.bodyText2,
+                              style: TextStyle(
+                                  color: isDarkMode
+                                      ? AppColors.white
+                                      : AppColors.greyText,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12.sp),
                             ),
                             addVerticalSpace(10.h),
                             Row(
                               children: [
                                 Image.asset(AppImages.airtel),
-                                addHorizontalSpace(5.w),
+                                addHorizontalSpace(12.w),
                                 Text(
                                   "+234-7082136463",
                                   style: TextStyle(
@@ -69,11 +75,11 @@ class BuyAirtimeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              addVerticalSpace(20.h),
+              addVerticalSpace(16.h),
               Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: isDarkMode ? AppColors.greyDot : AppColors.grey),
+                    color: isDarkMode ? AppColors.blackBg : AppColors.greyBg),
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -82,25 +88,81 @@ class BuyAirtimeScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Image.asset(
-                            AppImages.airtel,
-                            height: 40,
-                            width: 40,
+                          Column(
+                            children: [
+                              Image.asset(
+                                AppImages.airtel,
+                                height: 40,
+                                width: 40,
+                              ),
+                              Text(
+                                "Airtel",
+                                style: TextStyle(
+                                    fontFamily: "DMSans",
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 10.sp,
+                                    color: isDarkMode
+                                        ? AppColors.semi_white.withOpacity(0.6)
+                                        : AppColors.black),
+                              )
+                            ],
                           ),
-                          Image.asset(
-                            AppImages.mtn,
-                            height: 40,
-                            width: 40,
+                          Column(
+                            children: [
+                              Image.asset(
+                                AppImages.mtn,
+                                height: 40,
+                                width: 40,
+                              ),
+                              Text(
+                                "Mtn",
+                                style: TextStyle(
+                                    fontFamily: "DMSans",
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 10.sp,
+                                    color: isDarkMode
+                                        ? AppColors.semi_white.withOpacity(0.6)
+                                        : AppColors.black),
+                              )
+                            ],
                           ),
-                          Image.asset(
-                            AppImages.glo,
-                            height: 40,
-                            width: 40,
+                          Column(
+                            children: [
+                              Image.asset(
+                                AppImages.glo,
+                                height: 40,
+                                width: 40,
+                              ),
+                              Text(
+                                "Glo",
+                                style: TextStyle(
+                                    fontFamily: "DMSans",
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 10.sp,
+                                    color: isDarkMode
+                                        ? AppColors.semi_white.withOpacity(0.6)
+                                        : AppColors.black),
+                              )
+                            ],
                           ),
-                          Image.asset(
-                            AppImages.nine_mobile,
-                            height: 40,
-                            width: 40,
+                          Column(
+                            children: [
+                              Image.asset(
+                                AppImages.nine_mobile,
+                                height: 40,
+                                width: 40,
+                              ),
+                              Text(
+                                "9mobile",
+                                style: TextStyle(
+                                    fontFamily: "DMSans",
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 10.sp,
+                                    color: isDarkMode
+                                        ? AppColors.semi_white.withOpacity(0.6)
+                                        : AppColors.black),
+                              )
+                            ],
                           )
                         ],
                       ),
@@ -112,7 +174,12 @@ class BuyAirtimeScreen extends StatelessWidget {
                         alignment: Alignment.topRight,
                         child: Text(
                           'Quick Actions',
-                          style: Theme.of(context).textTheme.headline6,
+                          style: TextStyle(
+                              color: isDarkMode
+                                  ? AppColors.inputLabelColor
+                                  : AppColors.black,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 10.sp),
                         ),
                       ),
                       addVerticalSpace(20.h),
@@ -184,14 +251,14 @@ class BuyAirtimeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              addVerticalSpace(20.h),
+              addVerticalSpace(16.h),
               Text(
                 "Send airtime to",
                 style: TextStyle(
                     fontFamily: "DMSans",
                     fontWeight: FontWeight.w500,
                     color: isDarkMode ? AppColors.white : AppColors.black,
-                    fontSize: 12.sp),
+                    fontSize: 10.sp),
               ),
               addVerticalSpace(5.h),
               getRecentContacts(isDarkMode)
@@ -215,15 +282,16 @@ class AmountCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           color: isDarkMode ? AppColors.black : AppColors.white,
-          borderRadius: BorderRadius.circular(30)),
+          borderRadius: BorderRadius.circular(60)),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text(
           amount,
           style: TextStyle(
-              fontFamily: "Outfit",
+              fontFamily: "DMSans",
               color: isDarkMode ? AppColors.greyText : AppColors.black,
-              fontWeight: FontWeight.w700),
+              fontSize: 12,
+              fontWeight: FontWeight.w500),
         ),
       ),
     );
@@ -234,19 +302,30 @@ getRecentContacts(isDarkMode) {
   return Container(
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: isDarkMode ? AppColors.greyDot : AppColors.grey),
+        color: isDarkMode ? AppColors.greyDot : AppColors.greyBg),
     child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+      padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 0),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Recent Contacts"),
+              Text(
+                "Recent Contacts",
+                style: TextStyle(
+                    color: isDarkMode
+                        ? AppColors.inputLabelColor
+                        : AppColors.greyText,
+                    fontSize: 12.sp,
+                    fontFamily: "DMSans",
+                    fontWeight: FontWeight.w400),
+              ),
               IconButton(
                   onPressed: () {},
                   icon: Icon(Icons.more_horiz,
-                      color: isDarkMode ? AppColors.greyDot : AppColors.grey))
+                      color: isDarkMode
+                          ? AppColors.inputLabelColor
+                          : AppColors.grey))
             ],
           ),
           addVerticalSpace(5.h),
@@ -317,7 +396,7 @@ class ContactCard extends StatelessWidget {
               child: Icon(
                 Icons.arrow_forward,
                 size: 9,
-                color: AppColors.white,
+                color: isDarkMode ? AppColors.black : AppColors.white,
               ),
             )),
         child: Container(

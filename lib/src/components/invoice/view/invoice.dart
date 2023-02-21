@@ -31,9 +31,9 @@ class InvoiceScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 getHeader(isDarkMode),
-                addVerticalSpace(15.h),
+                addVerticalSpace(16.h),
                 getDisplaySwitch(isDarkMode),
-                addVerticalSpace(20.h),
+                addVerticalSpace(16.h),
                 CustomTextFormField(
                   hasPrefixIcon: true,
                   prefixIcon: Icon(Icons.search_outlined),

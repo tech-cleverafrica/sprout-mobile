@@ -41,6 +41,7 @@ class SupportScreen extends StatelessWidget {
               ),
               addVerticalSpace(10.h),
               Divider(
+                thickness: 0.4,
                 color: isDarkMode ? AppColors.white : AppColors.black,
               ),
               addVerticalSpace(10.h),
@@ -64,6 +65,7 @@ class SupportScreen extends StatelessWidget {
               ),
               addVerticalSpace(10.h),
               Divider(
+                thickness: 0.4,
                 color: isDarkMode ? AppColors.white : AppColors.black,
               )
             ],

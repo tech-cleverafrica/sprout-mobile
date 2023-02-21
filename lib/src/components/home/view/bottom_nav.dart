@@ -95,7 +95,7 @@ class _BottomNavState extends State<BottomNav> {
                         height: 20.0,
                         color: currentTabIndex == position
                             ? AppColors.primaryColor
-                            : AppColors.black,
+                            : AppColors.greyText,
                       ),
                 SizedBox(height: 8.0),
                 isDark

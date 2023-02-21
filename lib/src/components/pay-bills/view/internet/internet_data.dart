@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/pay-bills/view/cable/cable_tv.dart';
-import 'package:sprout_mobile/src/components/pay-bills/view/cable/select_package.dart';
 import 'package:sprout_mobile/src/components/pay-bills/view/internet/select_bundle.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
@@ -36,8 +35,8 @@ class InternetDataScreen extends StatelessWidget {
                     ? AppColors.inputBackgroundColor
                     : AppColors.grey,
               ),
-              addVerticalSpace(30.h),
-              billsCard(
+              addVerticalSpace(35.h),
+              BillsCard(
                 title: "Airtel Bundle",
                 subTitle: "Internet Data",
                 image: AppImages.airtel,
@@ -46,7 +45,7 @@ class InternetDataScreen extends StatelessWidget {
                 },
               ),
               addVerticalSpace(10.h),
-              billsCard(
+              BillsCard(
                 title: "Mtn Bundle",
                 subTitle: "Internet Data",
                 image: AppImages.mtn,
@@ -55,7 +54,7 @@ class InternetDataScreen extends StatelessWidget {
                 },
               ),
               addVerticalSpace(10.h),
-              billsCard(
+              BillsCard(
                 title: "9Mobile Bundle",
                 subTitle: "Internet Data",
                 image: AppImages.nine_mobile,
@@ -64,7 +63,7 @@ class InternetDataScreen extends StatelessWidget {
                 },
               ),
               addVerticalSpace(10.h),
-              billsCard(
+              BillsCard(
                 title: "Glo Bundle",
                 subTitle: "Internet Data",
                 image: AppImages.glo,

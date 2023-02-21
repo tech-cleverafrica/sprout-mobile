@@ -19,7 +19,6 @@ class SecuritySettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final theme = Theme.of(context);
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -41,6 +40,7 @@ class SecuritySettings extends StatelessWidget {
                       style: TextStyle(
                           fontFamily: "DMSans",
                           fontSize: 14.sp,
+                          color: isDarkMode ? AppColors.white : AppColors.black,
                           fontWeight: FontWeight.w500),
                     )
                   ],
@@ -61,6 +61,8 @@ class SecuritySettings extends StatelessWidget {
                         style: TextStyle(
                             fontFamily: "DMSans",
                             fontSize: 14.sp,
+                            color:
+                                isDarkMode ? AppColors.white : AppColors.black,
                             fontWeight: FontWeight.w500),
                       )
                     ],
@@ -90,6 +92,7 @@ class SecuritySettings extends StatelessWidget {
                       style: TextStyle(
                           fontFamily: "DMSans",
                           fontSize: 14.sp,
+                          color: isDarkMode ? AppColors.white : AppColors.black,
                           fontWeight: FontWeight.w500),
                     )
                   ],

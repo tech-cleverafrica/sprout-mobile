@@ -14,9 +14,17 @@ class NewSavingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final theme = Theme.of(context);
     return SafeArea(
       child: Scaffold(
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: DecisionButton(
+              isDarkMode: isDarkMode,
+              buttonText: "Continue",
+              onTap: () {
+                Get.to(() => SavingsSummaryScreen());
+              }),
+        ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
           child: SingleChildScrollView(
@@ -66,13 +74,6 @@ class NewSavingsScreen extends StatelessWidget {
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
                 ),
-                addVerticalSpace(40.h),
-                DecisionButton(
-                    isDarkMode: isDarkMode,
-                    buttonText: "Continue",
-                    onTap: () {
-                      Get.to(() => SavingsSummaryScreen());
-                    })
               ],
             ),
           ),

@@ -13,8 +13,6 @@ class SuccessfulInvoice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final theme = Theme.of(context);
     return Container(
       decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -73,7 +71,7 @@ class SuccessfulInvoice extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  width: 190.w,
+                  width: 246.w,
                   child: CustomButton(title: "Back To Invoices", onTap: () {}),
                 ),
                 addHorizontalSpace(8.w),

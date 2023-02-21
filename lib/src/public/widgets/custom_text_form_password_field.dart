@@ -1,5 +1,6 @@
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 
@@ -48,9 +49,11 @@ class _CustomTextFormPasswordFieldState
           onPressed: () => setState(() => _obscureText = !_obscureText),
           child: _obscureText
               ? Container(
+                  height: 40.h,
+                  width: 40.w,
                   decoration: BoxDecoration(
                       color: isDarkMode ? AppColors.black : AppColors.white,
-                      borderRadius: BorderRadius.circular(5)),
+                      borderRadius: BorderRadius.circular(10)),
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: Icon(CommunityMaterialIcons.eye_off_outline,
@@ -59,9 +62,11 @@ class _CustomTextFormPasswordFieldState
                   ),
                 )
               : Container(
+                  height: 40.h,
+                  width: 40.w,
                   decoration: BoxDecoration(
                       color: isDarkMode ? AppColors.black : AppColors.white,
-                      borderRadius: BorderRadius.circular(5)),
+                      borderRadius: BorderRadius.circular(10)),
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: Icon(CommunityMaterialIcons.eye_outline,

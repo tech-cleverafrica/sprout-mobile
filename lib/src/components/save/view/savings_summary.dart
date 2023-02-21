@@ -106,18 +106,23 @@ class SavingsSummaryScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              addVerticalSpace(20.h),
+              addVerticalSpace(26.h),
               Row(
                 children: [
                   Checkbox(value: false, onChanged: (val) {}),
                   Expanded(
                       child: Text(
-                    "By checking this box, I agree that I have read and understod the terms and conditions set forth in. Read more",
-                    style: theme.textTheme.headline6,
-                  ))
+                          "By checking this box, I agree that I have read and understod the terms and conditions set forth in. Read more",
+                          style: TextStyle(
+                              fontFamily: "DMSans",
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w700,
+                              color: isDarkMode
+                                  ? AppColors.white
+                                  : AppColors.black)))
                 ],
               ),
-              addVerticalSpace(20.h),
+              addVerticalSpace(34.h),
               DecisionButton(
                   isDarkMode: isDarkMode,
                   buttonText: "Start Saving",

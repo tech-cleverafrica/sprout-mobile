@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,6 +12,7 @@ import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 import '../../../public/widgets/general_widgets.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_svgs.dart';
+import '../../home/view/bottom_nav.dart';
 
 class SendMoney extends StatelessWidget {
   const SendMoney({super.key});
@@ -17,16 +20,16 @@ class SendMoney extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final theme = Theme.of(context);
     return SafeArea(
       child: Scaffold(
+        bottomNavigationBar: BottomNavigation(),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               getHeader(isDarkMode),
-              addVerticalSpace(30.h),
+              addVerticalSpace(29.h),
               InkWell(
                 onTap: () {
                   Get.to(() => SendToSprout());
@@ -51,9 +54,10 @@ class SendMoney extends StatelessWidget {
                         ],
                       ),
                       Divider(
-                          thickness: 0.2,
-                          color:
-                              isDarkMode ? AppColors.white : AppColors.black),
+                          thickness: 0.4,
+                          color: isDarkMode
+                              ? AppColors.semi_white.withOpacity(0.3)
+                              : AppColors.black.withOpacity(0.3)),
                     ],
                   ),
                 ),
@@ -82,9 +86,10 @@ class SendMoney extends StatelessWidget {
                         ],
                       ),
                       Divider(
-                          thickness: 0.2,
-                          color:
-                              isDarkMode ? AppColors.white : AppColors.black),
+                          thickness: 0.4,
+                          color: isDarkMode
+                              ? AppColors.semi_white.withOpacity(0.3)
+                              : AppColors.black.withOpacity(0.3)),
                     ],
                   ),
                 ),

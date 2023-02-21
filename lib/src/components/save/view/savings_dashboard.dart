@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -59,108 +61,125 @@ class SavingsDashboard extends StatelessWidget {
                                 fontWeight: FontWeight.w700)),
                       ],
                     ),
-                    Container(
-                        width: 120.w,
-                        child: CustomButton(
-                          title: "Start New Savings",
-                          onTap: () {
-                            // Get.to(() => NewSavingsScreen());
-                            showDialog(
-                                context: context,
-                                barrierDismissible: true,
-                                builder: ((context) {
-                                  return Dialog(
-                                    backgroundColor: isDarkMode
-                                        ? AppColors.greyDot
-                                        : AppColors.white,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0)),
-                                    child: Container(
-                                      height: 300.h,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 20, horizontal: 20),
-                                        child: Column(
+                    InkWell(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: ((context) {
+                              return Dialog(
+                                backgroundColor: isDarkMode
+                                    ? AppColors.blackBg
+                                    : AppColors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0)),
+                                child: Container(
+                                  height: 300.h,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 20, horizontal: 20),
+                                    child: Column(
+                                      children: [
+                                        addVerticalSpace(10.h),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            addVerticalSpace(10.h),
+                                            Text(
+                                              "Cancel",
+                                              style: theme.textTheme.headline6,
+                                            ),
+                                            InkWell(
+                                                onTap: () => Get.back(),
+                                                child: SvgPicture.asset(
+                                                    AppSvg.cancel))
+                                          ],
+                                        ),
+                                        addVerticalSpace(20.h),
+                                        InkWell(
+                                          onTap: () =>
+                                              Get.to(() => NewSavingsScreen()),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "Lock Savings",
+                                                    style: theme
+                                                        .textTheme.headline6,
+                                                  ),
+                                                  SvgPicture.asset(
+                                                      AppSvg.mark_green)
+                                                ],
+                                              ),
+                                              addVerticalSpace(5.h),
+                                              Text(
+                                                "Lock your savings for a particular period of time and get interest on withdrawal",
+                                                style:
+                                                    theme.textTheme.subtitle2,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        addVerticalSpace(20.h),
+                                        Column(
+                                          children: [
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
                                                 Text(
-                                                  "Cancel",
+                                                  "Target Savings",
                                                   style:
                                                       theme.textTheme.headline6,
                                                 ),
-                                                InkWell(
-                                                    onTap: () => Get.back(),
-                                                    child: SvgPicture.asset(
-                                                        AppSvg.cancel))
+                                                SvgPicture.asset(
+                                                    AppSvg.mark_green)
                                               ],
                                             ),
-                                            addVerticalSpace(20.h),
-                                            InkWell(
-                                              onTap: () => Get.to(
-                                                  () => NewSavingsScreen()),
-                                              child: Column(
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        "Lock Savings",
-                                                        style: theme.textTheme
-                                                            .headline6,
-                                                      ),
-                                                      SvgPicture.asset(
-                                                          AppSvg.mark_green)
-                                                    ],
-                                                  ),
-                                                  addVerticalSpace(5.h),
-                                                  Text(
-                                                    "Lock your savings for a particular period of time and get interest on withdrawal",
-                                                    style: theme
-                                                        .textTheme.subtitle2,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            addVerticalSpace(20.h),
-                                            Column(
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      "Target Savings",
-                                                      style: theme
-                                                          .textTheme.headline6,
-                                                    ),
-                                                    SvgPicture.asset(
-                                                        AppSvg.mark_green)
-                                                  ],
-                                                ),
-                                                addVerticalSpace(5.h),
-                                                Text(
-                                                    "Save for a future target periodically and get instant rewards",
-                                                    style: theme
-                                                        .textTheme.subtitle2)
-                                              ],
-                                            ),
+                                            addVerticalSpace(5.h),
+                                            Text(
+                                                "Save for a future target periodically and get instant rewards",
+                                                style:
+                                                    theme.textTheme.subtitle2)
                                           ],
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  );
-                                }));
-                          },
-                        )),
+                                  ),
+                                ),
+                              );
+                            }));
+                      },
+                      child: Container(
+                        height: 37.h,
+                        width: 136.w,
+                        decoration: BoxDecoration(
+                            color: AppColors.primaryColor,
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.add,
+                              color: AppColors.white,
+                            ),
+                            Text("Start New Savings",
+                                style: TextStyle(
+                                    fontFamily: "DMSans",
+                                    fontSize: 12.sp,
+                                    color: isDarkMode
+                                        ? AppColors.white
+                                        : AppColors.white,
+                                    fontWeight: FontWeight.w700))
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
                 addVerticalSpace(15.h),
@@ -170,7 +189,7 @@ class SavingsDashboard extends StatelessWidget {
                       "N19,260.00",
                       style: TextStyle(
                           fontFamily: "DMSans",
-                          fontSize: 30.sp,
+                          fontSize: 32.sp,
                           fontWeight: FontWeight.w700,
                           color:
                               isDarkMode ? AppColors.white : AppColors.black),
@@ -197,7 +216,8 @@ class SavingsDashboard extends StatelessWidget {
                 Row(
                   children: [
                     Container(
-                      width: 60.w,
+                      width: 86.w,
+                      height: 94.h,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color:
@@ -205,7 +225,7 @@ class SavingsDashboard extends StatelessWidget {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 20, horizontal: 15),
+                            vertical: 12, horizontal: 15),
                         child: Column(
                           children: [
                             SvgPicture.asset(
@@ -220,7 +240,13 @@ class SavingsDashboard extends StatelessWidget {
                               child: Text(
                                 "Top Up Savings",
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.headline6,
+                                style: TextStyle(
+                                    fontFamily: "DMSans",
+                                    fontWeight: FontWeight.w700,
+                                    color: isDarkMode
+                                        ? AppColors.white
+                                        : AppColors.black,
+                                    fontSize: 10.sp),
                               ),
                             ),
                           ],
@@ -229,7 +255,8 @@ class SavingsDashboard extends StatelessWidget {
                     ),
                     addHorizontalSpace(10.w),
                     Container(
-                      width: 60.w,
+                      width: 86.w,
+                      height: 94.h,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color:
@@ -237,7 +264,7 @@ class SavingsDashboard extends StatelessWidget {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 20, horizontal: 15),
+                            vertical: 12, horizontal: 15),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -254,7 +281,13 @@ class SavingsDashboard extends StatelessWidget {
                               child: Text(
                                 "Roll Over",
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.headline6,
+                                style: TextStyle(
+                                    fontFamily: "DMSans",
+                                    fontWeight: FontWeight.w700,
+                                    color: isDarkMode
+                                        ? AppColors.white
+                                        : AppColors.black,
+                                    fontSize: 10.sp),
                               ),
                             ),
                           ],
@@ -263,7 +296,7 @@ class SavingsDashboard extends StatelessWidget {
                     ),
                   ],
                 ),
-                addVerticalSpace(30.h),
+                addVerticalSpace(24.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -271,7 +304,8 @@ class SavingsDashboard extends StatelessWidget {
                       "Savings History",
                       style: TextStyle(
                           fontFamily: "DMSans",
-                          fontSize: 13.sp,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
                           color: AppColors.greyText),
                     ),
                     InkWell(
@@ -283,7 +317,8 @@ class SavingsDashboard extends StatelessWidget {
                         style: TextStyle(
                             fontStyle: FontStyle.italic,
                             fontFamily: "DMSans",
-                            fontSize: 13.sp,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w500,
                             color: AppColors.greyText,
                             decoration: TextDecoration.underline),
                       ),

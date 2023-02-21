@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,15 +43,30 @@ class ProfileScreen extends StatelessWidget {
                             AppImages.profile_holder,
                           ),
                         ),
-                        addHorizontalSpace(10.w),
+                        addHorizontalSpace(15.w),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               "Enahoro Uanseoje",
-                              style: theme.textTheme.headline2,
+                              style: TextStyle(
+                                  fontFamily: "DMSans",
+                                  fontSize: 18.sp,
+                                  color: isDarkMode
+                                      ? AppColors.white
+                                      : AppColors.black,
+                                  fontWeight: FontWeight.w700),
                             ),
-                            Text('davejossy9@gmail.com')
+                            Text(
+                              'davejossy9@gmail.com',
+                              style: TextStyle(
+                                  fontFamily: "DMSans",
+                                  fontSize: 13.sp,
+                                  color: isDarkMode
+                                      ? AppColors.greyText
+                                      : AppColors.greyText,
+                                  fontWeight: FontWeight.w400),
+                            )
                           ],
                         )
                       ],
@@ -64,8 +77,14 @@ class ProfileScreen extends StatelessWidget {
                     )
                   ],
                 ),
-                addVerticalSpace(10.h),
-                Divider(),
+                addVerticalSpace(12.h),
+                Divider(
+                  thickness: 0.3,
+                  color: isDarkMode
+                      ? AppColors.semi_white.withOpacity(0.3)
+                      : AppColors.inputLabelColor.withOpacity(0.6),
+                ),
+                addVerticalSpace(20.h),
                 Row(
                   children: [
                     Text(
@@ -73,14 +92,21 @@ class ProfileScreen extends StatelessWidget {
                       style: TextStyle(
                           fontFamily: "DMSans",
                           fontSize: 13.sp,
-                          color:
-                              isDarkMode ? AppColors.white : AppColors.greyText,
-                          fontWeight: FontWeight.w700),
+                          color: isDarkMode
+                              ? AppColors.greyText
+                              : AppColors.greyText,
+                          fontWeight: FontWeight.w400),
                     ),
                     addHorizontalSpace(5.w),
                     Text(
                       "2345453",
-                      style: theme.textTheme.headline6,
+                      style: TextStyle(
+                          fontFamily: "DMSans",
+                          fontSize: 13.sp,
+                          color: isDarkMode
+                              ? AppColors.greyText
+                              : AppColors.greyText,
+                          fontWeight: FontWeight.w700),
                     )
                   ],
                 ),
@@ -92,14 +118,21 @@ class ProfileScreen extends StatelessWidget {
                       style: TextStyle(
                           fontFamily: "DMSans",
                           fontSize: 13.sp,
-                          color:
-                              isDarkMode ? AppColors.white : AppColors.greyText,
-                          fontWeight: FontWeight.w700),
+                          color: isDarkMode
+                              ? AppColors.greyText
+                              : AppColors.greyText,
+                          fontWeight: FontWeight.w400),
                     ),
                     addHorizontalSpace(5.w),
                     Text(
-                      "/Providus Bank",
-                      style: theme.textTheme.headline6,
+                      "Providus Bank",
+                      style: TextStyle(
+                          fontFamily: "DMSans",
+                          fontSize: 13.sp,
+                          color: isDarkMode
+                              ? AppColors.greyText
+                              : AppColors.greyText,
+                          fontWeight: FontWeight.w700),
                     ),
                     addHorizontalSpace(15.w),
                     SvgPicture.asset(
@@ -108,19 +141,25 @@ class ProfileScreen extends StatelessWidget {
                     )
                   ],
                 ),
-                addVerticalSpace(10.h),
-                Divider(),
-                addVerticalSpace(20.h),
+                addVerticalSpace(16.h),
+                Divider(
+                  thickness: 0.3,
+                  color: isDarkMode
+                      ? AppColors.semi_white.withOpacity(0.3)
+                      : AppColors.inputLabelColor.withOpacity(0.6),
+                ),
+                addVerticalSpace(24.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Switch to light theme",
+                      "Switch to light mode",
                       style: TextStyle(
                           fontFamily: "DMSans",
                           fontSize: 13.sp,
-                          color:
-                              isDarkMode ? AppColors.white : AppColors.greyText,
+                          color: isDarkMode
+                              ? AppColors.semi_white.withOpacity(0.8)
+                              : AppColors.greyText,
                           fontWeight: FontWeight.w700),
                     ),
                     CupertinoSwitch(

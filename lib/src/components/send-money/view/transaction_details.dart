@@ -5,8 +5,6 @@ import 'package:sprout_mobile/src/components/send-money/view/send_money_summary.
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
-
-import '../../../public/widgets/custom_button.dart';
 import '../../../public/widgets/custom_text_form_field.dart';
 
 class TransactionDetailsScreen extends StatelessWidget {
@@ -18,6 +16,16 @@ class TransactionDetailsScreen extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
+          child: DecisionButton(
+            isDarkMode: isDarkMode,
+            buttonText: "Continue",
+            onTap: () {
+              Get.to(() => SendMoneySummaryScreen());
+            },
+          ),
+        ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
           child: Column(
@@ -45,36 +53,6 @@ class TransactionDetailsScreen extends StatelessWidget {
                 fillColor: isDarkMode
                     ? AppColors.inputBackgroundColor
                     : AppColors.grey,
-              ),
-              addVerticalSpace(300.h),
-              Row(
-                children: [
-                  Container(
-                    width: 190.w,
-                    child: CustomButton(
-                        title: "Continue",
-                        onTap: () {
-                          Get.to(() => SendMoneySummaryScreen());
-                        }),
-                  ),
-                  addHorizontalSpace(8.w),
-                  Expanded(
-                      child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: isDarkMode
-                            ? AppColors.inputBackgroundColor
-                            : AppColors.black,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Center(
-                      child: Text(
-                        "Go Back",
-                        style: TextStyle(
-                            fontFamily: "DMSans", color: AppColors.white),
-                      ),
-                    ),
-                  ))
-                ],
               ),
             ],
           ),

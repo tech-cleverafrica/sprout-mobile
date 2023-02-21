@@ -26,7 +26,6 @@ class SignupPersonalScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              addVerticalSpace(10.h),
               StepProgressIndicator(
                 totalSteps: 4,
                 currentStep: 1,
@@ -36,7 +35,7 @@ class SignupPersonalScreen extends StatelessWidget {
                 unselectedColor: AppColors.grey,
                 padding: 4,
               ),
-              addVerticalSpace(20.h),
+              addVerticalSpace(24.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -63,9 +62,15 @@ class SignupPersonalScreen extends StatelessWidget {
               addVerticalSpace(10.h),
               Text(
                 "Let's get to know you!",
-                style: theme.textTheme.subtitle2,
+                style: TextStyle(
+                    fontFamily: "DMSans",
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w500,
+                    color: isDarkMode
+                        ? AppColors.semi_white
+                        : AppColors.inputLabelColor),
               ),
-              addVerticalSpace(30.h),
+              addVerticalSpace(36.h),
               CustomTextFormField(
                 label: "First name",
                 hintText: "Enter your first name",
@@ -83,7 +88,7 @@ class SignupPersonalScreen extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    width: 80.w,
+                    width: 100.w,
                     child: CustomDropdownButtonFormField(
                         fillColor: isDarkMode
                             ? AppColors.inputBackgroundColor
@@ -98,17 +103,18 @@ class SignupPersonalScreen extends StatelessWidget {
                   Expanded(
                       child: CustomTextFormField(
                     label: "D.O.B",
+                    hintText: "YYYY/    MM/     DAY",
                     fillColor: isDarkMode
                         ? AppColors.inputBackgroundColor
                         : AppColors.grey,
                   ))
                 ],
               ),
-              addVerticalSpace(45.h),
+              addVerticalSpace(48.h),
               Row(
                 children: [
                   Container(
-                    width: 190.w,
+                    width: 246.w,
                     child: CustomButton(
                       title: "Continue",
                       onTap: () {
@@ -135,7 +141,7 @@ class SignupPersonalScreen extends StatelessWidget {
                   ))
                 ],
               ),
-              addVerticalSpace(70.h),
+              addVerticalSpace(152.h),
               Center(
                   child: Image.asset(
                 isDarkMode ? AppImages.sprout_dark : AppImages.sprout_light,

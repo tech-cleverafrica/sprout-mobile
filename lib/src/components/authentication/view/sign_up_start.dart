@@ -19,7 +19,7 @@ class SignUpStart extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: SingleChildScrollView(
               child: Container(
             height: MediaQuery.of(context).size.height * 0.9,
@@ -108,10 +108,10 @@ class TypeCard extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(12),
             border: Border.all(
                 color: isDarkMode ? AppColors.grey : AppColors.black,
-                width: 0.5)),
+                width: 0.64)),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Row(
@@ -121,9 +121,9 @@ class TypeCard extends StatelessWidget {
                 width: 20,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: isDarkMode ? AppColors.greyDot : AppColors.grey),
+                    color: isDarkMode ? AppColors.grey : AppColors.grey),
               ),
-              addHorizontalSpace(10.w),
+              addHorizontalSpace(11.5.w),
               Container(
                 width: 180.w,
                 child: Text(
@@ -131,7 +131,7 @@ class TypeCard extends StatelessWidget {
                   style: TextStyle(
                       fontFamily: "DMSans",
                       fontSize: 13.sp,
-                      color: isDarkMode ? AppColors.greyText : AppColors.black,
+                      color: isDarkMode ? AppColors.grey : AppColors.black,
                       fontWeight: FontWeight.w400),
                 ),
               )

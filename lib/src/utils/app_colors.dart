@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 class AppColors {
   static const Color primaryColor = Color(0xFF3D02E6);
   static const Color white = Color(0xFFFFFFFF);
+  static const Color semi_white = Color(0xFFFDFDFD);
   static const Color black = Color(0xFF000000);
+  static const Color blackBg = Color(0xFF0D0D0D);
   static const Color mainGreen = Color(0xFF00DAAC);
   static const Color greyText = Color(0xFF8D8D8D);
   static const Color greyDot = Color(0xFF222222);
   static const Color grey = Color(0xFFF2F2F2);
+  static const Color deepGrey = Color(0xFF767676);
+  static const Color boxesColor = Color(0xFF1C1C1C);
   static const Color inputLabelColor = Color(0xFF656464);
   static const Color inputBackgroundColor = Color(0xFF1c1c1c);
   static const Color red = Colors.red;

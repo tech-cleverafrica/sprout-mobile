@@ -18,6 +18,7 @@ class BorrowScren extends StatelessWidget {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
       child: Scaffold(
+        bottomNavigationBar: BottomNavigation(),
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
           child: SingleChildScrollView(
@@ -25,7 +26,7 @@ class BorrowScren extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 getHeader(isDarkMode),
-                addVerticalSpace(15.h),
+                addVerticalSpace(29.h),
                 InkWell(
                   onTap: () {
                     Get.to(() => NFCScreen());
@@ -50,9 +51,10 @@ class BorrowScren extends StatelessWidget {
                           ],
                         ),
                         Divider(
-                            thickness: 0.2,
-                            color:
-                                isDarkMode ? AppColors.white : AppColors.black),
+                            thickness: 0.4,
+                            color: isDarkMode
+                                ? AppColors.semi_white.withOpacity(0.3)
+                                : AppColors.black),
                       ],
                     ),
                   ),
@@ -82,9 +84,10 @@ class BorrowScren extends StatelessWidget {
                           ],
                         ),
                         Divider(
-                            thickness: 0.2,
-                            color:
-                                isDarkMode ? AppColors.white : AppColors.black),
+                            thickness: 0.4,
+                            color: isDarkMode
+                                ? AppColors.semi_white.withOpacity(0.3)
+                                : AppColors.black),
                       ],
                     ),
                   ),

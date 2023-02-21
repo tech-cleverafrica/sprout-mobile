@@ -81,7 +81,15 @@ class CreateInvoice extends StatelessWidget {
                         color: isDarkMode ? AppColors.white : AppColors.black,
                       ),
                       addHorizontalSpace(5.w),
-                      Text("Add Customer")
+                      Text(
+                        "Add Customer",
+                        style: TextStyle(
+                            fontFamily: "DMSans",
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400,
+                            color:
+                                isDarkMode ? AppColors.white : AppColors.black),
+                      )
                     ],
                   ),
                 ),
@@ -104,7 +112,15 @@ class CreateInvoice extends StatelessWidget {
                           color:
                               isDarkMode ? AppColors.white : AppColors.black),
                       addHorizontalSpace(5.w),
-                      Text("Add Item")
+                      Text(
+                        "Add Item",
+                        style: TextStyle(
+                            fontFamily: "DMSans",
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400,
+                            color:
+                                isDarkMode ? AppColors.white : AppColors.black),
+                      )
                     ],
                   ),
                 ),
@@ -123,7 +139,28 @@ class CreateInvoice extends StatelessWidget {
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [Text("Subtotal"), Text("N20000")],
+                        children: [
+                          Text(
+                            "Subtotal",
+                            style: TextStyle(
+                                fontFamily: "DMSans",
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.black),
+                          ),
+                          Text(
+                            "N20000",
+                            style: TextStyle(
+                                fontFamily: "DMSans",
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.black),
+                          )
+                        ],
                       ),
                       Divider(
                         color: isDarkMode ? AppColors.white : AppColors.black,
@@ -134,7 +171,16 @@ class CreateInvoice extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Text("TAX"),
+                              Text(
+                                "TAX",
+                                style: TextStyle(
+                                    fontFamily: "DMSans",
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: isDarkMode
+                                        ? AppColors.white
+                                        : AppColors.black),
+                              ),
                               addHorizontalSpace(5.w),
                               Container(
                                 height: 30,
@@ -148,7 +194,16 @@ class CreateInvoice extends StatelessWidget {
                               )
                             ],
                           ),
-                          Text("7.5% VAT")
+                          Text(
+                            "7.5% VAT",
+                            style: TextStyle(
+                                fontFamily: "DMSans",
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.black),
+                          )
                         ],
                       ),
                       Divider(
@@ -157,7 +212,28 @@ class CreateInvoice extends StatelessWidget {
                       addVerticalSpace(15.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [Text("Total"), Text("N25000")],
+                        children: [
+                          Text(
+                            "Total",
+                            style: TextStyle(
+                                fontFamily: "DMSans",
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w700,
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.black),
+                          ),
+                          Text(
+                            "N25000",
+                            style: TextStyle(
+                                fontFamily: "DMSans",
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w700,
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.black),
+                          )
+                        ],
                       ),
                       Divider(
                         color: isDarkMode ? AppColors.white : AppColors.black,
@@ -181,7 +257,15 @@ class CreateInvoice extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Add Signature"),
+                    Text(
+                      "Add Signature",
+                      style: TextStyle(
+                          fontFamily: "DMSans",
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
+                          color:
+                              isDarkMode ? AppColors.white : AppColors.black),
+                    ),
                     addHorizontalSpace(5.w),
                     Container(
                       height: 30,
@@ -219,7 +303,7 @@ class CreateInvoice extends StatelessWidget {
         barrierDismissible: true,
         builder: ((context) {
           return Dialog(
-            backgroundColor: isDarkMode ? AppColors.greyDot : AppColors.white,
+            backgroundColor: isDarkMode ? AppColors.blackBg : AppColors.white,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0)),
             child: Container(
@@ -289,7 +373,7 @@ class CreateInvoice extends StatelessWidget {
         barrierDismissible: true,
         builder: ((context) {
           return Dialog(
-            backgroundColor: isDarkMode ? AppColors.greyDot : AppColors.white,
+            backgroundColor: isDarkMode ? AppColors.blackBg : AppColors.white,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0)),
             child: Container(
@@ -347,6 +431,7 @@ class CreateInvoice extends StatelessWidget {
                                 isDarkMode ? AppColors.white : AppColors.black,
                             fontSize: 12.sp),
                       ),
+                      addVerticalSpace(9.h),
                       getRecentContacts(isDarkMode)
                     ],
                   ),

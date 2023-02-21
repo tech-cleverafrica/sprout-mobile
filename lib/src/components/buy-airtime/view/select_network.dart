@@ -51,7 +51,7 @@ class SelectNetworkScreen extends StatelessWidget {
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
                 ),
-                addVerticalSpace(10),
+                addVerticalSpace(26.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -68,6 +68,7 @@ class SelectNetworkScreen extends StatelessWidget {
                                   : AppColors.black,
                               fontWeight: FontWeight.w700),
                         ),
+                        addVerticalSpace(9.h),
                         Text(
                           "We will add it to your quick airtime purchase",
                           style: TextStyle(
@@ -75,7 +76,7 @@ class SelectNetworkScreen extends StatelessWidget {
                               fontSize: 10.sp,
                               color: isDarkMode
                                   ? AppColors.greyText
-                                  : AppColors.greyText,
+                                  : AppColors.black,
                               fontWeight: FontWeight.w400),
                         )
                       ],
@@ -90,7 +91,7 @@ class SelectNetworkScreen extends StatelessWidget {
                 Row(
                   children: [
                     Container(
-                      width: 190.w,
+                      width: 246.w,
                       child: CustomButton(
                         title: "Buy Airtime",
                         onTap: () {
@@ -121,8 +122,10 @@ class SelectNetworkScreen extends StatelessWidget {
                   "Wallet Balance: N23,452.00",
                   style: TextStyle(
                       fontFamily: "DMSans",
-                      fontWeight: FontWeight.w500,
-                      color: isDarkMode ? AppColors.white : AppColors.black,
+                      fontWeight: FontWeight.w700,
+                      color: isDarkMode
+                          ? AppColors.semi_white.withOpacity(0.7)
+                          : AppColors.black,
                       fontSize: 12.sp),
                 ),
                 addVerticalSpace(20.h),

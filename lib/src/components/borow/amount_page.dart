@@ -35,7 +35,11 @@ class AmountScreen extends StatelessWidget {
                 addVerticalSpace(50.h),
                 Text(
                   "Enter Amount",
-                  style: Theme.of(context).textTheme.subtitle2,
+                  style: TextStyle(
+                      fontFamily: "DMSans",
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w500,
+                      color: isDarkMode ? AppColors.greyText : AppColors.grey),
                 ),
                 Container(
                   child: TextFormField(
@@ -80,36 +84,13 @@ class AmountScreen extends StatelessWidget {
                       : AppColors.grey,
                   items: ["Visa", "MasterCard", "Verve"],
                 ),
-                addVerticalSpace(300.h),
-                Row(
-                  children: [
-                    Container(
-                      width: 190.w,
-                      child: CustomButton(
-                        title: "Continue",
-                        onTap: () {
-                          //Get.to(() => TransactionDetailsScreen());
-                        },
-                      ),
-                    ),
-                    addHorizontalSpace(8.w),
-                    Expanded(
-                        child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: isDarkMode
-                              ? AppColors.inputBackgroundColor
-                              : AppColors.black,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Center(
-                        child: Text(
-                          "Go Back",
-                          style: TextStyle(
-                              fontFamily: "DMSans", color: AppColors.white),
-                        ),
-                      ),
-                    ))
-                  ],
+                addVerticalSpace(83.h),
+                DecisionButton(
+                  isDarkMode: isDarkMode,
+                  buttonText: "Continue",
+                  onTap: () {
+                    // Get.to(() => TransactionDetailsScreen());
+                  },
                 ),
               ],
             ),

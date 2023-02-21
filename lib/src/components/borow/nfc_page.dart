@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
-import 'package:flutter_masked_text2/flutter_masked_text2.dart';
-
-import '../../utils/app_formatter.dart';
 
 class NFCScreen extends StatelessWidget {
   NFCScreen({super.key});
@@ -25,10 +21,10 @@ class NFCScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               getHeader(isDarkMode),
-              addVerticalSpace(50.h),
+              addVerticalSpace(52.h),
               Container(
                 alignment: Alignment.center,
-                width: 150.w,
+                width: 162.w,
                 child: Text(
                     "Please tap your card on the NFC feature behind the phone",
                     textAlign: TextAlign.center,
@@ -39,7 +35,7 @@ class NFCScreen extends StatelessWidget {
                         color:
                             isDarkMode ? AppColors.greyText : AppColors.black)),
               ),
-              addVerticalSpace(40.h),
+              addVerticalSpace(56.h),
               Container(
                 height: 222.h,
                 width: 222.w,

@@ -36,7 +36,6 @@ class _SignUpCreateLoginState extends State<SignUpCreateLogin> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                addVerticalSpace(10.h),
                 StepProgressIndicator(
                   totalSteps: 4,
                   currentStep: 3,
@@ -46,7 +45,7 @@ class _SignUpCreateLoginState extends State<SignUpCreateLogin> {
                   unselectedColor: AppColors.grey,
                   padding: 4,
                 ),
-                addVerticalSpace(20.h),
+                addVerticalSpace(24.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -73,9 +72,15 @@ class _SignUpCreateLoginState extends State<SignUpCreateLogin> {
                 addVerticalSpace(10.h),
                 Text(
                   "Let's get to know you!",
-                  style: theme.textTheme.subtitle2,
+                  style: TextStyle(
+                      fontFamily: "DMSans",
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w500,
+                      color: isDarkMode
+                          ? AppColors.white
+                          : AppColors.inputLabelColor),
                 ),
-                addVerticalSpace(20.h),
+                addVerticalSpace(36.h),
                 CustomTextFormField(
                   label: "Email Address",
                   fillColor: isDarkMode
@@ -123,6 +128,7 @@ class _SignUpCreateLoginState extends State<SignUpCreateLogin> {
                     print("NOT MATCHED");
                   },
                 ),
+                addVerticalSpace(16.h),
                 CustomTextFormPasswordField(
                   // controller: controller,
                   fillColor: isDarkMode
@@ -130,11 +136,11 @@ class _SignUpCreateLoginState extends State<SignUpCreateLogin> {
                       : AppColors.grey,
                   label: "Confirm password",
                 ),
-                addVerticalSpace(10.h),
+                addVerticalSpace(48.h),
                 Row(
                   children: [
                     Container(
-                      width: 190.w,
+                      width: 246.w,
                       child: CustomButton(
                         title: "Continue",
                         onTap: () {

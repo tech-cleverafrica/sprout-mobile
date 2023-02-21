@@ -25,7 +25,6 @@ class SignupPersonal2 extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                addVerticalSpace(10.h),
                 StepProgressIndicator(
                   totalSteps: 4,
                   currentStep: 2,
@@ -35,7 +34,7 @@ class SignupPersonal2 extends StatelessWidget {
                   unselectedColor: AppColors.grey,
                   padding: 4,
                 ),
-                addVerticalSpace(20.h),
+                addVerticalSpace(24.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -62,9 +61,15 @@ class SignupPersonal2 extends StatelessWidget {
                 addVerticalSpace(10.h),
                 Text(
                   "Let's get to know you!",
-                  style: theme.textTheme.subtitle2,
+                  style: TextStyle(
+                      fontFamily: "DMSans",
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w500,
+                      color: isDarkMode
+                          ? AppColors.white
+                          : AppColors.inputLabelColor),
                 ),
-                addVerticalSpace(30.h),
+                addVerticalSpace(36.h),
                 CustomTextFormField(
                   label: "Business name (optional)",
                   hintText: "Enter your business name",
@@ -107,11 +112,11 @@ class SignupPersonal2 extends StatelessWidget {
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
                 ),
-                addVerticalSpace(45.h),
+                addVerticalSpace(48.h),
                 Row(
                   children: [
                     Container(
-                      width: 190.w,
+                      width: 246.w,
                       child: CustomButton(
                         title: "Complete",
                         onTap: () {
@@ -119,7 +124,7 @@ class SignupPersonal2 extends StatelessWidget {
                         },
                       ),
                     ),
-                    addHorizontalSpace(8.w),
+                    addHorizontalSpace(10.w),
                     Expanded(
                         child: Container(
                       height: 50,
@@ -138,7 +143,7 @@ class SignupPersonal2 extends StatelessWidget {
                     ))
                   ],
                 ),
-                addVerticalSpace(30.h),
+                addVerticalSpace(90.h),
                 Center(
                     child: Image.asset(
                   isDarkMode ? AppImages.sprout_dark : AppImages.sprout_light,

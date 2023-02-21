@@ -33,7 +33,7 @@ class CabletvScreen extends StatelessWidget {
                     : AppColors.grey,
               ),
               addVerticalSpace(30.h),
-              billsCard(
+              BillsCard(
                 title: "GOTV",
                 subTitle: "Tv Subscription",
                 image: AppImages.gotv,
@@ -42,14 +42,14 @@ class CabletvScreen extends StatelessWidget {
                 },
               ),
               addVerticalSpace(10.h),
-              billsCard(
+              BillsCard(
                 title: "DSTV",
                 subTitle: "Tv Subscription",
                 image: AppImages.dstv,
                 onTap: () {},
               ),
               addVerticalSpace(10.h),
-              billsCard(
+              BillsCard(
                 title: "STARTIMES",
                 subTitle: "Tv Subscription",
                 image: AppImages.startime,
@@ -63,8 +63,8 @@ class CabletvScreen extends StatelessWidget {
   }
 }
 
-class billsCard extends StatelessWidget {
-  const billsCard({Key? key, this.title, this.subTitle, this.image, this.onTap})
+class BillsCard extends StatelessWidget {
+  const BillsCard({Key? key, this.title, this.subTitle, this.image, this.onTap})
       : super(key: key);
   final String? title;
   final String? image;
@@ -73,6 +73,7 @@ class billsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Container(
       child: Column(
         children: [
@@ -92,17 +93,35 @@ class billsCard extends StatelessWidget {
                     children: [
                       Text(
                         title!,
-                        style: Theme.of(context).textTheme.headline3,
+                        style: TextStyle(
+                            fontFamily: "DMSans",
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14.sp,
+                            color:
+                                isDarkMode ? AppColors.white : AppColors.black),
                       ),
                       Text(
                         subTitle!,
-                        style: Theme.of(context).textTheme.bodyText2,
+                        style: TextStyle(
+                            fontFamily: "DMSans",
+                            fontWeight: FontWeight.w400,
+                            fontSize: 11.sp,
+                            color: isDarkMode
+                                ? AppColors.greyText
+                                : AppColors.greyText),
                       )
                     ],
                   )
                 ],
               ),
-              IconButton(onPressed: onTap, icon: Icon(Icons.arrow_forward))
+              IconButton(
+                  onPressed: onTap,
+                  icon: Icon(
+                    Icons.arrow_forward,
+                    color: isDarkMode
+                        ? AppColors.inputLabelColor
+                        : AppColors.inputLabelColor,
+                  ))
             ],
           ),
           Divider()

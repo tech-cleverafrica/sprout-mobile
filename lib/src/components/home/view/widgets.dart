@@ -30,7 +30,7 @@ getHomeHeader(bool isDarkMode) {
             padding: const EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                "HM",
+                "EU",
                 style: TextStyle(
                     fontFamily: "DMSans",
                     fontSize: 13.sp,
@@ -48,7 +48,7 @@ getHomeHeader(bool isDarkMode) {
               height: 20,
               color: isDarkMode ? AppColors.white : AppColors.black,
             ),
-            addHorizontalSpace(10.w),
+            addHorizontalSpace(24.w),
             SvgPicture.asset(
               AppSvg.notification,
               color: isDarkMode ? AppColors.white : AppColors.black,
@@ -98,7 +98,13 @@ class HistoryCard extends StatelessWidget {
                       children: [
                         Text(
                           text,
-                          style: theme.textTheme.headline3,
+                          style: TextStyle(
+                              fontFamily: "DMSans",
+                              fontSize: 12.sp,
+                              color: isDarkMode
+                                  ? AppColors.white
+                                  : AppColors.black,
+                              fontWeight: FontWeight.w700),
                         ),
                         addVerticalSpace(5.h),
                         Container(
@@ -110,7 +116,7 @@ class HistoryCard extends StatelessWidget {
                                 fontSize: 10.sp,
                                 color: isDarkMode
                                     ? AppColors.inputLabelColor
-                                    : AppColors.greyText,
+                                    : AppColors.black,
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
@@ -124,7 +130,7 @@ class HistoryCard extends StatelessWidget {
                                 fontSize: 10.sp,
                                 color: isDarkMode
                                     ? AppColors.inputLabelColor
-                                    : AppColors.greyText,
+                                    : AppColors.black,
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
@@ -138,7 +144,7 @@ class HistoryCard extends StatelessWidget {
                                 fontSize: 10.sp,
                                 color: isDarkMode
                                     ? AppColors.inputLabelColor
-                                    : AppColors.greyText,
+                                    : AppColors.black,
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
@@ -240,23 +246,21 @@ class itemOptions extends StatelessWidget {
             InkWell(
               onTap: onTap,
               child: Container(
-                height: 100,
-                width: 70,
                 decoration: BoxDecoration(shape: BoxShape.circle, color: color),
                 child: Padding(
-                  padding: const EdgeInsets.all(25.0),
+                  padding: const EdgeInsets.all(27.0),
                   child: SvgPicture.asset(svg,
-                      height: 20,
-                      width: 20,
+                      height: 22.h,
+                      width: 22.w,
                       color: isDark ? AppColors.white : AppColors.black),
                 ),
               ),
             ),
-            addVerticalSpace(0.h),
+            addVerticalSpace(4.h),
             Text(
               title,
               style: TextStyle(
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                   fontFamily: "DMSans",
                   fontSize: 10.sp,
                   color: isDark ? AppColors.white : AppColors.black),
@@ -305,12 +309,12 @@ class BalanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 210.w,
+      width: 289.w,
       decoration: BoxDecoration(
           color: isDarkMode ? AppColors.balanceCardDark : AppColors.greyBg,
           borderRadius: BorderRadius.circular(14)),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+        padding: const EdgeInsets.only(top: 15, bottom: 0, right: 15, left: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -320,16 +324,34 @@ class BalanceCard extends StatelessWidget {
                 Row(
                   children: [
                     ClipRRect(
-                      child: SvgPicture.asset(flag),
+                      child: SvgPicture.asset(
+                        flag,
+                        height: 30,
+                        width: 30,
+                      ),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     addHorizontalSpace(
                       5.w,
                     ),
-                    Text(currency)
+                    Text(
+                      currency,
+                      style: TextStyle(
+                          fontFamily: "DMSans",
+                          fontSize: 14.sp,
+                          color: isDarkMode ? AppColors.white : AppColors.black,
+                          fontWeight: FontWeight.w400),
+                    )
                   ],
                 ),
-                Text(title)
+                Text(
+                  title,
+                  style: TextStyle(
+                      fontFamily: "DMSans",
+                      fontSize: 12.sp,
+                      color: isDarkMode ? AppColors.white : AppColors.black,
+                      fontWeight: FontWeight.w500),
+                )
               ],
             ),
             addVerticalSpace(15.h),
@@ -338,56 +360,64 @@ class BalanceCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        Text(
-                          symbol,
-                          style: TextStyle(
-                              fontFamily: "DMSans",
-                              fontSize: 8.sp,
-                              color: isDarkMode
-                                  ? AppColors.white
-                                  : AppColors.black,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        Text(
-                          balance,
-                          style: TextStyle(
-                              fontFamily: "DMSans",
-                              fontSize: 27.sp,
-                              color: isDarkMode
-                                  ? AppColors.white
-                                  : AppColors.black,
-                              fontWeight: FontWeight.w700),
-                        )
-                      ],
-                    ),
-                    addHorizontalSpace(70.w),
                     Container(
+                      height: 60,
+                      child: Row(
+                        children: [
+                          Text(
+                            symbol,
+                            style: TextStyle(
+                                fontFamily: "DMSans",
+                                fontSize: 14.sp,
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.black,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          Text(
+                            balance,
+                            style: TextStyle(
+                                fontFamily: "DMSans",
+                                fontSize: 28.sp,
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.black,
+                                fontWeight: FontWeight.w700),
+                          )
+                        ],
+                      ),
+                    ),
+                    addHorizontalSpace(24.w),
+                    Container(
+                      height: 36.h,
+                      width: 36.w,
                       alignment: Alignment.topRight,
                       decoration: BoxDecoration(
                           color: isDarkMode ? AppColors.black : AppColors.white,
-                          borderRadius: BorderRadius.circular(7)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Icon(CommunityMaterialIcons.eye_off_outline,
-                            size: 18,
-                            color:
-                                isDarkMode ? AppColors.white : AppColors.black),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(0.0),
+                          child: Icon(CommunityMaterialIcons.eye_off_outline,
+                              size: 18,
+                              color: isDarkMode
+                                  ? AppColors.white
+                                  : AppColors.black),
+                        ),
                       ),
                     )
                   ],
                 )
               ],
             ),
-            addVerticalSpace(20.h),
+            addVerticalSpace(8.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Visibility(
                   visible: buttonVisible,
                   child: Container(
-                    width: 80.w,
+                    width: 122.w,
                     height: 32.h,
                     decoration: BoxDecoration(
                         color: buttonColor,
@@ -434,10 +464,10 @@ class BalanceCard extends StatelessWidget {
                         style: TextStyle(
                             fontFamily: "DMSans",
                             fontSize: 11.sp,
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w400,
                             color: isDarkMode
                                 ? AppColors.greyText
-                                : AppColors.greyText),
+                                : AppColors.deepGrey),
                       )
                     ],
                   ),

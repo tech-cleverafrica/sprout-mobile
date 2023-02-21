@@ -54,7 +54,6 @@ class _OTPScreenState extends State<OTPScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                addVerticalSpace(10.h),
                 StepProgressIndicator(
                   totalSteps: 4,
                   currentStep: 4,
@@ -64,7 +63,7 @@ class _OTPScreenState extends State<OTPScreen> {
                   unselectedColor: AppColors.grey,
                   padding: 4,
                 ),
-                addVerticalSpace(20.h),
+                addVerticalSpace(24.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -83,7 +82,7 @@ class _OTPScreenState extends State<OTPScreen> {
                     ),
                   ],
                 ),
-                addVerticalSpace(10.h),
+                addVerticalSpace(20.h),
                 Text(
                   'Enter OTP',
                   style: theme.textTheme.headline1,
@@ -93,10 +92,16 @@ class _OTPScreenState extends State<OTPScreen> {
                   width: 300.w,
                   child: Text(
                     "Confirm your email address by entering otp sent to your mail",
-                    style: theme.textTheme.subtitle2,
+                    style: TextStyle(
+                        fontFamily: "DMSans",
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w500,
+                        color: isDarkMode
+                            ? AppColors.white
+                            : AppColors.inputLabelColor),
                   ),
                 ),
-                addVerticalSpace(20.h),
+                addVerticalSpace(40.h),
 
                 //buildExitButton(),
                 // Expanded(
@@ -108,7 +113,7 @@ class _OTPScreenState extends State<OTPScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       buildPinRow(),
-                      addVerticalSpace(20.h),
+                      addVerticalSpace(34.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -135,7 +140,7 @@ class _OTPScreenState extends State<OTPScreen> {
                     ],
                   ),
                 ),
-                addVerticalSpace(20.h),
+                addVerticalSpace(37.h),
                 //),
                 buildnumberPad(isDarkMode),
               ],

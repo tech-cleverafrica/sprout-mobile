@@ -34,9 +34,9 @@ class _HomePageState extends State<HomePage> {
         body: SingleChildScrollView(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          addVerticalSpace(20.h),
+          addVerticalSpace(19.h),
           getHomeHeader(isDarkMode),
-          addVerticalSpace(20.h),
+          addVerticalSpace(16.h),
           getDisplaySwitch(isDarkMode),
           showInvoice ? getInvoiceDisplay() : getHomeDisplay(isDarkMode, theme)
         ])),
@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                 )),
             addVerticalSpace(10.h),
             Container(
-                height: 150,
+                height: 150.h,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(10),
@@ -86,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        width: 110.w,
+                        width: 122.w,
                         child: Text(
                           "Lorem ipsum dolor sit amet consectetur. Placerat lorem neque risus.",
                           style: TextStyle(
@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       Container(
-                          width: 100.w,
+                          width: 144.w,
                           child: CustomButton(
                             title: "Get Started",
                             color: AppColors.black,
@@ -116,6 +116,7 @@ class _HomePageState extends State<HomePage> {
 
   getHomeDisplay(isDarkMode, theme) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
@@ -132,165 +133,196 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               addHorizontalSpace(5.w),
-              Text(
-                "Mubarak,",
-                style: theme.textTheme.headline2,
-              )
+              Text("Mubarak,",
+                  style: TextStyle(
+                    color: isDarkMode ? AppColors.white : AppColors.black,
+                    fontFamily: "DMSans",
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w700,
+                  ))
             ],
           ),
         ),
-        addVerticalSpace(20.h),
-        getDisplaySwitch(isDarkMode),
-        addVerticalSpace(10.h),
+        addVerticalSpace(16.h),
         SizedBox(
           height: 200.h,
-          child: Container(
-            child: ListView(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              children: [
-                BalanceCard(
-                  isDarkMode: isDarkMode,
-                  flag: AppSvg.nigeria,
-                  currency: "Naira",
-                  title: "Available Balance",
-                  symbol: "N",
-                  balance: "19,260.00",
-                  bank: "Providus Bank",
-                  accountNumber: "0087642335",
-                  buttontext: "Fund Account",
-                  buttonColor: AppColors.primaryColor,
-                  copyVisible: true,
-                  iconVisible: true,
-                  bankVisible: true,
-                  buttonVisible: true,
-                ),
-                addHorizontalSpace(10.w),
-                BalanceCard(
-                  isDarkMode: isDarkMode,
-                  flag: AppSvg.nigeria,
-                  currency: "Naira",
-                  title: "Savings Balance",
-                  symbol: "N",
-                  balance: "19,260.00",
-                  bank: "Providus Bank",
-                  accountNumber: "0087642335",
-                  buttontext: "Details",
-                  buttonColor: AppColors.black,
-                  copyVisible: false,
-                  iconVisible: false,
-                  bankVisible: false,
-                  buttonVisible: true,
-                ),
-                addHorizontalSpace(10.w),
-                BalanceCard(
-                  isDarkMode: isDarkMode,
-                  flag: AppSvg.usa,
-                  currency: "USD",
-                  title: "Account Balance",
-                  symbol: 'N',
-                  balance: "120.00 ",
-                  bank: "Providus Bank",
-                  accountNumber: "0087642335",
-                  buttontext: "Details",
-                  buttonColor: AppColors.black,
-                  copyVisible: false,
-                  iconVisible: false,
-                  bankVisible: false,
-                  buttonVisible: false,
-                )
-              ],
-            ),
-          ),
-        ),
-        addVerticalSpace(15.h),
-        getItems(isDarkMode),
-        SizedBox(
-          height: 20.h,
-        ),
-        SizedBox(
-          height: 160.h,
           child: ListView(
-            scrollDirection: Axis.horizontal,
             padding: EdgeInsets.symmetric(horizontal: 24),
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
             children: [
-              Container(
-                width: 210.w,
-                decoration: BoxDecoration(
-                    color: AppColors.primaryColor,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Complete Account Setup",
-                        style: TextStyle(
-                            fontFamily: "DMSans",
-                            fontSize: 12.sp,
-                            color: AppColors.white,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      addVerticalSpace(50.h),
-                      Container(
-                        height: 37.h,
-                        width: 127.w,
-                        decoration: BoxDecoration(
-                            color:
-                                isDarkMode ? AppColors.black : AppColors.white,
-                            borderRadius: BorderRadius.circular(10)),
-                        alignment: Alignment.topRight,
-                        child: Center(
-                            child: Text(
-                          "Complete",
-                          style: theme.textTheme.headline3,
-                        )),
-                      )
-                    ],
-                  ),
-                ),
+              BalanceCard(
+                isDarkMode: isDarkMode,
+                flag: AppSvg.nigeria,
+                currency: "Naira",
+                title: "Available Balance",
+                symbol: "N",
+                balance: "19,260.00",
+                bank: "Providus Bank",
+                accountNumber: "0087642335",
+                buttontext: "Fund Account",
+                buttonColor: AppColors.primaryColor,
+                copyVisible: true,
+                iconVisible: true,
+                bankVisible: true,
+                buttonVisible: true,
               ),
               addHorizontalSpace(10.w),
-              Container(
-                width: 210.w,
-                decoration: BoxDecoration(
-                    color: AppColors.primaryColor,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Complete Account Setup",
-                        style: TextStyle(
-                            fontFamily: "DMSans",
-                            fontSize: 12.sp,
-                            color: AppColors.white,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      addVerticalSpace(50.h),
-                      Container(
-                        height: 37.h,
-                        width: 127.w,
-                        decoration: BoxDecoration(
-                            color:
-                                isDarkMode ? AppColors.black : AppColors.white,
-                            borderRadius: BorderRadius.circular(10)),
-                        alignment: Alignment.topRight,
-                        child: Center(
-                            child: Text(
-                          "Complete",
-                          style: theme.textTheme.headline3,
-                        )),
-                      )
-                    ],
-                  ),
-                ),
+              BalanceCard(
+                isDarkMode: isDarkMode,
+                flag: AppSvg.nigeria,
+                currency: "Naira",
+                title: "Savings Balance",
+                symbol: "N",
+                balance: "19,260.00",
+                bank: "Providus Bank",
+                accountNumber: "0087642335",
+                buttontext: "Details",
+                buttonColor: AppColors.black,
+                copyVisible: false,
+                iconVisible: false,
+                bankVisible: false,
+                buttonVisible: true,
+              ),
+              addHorizontalSpace(10.w),
+              BalanceCard(
+                isDarkMode: isDarkMode,
+                flag: AppSvg.usa,
+                currency: "USD",
+                title: "Account Balance",
+                symbol: 'N',
+                balance: "120.00 ",
+                bank: "Providus Bank",
+                accountNumber: "0087642335",
+                buttontext: "Details",
+                buttonColor: AppColors.black,
+                copyVisible: false,
+                iconVisible: false,
+                bankVisible: false,
+                buttonVisible: false,
               )
             ],
+          ),
+        ),
+        addVerticalSpace(16.h),
+        getItems(isDarkMode),
+        SizedBox(
+          height: 16.h,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: SizedBox(
+            height: 160.h,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: isDarkMode ? Color(0xFF161618) : AppColors.greyBg,
+                  borderRadius: BorderRadius.circular(10)),
+              child: Padding(
+                padding: const EdgeInsets.all(11.0),
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  padding: EdgeInsets.symmetric(horizontal: 0),
+                  children: [
+                    Container(
+                      width: 282.w,
+                      height: 122.h,
+                      decoration: BoxDecoration(
+                          color: AppColors.primaryColor,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Complete Account Setup",
+                              style: TextStyle(
+                                  fontFamily: "DMSans",
+                                  fontSize: 12.sp,
+                                  color: AppColors.white,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            addVerticalSpace(39.h),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(),
+                                Container(
+                                  height: 37.h,
+                                  width: 127.w,
+                                  decoration: BoxDecoration(
+                                      color: isDarkMode
+                                          ? AppColors.black
+                                          : AppColors.white,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Center(
+                                      child: Text(
+                                    "Complete",
+                                    style: TextStyle(
+                                        fontFamily: "DMSans",
+                                        fontSize: 13.sp,
+                                        color: isDarkMode
+                                            ? AppColors.white
+                                            : AppColors.black,
+                                        fontWeight: FontWeight.w400),
+                                  )),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    addHorizontalSpace(10.w),
+                    Container(
+                      width: 282.w,
+                      height: 122.h,
+                      decoration: BoxDecoration(
+                          color: AppColors.primaryColor,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Complete Account Setup",
+                              style: TextStyle(
+                                  fontFamily: "DMSans",
+                                  fontSize: 12.sp,
+                                  color: AppColors.white,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            addVerticalSpace(39.h),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(),
+                                Container(
+                                  height: 37.h,
+                                  width: 127.w,
+                                  decoration: BoxDecoration(
+                                      color: isDarkMode
+                                          ? AppColors.black
+                                          : AppColors.white,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  alignment: Alignment.topRight,
+                                  child: Center(
+                                      child: Text(
+                                    "Complete",
+                                    style: theme.textTheme.headline3,
+                                  )),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
         addVerticalSpace(20.h),
@@ -326,9 +358,17 @@ class _HomePageState extends State<HomePage> {
         ),
         addVerticalSpace(24.h),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: HistoryCard(
-              theme: theme, isDarkMode: isDarkMode, text: "Fund Transfer"),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: ListView.builder(
+              itemCount: 4,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: ((context, index) {
+                return HistoryCard(
+                    theme: theme,
+                    isDarkMode: isDarkMode,
+                    text: "Fund Transfer");
+              })),
         )
       ],
     );

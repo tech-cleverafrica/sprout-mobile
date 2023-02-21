@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/authentication/view/sign_up_start.dart';
 import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
-import 'package:sprout_mobile/src/components/home/view/homepage.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_password_field.dart';
@@ -26,7 +25,7 @@ class SignInScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              addVerticalSpace(40.h),
+              addVerticalSpace(10.h),
               Center(
                   child: Image.asset(
                 isDarkMode ? AppImages.sprout_dark : AppImages.sprout_light,
@@ -37,7 +36,12 @@ class SignInScreen extends StatelessWidget {
               Center(
                 child: Text(
                   "Welcome Back, Mubarak",
-                  style: theme.textTheme.subtitle1,
+                  style: TextStyle(
+                      fontFamily: "DMSans",
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w400,
+                      color:
+                          isDarkMode ? AppColors.white : AppColors.boxesColor),
                 ),
               ),
               SizedBox(
@@ -56,9 +60,6 @@ class SignInScreen extends StatelessWidget {
                 fillColor: isDarkMode
                     ? AppColors.inputBackgroundColor
                     : AppColors.grey,
-              ),
-              SizedBox(
-                height: 0,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -92,7 +93,7 @@ class SignInScreen extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: 30.h,
+                height: 32.h,
               ),
               CustomButton(
                 title: "Login",
@@ -101,7 +102,7 @@ class SignInScreen extends StatelessWidget {
                 },
               ),
               SizedBox(
-                height: 20.h,
+                height: 19.h,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -133,7 +134,7 @@ class SignInScreen extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: 50.h,
+                height: 54.h,
               ),
               Center(
                   child: Column(

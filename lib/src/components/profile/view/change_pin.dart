@@ -41,7 +41,7 @@ class ChangePin extends StatelessWidget {
                     ? AppColors.inputBackgroundColor
                     : AppColors.grey,
               ),
-              addVerticalSpace(30.h),
+              addVerticalSpace(42.h),
               CustomButton(
                 title: "Change PIN",
                 onTap: () {},

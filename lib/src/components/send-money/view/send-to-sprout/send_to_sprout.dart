@@ -19,109 +19,90 @@ class SendToSprout extends StatelessWidget {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
       child: Scaffold(
+          bottomNavigationBar: Padding(
+            padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
+            child: DecisionButton(
+              isDarkMode: isDarkMode,
+              buttonText: "Continue",
+              onTap: () {
+                Get.to(() => TransactionDetailsScreen());
+              },
+            ),
+          ),
           body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              getHeader(isDarkMode),
-              addVerticalSpace(15.h),
-              CustomDropdownButtonFormField(
-                items: [],
-                label: "Select Sprout Beneficiary",
-                // hintText: "Your Email",
-                fillColor: isDarkMode
-                    ? AppColors.inputBackgroundColor
-                    : AppColors.grey,
-              ),
-              CustomTextFormField(
-                label: "Username/Account Number",
-                // hintText: "Your Email",
-                fillColor: isDarkMode
-                    ? AppColors.inputBackgroundColor
-                    : AppColors.grey,
-              ),
-              Container(
-                alignment: Alignment.topRight,
-                child: Text(
-                  "Jossy Davids",
-                  style: TextStyle(
-                      fontFamily: "DMSans",
-                      fontSize: 13.sp,
-                      color: isDarkMode ? AppColors.white : AppColors.black,
-                      fontWeight: FontWeight.w700),
-                ),
-              ),
-              addVerticalSpace(30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  getHeader(isDarkMode),
+                  addVerticalSpace(15.h),
+                  CustomDropdownButtonFormField(
+                    items: [],
+                    label: "Select Sprout Beneficiary",
+                    // hintText: "Your Email",
+                    fillColor: isDarkMode
+                        ? AppColors.inputBackgroundColor
+                        : AppColors.grey,
+                  ),
+                  CustomTextFormField(
+                    label: "Username/Account Number",
+                    // hintText: "Your Email",
+                    fillColor: isDarkMode
+                        ? AppColors.inputBackgroundColor
+                        : AppColors.grey,
+                  ),
+                  Container(
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      "Jossy Davids",
+                      style: TextStyle(
+                          fontFamily: "DMSans",
+                          fontSize: 13.sp,
+                          color: isDarkMode ? AppColors.white : AppColors.black,
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                  addVerticalSpace(30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "Save as beneficiary",
-                        style: TextStyle(
-                            fontFamily: "DMSans",
-                            fontSize: 13.sp,
-                            color:
-                                isDarkMode ? AppColors.white : AppColors.black,
-                            fontWeight: FontWeight.w700),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Save as beneficiary",
+                            style: TextStyle(
+                                fontFamily: "DMSans",
+                                fontSize: 13.sp,
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.black,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          addVerticalSpace(9.h),
+                          Text(
+                            "We will save this Account for next time",
+                            style: TextStyle(
+                                fontFamily: "DMSans",
+                                fontSize: 10.sp,
+                                color: isDarkMode
+                                    ? AppColors.semi_white.withOpacity(0.5)
+                                    : AppColors.greyText,
+                                fontWeight: FontWeight.w400),
+                          )
+                        ],
                       ),
-                      Text(
-                        "We will save this Account for next time",
-                        style: TextStyle(
-                            fontFamily: "DMSans",
-                            fontSize: 10.sp,
-                            color: isDarkMode
-                                ? AppColors.white
-                                : AppColors.greyText,
-                            fontWeight: FontWeight.w400),
-                      )
+                      CupertinoSwitch(
+                          activeColor: AppColors.primaryColor,
+                          value: true,
+                          onChanged: (value) {})
                     ],
                   ),
-                  CupertinoSwitch(
-                      activeColor: AppColors.primaryColor,
-                      value: true,
-                      onChanged: (value) {})
                 ],
               ),
-              addVerticalSpace(250.h),
-              Row(
-                children: [
-                  Container(
-                    width: 190.w,
-                    child: CustomButton(
-                      title: "Continue",
-                      onTap: () {
-                        Get.to(() => TransactionDetailsScreen());
-                      },
-                    ),
-                  ),
-                  addHorizontalSpace(8.w),
-                  Expanded(
-                      child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: isDarkMode
-                            ? AppColors.inputBackgroundColor
-                            : AppColors.black,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Center(
-                      child: Text(
-                        "Go Back",
-                        style: TextStyle(
-                            fontFamily: "DMSans", color: AppColors.white),
-                      ),
-                    ),
-                  ))
-                ],
-              ),
-            ],
-          ),
-        ),
-      )),
+            ),
+          )),
     );
   }
 }

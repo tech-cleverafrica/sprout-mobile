@@ -82,6 +82,7 @@ class CustomDropdownButtonFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Container(
       margin: margin,
       child: Column(
@@ -101,7 +102,10 @@ class CustomDropdownButtonFormField extends StatelessWidget {
             child: DropdownButtonFormField2(
               dropdownMaxHeight: MediaQuery.of(context).size.height * 0.5,
               scrollbarAlwaysShow: true,
-              icon: Icon(Icons.keyboard_arrow_down),
+              icon: Icon(
+                Icons.keyboard_arrow_down,
+                color: isDarkMode ? AppColors.white : AppColors.black,
+              ),
               decoration: InputDecoration(
                 errorText: errorText,
                 border: OutlineInputBorder(

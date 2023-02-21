@@ -34,37 +34,47 @@ class PinPage extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
+          bottomNavigationBar: Container(
+            height: 60.h,
+            child: Column(
+              children: [
+                Image.asset(isDarkMode
+                    ? AppImages.sprout_dark
+                    : AppImages.sprout_light),
+                addVerticalSpace(10.h),
+                Text("Forgotten Pin?",
+                    style: TextStyle(
+                      fontFamily: "DMSans",
+                      fontSize: 12.sp,
+                      fontStyle: FontStyle.italic,
+                      color: isDarkMode ? AppColors.grey : AppColors.greyText,
+                    ))
+              ],
+            ),
+          ),
           body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            getHeader(isDarkMode),
-            addVerticalSpace(15.h),
-            Center(
-              child: Text(
-                "Enter PIN",
-                style: Theme.of(context).textTheme.headline1,
+            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  getHeader(isDarkMode),
+                  addVerticalSpace(15.h),
+                  Center(
+                    child: Text(
+                      "Enter PIN",
+                      style: Theme.of(context).textTheme.headline1,
+                    ),
+                  ),
+                  addVerticalSpace(40.h),
+                  buildPinRow(),
+                  addVerticalSpace(80.h),
+                  buildnumberPad(isDarkMode),
+                  addVerticalSpace(30.h),
+                ],
               ),
             ),
-            addVerticalSpace(40.h),
-            buildPinRow(),
-            addVerticalSpace(80.h),
-            buildnumberPad(isDarkMode),
-            addVerticalSpace(30.h),
-            Image.asset(
-                isDarkMode ? AppImages.sprout_dark : AppImages.sprout_light),
-            addVerticalSpace(10.h),
-            Text("Forgotten Pin?",
-                style: TextStyle(
-                  fontFamily: "DMSans",
-                  fontSize: 12.sp,
-                  fontStyle: FontStyle.italic,
-                  color: isDarkMode ? AppColors.grey : AppColors.greyText,
-                ))
-          ],
-        ),
-      )),
+          )),
     );
   }
 

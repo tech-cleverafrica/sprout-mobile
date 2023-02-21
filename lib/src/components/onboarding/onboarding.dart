@@ -43,7 +43,7 @@ class _OnboardingState extends State<Onboarding> {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 350.h,
+                            height: 394.h,
                           ),
                           Container(
                             width: 305.w,
@@ -53,16 +53,22 @@ class _OnboardingState extends State<Onboarding> {
                                 style: theme.textTheme.headline1),
                           ),
                           SizedBox(
-                            height: 16.h,
+                            height: 12.h,
                           ),
                           Container(
                             width: 271.w,
                             child: Text(
                                 "Access all business payment solutions like contactless pos, scheduled payments, transfers",
                                 textAlign: TextAlign.center,
-                                style: theme.textTheme.bodyText2),
+                                style: TextStyle(
+                                    fontFamily: "DMSans",
+                                    fontSize: 12.sp,
+                                    color: isDarkMode
+                                        ? AppColors.semi_white
+                                        : AppColors.black,
+                                    fontWeight: FontWeight.w400)),
                           ),
-                          SizedBox(height: 30.h),
+                          SizedBox(height: 64.h),
                           isDarkMode
                               ? Container(
                                   child: Row(
@@ -83,7 +89,7 @@ class _OnboardingState extends State<Onboarding> {
                                   ),
                                 ),
                           SizedBox(
-                            height: 20.h,
+                            height: 16.h,
                           ),
                           Column(
                             children: [
@@ -108,7 +114,7 @@ class _OnboardingState extends State<Onboarding> {
                                     ),
                                   )),
                               SizedBox(
-                                height: 10.h,
+                                height: 16.h,
                               ),
                               InkWell(
                                 onTap: () {
@@ -149,7 +155,7 @@ class _OnboardingState extends State<Onboarding> {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 380.h,
+                            height: 418.h,
                           ),
                           Container(
                             width: 305.w,
@@ -160,16 +166,22 @@ class _OnboardingState extends State<Onboarding> {
                             ),
                           ),
                           SizedBox(
-                            height: 16.h,
+                            height: 12.h,
                           ),
                           Container(
                             width: 271.w,
                             child: Text(
                                 "Send money, request money pay bills seamlessly",
                                 textAlign: TextAlign.center,
-                                style: theme.textTheme.bodyText2),
+                                style: TextStyle(
+                                    fontFamily: "DMSans",
+                                    fontSize: 12.sp,
+                                    color: isDarkMode
+                                        ? AppColors.semi_white
+                                        : AppColors.black,
+                                    fontWeight: FontWeight.w400)),
                           ),
-                          SizedBox(height: 30.h),
+                          SizedBox(height: 64.h),
                           isDarkMode
                               ? Container(
                                   child: Row(
@@ -190,7 +202,7 @@ class _OnboardingState extends State<Onboarding> {
                                   ),
                                 ),
                           SizedBox(
-                            height: 20.h,
+                            height: 16.h,
                           ),
                           Column(
                             children: [
@@ -215,7 +227,7 @@ class _OnboardingState extends State<Onboarding> {
                                     ),
                                   )),
                               SizedBox(
-                                height: 10.h,
+                                height: 16.h,
                               ),
                               InkWell(
                                 onTap: () {
@@ -256,7 +268,7 @@ class _OnboardingState extends State<Onboarding> {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 380.h,
+                            height: 422.h,
                           ),
                           Container(
                             width: 305.w,
@@ -265,16 +277,22 @@ class _OnboardingState extends State<Onboarding> {
                                 style: theme.textTheme.headline1),
                           ),
                           SizedBox(
-                            height: 16.h,
+                            height: 12.h,
                           ),
                           Container(
                             width: 271.w,
                             child: Text(
                                 "We comply with all guideline by regulators to protect your funds",
                                 textAlign: TextAlign.center,
-                                style: theme.textTheme.bodyText2),
+                                style: TextStyle(
+                                    fontFamily: "DMSans",
+                                    fontSize: 12.sp,
+                                    color: isDarkMode
+                                        ? AppColors.semi_white
+                                        : AppColors.black,
+                                    fontWeight: FontWeight.w400)),
                           ),
-                          SizedBox(height: 30.h),
+                          SizedBox(height: 64.h),
                           isDarkMode
                               ? Container(
                                   child: Row(
@@ -295,7 +313,7 @@ class _OnboardingState extends State<Onboarding> {
                                   ),
                                 ),
                           SizedBox(
-                            height: 20.h,
+                            height: 16.h,
                           ),
                           Column(
                             children: [
@@ -320,7 +338,7 @@ class _OnboardingState extends State<Onboarding> {
                                     ),
                                   )),
                               SizedBox(
-                                height: 10.h,
+                                height: 16.h,
                               ),
                               InkWell(
                                 onTap: () {
@@ -362,7 +380,7 @@ class _OnboardingState extends State<Onboarding> {
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 380.h,
+                          height: 422.h,
                         ),
                         Container(
                           width: 305.w,
@@ -378,9 +396,15 @@ class _OnboardingState extends State<Onboarding> {
                           child: Text(
                               "Access all business payment solutions like contactless pos, scheduled payments, transfers",
                               textAlign: TextAlign.center,
-                              style: theme.textTheme.bodyText2),
+                              style: TextStyle(
+                                  fontFamily: "DMSans",
+                                  fontSize: 12.sp,
+                                  color: isDarkMode
+                                      ? AppColors.semi_white
+                                      : AppColors.black,
+                                  fontWeight: FontWeight.w400)),
                         ),
-                        SizedBox(height: 30.h),
+                        SizedBox(height: 64.h),
                         isDarkMode
                             ? Container(
                                 child: Row(

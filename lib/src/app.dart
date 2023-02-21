@@ -27,7 +27,7 @@ class App extends StatelessWidget {
           reverseCurve: Curves.fastLinearToSlowEaseIn,
           dismissOtherOnShow: true,
           child: ScreenUtilInit(
-              designSize: Size(275, 812),
+              designSize: Size(375, 840),
               minTextAdapt: true,
               splitScreenMode: true,
               builder: (context, child) {

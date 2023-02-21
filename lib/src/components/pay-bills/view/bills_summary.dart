@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
@@ -109,11 +106,11 @@ class BillSummaryPage extends StatelessWidget {
                   ),
                 ),
               ),
-              addVerticalSpace(20.h),
+              addVerticalSpace(36.h),
               Row(
                 children: [
                   Container(
-                    width: 190.w,
+                    width: 246.w,
                     child: CustomButton(
                         title: "Send Money",
                         onTap: () {

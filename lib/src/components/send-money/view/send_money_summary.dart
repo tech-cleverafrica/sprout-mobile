@@ -120,11 +120,11 @@ class SendMoneySummaryScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              addVerticalSpace(20.h),
+              addVerticalSpace(36.h),
               Row(
                 children: [
                   Container(
-                    width: 190.w,
+                    width: 246.w,
                     child: CustomButton(
                         title: "Send Money",
                         onTap: () {

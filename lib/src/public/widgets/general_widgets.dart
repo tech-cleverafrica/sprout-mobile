@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,6 +8,11 @@ import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
 
+import '../../components/cards/view/cards.dart';
+import '../../components/home/view/homepage.dart';
+import '../../components/invoice/view/invoice.dart';
+import '../../components/profile/view/profile.dart';
+import '../../components/save/view/savings.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/helper_widgets.dart';
 
@@ -53,7 +60,7 @@ getHeader(bool isDarkMode) {
               height: 20,
               color: isDarkMode ? AppColors.white : AppColors.black,
             ),
-            addHorizontalSpace(10.w),
+            addHorizontalSpace(24.w),
             SvgPicture.asset(
               AppSvg.notification,
               color: isDarkMode ? AppColors.white : AppColors.black,
@@ -166,7 +173,7 @@ class DecisionButton extends StatelessWidget {
     return Row(
       children: [
         Container(
-          width: 190.w,
+          width: 246.w,
           child: CustomButton(title: buttonText, onTap: onTap),
         ),
         addHorizontalSpace(8.w),
@@ -186,5 +193,110 @@ class DecisionButton extends StatelessWidget {
         ))
       ],
     );
+  }
+}
+
+class BottomNavigation extends StatefulWidget {
+  const BottomNavigation({super.key});
+
+  @override
+  State<BottomNavigation> createState() => _BottomNavigationState();
+}
+
+class _BottomNavigationState extends State<BottomNavigation> {
+  int currentTabIndex = 0;
+
+  List bottomNavPages = [
+    HomePage(),
+    SavingsScreen(),
+    InvoiceScreen(),
+    ProfileScreen()
+  ];
+  @override
+  Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    return Container(
+      height: Platform.isIOS ? 55.0 : 66.0,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: isDarkMode ? AppColors.greyDot : AppColors.white),
+      padding: EdgeInsets.symmetric(horizontal: 4.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          buildMaterialButton(
+              "Home", AppSvg.home, AppSvg.home_filled, 0, isDarkMode),
+          // buildMaterialButton("Cards", AppSvg.cards, AppSvg.cards, 1),
+          buildMaterialButton(
+              "Savings", AppSvg.savings, AppSvg.savings, 1, isDarkMode),
+          buildMaterialButton(
+              "Invoice", AppSvg.invoice, AppSvg.invoice, 2, isDarkMode),
+          buildMaterialButton(
+              "Manage", AppSvg.profile, AppSvg.profile, 3, isDarkMode),
+        ],
+      ),
+    );
+  }
+
+  buildMaterialButton(String title, String image, String imageFilled,
+      int position, bool isDark) {
+    return StreamBuilder<int>(builder: (context, snapshot) {
+      return Expanded(
+        child: Container(
+          child: InkWell(
+            splashColor: AppColors.transparent,
+            highlightColor: AppColors.transparent,
+            onTap: () => setState(() => currentTabIndex = position),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(height: 5.0),
+                isDark
+                    ? SvgPicture.asset(
+                        currentTabIndex == position ? imageFilled : image,
+                        width: 18.0,
+                        height: 20.0,
+                        color: currentTabIndex == position
+                            ? AppColors.primaryColor
+                            : AppColors.greyBg,
+                      )
+                    : SvgPicture.asset(
+                        currentTabIndex == position ? imageFilled : image,
+                        width: 18.0,
+                        height: 20.0,
+                        color: currentTabIndex == position
+                            ? AppColors.primaryColor
+                            : AppColors.greyText,
+                      ),
+                SizedBox(height: 8.0),
+                isDark
+                    ? Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 12.0.sp,
+                          fontFamily: "DMSans",
+                          color: currentTabIndex == position
+                              ? AppColors.white
+                              : AppColors.greyText,
+                        ),
+                      )
+                    : Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 12.0.sp,
+                          fontFamily: "DMSans",
+                          color: currentTabIndex == position
+                              ? AppColors.black
+                              : AppColors.greyText,
+                        ),
+                      ),
+              ],
+            ),
+          ),
+        ),
+      );
+    });
   }
 }

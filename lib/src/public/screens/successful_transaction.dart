@@ -33,38 +33,38 @@ class SuccessfultransactionScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               addVerticalSpace(60.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    "Successful",
-                    style: TextStyle(
-                        color: AppColors.white,
-                        fontFamily: "DMSans",
-                        fontSize: 22.sp,
-                        fontWeight: FontWeight.w700),
-                  ),
-                  addHorizontalSpace(70.w),
-                  InkWell(
-                    onTap: () {},
-                    child: Container(
-                      height: 28,
-                      width: 28,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: AppColors.white,
-                            width: 1.5,
-                          )),
-                      child: Center(
-                          child: Icon(
-                        Icons.more_horiz,
-                        color: AppColors.white,
-                      )),
-                    ),
-                  )
-                ],
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.end,
+              //   children: [
+              Text(
+                "Successful",
+                style: TextStyle(
+                    color: AppColors.white,
+                    fontFamily: "DMSans",
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.w700),
               ),
+              //     addHorizontalSpace(70.w),
+              //     InkWell(
+              //       onTap: () {},
+              //       child: Container(
+              //         height: 28,
+              //         width: 28,
+              //         decoration: BoxDecoration(
+              //             shape: BoxShape.circle,
+              //             border: Border.all(
+              //               color: AppColors.white,
+              //               width: 1.5,
+              //             )),
+              //         child: Center(
+              //             child: Icon(
+              //           Icons.more_horiz,
+              //           color: AppColors.white,
+              //         )),
+              //       ),
+              //     )
+              //   ],
+              // ),
               addVerticalSpace(26.h),
               Container(
                   height: 112.h,

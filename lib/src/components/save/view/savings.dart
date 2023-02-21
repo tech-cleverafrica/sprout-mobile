@@ -25,7 +25,7 @@ class SavingsScreen extends StatelessWidget {
               getHeader(isDarkMode),
               addVerticalSpace(15.h),
               getDisplaySwitch(isDarkMode),
-              addVerticalSpace(20.h),
+              addVerticalSpace(16.h),
               Container(
                 width: double.infinity,
                 //height: 284.h,
@@ -36,19 +36,23 @@ class SavingsScreen extends StatelessWidget {
                         image: AssetImage(AppImages.padlock),
                         fit: BoxFit.cover)),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     addVerticalSpace(50.h),
-                    Container(
-                        width: 200.w,
-                        child: Text(
-                          "Save with Sprout",
-                          style: TextStyle(
-                              fontFamily: "DMSans",
-                              fontSize: 44.sp,
-                              letterSpacing: 1,
-                              color: AppColors.white,
-                              fontWeight: FontWeight.w900),
-                        )),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Container(
+                          width: 200.w,
+                          child: Text(
+                            "Save with Sprout",
+                            style: TextStyle(
+                                fontFamily: "DMSans",
+                                fontSize: 44.sp,
+                                letterSpacing: 1,
+                                color: AppColors.white,
+                                fontWeight: FontWeight.w700),
+                          )),
+                    ),
                     addVerticalSpace(10.h),
                     Container(
                         height: 150.h,
@@ -66,7 +70,7 @@ class SavingsScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                width: 90.w,
+                                width: 144.w,
                                 child: Text(
                                   "Lorem ipsum dolor sit amet consectetur. Placerat lorem neque risus.",
                                   style: TextStyle(
@@ -77,7 +81,7 @@ class SavingsScreen extends StatelessWidget {
                                 ),
                               ),
                               Container(
-                                  width: 100.w,
+                                  width: 122.w,
                                   child: CustomButton(
                                     title: "Get Started",
                                     color: AppColors.black,
