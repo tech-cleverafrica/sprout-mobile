@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/home/view/all_transactions.dart';
 import 'package:sprout_mobile/src/components/home/view/widgets.dart';
 import 'package:sprout_mobile/src/components/invoice/view/invoice.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
@@ -56,19 +57,23 @@ class _HomePageState extends State<HomePage> {
             image: DecorationImage(
                 image: AssetImage(AppImages.invoice), fit: BoxFit.contain)),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             addVerticalSpace(50.h),
-            Container(
-                width: 200.w,
-                child: Text(
-                  "Generate Invoices",
-                  style: TextStyle(
-                      fontFamily: "DMSans",
-                      fontSize: 44.sp,
-                      letterSpacing: 1,
-                      color: AppColors.white,
-                      fontWeight: FontWeight.w900),
-                )),
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Container(
+                  width: 200.w,
+                  child: Text(
+                    "Generate Invoices",
+                    style: TextStyle(
+                        fontFamily: "Mont",
+                        fontSize: 44.sp,
+                        letterSpacing: 1,
+                        color: AppColors.white,
+                        fontWeight: FontWeight.w900),
+                  )),
+            ),
             addVerticalSpace(10.h),
             Container(
                 height: 150.h,
@@ -341,17 +346,22 @@ class _HomePageState extends State<HomePage> {
                         : AppColors.greyText,
                     fontWeight: FontWeight.w500),
               ),
-              Text(
-                "Sell All",
-                style: TextStyle(
-                    fontFamily: "DMSans",
-                    fontStyle: FontStyle.italic,
-                    decoration: TextDecoration.underline,
-                    fontSize: 12.sp,
-                    color: isDarkMode
-                        ? AppColors.inputLabelColor
-                        : AppColors.greyText,
-                    fontWeight: FontWeight.w500),
+              InkWell(
+                onTap: () {
+                  Get.to(() => AlltransactionScreen());
+                },
+                child: Text(
+                  "See All",
+                  style: TextStyle(
+                      fontFamily: "DMSans",
+                      fontStyle: FontStyle.italic,
+                      decoration: TextDecoration.underline,
+                      fontSize: 12.sp,
+                      color: isDarkMode
+                          ? AppColors.inputLabelColor
+                          : AppColors.greyText,
+                      fontWeight: FontWeight.w500),
+                ),
               )
             ],
           ),

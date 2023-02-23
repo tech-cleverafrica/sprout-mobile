@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -13,18 +14,34 @@ import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import '../../../utils/app_colors.dart';
 
 class BottomNav extends StatefulWidget {
-  const BottomNav({Key? key}) : super(key: key);
+  int? index;
+  BottomNav({Key? key, this.index}) : super(key: key);
 
   @override
   State<BottomNav> createState() => _BottomNavState();
 }
 
 class _BottomNavState extends State<BottomNav> {
-  int currentTabIndex = 0;
+  int? currentTabIndex;
+
+  @override
+  void initState() {
+    print(widget.index);
+    if (widget.index != null) {
+      setState(() {
+        currentTabIndex = widget.index!;
+      });
+    } else {
+      setState(() {
+        currentTabIndex = 0;
+      });
+    }
+
+    super.initState();
+  }
 
   List bottomNavPages = [
     HomePage(),
-    CardsScreen(),
     SavingsScreen(),
     InvoiceScreen(),
     ProfileScreen()
@@ -34,7 +51,7 @@ class _BottomNavState extends State<BottomNav> {
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      body: bottomNavPages[currentTabIndex],
+      body: bottomNavPages[currentTabIndex!],
       bottomNavigationBar: BottomAppBar(
         color: isDarkMode ? AppColors.black : AppColors.white,
         child: Padding(
@@ -53,11 +70,11 @@ class _BottomNavState extends State<BottomNav> {
                     "Home", AppSvg.home, AppSvg.home_filled, 0, isDarkMode),
                 // buildMaterialButton("Cards", AppSvg.cards, AppSvg.cards, 1),
                 buildMaterialButton(
-                    "Savings", AppSvg.savings, AppSvg.savings, 2, isDarkMode),
+                    "Savings", AppSvg.savings, AppSvg.savings, 1, isDarkMode),
                 buildMaterialButton(
-                    "Invoice", AppSvg.invoice, AppSvg.invoice, 3, isDarkMode),
+                    "Invoice", AppSvg.invoice, AppSvg.invoice, 2, isDarkMode),
                 buildMaterialButton(
-                    "Manage", AppSvg.profile, AppSvg.profile, 4, isDarkMode),
+                    "Manage", AppSvg.profile, AppSvg.profile, 3, isDarkMode),
               ],
             ),
           ),
@@ -74,7 +91,20 @@ class _BottomNavState extends State<BottomNav> {
           child: InkWell(
             splashColor: AppColors.transparent,
             highlightColor: AppColors.transparent,
-            onTap: () => setState(() => currentTabIndex = position),
+            //  onTap: () => setState(() => currentTabIndex = position),
+            onTap: () {
+              log(widget.index.toString());
+              if (widget.index != null) {
+                setState(() {
+                  currentTabIndex = widget.index!;
+                  widget.index = null;
+                });
+              } else {
+                setState(() {
+                  currentTabIndex = position;
+                });
+              }
+            },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,

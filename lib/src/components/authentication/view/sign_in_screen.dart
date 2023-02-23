@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/authentication/view/sign_up_start.dart';
 import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
@@ -8,6 +9,7 @@ import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_password_field.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
+import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -29,6 +31,7 @@ class SignInScreen extends StatelessWidget {
               Center(
                   child: Image.asset(
                 isDarkMode ? AppImages.sprout_dark : AppImages.sprout_light,
+                height: 27.h,
               )),
               SizedBox(
                 height: 24.h,
@@ -139,8 +142,8 @@ class SignInScreen extends StatelessWidget {
               Center(
                   child: Column(
                 children: [
-                  Image.asset(
-                    AppImages.biometric,
+                  SvgPicture.asset(
+                    AppSvg.fingerprint,
                     height: 49,
                     width: 49,
                     color: isDarkMode ? AppColors.white : AppColors.black,

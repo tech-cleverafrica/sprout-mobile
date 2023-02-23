@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/pay-bills/view/cable/cable_tv.dart';
 import 'package:sprout_mobile/src/components/pay-bills/view/internet/select_bundle.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
+import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 
 import '../../../../public/widgets/custom_text_form_field.dart';
@@ -39,7 +40,7 @@ class InternetDataScreen extends StatelessWidget {
               BillsCard(
                 title: "Airtel Bundle",
                 subTitle: "Internet Data",
-                image: AppImages.airtel,
+                image: AppSvg.airtel,
                 onTap: () {
                   Get.to(() => SelectBundleScreen());
                 },
@@ -48,7 +49,7 @@ class InternetDataScreen extends StatelessWidget {
               BillsCard(
                 title: "Mtn Bundle",
                 subTitle: "Internet Data",
-                image: AppImages.mtn,
+                image: AppSvg.mtn,
                 onTap: () {
                   Get.to(() => SelectBundleScreen());
                 },
@@ -57,7 +58,7 @@ class InternetDataScreen extends StatelessWidget {
               BillsCard(
                 title: "9Mobile Bundle",
                 subTitle: "Internet Data",
-                image: AppImages.nine_mobile,
+                image: AppSvg.nmobile,
                 onTap: () {
                   Get.to(() => SelectBundleScreen());
                 },
@@ -66,7 +67,7 @@ class InternetDataScreen extends StatelessWidget {
               BillsCard(
                 title: "Glo Bundle",
                 subTitle: "Internet Data",
-                image: AppImages.glo,
+                image: AppSvg.glo,
                 onTap: () {
                   Get.to(() => SelectBundleScreen());
                 },

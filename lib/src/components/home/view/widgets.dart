@@ -43,9 +43,10 @@ getHomeHeader(bool isDarkMode) {
         ),
         Row(
           children: [
-            Image.asset(
-              AppImages.question,
-              height: 20,
+            SvgPicture.asset(
+              AppSvg.upload,
+              height: 18,
+              width: 20,
               color: isDarkMode ? AppColors.white : AppColors.black,
             ),
             addHorizontalSpace(24.w),

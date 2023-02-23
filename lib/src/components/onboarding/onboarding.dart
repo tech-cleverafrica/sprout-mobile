@@ -50,7 +50,13 @@ class _OnboardingState extends State<Onboarding> {
                             child: Text(
                                 "One app for all your payments and business needs",
                                 textAlign: TextAlign.center,
-                                style: theme.textTheme.headline1),
+                                style: TextStyle(
+                                    fontFamily: "Mont",
+                                    fontSize: 24.sp,
+                                    fontWeight: FontWeight.w900,
+                                    color: isDarkMode
+                                        ? AppColors.white
+                                        : AppColors.black)),
                           ),
                           SizedBox(
                             height: 12.h,
@@ -159,11 +165,15 @@ class _OnboardingState extends State<Onboarding> {
                           ),
                           Container(
                             width: 305.w,
-                            child: Text(
-                              "Banking that sorts your lifestyle",
-                              textAlign: TextAlign.center,
-                              style: theme.textTheme.headline1,
-                            ),
+                            child: Text("Banking that sorts your lifestyle",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: "Mont",
+                                    fontSize: 24.sp,
+                                    fontWeight: FontWeight.w900,
+                                    color: isDarkMode
+                                        ? AppColors.white
+                                        : AppColors.black)),
                           ),
                           SizedBox(
                             height: 12.h,
@@ -274,7 +284,13 @@ class _OnboardingState extends State<Onboarding> {
                             width: 305.w,
                             child: Text("Secured Service",
                                 textAlign: TextAlign.center,
-                                style: theme.textTheme.headline1),
+                                style: TextStyle(
+                                    fontFamily: "Mont",
+                                    fontSize: 24.sp,
+                                    fontWeight: FontWeight.w900,
+                                    color: isDarkMode
+                                        ? AppColors.white
+                                        : AppColors.black)),
                           ),
                           SizedBox(
                             height: 12.h,
@@ -386,7 +402,13 @@ class _OnboardingState extends State<Onboarding> {
                           width: 305.w,
                           child: Text("Here for business",
                               textAlign: TextAlign.center,
-                              style: theme.textTheme.headline1),
+                              style: TextStyle(
+                                  fontFamily: "Mont",
+                                  fontSize: 24.sp,
+                                  fontWeight: FontWeight.w900,
+                                  color: isDarkMode
+                                      ? AppColors.white
+                                      : AppColors.black)),
                         ),
                         SizedBox(
                           height: 16.h,

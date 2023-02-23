@@ -34,7 +34,7 @@ class SavingsScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                     image: DecorationImage(
                         image: AssetImage(AppImages.padlock),
-                        fit: BoxFit.cover)),
+                        fit: BoxFit.fitHeight)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -46,11 +46,10 @@ class SavingsScreen extends StatelessWidget {
                           child: Text(
                             "Save with Sprout",
                             style: TextStyle(
-                                fontFamily: "DMSans",
+                                fontFamily: "Mont",
                                 fontSize: 44.sp,
-                                letterSpacing: 1,
                                 color: AppColors.white,
-                                fontWeight: FontWeight.w700),
+                                fontWeight: FontWeight.w900),
                           )),
                     ),
                     addVerticalSpace(10.h),

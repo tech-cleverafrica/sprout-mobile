@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
@@ -55,9 +56,9 @@ getHeader(bool isDarkMode) {
         ),
         Row(
           children: [
-            Image.asset(
-              AppImages.question,
-              height: 20,
+            SvgPicture.asset(
+              AppSvg.upload,
+              height: 18,
               color: isDarkMode ? AppColors.white : AppColors.black,
             ),
             addHorizontalSpace(24.w),
@@ -206,35 +207,33 @@ class BottomNavigation extends StatefulWidget {
 class _BottomNavigationState extends State<BottomNavigation> {
   int currentTabIndex = 0;
 
-  List bottomNavPages = [
-    HomePage(),
-    SavingsScreen(),
-    InvoiceScreen(),
-    ProfileScreen()
-  ];
+  List pages = [HomePage(), SavingsScreen(), InvoiceScreen(), ProfileScreen()];
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    return Container(
-      height: Platform.isIOS ? 55.0 : 66.0,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          color: isDarkMode ? AppColors.greyDot : AppColors.white),
-      padding: EdgeInsets.symmetric(horizontal: 4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          buildMaterialButton(
-              "Home", AppSvg.home, AppSvg.home_filled, 0, isDarkMode),
-          // buildMaterialButton("Cards", AppSvg.cards, AppSvg.cards, 1),
-          buildMaterialButton(
-              "Savings", AppSvg.savings, AppSvg.savings, 1, isDarkMode),
-          buildMaterialButton(
-              "Invoice", AppSvg.invoice, AppSvg.invoice, 2, isDarkMode),
-          buildMaterialButton(
-              "Manage", AppSvg.profile, AppSvg.profile, 3, isDarkMode),
-        ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Container(
+        height: Platform.isIOS ? 55.0 : 66.0,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: isDarkMode ? AppColors.greyDot : AppColors.white),
+        padding: EdgeInsets.symmetric(horizontal: 4.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            buildMaterialButton(
+                "Home", AppSvg.home, AppSvg.home_filled, 0, isDarkMode),
+            // buildMaterialButton("Cards", AppSvg.cards, AppSvg.cards, 1),
+            buildMaterialButton(
+                "Savings", AppSvg.savings, AppSvg.savings, 1, isDarkMode),
+            buildMaterialButton(
+                "Invoice", AppSvg.invoice, AppSvg.invoice, 2, isDarkMode),
+            buildMaterialButton(
+                "Manage", AppSvg.profile, AppSvg.profile, 3, isDarkMode),
+          ],
+        ),
       ),
     );
   }
@@ -247,7 +246,24 @@ class _BottomNavigationState extends State<BottomNavigation> {
           child: InkWell(
             splashColor: AppColors.transparent,
             highlightColor: AppColors.transparent,
-            onTap: () => setState(() => currentTabIndex = position),
+            //onTap: () => setState(() => currentTabIndex = position),
+            onTap: () {
+              switch (position) {
+                case 0:
+                  Get.to(BottomNav(index: 0));
+                  break;
+                case 1:
+                  Get.to(BottomNav(index: 1));
+                  break;
+                case 2:
+                  Get.to(BottomNav(index: 2));
+                  break;
+                case 3:
+                  Get.to(BottomNav(index: 3));
+                  break;
+                default:
+              }
+            },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,

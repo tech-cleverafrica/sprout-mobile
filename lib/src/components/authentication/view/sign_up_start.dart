@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/authentication/view/sign_in_screen.dart';
 import 'package:sprout_mobile/src/components/authentication/view/sign_up_personal.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
+import 'package:sprout_mobile/src/utils/app_svgs.dart';
 
 import '../../../utils/app_images.dart';
 import '../../../utils/helper_widgets.dart';
@@ -29,12 +31,12 @@ class SignUpStart extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    addVerticalSpace(20.h),
                     Center(
                         child: Image.asset(
                       isDarkMode
                           ? AppImages.sprout_dark
                           : AppImages.sprout_light,
+                      height: 27.h,
                     )),
                     addVerticalSpace(30.h),
                     TypeCard(

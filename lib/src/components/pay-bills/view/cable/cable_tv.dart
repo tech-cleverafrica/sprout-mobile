@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/pay-bills/view/cable/select_package.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
@@ -82,7 +83,7 @@ class BillsCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Image.asset(
+                  SvgPicture.asset(
                     image!,
                     height: 40,
                     width: 40,

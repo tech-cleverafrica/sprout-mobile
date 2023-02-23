@@ -1,7 +1,11 @@
 class AppSvg {
   static const String path = "assets/svgs/";
   static const String delete = path + "Delete.svg";
+  static const String sprout_light = path + "sprout-light.svg";
+  static const String sprout_dark = path + "dark_sp.svg";
+
   static const String notification = path + "notification.svg";
+  static const String fingerprint = path + "finger.svg";
   static const String usa = path + "usa.svg";
   static const String nigeria = path + "nigeria.svg";
   static const String copy = path + "copy.svg";
@@ -51,4 +55,11 @@ class AppSvg {
   static const String faqs = path + 'faqs.svg';
   static const String ccs = path + 'ccs.svg';
   static const String onboarding1 = path + 'onboarding1.svg';
+
+  static const String glo = path + 'glo.svg';
+  static const String airtel = path + 'airtel.svg';
+  static const String nmobile = path + '9mobile.svg';
+  static const String mtn = path + 'mtn.svg';
+
+  static const String upload = path + 'upload.svg';
 }

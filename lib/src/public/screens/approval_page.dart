@@ -113,7 +113,10 @@ class ApprovalScreen extends StatelessWidget {
                 ],
               ),
               addVerticalSpace(20.h),
-              Image.asset(AppImages.sprout_dark),
+              Image.asset(
+                AppImages.sprout_dark,
+                height: 27.h,
+              )
             ],
           ),
         ),
