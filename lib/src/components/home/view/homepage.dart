@@ -63,13 +63,12 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.only(left: 20),
               child: Container(
-                  width: 200.w,
+                  width: 205.w,
                   child: Text(
                     "Generate Invoices",
                     style: TextStyle(
                         fontFamily: "Mont",
                         fontSize: 44.sp,
-                        letterSpacing: 1,
                         color: AppColors.white,
                         fontWeight: FontWeight.w900),
                   )),

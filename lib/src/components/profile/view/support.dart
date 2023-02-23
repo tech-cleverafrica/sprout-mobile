@@ -41,8 +41,10 @@ class SupportScreen extends StatelessWidget {
               ),
               addVerticalSpace(10.h),
               Divider(
-                thickness: 0.4,
-                color: isDarkMode ? AppColors.white : AppColors.black,
+                thickness: 0.3,
+                color: isDarkMode
+                    ? AppColors.semi_white.withOpacity(0.3)
+                    : AppColors.inputLabelColor.withOpacity(0.6),
               ),
               addVerticalSpace(10.h),
               InkWell(
@@ -65,9 +67,11 @@ class SupportScreen extends StatelessWidget {
               ),
               addVerticalSpace(10.h),
               Divider(
-                thickness: 0.4,
-                color: isDarkMode ? AppColors.white : AppColors.black,
-              )
+                thickness: 0.3,
+                color: isDarkMode
+                    ? AppColors.semi_white.withOpacity(0.3)
+                    : AppColors.inputLabelColor.withOpacity(0.6),
+              ),
             ],
           ),
         ),
