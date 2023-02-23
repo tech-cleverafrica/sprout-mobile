@@ -83,7 +83,7 @@ class BillsCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  SvgPicture.asset(
+                  Image.asset(
                     image!,
                     height: 40,
                     width: 40,

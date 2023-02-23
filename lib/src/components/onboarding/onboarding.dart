@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/authentication/view/sign_in_screen.dart';
 import 'package:sprout_mobile/src/components/authentication/view/sign_up_start.dart';
 import 'package:sprout_mobile/src/components/onboarding/onboarding_content_model.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
+import 'package:sprout_mobile/src/utils/app_images.dart';
+import 'package:sprout_mobile/src/utils/app_svgs.dart';
 
 import '../../theme/theme_service.dart';
 
@@ -43,7 +46,15 @@ class _OnboardingState extends State<Onboarding> {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 394.h,
+                            height: 122.h,
+                          ),
+                          Image.asset(
+                            AppImages.onboarding1,
+                            height: 150.h,
+                            width: 150.w,
+                          ),
+                          SizedBox(
+                            height: 122.h,
                           ),
                           Container(
                             width: 305.w,
@@ -161,7 +172,15 @@ class _OnboardingState extends State<Onboarding> {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 418.h,
+                            height: 134.h,
+                          ),
+                          Image.asset(
+                            AppImages.onboarding2,
+                            height: 150.h,
+                            width: 150.w,
+                          ),
+                          SizedBox(
+                            height: 134.h,
                           ),
                           Container(
                             width: 305.w,
@@ -278,7 +297,15 @@ class _OnboardingState extends State<Onboarding> {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 422.h,
+                            height: 134.h,
+                          ),
+                          Image.asset(
+                            AppImages.onboarding3,
+                            height: 150.h,
+                            width: 150.w,
+                          ),
+                          SizedBox(
+                            height: 134.h,
                           ),
                           Container(
                             width: 305.w,
@@ -396,7 +423,15 @@ class _OnboardingState extends State<Onboarding> {
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 422.h,
+                          height: 134.h,
+                        ),
+                        Image.asset(
+                          AppImages.onboarding4,
+                          height: 150.h,
+                          width: 150.w,
+                        ),
+                        SizedBox(
+                          height: 134.h,
                         ),
                         Container(
                           width: 305.w,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/pay-bills/view/cable/cable_tv.dart';
 import 'package:sprout_mobile/src/components/pay-bills/view/internet/select_bundle.dart';
@@ -37,7 +38,7 @@ class InternetDataScreen extends StatelessWidget {
                     : AppColors.grey,
               ),
               addVerticalSpace(35.h),
-              BillsCard(
+              InternetBillsCard(
                 title: "Airtel Bundle",
                 subTitle: "Internet Data",
                 image: AppSvg.airtel,
@@ -46,7 +47,7 @@ class InternetDataScreen extends StatelessWidget {
                 },
               ),
               addVerticalSpace(10.h),
-              BillsCard(
+              InternetBillsCard(
                 title: "Mtn Bundle",
                 subTitle: "Internet Data",
                 image: AppSvg.mtn,
@@ -55,7 +56,7 @@ class InternetDataScreen extends StatelessWidget {
                 },
               ),
               addVerticalSpace(10.h),
-              BillsCard(
+              InternetBillsCard(
                 title: "9Mobile Bundle",
                 subTitle: "Internet Data",
                 image: AppSvg.nmobile,
@@ -64,7 +65,7 @@ class InternetDataScreen extends StatelessWidget {
                 },
               ),
               addVerticalSpace(10.h),
-              BillsCard(
+              InternetBillsCard(
                 title: "Glo Bundle",
                 subTitle: "Internet Data",
                 image: AppSvg.glo,
@@ -77,5 +78,74 @@ class InternetDataScreen extends StatelessWidget {
         ),
       ),
     ));
+  }
+}
+
+class InternetBillsCard extends StatelessWidget {
+  const InternetBillsCard(
+      {Key? key, this.title, this.subTitle, this.image, this.onTap})
+      : super(key: key);
+  final String? title;
+  final String? image;
+  final String? subTitle;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    return Container(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  SvgPicture.asset(
+                    image!,
+                    height: 40,
+                    width: 40,
+                  ),
+                  addHorizontalSpace(5.w),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title!,
+                        style: TextStyle(
+                            fontFamily: "DMSans",
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14.sp,
+                            color:
+                                isDarkMode ? AppColors.white : AppColors.black),
+                      ),
+                      Text(
+                        subTitle!,
+                        style: TextStyle(
+                            fontFamily: "DMSans",
+                            fontWeight: FontWeight.w400,
+                            fontSize: 11.sp,
+                            color: isDarkMode
+                                ? AppColors.greyText
+                                : AppColors.greyText),
+                      )
+                    ],
+                  )
+                ],
+              ),
+              IconButton(
+                  onPressed: onTap,
+                  icon: Icon(
+                    Icons.arrow_forward,
+                    color: isDarkMode
+                        ? AppColors.inputLabelColor
+                        : AppColors.inputLabelColor,
+                  ))
+            ],
+          ),
+          Divider()
+        ],
+      ),
+    );
   }
 }
