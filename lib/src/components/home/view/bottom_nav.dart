@@ -61,7 +61,6 @@ class _BottomNavState extends State<BottomNav> {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
                 color: isDarkMode ? AppColors.greyDot : AppColors.white),
-            padding: EdgeInsets.symmetric(horizontal: 4.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,

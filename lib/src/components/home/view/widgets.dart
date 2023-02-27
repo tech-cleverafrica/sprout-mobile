@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/help/view/complaint.dart';
 import 'package:sprout_mobile/src/components/home/controller/home_controller.dart';
 
 import '../../../utils/app_colors.dart';
@@ -43,11 +44,14 @@ getHomeHeader(bool isDarkMode) {
         ),
         Row(
           children: [
-            SvgPicture.asset(
-              AppSvg.upload,
-              height: 18,
-              width: 20,
-              color: isDarkMode ? AppColors.white : AppColors.black,
+            InkWell(
+              onTap: () => Get.to(() => ComplaintScreen()),
+              child: SvgPicture.asset(
+                AppSvg.upload,
+                height: 18,
+                width: 20,
+                color: isDarkMode ? AppColors.white : AppColors.black,
+              ),
             ),
             addHorizontalSpace(24.w),
             SvgPicture.asset(
@@ -76,7 +80,7 @@ class HistoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 0),
+      padding: EdgeInsets.symmetric(horizontal: 0),
       child: Container(
         width: double.infinity,
         child: Column(
@@ -92,6 +96,8 @@ class HistoryCard extends StatelessWidget {
                     SvgPicture.asset(
                       AppSvg.send,
                       color: AppColors.mainGreen,
+                      height: 18,
+                      width: 18,
                     ),
                     addHorizontalSpace(5.w),
                     Column(
@@ -109,7 +115,7 @@ class HistoryCard extends StatelessWidget {
                         ),
                         addVerticalSpace(5.h),
                         Container(
-                          width: 180.w,
+                          width: MediaQuery.of(context).size.width * .6,
                           child: Text(
                             "Transfer Ref - TSWTAYSSUISPPLNDVD L - ",
                             style: TextStyle(
@@ -123,7 +129,7 @@ class HistoryCard extends StatelessWidget {
                         ),
                         addVerticalSpace(5.h),
                         Container(
-                          width: 180.w,
+                          width: MediaQuery.of(context).size.width * .6,
                           child: Text(
                             "From - TSWTAYSSUISPPLNDsdffadhjjkjhvfdhdVD L - ",
                             style: TextStyle(
@@ -137,7 +143,7 @@ class HistoryCard extends StatelessWidget {
                         ),
                         addVerticalSpace(5.h),
                         Container(
-                          width: 180.w,
+                          width: MediaQuery.of(context).size.width * .6,
                           child: Text(
                             "24 July, 2022. 10:40pm ",
                             style: TextStyle(

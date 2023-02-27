@@ -62,4 +62,5 @@ class AppSvg {
   static const String mtn = path + 'mtn.svg';
 
   static const String upload = path + 'upload.svg';
+  static const String arrow_left = path + 'arrow-left-light.svg';
 }

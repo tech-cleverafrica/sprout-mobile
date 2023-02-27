@@ -25,11 +25,18 @@ getHeader(bool isDarkMode) {
       children: [
         Row(
           children: [
-            IconButton(
-                onPressed: () {
-                  Get.back();
-                },
-                icon: Icon(Icons.arrow_back)),
+            InkWell(
+              onTap: () => Get.back(),
+              child: SvgPicture.asset(
+                AppSvg.arrow_left,
+                width: 14.0,
+                height: 15.0,
+                color: isDarkMode ? AppColors.greyBg : AppColors.primaryColor,
+              ),
+            ),
+            SizedBox(
+              width: 18,
+            ),
             Container(
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
