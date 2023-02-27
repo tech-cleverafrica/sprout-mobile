@@ -249,10 +249,10 @@ class itemOptions extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(shape: BoxShape.circle, color: color),
                 child: Padding(
-                  padding: const EdgeInsets.all(27.0),
+                  padding: const EdgeInsets.all(25.0),
                   child: SvgPicture.asset(svg,
-                      height: 22.h,
-                      width: 22.w,
+                      height: 20.h,
+                      width: 20.w,
                       color: isDark ? AppColors.white : AppColors.black),
                 ),
               ),
@@ -281,7 +281,8 @@ class BalanceCard extends StatelessWidget {
       required this.currency,
       required this.title,
       required this.symbol,
-      required this.balance,
+      required this.naira,
+      required this.kobo,
       required this.bank,
       required this.buttontext,
       required this.buttonColor,
@@ -297,7 +298,8 @@ class BalanceCard extends StatelessWidget {
   final String currency;
   final String title;
   final String symbol;
-  final String balance;
+  final String naira;
+  final String kobo;
   final String bank;
   final String buttontext;
   final String accountNumber;
@@ -355,7 +357,7 @@ class BalanceCard extends StatelessWidget {
                 )
               ],
             ),
-            addVerticalSpace(15.h),
+            addVerticalSpace(5.h),
             Row(
               children: [
                 Row(
@@ -376,14 +378,37 @@ class BalanceCard extends StatelessWidget {
                                 fontWeight: FontWeight.w700),
                           ),
                           Text(
-                            balance,
+                            naira,
                             style: TextStyle(
                                 fontFamily: "DMSans",
-                                fontSize: 28.sp,
+                                fontSize: 26.sp,
                                 color: isDarkMode
                                     ? AppColors.white
                                     : AppColors.black,
                                 fontWeight: FontWeight.w700),
+                          ),
+                          Text(
+                            ".",
+                            style: TextStyle(
+                                fontFamily: "DMSans",
+                                fontSize: 26.sp,
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.black,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 5),
+                            child: Text(
+                              kobo,
+                              style: TextStyle(
+                                  fontFamily: "DMSans",
+                                  fontSize: 16.sp,
+                                  color: isDarkMode
+                                      ? AppColors.white
+                                      : AppColors.black,
+                                  fontWeight: FontWeight.w500),
+                            ),
                           )
                         ],
                       ),
@@ -477,7 +502,7 @@ class BalanceCard extends StatelessWidget {
                   visible: copyVisible,
                   child: SvgPicture.asset(
                     AppSvg.copy,
-                    height: 30,
+                    height: 20,
                   ),
                 )
               ],

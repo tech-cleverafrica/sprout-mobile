@@ -38,8 +38,9 @@ class _HomePageState extends State<HomePage> {
           addVerticalSpace(19.h),
           getHomeHeader(isDarkMode),
           addVerticalSpace(16.h),
-          getDisplaySwitch(isDarkMode),
-          showInvoice ? getInvoiceDisplay() : getHomeDisplay(isDarkMode, theme)
+          // getDisplaySwitch(isDarkMode),
+          getHomeDisplay(isDarkMode, theme)
+          // showInvoice ? getInvoiceDisplay() : getHomeDisplay(isDarkMode, theme)
         ])),
       ),
     );
@@ -149,7 +150,7 @@ class _HomePageState extends State<HomePage> {
         ),
         addVerticalSpace(16.h),
         SizedBox(
-          height: 200.h,
+          height: MediaQuery.of(context).size.height * 0.2,
           child: ListView(
             padding: EdgeInsets.symmetric(horizontal: 24),
             shrinkWrap: true,
@@ -161,7 +162,8 @@ class _HomePageState extends State<HomePage> {
                 currency: "Naira",
                 title: "Available Balance",
                 symbol: "N",
-                balance: "19,260.00",
+                naira: "19,260",
+                kobo: "00",
                 bank: "Providus Bank",
                 accountNumber: "0087642335",
                 buttontext: "Fund Account",
@@ -178,7 +180,8 @@ class _HomePageState extends State<HomePage> {
                 currency: "Naira",
                 title: "Savings Balance",
                 symbol: "N",
-                balance: "19,260.00",
+                naira: "19,260",
+                kobo: "00",
                 bank: "Providus Bank",
                 accountNumber: "0087642335",
                 buttontext: "Details",
@@ -195,7 +198,8 @@ class _HomePageState extends State<HomePage> {
                 currency: "USD",
                 title: "Account Balance",
                 symbol: 'N',
-                balance: "120.00 ",
+                naira: "19,260",
+                kobo: "00",
                 bank: "Providus Bank",
                 accountNumber: "0087642335",
                 buttontext: "Details",
@@ -237,6 +241,7 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.all(15.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               "Complete Account Setup",
@@ -258,7 +263,7 @@ class _HomePageState extends State<HomePage> {
                                       color: isDarkMode
                                           ? AppColors.black
                                           : AppColors.white,
-                                      borderRadius: BorderRadius.circular(10)),
+                                      borderRadius: BorderRadius.circular(5)),
                                   child: Center(
                                       child: Text(
                                     "Complete",
