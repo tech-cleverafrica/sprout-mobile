@@ -33,6 +33,9 @@ dependencies:
   iconsax: ^0.0.8
   badges: ^3.0.2
   flutter_masked_text2: ^0.9.1
+  get_it: ^7.2.0
+  device_information: ^0.0.4
+  local_auth: ^2.1.5
 
 
 
