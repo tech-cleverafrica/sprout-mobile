@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sprout_mobile/src/components/complete-account-setup/view/upload_container.dart';
-import 'package:sprout_mobile/src/components/send-money/view/transaction_details.dart';
+import 'package:sprout_mobile/src/public/screens/approval_page.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
@@ -63,7 +63,13 @@ class _DocumentUploadState extends State<DocumentUpload> {
               isDarkMode: isDarkMode,
               buttonText: "Done",
               onTap: () {
-                Get.to(() => TransactionDetailsScreen());
+                Get.to(() => ApprovalScreen(
+                      containShare: false,
+                      subHeading:
+                          "Your information has been successfully submitted",
+                      messages:
+                          "You will be notified once your account is verified",
+                    ));
               },
             ),
           ),

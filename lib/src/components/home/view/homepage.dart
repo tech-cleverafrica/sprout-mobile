@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/complete-account-setup/view/complete_account_setup_options.dart';
 import 'package:sprout_mobile/src/components/home/view/all_transactions.dart';
+import 'package:sprout_mobile/src/components/home/view/home_chart.dart';
 import 'package:sprout_mobile/src/components/home/view/widgets.dart';
 import 'package:sprout_mobile/src/components/invoice/view/invoice.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
@@ -399,7 +400,34 @@ class _HomePageState extends State<HomePage> {
                     isDarkMode: isDarkMode,
                     text: "Fund Transfer");
               })),
-        )
+        ),
+        addVerticalSpace(10.h),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: SizedBox(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: isDarkMode ? Color(0xFF161618) : AppColors.greyBg,
+                  borderRadius: BorderRadius.circular(10)),
+              child: Padding(
+                padding: const EdgeInsets.all(11.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      child: HomeChart(),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      child: HomeChart(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

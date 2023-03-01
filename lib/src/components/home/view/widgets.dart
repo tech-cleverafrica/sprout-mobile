@@ -172,7 +172,7 @@ class HistoryCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Divider(
-                thickness: 2,
+                thickness: 1,
               ),
             )
           ],
