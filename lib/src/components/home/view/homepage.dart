@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/complete-account-setup/view/complete_account_setup_options.dart';
 import 'package:sprout_mobile/src/components/home/view/all_transactions.dart';
 import 'package:sprout_mobile/src/components/home/view/widgets.dart';
 import 'package:sprout_mobile/src/components/invoice/view/invoice.dart';
@@ -265,15 +266,19 @@ class _HomePageState extends State<HomePage> {
                                           : AppColors.white,
                                       borderRadius: BorderRadius.circular(5)),
                                   child: Center(
-                                      child: Text(
-                                    "Complete",
-                                    style: TextStyle(
-                                        fontFamily: "DMSans",
-                                        fontSize: 13.sp,
-                                        color: isDarkMode
-                                            ? AppColors.white
-                                            : AppColors.black,
-                                        fontWeight: FontWeight.w400),
+                                      child: GestureDetector(
+                                    onTap: () => Get.to(
+                                        () => CompleteAccountSetupOptions()),
+                                    child: Text(
+                                      "Complete",
+                                      style: TextStyle(
+                                          fontFamily: "DMSans",
+                                          fontSize: 13.sp,
+                                          color: isDarkMode
+                                              ? AppColors.white
+                                              : AppColors.black,
+                                          fontWeight: FontWeight.w400),
+                                    ),
                                   )),
                                 ),
                               ],
@@ -293,6 +298,7 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.all(15.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               "Complete Account Setup",
@@ -317,9 +323,19 @@ class _HomePageState extends State<HomePage> {
                                       borderRadius: BorderRadius.circular(10)),
                                   alignment: Alignment.topRight,
                                   child: Center(
-                                      child: Text(
-                                    "Complete",
-                                    style: theme.textTheme.headline3,
+                                      child: GestureDetector(
+                                    onTap: () => Get.to(
+                                        () => CompleteAccountSetupOptions()),
+                                    child: Text(
+                                      "Complete",
+                                      style: TextStyle(
+                                          fontFamily: "DMSans",
+                                          fontSize: 13.sp,
+                                          color: isDarkMode
+                                              ? AppColors.white
+                                              : AppColors.black,
+                                          fontWeight: FontWeight.w400),
+                                    ),
                                   )),
                                 ),
                               ],
