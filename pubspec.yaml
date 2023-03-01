@@ -33,6 +33,8 @@ dependencies:
   iconsax: ^0.0.8
   badges: ^3.0.2
   flutter_masked_text2: ^0.9.1
+  nfc_manager: ^3.2.0
+  file_picker: ^4.6.1
 
 
 
