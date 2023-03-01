@@ -4,6 +4,8 @@ class AppImages {
   static const String light_logo = path + "logo-light.png";
   static const String sprout_light = path + "sprout-light.png";
   static const String sprout_dark = path + "sprout-dark.png";
+  static const String upload_dark = path + "upload-dark.png";
+  static const String upload = path + "upload.png";
   static const String biometric = path + "biometric-light.png";
   static const String question = path + "up.png";
   static const String rough_background = path + "rough_background.png";
@@ -24,4 +26,7 @@ class AppImages {
   static const String onboarding3 = path + "onboarding3.png";
   static const String onboarding2 = path + "onboarding2.png";
   static const String onboarding1 = path + "onboarding1.png";
+  static const String call_light = path + "call-light.png";
+  static const String call_dark = path + "call-black.png";
+  static const String whatsapp = path + "whatsapp.png";
 }
