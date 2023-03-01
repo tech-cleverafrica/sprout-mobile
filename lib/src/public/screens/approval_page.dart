@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sprout_mobile/src/components/home/view/homepage.dart';
+import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
 
 import '../../utils/app_colors.dart';
 import '../../utils/app_images.dart';
@@ -153,7 +153,7 @@ class ApprovalScreen extends StatelessWidget {
                             child: CustomButton(
                                 title: "Back To Home",
                                 onTap: () {
-                                  Get.to(() => HomePage());
+                                  Get.to(() => BottomNav());
                                 }),
                           ),
                         ),
