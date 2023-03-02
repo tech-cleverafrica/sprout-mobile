@@ -7,14 +7,40 @@ import 'package:sprout_mobile/src/components/profile/view/change_password.dart';
 import 'package:sprout_mobile/src/components/profile/view/change_pin.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
+import 'package:sprout_mobile/src/utils/constants.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 
+import '../../../reources/db_provider.dart';
 import '../../../utils/app_colors.dart';
 
-class SecuritySettings extends StatelessWidget {
+class SecuritySettings extends StatefulWidget {
   SecuritySettings({super.key});
 
-  bool isTapped = false;
+  @override
+  State<SecuritySettings> createState() => _SecuritySettingsState();
+}
+
+class _SecuritySettingsState extends State<SecuritySettings> {
+  bool _isFingerPrintEnabled = false;
+  DBProvider sharePreference = DBProvider();
+
+  @override
+  initState() {
+    checkIsFingerPrintEnabled();
+    super.initState();
+  }
+
+  void checkIsFingerPrintEnabled() async {
+    bool? isFingerPrintEnabled = await sharePreference
+        .getBooleanStoredInSharedPreference(useBiometricAuth);
+    _isFingerPrintEnabled =
+        isFingerPrintEnabled == null ? false : isFingerPrintEnabled;
+    setState(() {});
+  }
+
+  void _saveFingerPrintSetting() {
+    sharePreference.setBooleanPref(useBiometricAuth, _isFingerPrintEnabled);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,12 +94,13 @@ class SecuritySettings extends StatelessWidget {
                     ],
                   ),
                   CupertinoSwitch(
-                      activeColor: AppColors.primaryColor,
-                      thumbColor: AppColors.white,
-                      value: isTapped,
-                      onChanged: (val) {
-                        isTapped = !isTapped;
-                      })
+                    activeColor: AppColors.deepOrange,
+                    value: _isFingerPrintEnabled,
+                    onChanged: (bool value) {
+                      setState(() => _isFingerPrintEnabled = value);
+                      _saveFingerPrintSetting();
+                    },
+                  )
                 ],
               ),
               Divider(

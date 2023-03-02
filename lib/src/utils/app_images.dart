@@ -2,8 +2,8 @@ class AppImages {
   static const String path = "assets/images/";
   static const String dark_logo = path + "logo-dark.png";
   static const String light_logo = path + "logo-light.png";
-  static const String sprout_light = path + "sprout-light.png";
-  static const String sprout_dark = path + "sprout-dark.png";
+  static const String sprout_light = path + "sprout-dark.png";
+  static const String sprout_dark = path + "sprout-light.png";
   static const String upload_dark = path + "upload-dark.png";
   static const String upload = path + "upload.png";
   static const String biometric = path + "biometric-light.png";

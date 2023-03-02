@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/authentication/view/sign_up_start.dart';
-import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_password_field.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
-import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 
+import '../controller/sign_in_controller.dart';
+
 class SignInScreen extends StatelessWidget {
-  const SignInScreen({super.key});
+  SignInScreen({super.key});
+
+  late SignInController signInController;
 
   @override
   Widget build(BuildContext context) {
+    signInController = Get.put(SignInController());
     final theme = Theme.of(context);
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
@@ -51,6 +53,7 @@ class SignInScreen extends StatelessWidget {
                 height: 24.h,
               ),
               CustomTextFormField(
+                controller: signInController.emailController,
                 label: "Enter Email Address",
                 hintText: "Your Email",
                 fillColor: isDarkMode
@@ -58,6 +61,7 @@ class SignInScreen extends StatelessWidget {
                     : AppColors.grey,
               ),
               CustomTextFormPasswordField(
+                controller: signInController.passwordController,
                 label: "Enter Password",
                 hintText: "Your password",
                 fillColor: isDarkMode
@@ -101,7 +105,7 @@ class SignInScreen extends StatelessWidget {
               CustomButton(
                 title: "Login",
                 onTap: () {
-                  Get.to(() => BottomNav());
+                  signInController.validate();
                 },
               ),
               SizedBox(
@@ -142,12 +146,9 @@ class SignInScreen extends StatelessWidget {
               Center(
                   child: Column(
                 children: [
-                  SvgPicture.asset(
-                    AppSvg.fingerprint,
-                    height: 49,
-                    width: 49,
-                    color: isDarkMode ? AppColors.white : AppColors.black,
-                  ),
+                  Obx(() => signInController.isFingerPrintEnabled.value
+                      ? signInController.getBiometricIcon()
+                      : Container()),
                   SizedBox(
                     height: 8.h,
                   ),
