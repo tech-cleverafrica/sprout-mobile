@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/help/view/complaint.dart';
 import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
+import 'package:sprout_mobile/src/components/notification/view/notification.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
@@ -64,20 +66,24 @@ getHeader(bool isDarkMode, {hideHelp = false, hideNotification = false}) {
         Row(
           children: [
             !hideHelp
-                ? SvgPicture.asset(
-                    AppSvg.upload,
-                    height: 18,
-                    color: isDarkMode ? AppColors.white : AppColors.black,
-                  )
+                ? InkWell(
+                    onTap: () => Get.to(() => ComplaintScreen()),
+                    child: SvgPicture.asset(
+                      AppSvg.upload,
+                      height: 18,
+                      color: isDarkMode ? AppColors.white : AppColors.black,
+                    ))
                 : SizedBox(),
             !hideHelp && !hideNotification
                 ? addHorizontalSpace(24.w)
                 : SizedBox(),
             !hideNotification
-                ? SvgPicture.asset(
-                    AppSvg.notification,
-                    color: isDarkMode ? AppColors.white : AppColors.black,
-                  )
+                ? InkWell(
+                    onTap: () => Get.to(() => NotificationScreen()),
+                    child: SvgPicture.asset(
+                      AppSvg.notification,
+                      color: isDarkMode ? AppColors.white : AppColors.black,
+                    ))
                 : SizedBox(),
           ],
         )
