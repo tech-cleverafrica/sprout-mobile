@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/help/view/complaint.dart';
 import 'package:sprout_mobile/src/components/home/controller/home_controller.dart';
+import 'package:sprout_mobile/src/components/notification/view/notification.dart';
 
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_images.dart';
@@ -54,9 +55,12 @@ getHomeHeader(bool isDarkMode) {
               ),
             ),
             addHorizontalSpace(24.w),
-            SvgPicture.asset(
-              AppSvg.notification,
-              color: isDarkMode ? AppColors.white : AppColors.black,
+            InkWell(
+              onTap: () => Get.to(() => NotificationScreen()),
+              child: SvgPicture.asset(
+                AppSvg.notification,
+                color: isDarkMode ? AppColors.white : AppColors.black,
+              ),
             ),
           ],
         )

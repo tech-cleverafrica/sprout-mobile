@@ -67,4 +67,5 @@ class AppSvg {
   static const String upload_doc = path + 'upload-doc.svg';
   static const String business = path + 'business.svg';
   static const String kin = path + 'kin.svg';
+  static const String message = path + 'message.svg';
 }
