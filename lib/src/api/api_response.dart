@@ -1,17 +1,15 @@
 class AppResponse<T> {
-  late bool isSuccessful;
-  late int status;
+  late bool status;
   late String responseCode;
   late String message;
   T? data;
 
   AppResponse(isSuccess, int? statusCode, Map<String, dynamic> response,
       [data]) {
-    this.isSuccessful = isSuccess ?? false;
-    this.status = statusCode ?? 000;
+    this.status = isSuccess ?? false;
     this.responseCode = response["responseCode"] ?? "100001";
     this.message = getResponseMessage(response, isSuccess);
-    this.data = data;
+    this.data = data ?? "";
   }
 
   String getResponseMessage(Map<String, dynamic> response, isSuccessful) {

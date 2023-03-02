@@ -4,12 +4,15 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:sprout_mobile/src/api/api_constant.dart';
 import 'package:sprout_mobile/src/environment.dart';
+import 'package:sprout_mobile/src/utils/constants.dart';
+
+import '../utils/global_function.dart';
 
 class Api {
   Dio dio;
 
   String token = "";
-  String _sessionTimeOut = "";
+  //String _sessionTimeOut = "";
 
   Api(this.dio) {
     dio = Dio(baseOptions);
@@ -127,12 +130,10 @@ class Api {
     return response;
   }
 
-  // logout({code}) async {
-  //   bool canLogin = await preferenceRepository.getBooleanPref(IS_LOGGED_IN);
-  //   if (code == 401 && canLogin) {
-
-  //   }
-  // }
+  logout({code}) async {
+    bool canLogin = await preferenceRepository.getBooleanPref(IS_LOGGED_IN);
+    if (code == 401 && canLogin) {}
+  }
 
   void setExtraHeader(Map<String, dynamic> newHeaders) {
     debugPrint("$newHeaders");

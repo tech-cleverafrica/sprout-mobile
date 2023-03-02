@@ -1,15 +1,20 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/authentication/view/sign_in_screen.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
+import 'package:sprout_mobile/src/reources/repository.dart';
 import 'package:sprout_mobile/src/utils/app_date_utilities.dart';
+import 'package:sprout_mobile/src/utils/constants.dart';
+import 'package:sprout_mobile/src/utils/global_function.dart';
 
 class AppController extends GetxController {
   AppDateUtil dateUtil = Get.put(AppDateUtil());
-  // Repository repository = Get.put(Repository());
+  Repository repository = Get.put(Repository());
   // ApiProvider apiProvider = Get.put(ApiProvider());
-  // final messangerKey = GlobalKey<ScaffoldMessengerState>();
+  final messangerKey = GlobalKey<ScaffoldMessengerState>();
 
   AppController({Key? key});
   String sessionTimeOut = "";
@@ -64,17 +69,17 @@ class AppController extends GetxController {
   //   _timer = Timer(Duration(seconds: 300), logOut);
   // }
 
-  // logOut() async {
-  //   bool isLoggedIn = await preferenceRepository.getBooleanPref(IS_LOGGED_IN);
-  //   print(isLoggedIn);
-  //   if (isLoggedIn) {
-  //     Get.offAll(SignInScreen());
-  //     accountBloc.logoutUser(showLoader: false);
-  //     setLoginStatus(false);
-  //     showAutoBiometricsOnLoginPage(false);
-  //     CustomToastNotification.show("Idle Timeout", type: ToastType.error);
-  //   }
-  // }
+  logOut() async {
+    bool isLoggedIn = await preferenceRepository.getBooleanPref(IS_LOGGED_IN);
+    print(isLoggedIn);
+    if (isLoggedIn) {
+      Get.offAll(SignInScreen());
+
+      setLoginStatus(false);
+      showAutoBiometricsOnLoginPage(false);
+      CustomToastNotification.show("Idle Timeout", type: ToastType.error);
+    }
+  }
 
   exitApp() {
     SystemChannels.platform.invokeMethod('SystemNavigator.pop');

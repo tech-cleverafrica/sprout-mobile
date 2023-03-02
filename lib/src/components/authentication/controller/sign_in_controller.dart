@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/authentication/model/request_model.dart';
 import 'package:sprout_mobile/src/components/authentication/model/response_model.dart';
 import 'package:sprout_mobile/src/repository/preference_repository.dart';
+import 'package:sprout_mobile/src/utils/app_images.dart';
 import 'package:sprout_mobile/src/utils/constants.dart';
 import 'package:device_information/device_information.dart';
 import '../../../api-setup/api_setup.dart';
@@ -32,15 +33,20 @@ class SignInController extends GetxController {
       SignInRequestModel.login(username: "", password: "", agentDeviceId: '');
   bool isFaceId = false;
   bool hasBiometrics = false;
-  late String platformVersion, modelName = '', manufacturer = '';
+  late String platformVersion, modelName = '', manufacturer = '', deviceId = '';
 
   final PreferenceRepository preferenceRepository =
       Get.put(PreferenceRepository());
   final App app = Get.put(App());
 
   @override
-  void onInit() {
+  void onInit() async {
     // TODO: implement onInit
+    checkIsFingerPrintEnabled();
+    emailController.text =
+        await preferenceRepository.getStringPref("storedMail");
+    _checkBiometricType();
+    initPlatformState();
     super.onInit();
   }
 
@@ -80,6 +86,7 @@ class SignInController extends GetxController {
 
       modelName = await DeviceInformation.deviceModel;
       manufacturer = await DeviceInformation.deviceManufacturer;
+      deviceId = await DeviceInformation.deviceIMEINumber;
     } on PlatformException catch (e) {
       platformVersion = '${e.message}';
     }
@@ -103,13 +110,7 @@ class SignInController extends GetxController {
         onTap: _initBiometricAuthentication,
         child: Container(
           height: 50.h,
-          decoration: BoxDecoration(
-              color: AppColors.black, borderRadius: BorderRadius.circular(20)),
-          child: Icon(
-            Icons.fingerprint_rounded,
-            color: AppColors.white,
-            size: 50.h,
-          ),
+          child: Image.asset(AppImages.biometric),
         ),
       );
     } else if (isFingerPrintEnabled.value && Platform.isIOS) {
@@ -119,8 +120,6 @@ class SignInController extends GetxController {
         child: Container(
           height: 50.h,
           padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              color: AppColors.black, borderRadius: BorderRadius.circular(20)),
           child: Image.asset(
             "assets/images/faceId.png",
             color: AppColors.white,
@@ -160,18 +159,16 @@ class SignInController extends GetxController {
     }
   }
 
-  saveLoginDetailsToSharePref(model) async {
-    await sharePreference.storeInSharedPreference(
-        SECURED_USER_MAIL, model["login"]);
-    await sharePreference.storeInSharedPreference(
-        SECURED_PASSWORD, model["password"]);
+  saveLoginDetailsToSharePref(model) {
+    preferenceRepository.setStringPref(SECURED_USER_MAIL, model["username"]);
+    preferenceRepository.setStringPref(SECURED_PASSWORD, model["password"]);
   }
 
-  // onUsernameChanged(String? val) => signInRequestModel.email = val;
-  // onPasswordChanged(String? val) => signInRequestModel.password = val;
+  onUsernameChanged(String? val) => signInRequestModel.username = val;
+  onPasswordChanged(String? val) => signInRequestModel.password = val;
 
   buildRequestModel(username, password) {
-    return {"login": username, "password": password, "user_device": modelName};
+    return {"username": username, "password": password};
   }
 
   validate() {
@@ -180,22 +177,32 @@ class SignInController extends GetxController {
           content: Text("Please fill all empty fields"),
           backgroundColor: AppColors.errorRed));
     } else {
-      //  signIn(buildRequestModel(emailController.text, passwordController.text));
+      signIn(buildRequestModel(emailController.text, passwordController.text));
     }
   }
 
-  // signIn(Map<String, dynamic> model) async {
-  //   AppResponse<SignInResponseModel> response =
-  //       await locator.get<AuthService>().signIn(model, "Logging in...");
-  //   if (response.isSuccessful) {
-  //     saveLoginDetailsToSharePref(model);
-  //     //  box.write("storedMail", model["login"]);
-  //     setLoginStatus(true);
-  //     pushUntil(page: BottomNav());
-  //   } else {
-  //     CustomToastNotification.show(response.message, type: ToastType.error);
-  //   }
-  // }
+  signIn(Map<String, dynamic> model) async {
+    AppResponse<SignInResponseModel> response =
+        await locator.get<AuthService>().signIn(model, "Logging in...");
+    if (response.status) {
+      saveLoginDetailsToSharePref(model);
+      preferenceRepository.setStringPref("storedMail", model['username']);
+      setLoginStatus(true);
+      push(page: BottomNav());
+      getUserInfo();
+    } else {
+      CustomToastNotification.show(response.message, type: ToastType.error);
+    }
+  }
+
+  getUserInfo() async {
+    AppResponse response = await locator.get<AuthService>().getUserDetails();
+    if (response.status) {
+      CustomToastNotification.show(response.message, type: ToastType.success);
+    } else {
+      CustomToastNotification.show(response.message, type: ToastType.error);
+    }
+  }
 
   @override
   void onClose() {

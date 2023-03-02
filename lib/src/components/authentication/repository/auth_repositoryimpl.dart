@@ -13,6 +13,19 @@ class AuthRepositoryImpl implements AuthRepository {
       return await api.dio.post(loginUrl, data: requestBody);
     } on DioError catch (e) {
       return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
+
+  @override
+  getUserDetails() async {
+    try {
+      return await api.dio.get(
+        userDetailsUrl,
+      );
+    } on DioError catch (e) {
+      return api.handleError(e);
     }
   }
 }

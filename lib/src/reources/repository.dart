@@ -4,6 +4,18 @@ class Repository {
   final int _cacheDB = 0;
 
   List<Cache> caches = <Cache>[dbProvider];
+
+  Future<bool> deleteInSharedPreference(String key) async {
+    return caches[_cacheDB].deleteInSharedPreference(key);
+  }
+
+  Future<dynamic> storeInSharedPreference(String key, String value) async {
+    return caches[_cacheDB].storeInSharedPreference(key, value);
+  }
+
+  Future<String?> getInSharedPreference(String key) {
+    return caches[_cacheDB].getInSharedPreference(key);
+  }
 }
 
 abstract class Cache {
