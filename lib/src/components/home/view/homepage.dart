@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/complete-account-setup/view/complete_account_setup_options.dart';
 import 'package:sprout_mobile/src/components/home/view/all_transactions.dart';
+import 'package:sprout_mobile/src/components/home/view/home_chart.dart';
 import 'package:sprout_mobile/src/components/home/view/widgets.dart';
 import 'package:sprout_mobile/src/components/invoice/view/invoice.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
@@ -38,8 +40,9 @@ class _HomePageState extends State<HomePage> {
           addVerticalSpace(19.h),
           getHomeHeader(isDarkMode),
           addVerticalSpace(16.h),
-          getDisplaySwitch(isDarkMode),
-          showInvoice ? getInvoiceDisplay() : getHomeDisplay(isDarkMode, theme)
+          // getDisplaySwitch(isDarkMode),
+          getHomeDisplay(isDarkMode, theme)
+          // showInvoice ? getInvoiceDisplay() : getHomeDisplay(isDarkMode, theme)
         ])),
       ),
     );
@@ -149,7 +152,7 @@ class _HomePageState extends State<HomePage> {
         ),
         addVerticalSpace(16.h),
         SizedBox(
-          height: 200.h,
+          height: MediaQuery.of(context).size.height * 0.2,
           child: ListView(
             padding: EdgeInsets.symmetric(horizontal: 24),
             shrinkWrap: true,
@@ -161,7 +164,8 @@ class _HomePageState extends State<HomePage> {
                 currency: "Naira",
                 title: "Available Balance",
                 symbol: "N",
-                balance: "19,260.00",
+                naira: "19,260",
+                kobo: "00",
                 bank: "Providus Bank",
                 accountNumber: "0087642335",
                 buttontext: "Fund Account",
@@ -178,7 +182,8 @@ class _HomePageState extends State<HomePage> {
                 currency: "Naira",
                 title: "Savings Balance",
                 symbol: "N",
-                balance: "19,260.00",
+                naira: "19,260",
+                kobo: "00",
                 bank: "Providus Bank",
                 accountNumber: "0087642335",
                 buttontext: "Details",
@@ -195,7 +200,8 @@ class _HomePageState extends State<HomePage> {
                 currency: "USD",
                 title: "Account Balance",
                 symbol: 'N',
-                balance: "120.00 ",
+                naira: "19,260",
+                kobo: "00",
                 bank: "Providus Bank",
                 accountNumber: "0087642335",
                 buttontext: "Details",
@@ -237,6 +243,7 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.all(15.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               "Complete Account Setup",
@@ -258,17 +265,21 @@ class _HomePageState extends State<HomePage> {
                                       color: isDarkMode
                                           ? AppColors.black
                                           : AppColors.white,
-                                      borderRadius: BorderRadius.circular(10)),
+                                      borderRadius: BorderRadius.circular(5)),
                                   child: Center(
-                                      child: Text(
-                                    "Complete",
-                                    style: TextStyle(
-                                        fontFamily: "DMSans",
-                                        fontSize: 13.sp,
-                                        color: isDarkMode
-                                            ? AppColors.white
-                                            : AppColors.black,
-                                        fontWeight: FontWeight.w400),
+                                      child: GestureDetector(
+                                    onTap: () => Get.to(
+                                        () => CompleteAccountSetupOptions()),
+                                    child: Text(
+                                      "Complete",
+                                      style: TextStyle(
+                                          fontFamily: "DMSans",
+                                          fontSize: 13.sp,
+                                          color: isDarkMode
+                                              ? AppColors.white
+                                              : AppColors.black,
+                                          fontWeight: FontWeight.w400),
+                                    ),
                                   )),
                                 ),
                               ],
@@ -288,6 +299,7 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.all(15.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               "Complete Account Setup",
@@ -312,9 +324,19 @@ class _HomePageState extends State<HomePage> {
                                       borderRadius: BorderRadius.circular(10)),
                                   alignment: Alignment.topRight,
                                   child: Center(
-                                      child: Text(
-                                    "Complete",
-                                    style: theme.textTheme.headline3,
+                                      child: GestureDetector(
+                                    onTap: () => Get.to(
+                                        () => CompleteAccountSetupOptions()),
+                                    child: Text(
+                                      "Complete",
+                                      style: TextStyle(
+                                          fontFamily: "DMSans",
+                                          fontSize: 13.sp,
+                                          color: isDarkMode
+                                              ? AppColors.white
+                                              : AppColors.black,
+                                          fontWeight: FontWeight.w400),
+                                    ),
                                   )),
                                 ),
                               ],
@@ -378,7 +400,34 @@ class _HomePageState extends State<HomePage> {
                     isDarkMode: isDarkMode,
                     text: "Fund Transfer");
               })),
-        )
+        ),
+        addVerticalSpace(10.h),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: SizedBox(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: isDarkMode ? Color(0xFF161618) : AppColors.greyBg,
+                  borderRadius: BorderRadius.circular(10)),
+              child: Padding(
+                padding: const EdgeInsets.all(11.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      child: HomeChart(),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      child: HomeChart(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

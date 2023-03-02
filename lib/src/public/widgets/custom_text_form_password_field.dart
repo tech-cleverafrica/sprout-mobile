@@ -49,8 +49,8 @@ class _CustomTextFormPasswordFieldState
           onPressed: () => setState(() => _obscureText = !_obscureText),
           child: _obscureText
               ? Container(
-                  height: 40.h,
-                  width: 40.w,
+                  height: 30.h,
+                  width: 30.w,
                   decoration: BoxDecoration(
                       color: isDarkMode ? AppColors.black : AppColors.white,
                       borderRadius: BorderRadius.circular(10)),
@@ -62,8 +62,8 @@ class _CustomTextFormPasswordFieldState
                   ),
                 )
               : Container(
-                  height: 40.h,
-                  width: 40.w,
+                  height: 30.h,
+                  width: 30.w,
                   decoration: BoxDecoration(
                       color: isDarkMode ? AppColors.black : AppColors.white,
                       borderRadius: BorderRadius.circular(10)),

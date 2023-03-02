@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 
-class CustomTextFormField extends StatelessWidget {
+class CustomMultilineTextFormField extends StatelessWidget {
   final TextStyle? textFormFieldStyle;
   final TextStyle? hintTextStyle;
   final BorderStyle borderStyle;
@@ -42,7 +42,7 @@ class CustomTextFormField extends StatelessWidget {
   final String? errorText;
   final bool? required;
 
-  CustomTextFormField({
+  CustomMultilineTextFormField({
     this.prefixIcon,
     this.suffixIcon,
     this.textFormFieldStyle = const TextStyle(fontSize: 14.0),
@@ -79,7 +79,7 @@ class CustomTextFormField extends StatelessWidget {
     this.maxLines = 1,
     this.margin = const EdgeInsets.symmetric(vertical: 8.0),
     this.errorText,
-    this.required,
+    this.required = false,
   });
 
   @override
