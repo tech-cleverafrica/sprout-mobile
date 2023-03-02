@@ -410,17 +410,19 @@ class _HomePageState extends State<HomePage> {
                   color: isDarkMode ? Color(0xFF161618) : AppColors.greyBg,
                   borderRadius: BorderRadius.circular(10)),
               child: Padding(
-                padding: const EdgeInsets.all(11.0),
+                padding: const EdgeInsets.all(5.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      child: HomeChart(),
+                      width: MediaQuery.of(context).size.width * 0.42,
+                      child: HomeChart(
+                        color: AppColors.primaryColor,
+                      ),
                     ),
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      child: HomeChart(),
+                      width: MediaQuery.of(context).size.width * 0.42,
+                      child: HomeChart(color: AppColors.mainGreen),
                     ),
                   ],
                 ),
