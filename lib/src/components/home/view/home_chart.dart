@@ -3,37 +3,34 @@ import 'package:flutter/material.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 
 class HomeChart extends StatefulWidget {
-  const HomeChart({super.key});
+  const HomeChart({super.key, required this.color});
+
+  final Color color;
 
   @override
   State<HomeChart> createState() => _HomeChartState();
 }
 
 class _HomeChartState extends State<HomeChart> {
-  List<Color> gradientColors = [
-    AppColors.orangeWarning,
-    AppColors.orangeWarning,
-  ];
-
-  List<Color> gradientAreaColors = [
-    AppColors.white,
-    AppColors.white,
-  ];
-
   bool showAvg = false;
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Stack(
       children: <Widget>[
         AspectRatio(
           aspectRatio: 1.0,
           child: Container(
-            decoration: BoxDecoration(color: AppColors.white),
-            child: LineChart(
-              mainData(),
-            ),
-          ),
+              decoration: BoxDecoration(
+                  color: isDarkMode ? AppColors.black : AppColors.white,
+                  borderRadius: BorderRadius.circular(10.0)),
+              child: Padding(
+                padding: EdgeInsets.all(8),
+                child: LineChart(
+                  mainData(),
+                ),
+              )),
         ),
       ],
     );
@@ -46,14 +43,26 @@ class _HomeChartState extends State<HomeChart> {
     );
     Widget text;
     switch (value.toInt()) {
+      case 1:
+        text = const Text('M', style: style);
+        break;
       case 2:
-        text = const Text('MAR', style: style);
+        text = const Text('T', style: style);
+        break;
+      case 3:
+        text = const Text('W', style: style);
+        break;
+      case 4:
+        text = const Text('T', style: style);
         break;
       case 5:
-        text = const Text('JUN', style: style);
+        text = const Text('F', style: style);
         break;
-      case 8:
-        text = const Text('SEP', style: style);
+      case 6:
+        text = const Text('S', style: style);
+        break;
+      case 7:
+        text = const Text('S', style: style);
         break;
       default:
         text = const Text('', style: style);
@@ -90,6 +99,7 @@ class _HomeChartState extends State<HomeChart> {
   }
 
   LineChartData mainData() {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return LineChartData(
       gridData: FlGridData(
         show: true,
@@ -126,35 +136,32 @@ class _HomeChartState extends State<HomeChart> {
       borderData: FlBorderData(
         show: false,
       ),
-      minX: 0,
-      maxX: 11,
-      minY: 0,
+      minX: 1,
+      maxX: 7,
+      minY: 1,
       maxY: 6,
       lineBarsData: [
         LineChartBarData(
           spots: const [
-            FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
+            FlSpot(1, 3),
+            FlSpot(2, 2),
+            FlSpot(3, 5),
+            FlSpot(4, 3.1),
+            FlSpot(5, 4),
+            FlSpot(6, 3),
+            FlSpot(7, 4),
+            // FlSpot(12, 6),
           ],
           isCurved: true,
-          gradient: LinearGradient(
-            colors: gradientColors,
-          ),
-          barWidth: 1,
+          color: widget.color,
+          barWidth: 2,
           isStrokeCapRound: true,
           dotData: FlDotData(
             show: false,
           ),
           belowBarData: BarAreaData(
             show: true,
-            gradient: LinearGradient(
-              colors: gradientAreaColors,
-            ),
+            color: isDarkMode ? AppColors.black : AppColors.white,
           ),
         ),
       ],
