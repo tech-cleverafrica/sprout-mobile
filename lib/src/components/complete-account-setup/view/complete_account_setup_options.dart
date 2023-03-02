@@ -20,7 +20,6 @@ class CompleteAccountSetupOptions extends StatelessWidget {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
       child: Scaffold(
-        bottomNavigationBar: BottomNavigation(),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
           child: Column(
