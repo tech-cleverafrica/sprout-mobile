@@ -8,6 +8,7 @@ import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
+import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 import '../../components/cards/view/cards.dart';
 import '../../components/home/view/homepage.dart';
@@ -179,16 +180,20 @@ class DecisionButton extends StatelessWidget {
         ),
         addHorizontalSpace(8.w),
         Expanded(
-            child: Container(
-          height: 50,
-          decoration: BoxDecoration(
-              color:
-                  isDarkMode ? AppColors.inputBackgroundColor : AppColors.black,
-              borderRadius: BorderRadius.circular(10)),
-          child: Center(
-            child: Text(
-              "Go Back",
-              style: TextStyle(fontFamily: "DMSans", color: AppColors.white),
+            child: InkWell(
+          onTap: () => pop(),
+          child: Container(
+            height: 50,
+            decoration: BoxDecoration(
+                color: isDarkMode
+                    ? AppColors.inputBackgroundColor
+                    : AppColors.black,
+                borderRadius: BorderRadius.circular(10)),
+            child: Center(
+              child: Text(
+                "Go Back",
+                style: TextStyle(fontFamily: "DMSans", color: AppColors.white),
+              ),
             ),
           ),
         ))
