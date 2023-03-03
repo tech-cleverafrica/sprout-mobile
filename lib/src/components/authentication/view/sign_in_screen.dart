@@ -31,11 +31,11 @@ class SignInScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              addVerticalSpace(10.h),
+              addVerticalSpace(25.h),
               Center(
                   child: Image.asset(
                 isDarkMode ? AppImages.sprout_dark : AppImages.sprout_light,
-                height: 27.h,
+                height: 30.h,
               )),
               SizedBox(
                 height: 24.h,

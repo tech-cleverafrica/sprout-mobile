@@ -19,7 +19,6 @@ class PayBillsScreen extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        bottomNavigationBar: BottomNavigation(),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
           child: Column(

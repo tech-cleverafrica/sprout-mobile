@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/complete-account-setup/view/complete_account_setup_options.dart';
 import 'package:sprout_mobile/src/components/home/view/all_transactions.dart';
+import 'package:sprout_mobile/src/components/home/view/home_chart.dart';
 import 'package:sprout_mobile/src/components/home/view/widgets.dart';
-import 'package:sprout_mobile/src/components/invoice/view/invoice.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
-
-import '../../../public/widgets/custom_button.dart';
-import '../../../utils/app_images.dart';
 import '../controller/home_controller.dart';
 
 class HomePage extends StatelessWidget {
@@ -31,89 +29,13 @@ class HomePage extends StatelessWidget {
           addVerticalSpace(19.h),
           getHomeHeader(isDarkMode),
           addVerticalSpace(16.h),
-          getDisplaySwitch(isDarkMode),
-          showInvoice
-              ? getInvoiceDisplay()
-              : getHomeDisplay(isDarkMode, theme, homeController.fullname)
+          getHomeDisplay(isDarkMode, theme, context)
         ])),
       ),
     );
   }
 
-  getInvoiceDisplay() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
-      child: Container(
-        width: double.infinity,
-        //height: 284.h,
-        decoration: BoxDecoration(
-            color: AppColors.primaryColor,
-            borderRadius: BorderRadius.circular(15),
-            image: DecorationImage(
-                image: AssetImage(AppImages.invoice), fit: BoxFit.contain)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            addVerticalSpace(50.h),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Container(
-                  width: 205.w,
-                  child: Text(
-                    "Generate Invoices",
-                    style: TextStyle(
-                        fontFamily: "Mont",
-                        fontSize: 44.sp,
-                        color: AppColors.white,
-                        fontWeight: FontWeight.w900),
-                  )),
-            ),
-            addVerticalSpace(10.h),
-            Container(
-                height: 150.h,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(10),
-                        bottomRight: Radius.circular(10)),
-                    image: DecorationImage(
-                        image: AssetImage(AppImages.invoice_overlay),
-                        fit: BoxFit.cover)),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        width: 122.w,
-                        child: Text(
-                          "Lorem ipsum dolor sit amet consectetur. Placerat lorem neque risus.",
-                          style: TextStyle(
-                              fontFamily: "DMSans",
-                              fontSize: 12.sp,
-                              color: AppColors.white,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                      Container(
-                          width: 144.w,
-                          child: CustomButton(
-                            title: "Get Started",
-                            color: AppColors.black,
-                            onTap: () {
-                              Get.to(() => InvoiceScreen());
-                            },
-                          ))
-                    ],
-                  ),
-                ))
-          ],
-        ),
-      ),
-    );
-  }
-
-  getHomeDisplay(isDarkMode, theme, firstName) {
+  getHomeDisplay(isDarkMode, theme, context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,7 +66,7 @@ class HomePage extends StatelessWidget {
         ),
         addVerticalSpace(16.h),
         SizedBox(
-          height: 200.h,
+          height: MediaQuery.of(context).size.height * 0.2,
           child: ListView(
             padding: EdgeInsets.symmetric(horizontal: 24),
             shrinkWrap: true,
@@ -156,7 +78,8 @@ class HomePage extends StatelessWidget {
                 currency: "Naira",
                 title: "Available Balance",
                 symbol: "N",
-                balance: "19,260.00",
+                naira: "19,260",
+                kobo: "00",
                 bank: "Providus Bank",
                 accountNumber: "0087642335",
                 buttontext: "Fund Account",
@@ -173,7 +96,8 @@ class HomePage extends StatelessWidget {
                 currency: "Naira",
                 title: "Savings Balance",
                 symbol: "N",
-                balance: "19,260.00",
+                naira: "19,260",
+                kobo: "00",
                 bank: "Providus Bank",
                 accountNumber: "0087642335",
                 buttontext: "Details",
@@ -190,7 +114,8 @@ class HomePage extends StatelessWidget {
                 currency: "USD",
                 title: "Account Balance",
                 symbol: 'N',
-                balance: "120.00 ",
+                naira: "19,260",
+                kobo: "00",
                 bank: "Providus Bank",
                 accountNumber: "0087642335",
                 buttontext: "Details",
@@ -232,6 +157,7 @@ class HomePage extends StatelessWidget {
                         padding: const EdgeInsets.all(15.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               "Complete Account Setup",
@@ -253,17 +179,21 @@ class HomePage extends StatelessWidget {
                                       color: isDarkMode
                                           ? AppColors.black
                                           : AppColors.white,
-                                      borderRadius: BorderRadius.circular(10)),
+                                      borderRadius: BorderRadius.circular(5)),
                                   child: Center(
-                                      child: Text(
-                                    "Complete",
-                                    style: TextStyle(
-                                        fontFamily: "DMSans",
-                                        fontSize: 13.sp,
-                                        color: isDarkMode
-                                            ? AppColors.white
-                                            : AppColors.black,
-                                        fontWeight: FontWeight.w400),
+                                      child: GestureDetector(
+                                    onTap: () => Get.to(
+                                        () => CompleteAccountSetupOptions()),
+                                    child: Text(
+                                      "Complete",
+                                      style: TextStyle(
+                                          fontFamily: "DMSans",
+                                          fontSize: 13.sp,
+                                          color: isDarkMode
+                                              ? AppColors.white
+                                              : AppColors.black,
+                                          fontWeight: FontWeight.w400),
+                                    ),
                                   )),
                                 ),
                               ],
@@ -283,6 +213,7 @@ class HomePage extends StatelessWidget {
                         padding: const EdgeInsets.all(15.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               "Complete Account Setup",
@@ -307,9 +238,19 @@ class HomePage extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(10)),
                                   alignment: Alignment.topRight,
                                   child: Center(
-                                      child: Text(
-                                    "Complete",
-                                    style: theme.textTheme.headline3,
+                                      child: GestureDetector(
+                                    onTap: () => Get.to(
+                                        () => CompleteAccountSetupOptions()),
+                                    child: Text(
+                                      "Complete",
+                                      style: TextStyle(
+                                          fontFamily: "DMSans",
+                                          fontSize: 13.sp,
+                                          color: isDarkMode
+                                              ? AppColors.white
+                                              : AppColors.black,
+                                          fontWeight: FontWeight.w400),
+                                    ),
                                   )),
                                 ),
                               ],
@@ -373,7 +314,36 @@ class HomePage extends StatelessWidget {
                     isDarkMode: isDarkMode,
                     text: "Fund Transfer");
               })),
-        )
+        ),
+        addVerticalSpace(10.h),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: SizedBox(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: isDarkMode ? Color(0xFF161618) : AppColors.greyBg,
+                  borderRadius: BorderRadius.circular(10)),
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.42,
+                      child: HomeChart(
+                        color: AppColors.primaryColor,
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.42,
+                      child: HomeChart(color: AppColors.mainGreen),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

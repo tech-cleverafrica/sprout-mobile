@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/help/view/complaint.dart';
 import 'package:sprout_mobile/src/components/home/controller/home_controller.dart';
+import 'package:sprout_mobile/src/components/notification/view/notification.dart';
 
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_images.dart';
@@ -43,16 +45,22 @@ getHomeHeader(bool isDarkMode) {
         ),
         Row(
           children: [
-            SvgPicture.asset(
-              AppSvg.upload,
-              height: 18,
-              width: 20,
-              color: isDarkMode ? AppColors.white : AppColors.black,
+            InkWell(
+              onTap: () => Get.to(() => ComplaintScreen()),
+              child: SvgPicture.asset(
+                AppSvg.upload,
+                height: 18,
+                width: 20,
+                color: isDarkMode ? AppColors.white : AppColors.black,
+              ),
             ),
             addHorizontalSpace(24.w),
-            SvgPicture.asset(
-              AppSvg.notification,
-              color: isDarkMode ? AppColors.white : AppColors.black,
+            InkWell(
+              onTap: () => Get.to(() => NotificationScreen()),
+              child: SvgPicture.asset(
+                AppSvg.notification,
+                color: isDarkMode ? AppColors.white : AppColors.black,
+              ),
             ),
           ],
         )
@@ -76,7 +84,7 @@ class HistoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 0),
+      padding: EdgeInsets.symmetric(horizontal: 0),
       child: Container(
         width: double.infinity,
         child: Column(
@@ -92,6 +100,8 @@ class HistoryCard extends StatelessWidget {
                     SvgPicture.asset(
                       AppSvg.send,
                       color: AppColors.mainGreen,
+                      height: 18,
+                      width: 18,
                     ),
                     addHorizontalSpace(5.w),
                     Column(
@@ -109,7 +119,7 @@ class HistoryCard extends StatelessWidget {
                         ),
                         addVerticalSpace(5.h),
                         Container(
-                          width: 180.w,
+                          width: MediaQuery.of(context).size.width * .6,
                           child: Text(
                             "Transfer Ref - TSWTAYSSUISPPLNDVD L - ",
                             style: TextStyle(
@@ -123,7 +133,7 @@ class HistoryCard extends StatelessWidget {
                         ),
                         addVerticalSpace(5.h),
                         Container(
-                          width: 180.w,
+                          width: MediaQuery.of(context).size.width * .6,
                           child: Text(
                             "From - TSWTAYSSUISPPLNDsdffadhjjkjhvfdhdVD L - ",
                             style: TextStyle(
@@ -137,7 +147,7 @@ class HistoryCard extends StatelessWidget {
                         ),
                         addVerticalSpace(5.h),
                         Container(
-                          width: 180.w,
+                          width: MediaQuery.of(context).size.width * .6,
                           child: Text(
                             "24 July, 2022. 10:40pm ",
                             style: TextStyle(
@@ -166,7 +176,7 @@ class HistoryCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Divider(
-                thickness: 2,
+                thickness: 1,
               ),
             )
           ],
@@ -249,10 +259,10 @@ class itemOptions extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(shape: BoxShape.circle, color: color),
                 child: Padding(
-                  padding: const EdgeInsets.all(27.0),
+                  padding: const EdgeInsets.all(25.0),
                   child: SvgPicture.asset(svg,
-                      height: 22.h,
-                      width: 22.w,
+                      height: 20.h,
+                      width: 20.w,
                       color: isDark ? AppColors.white : AppColors.black),
                 ),
               ),
@@ -281,7 +291,8 @@ class BalanceCard extends StatelessWidget {
       required this.currency,
       required this.title,
       required this.symbol,
-      required this.balance,
+      required this.naira,
+      required this.kobo,
       required this.bank,
       required this.buttontext,
       required this.buttonColor,
@@ -297,7 +308,8 @@ class BalanceCard extends StatelessWidget {
   final String currency;
   final String title;
   final String symbol;
-  final String balance;
+  final String naira;
+  final String kobo;
   final String bank;
   final String buttontext;
   final String accountNumber;
@@ -355,7 +367,7 @@ class BalanceCard extends StatelessWidget {
                 )
               ],
             ),
-            addVerticalSpace(15.h),
+            addVerticalSpace(5.h),
             Row(
               children: [
                 Row(
@@ -376,14 +388,37 @@ class BalanceCard extends StatelessWidget {
                                 fontWeight: FontWeight.w700),
                           ),
                           Text(
-                            balance,
+                            naira,
                             style: TextStyle(
                                 fontFamily: "DMSans",
-                                fontSize: 28.sp,
+                                fontSize: 26.sp,
                                 color: isDarkMode
                                     ? AppColors.white
                                     : AppColors.black,
                                 fontWeight: FontWeight.w700),
+                          ),
+                          Text(
+                            ".",
+                            style: TextStyle(
+                                fontFamily: "DMSans",
+                                fontSize: 26.sp,
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.black,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 5),
+                            child: Text(
+                              kobo,
+                              style: TextStyle(
+                                  fontFamily: "DMSans",
+                                  fontSize: 16.sp,
+                                  color: isDarkMode
+                                      ? AppColors.white
+                                      : AppColors.black,
+                                  fontWeight: FontWeight.w500),
+                            ),
                           )
                         ],
                       ),
@@ -477,7 +512,7 @@ class BalanceCard extends StatelessWidget {
                   visible: copyVisible,
                   child: SvgPicture.asset(
                     AppSvg.copy,
-                    height: 30,
+                    height: 20,
                   ),
                 )
               ],

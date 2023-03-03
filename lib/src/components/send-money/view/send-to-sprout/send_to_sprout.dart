@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:sprout_mobile/src/components/send-money/view/transaction_details.dart';
+import 'package:sprout_mobile/src/components/send-money/view/send_money_summary.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_dropdown_button_field.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
@@ -25,7 +25,7 @@ class SendToSprout extends StatelessWidget {
               isDarkMode: isDarkMode,
               buttonText: "Continue",
               onTap: () {
-                Get.to(() => TransactionDetailsScreen());
+                Get.to(() => SendMoneySummaryScreen());
               },
             ),
           ),
@@ -98,6 +98,27 @@ class SendToSprout extends StatelessWidget {
                           value: true,
                           onChanged: (value) {})
                     ],
+                  ),
+                  CustomTextFormField(
+                    label: "Enter Amount",
+                    // hintText: "Your Email",
+                    fillColor: isDarkMode
+                        ? AppColors.inputBackgroundColor
+                        : AppColors.grey,
+                  ),
+                  CustomTextFormField(
+                    label: "Purpose",
+                    // hintText: "Your Email",
+                    fillColor: isDarkMode
+                        ? AppColors.inputBackgroundColor
+                        : AppColors.grey,
+                  ),
+                  CustomTextFormField(
+                    label: "Schedule this payment",
+                    // hintText: "Your Email",
+                    fillColor: isDarkMode
+                        ? AppColors.inputBackgroundColor
+                        : AppColors.grey,
                   ),
                 ],
               ),

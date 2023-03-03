@@ -55,7 +55,7 @@ class PasswordResetController extends GetxController {
         confirmPasswordController.text.isEmpty ||
         otpController.text.isEmpty) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-          content: Text("Please all required inputs"),
+          content: Text("Please supply all required inputs"),
           backgroundColor: AppColors.errorRed));
     } else {
       resetPassword(buildResetRequestModel(

@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/authentication/view/sign_in_screen.dart';
 import 'package:sprout_mobile/src/components/authentication/view/sign_up_start.dart';
 import 'package:sprout_mobile/src/components/onboarding/onboarding_content_model.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
-import 'package:sprout_mobile/src/utils/app_svgs.dart';
-
-import '../../theme/theme_service.dart';
 
 class Onboarding extends StatefulWidget {
   const Onboarding({Key? key}) : super(key: key);
@@ -50,11 +46,11 @@ class _OnboardingState extends State<Onboarding> {
                           ),
                           Image.asset(
                             AppImages.onboarding1,
-                            height: 150.h,
-                            width: 150.w,
+                            height: 200.h,
+                            width: 200.w,
                           ),
                           SizedBox(
-                            height: 122.h,
+                            height: 72.h,
                           ),
                           Container(
                             width: 305.w,
@@ -176,11 +172,11 @@ class _OnboardingState extends State<Onboarding> {
                           ),
                           Image.asset(
                             AppImages.onboarding2,
-                            height: 150.h,
-                            width: 150.w,
+                            height: 200.h,
+                            width: 200.w,
                           ),
                           SizedBox(
-                            height: 134.h,
+                            height: 84.h,
                           ),
                           Container(
                             width: 305.w,
@@ -301,11 +297,11 @@ class _OnboardingState extends State<Onboarding> {
                           ),
                           Image.asset(
                             AppImages.onboarding3,
-                            height: 150.h,
-                            width: 150.w,
+                            height: 200.h,
+                            width: 200.w,
                           ),
                           SizedBox(
-                            height: 134.h,
+                            height: 84.h,
                           ),
                           Container(
                             width: 305.w,
@@ -427,11 +423,11 @@ class _OnboardingState extends State<Onboarding> {
                         ),
                         Image.asset(
                           AppImages.onboarding4,
-                          height: 150.h,
-                          width: 150.w,
+                          height: 200.h,
+                          width: 200.w,
                         ),
                         SizedBox(
-                          height: 134.h,
+                          height: 84.h,
                         ),
                         Container(
                           width: 305.w,

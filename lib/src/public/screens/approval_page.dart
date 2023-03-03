@@ -3,15 +3,27 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
 
 import '../../utils/app_colors.dart';
 import '../../utils/app_images.dart';
 import '../../utils/app_svgs.dart';
 import '../../utils/helper_widgets.dart';
 import '../widgets/custom_button.dart';
+import 'package:get/get.dart';
 
 class ApprovalScreen extends StatelessWidget {
-  const ApprovalScreen({super.key});
+  const ApprovalScreen(
+      {super.key,
+      this.containShare = true,
+      this.heading = "Successful",
+      this.subHeading = "Approved",
+      this.messages = ""});
+
+  final String heading;
+  final String subHeading;
+  final String messages;
+  final bool containShare;
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +45,16 @@ class ApprovalScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              addVerticalSpace(60.h),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.15,
+              ),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.end,
               //   children: [
               Text(
-                "Successful",
+                heading,
                 style: TextStyle(
                     color: AppColors.white,
                     fontFamily: "DMSans",
@@ -67,7 +82,9 @@ class ApprovalScreen extends StatelessWidget {
               //     )
               //   ],
               // ),
-              addVerticalSpace(26.h),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.03,
+              ),
               Container(
                   height: 112.h,
                   width: 112.w,
@@ -81,38 +98,70 @@ class ApprovalScreen extends StatelessWidget {
                       color: AppColors.white,
                     ),
                   )),
-              addVerticalSpace(20.h),
-              Container(
-                  width: 150.w,
-                  child: Text(
-                    "Approved",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontFamily: "DMSans",
-                        fontSize: 22.sp,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.white),
-                  )),
-              addVerticalSpace(150.h),
-
-              Row(
-                children: [
-                  Container(
-                    width: 246.w,
-                    child: CustomButton(title: "Back To Home", onTap: () {}),
-                  ),
-                  addHorizontalSpace(8.w),
-                  Expanded(
-                      child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: AppColors.inputBackgroundColor,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Center(child: SvgPicture.asset(AppSvg.share)),
-                  ))
-                ],
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.03,
               ),
-              addVerticalSpace(20.h),
+              Container(
+                  child: Text(
+                subHeading,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontFamily: "DMSans",
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.white),
+              )),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.01,
+              ),
+              Container(
+                  child: Text(
+                messages,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontFamily: "DMSans",
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.white),
+              )),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.25,
+              ),
+              containShare
+                  ? Row(
+                      children: [
+                        Container(
+                          width: 246.w,
+                          child:
+                              CustomButton(title: "Back To Home", onTap: () {}),
+                        ),
+                        addHorizontalSpace(8.w),
+                        Expanded(
+                            child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                              color: AppColors.inputBackgroundColor,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Center(child: SvgPicture.asset(AppSvg.share)),
+                        ))
+                      ],
+                    )
+                  : Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            child: CustomButton(
+                                title: "Back To Home",
+                                onTap: () {
+                                  Get.to(() => BottomNav());
+                                }),
+                          ),
+                        ),
+                      ],
+                    ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.03,
+              ),
               Image.asset(
                 AppImages.sprout_dark,
                 height: 27.h,

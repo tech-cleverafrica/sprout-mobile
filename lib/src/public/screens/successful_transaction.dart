@@ -91,7 +91,9 @@ class SuccessfultransactionScreen extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                         color: AppColors.white),
                   )),
-              addVerticalSpace(70.h),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.08,
+              ),
               Container(
                 decoration: BoxDecoration(
                     color: AppColors.black,
@@ -189,7 +191,9 @@ class SuccessfultransactionScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              addVerticalSpace(80.h),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.1,
+              ),
               Row(
                 children: [
                   Container(
@@ -207,8 +211,13 @@ class SuccessfultransactionScreen extends StatelessWidget {
                   ))
                 ],
               ),
-              addVerticalSpace(20.h),
-              Image.asset(AppImages.sprout_dark),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.01,
+              ),
+              Image.asset(
+                AppImages.sprout_dark,
+                height: MediaQuery.of(context).size.height * 0.05,
+              ),
             ],
           ),
         ),

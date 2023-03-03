@@ -12,6 +12,7 @@ import '../../utils/app_svgs.dart';
 import '../../utils/helper_widgets.dart';
 import '../widgets/general_widgets.dart';
 
+// ignore: must_be_immutable
 class PinPage extends StatelessWidget {
   PinPage({super.key});
 
@@ -35,12 +36,13 @@ class PinPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
           bottomNavigationBar: Container(
-            height: 60.h,
+            height: MediaQuery.of(context).size.height * 0.2,
             child: Column(
               children: [
-                Image.asset(isDarkMode
-                    ? AppImages.sprout_dark
-                    : AppImages.sprout_light),
+                Image.asset(
+                  isDarkMode ? AppImages.sprout_dark : AppImages.sprout_light,
+                  height: MediaQuery.of(context).size.height * 0.05,
+                ),
                 addVerticalSpace(10.h),
                 Text("Forgotten Pin?",
                     style: TextStyle(

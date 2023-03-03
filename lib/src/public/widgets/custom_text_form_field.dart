@@ -40,6 +40,7 @@ class CustomTextFormField extends StatelessWidget {
   final EdgeInsets margin;
   final int maxLines;
   final String? errorText;
+  final bool? required;
 
   CustomTextFormField({
     this.prefixIcon,
@@ -78,6 +79,7 @@ class CustomTextFormField extends StatelessWidget {
     this.maxLines = 1,
     this.margin = const EdgeInsets.symmetric(vertical: 8.0),
     this.errorText,
+    this.required,
   });
 
   @override
@@ -98,6 +100,13 @@ class CustomTextFormField extends StatelessWidget {
                       fontFamily: "DMSans",
                       color: AppColors.inputLabelColor),
                 ),
+                required != null && required == true
+                    ? Text(' *',
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10))
+                    : SizedBox()
               ],
             ),
             SizedBox(height: 8.0),

@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/help/view/complaint.dart';
 import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
+import 'package:sprout_mobile/src/components/notification/view/notification.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
@@ -18,7 +20,7 @@ import '../../components/save/view/savings.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/helper_widgets.dart';
 
-getHeader(bool isDarkMode) {
+getHeader(bool isDarkMode, {hideHelp = false, hideNotification = false}) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 0),
     child: Row(
@@ -26,11 +28,18 @@ getHeader(bool isDarkMode) {
       children: [
         Row(
           children: [
-            IconButton(
-                onPressed: () {
-                  Get.back();
-                },
-                icon: Icon(Icons.arrow_back)),
+            InkWell(
+              onTap: () => Get.back(),
+              child: SvgPicture.asset(
+                AppSvg.arrow_left,
+                width: 14.0,
+                height: 15.0,
+                color: isDarkMode ? AppColors.greyBg : AppColors.primaryColor,
+              ),
+            ),
+            SizedBox(
+              width: 18,
+            ),
             Container(
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
@@ -57,16 +66,26 @@ getHeader(bool isDarkMode) {
         ),
         Row(
           children: [
-            SvgPicture.asset(
-              AppSvg.upload,
-              height: 18,
-              color: isDarkMode ? AppColors.white : AppColors.black,
-            ),
-            addHorizontalSpace(24.w),
-            SvgPicture.asset(
-              AppSvg.notification,
-              color: isDarkMode ? AppColors.white : AppColors.black,
-            ),
+            !hideHelp
+                ? InkWell(
+                    onTap: () => Get.to(() => ComplaintScreen()),
+                    child: SvgPicture.asset(
+                      AppSvg.upload,
+                      height: 18,
+                      color: isDarkMode ? AppColors.white : AppColors.black,
+                    ))
+                : SizedBox(),
+            !hideHelp && !hideNotification
+                ? addHorizontalSpace(24.w)
+                : SizedBox(),
+            !hideNotification
+                ? InkWell(
+                    onTap: () => Get.to(() => NotificationScreen()),
+                    child: SvgPicture.asset(
+                      AppSvg.notification,
+                      color: isDarkMode ? AppColors.white : AppColors.black,
+                    ))
+                : SizedBox(),
           ],
         )
       ],
