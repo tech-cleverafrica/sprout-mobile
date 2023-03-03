@@ -17,11 +17,9 @@ class ApprovalScreen extends StatelessWidget {
       {super.key,
       this.containShare = true,
       this.heading = "Successful",
-      this.subHeading = "Approved",
       this.messages = ""});
 
   final String heading;
-  final String subHeading;
   final String messages;
   final bool containShare;
 
@@ -48,51 +46,16 @@ class ApprovalScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.15,
-              ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.end,
-              //   children: [
-              Text(
-                heading,
-                style: TextStyle(
-                    color: AppColors.white,
-                    fontFamily: "DMSans",
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.w700),
-              ),
-              //     addHorizontalSpace(70.w),
-              //     InkWell(
-              //       onTap: () {},
-              //       child: Container(
-              //         height: 28,
-              //         width: 28,
-              //         decoration: BoxDecoration(
-              //             shape: BoxShape.circle,
-              //             border: Border.all(
-              //               color: AppColors.white,
-              //               width: 1.5,
-              //             )),
-              //         child: Center(
-              //             child: Icon(
-              //           Icons.more_horiz,
-              //           color: AppColors.white,
-              //         )),
-              //       ),
-              //     )
-              //   ],
-              // ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.03,
+                height: MediaQuery.of(context).size.height * 0.2,
               ),
               Container(
-                  height: 112.h,
-                  width: 112.w,
+                  height: 150.h,
+                  width: 150.w,
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: Color(0xFFD9D9D9).withOpacity(0.4)),
                   child: Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(0.0),
                     child: SvgPicture.asset(
                       AppSvg.mark,
                       color: AppColors.white,
@@ -103,13 +66,13 @@ class ApprovalScreen extends StatelessWidget {
               ),
               Container(
                   child: Text(
-                subHeading,
+                heading,
                 textAlign: TextAlign.center,
                 style: TextStyle(
+                    color: AppColors.white,
                     fontFamily: "DMSans",
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.white),
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.w700),
               )),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.01,
@@ -125,7 +88,7 @@ class ApprovalScreen extends StatelessWidget {
                     color: AppColors.white),
               )),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.25,
+                height: MediaQuery.of(context).size.height * 0.2,
               ),
               containShare
                   ? Row(

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/home/view/widgets.dart';
 import 'package:sprout_mobile/src/components/save/view/all_savings.dart';
 import 'package:sprout_mobile/src/components/save/view/new_savings.dart';
-import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
@@ -40,18 +37,7 @@ class SavingsDashboard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          "Total Savings-",
-                          style: TextStyle(
-                              fontFamily: "DMSans",
-                              color: isDarkMode
-                                  ? AppColors.greyText
-                                  : AppColors.greyText,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400),
-                        ),
-                        addHorizontalSpace(5.w),
-                        Text("Housing",
+                        Text("Savings Balance",
                             style: TextStyle(
                                 fontFamily: "DMSans",
                                 fontSize: 14.sp,
@@ -74,31 +60,31 @@ class SavingsDashboard extends StatelessWidget {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0)),
                                 child: Container(
-                                  height: 300.h,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.3,
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 20, horizontal: 20),
                                     child: Column(
                                       children: [
-                                        addVerticalSpace(10.h),
                                         Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                              MainAxisAlignment.end,
                                           children: [
-                                            Text(
-                                              "Cancel",
-                                              style: theme.textTheme.headline6,
-                                            ),
                                             InkWell(
                                                 onTap: () => Get.back(),
                                                 child: SvgPicture.asset(
-                                                    AppSvg.cancel))
+                                                  AppSvg.cancel,
+                                                  height: 20,
+                                                ))
                                           ],
                                         ),
-                                        addVerticalSpace(20.h),
+                                        addVerticalSpace(25.h),
                                         InkWell(
-                                          onTap: () =>
-                                              Get.to(() => NewSavingsScreen()),
+                                          onTap: () => {
+                                            Get.back(),
+                                            Get.to(() => NewSavingsScreen())
+                                          },
                                           child: Column(
                                             children: [
                                               Row(
@@ -107,17 +93,19 @@ class SavingsDashboard extends StatelessWidget {
                                                         .spaceBetween,
                                                 children: [
                                                   Text(
-                                                    "Lock Savings",
+                                                    "Lock Funds",
                                                     style: theme
                                                         .textTheme.headline6,
                                                   ),
                                                   SvgPicture.asset(
-                                                      AppSvg.mark_green)
+                                                    AppSvg.mark_green,
+                                                    height: 20,
+                                                  )
                                                 ],
                                               ),
                                               addVerticalSpace(5.h),
                                               Text(
-                                                "Lock your savings for a particular period of time and get interest on withdrawal",
+                                                "Lock your funds for a particular period of time and earn interest",
                                                 style:
                                                     theme.textTheme.subtitle2,
                                               ),
@@ -125,29 +113,37 @@ class SavingsDashboard extends StatelessWidget {
                                           ),
                                         ),
                                         addVerticalSpace(20.h),
-                                        Column(
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  "Target Savings",
+                                        InkWell(
+                                          onTap: () => {
+                                            Get.back(),
+                                            Get.to(() => NewSavingsScreen())
+                                          },
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "Target Savings",
+                                                    style: theme
+                                                        .textTheme.headline6,
+                                                  ),
+                                                  SvgPicture.asset(
+                                                    AppSvg.mark_green,
+                                                    height: 20,
+                                                  )
+                                                ],
+                                              ),
+                                              addVerticalSpace(5.h),
+                                              Text(
+                                                  "Automate your savings for a future target and earn interest",
                                                   style:
-                                                      theme.textTheme.headline6,
-                                                ),
-                                                SvgPicture.asset(
-                                                    AppSvg.mark_green)
-                                              ],
-                                            ),
-                                            addVerticalSpace(5.h),
-                                            Text(
-                                                "Save for a future target periodically and get instant rewards",
-                                                style:
-                                                    theme.textTheme.subtitle2)
-                                          ],
-                                        ),
+                                                      theme.textTheme.subtitle2)
+                                            ],
+                                          ),
+                                        )
                                       ],
                                     ),
                                   ),
@@ -189,7 +185,7 @@ class SavingsDashboard extends StatelessWidget {
                       "N19,260.00",
                       style: TextStyle(
                           fontFamily: "DMSans",
-                          fontSize: 32.sp,
+                          fontSize: 30.sp,
                           fontWeight: FontWeight.w700,
                           color:
                               isDarkMode ? AppColors.white : AppColors.black),
@@ -202,7 +198,7 @@ class SavingsDashboard extends StatelessWidget {
                               isDarkMode ? AppColors.greyDot : AppColors.greyBg,
                           borderRadius: BorderRadius.circular(10)),
                       child: Padding(
-                        padding: const EdgeInsets.all(15.0),
+                        padding: EdgeInsets.all(10.0),
                         child: Icon(CommunityMaterialIcons.eye_off_outline,
                             size: 18,
                             color: isDarkMode
