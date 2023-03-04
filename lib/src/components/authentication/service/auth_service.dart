@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -35,6 +36,7 @@ class AuthService {
       CustomLoader.dismiss();
       String accessToken = responseBody["data"]["accessToken"];
       preferenceRepository.setStringPref(accessTokenKey, accessToken);
+      api.baseOptions.headers.addAll({"Authorization": "Bearer $accessToken"});
       return AppResponse<SignInResponseModel>(
           true,
           statusCode,
@@ -54,11 +56,9 @@ class AuthService {
 
     Map<String, dynamic> responseBody = response.data;
     if (response.data["status"]) {
-      // CustomerInfo userInfo = CustomerInfo.fromJson(
-      //     Decrypter.decrypt(response.data['data']['user_info']));
+      User user = User.fromJson(response.data);
 
-      User user = User.fromJson(response.data["data"]);
-      preferenceRepository.setStringPref("fullname", user.data!.fullName ?? "");
+      repository.storeInSharedPreference("firstname", user.data!.firstName!);
 
       // box.write('gender', userInfo.gender ?? "");
       // box.write('marital', userInfo.maritalstatus ?? "");
@@ -76,6 +76,40 @@ class AuthService {
       return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
     }
 
+    return AppResponse(false, statusCode, responseBody);
+  }
+
+  Future<AppResponse<dynamic>> confirmEmail(
+      Map<String, dynamic> requestBody, String loadingMessage) async {
+    CustomLoader.show(message: loadingMessage);
+    Response response =
+        await locator<AuthRepositoryImpl>().emailConfirmation(requestBody);
+    print(response);
+    CustomLoader.dismiss();
+    int statusCode = response.statusCode ?? 000;
+
+    Map<String, dynamic> responseBody = response.data;
+    if (response.data["status"]) {
+      print(":::::::::$responseBody");
+      return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
+    }
+    return AppResponse(false, statusCode, responseBody);
+  }
+
+  Future<AppResponse<dynamic>> resetPassword(
+      Map<String, dynamic> requestBody, String loadingMessage) async {
+    CustomLoader.show(message: loadingMessage);
+    Response response =
+        await locator<AuthRepositoryImpl>().resetPassword(requestBody);
+    print(response);
+    CustomLoader.dismiss();
+    int statusCode = response.statusCode ?? 000;
+
+    Map<String, dynamic> responseBody = response.data;
+    if (response.data["status"]) {
+      print(":::::::::$responseBody");
+      return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
+    }
     return AppResponse(false, statusCode, responseBody);
   }
 }

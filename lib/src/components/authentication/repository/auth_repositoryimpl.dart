@@ -28,4 +28,26 @@ class AuthRepositoryImpl implements AuthRepository {
       return api.handleError(e);
     }
   }
+
+  @override
+  emailConfirmation(requestBody) async {
+    try {
+      return await api.dio.post(confirmEmailUrl, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
+
+  @override
+  resetPassword(Map<String, dynamic> requestBody) async {
+    try {
+      return await api.dio.post(resetPasswordUrl, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
 }

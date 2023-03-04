@@ -1,0 +1,9 @@
+const invalidEmailAddress = "enter a valid email";
+const invalidPassword = "password must be at least 8 characters!";
+const invalidLength = "must be at least 4 characters!";
+const invalidOTPLength = "must be 6 digits";
+const OngoingProcessStatus = "Pending...";
+const OngoingProcessMessage = "Your request is being processed!";
+const WithdrawalSuccessful = "Withdrawal Successful";
+const WithdrawalFailed = "Withdrawal Failed";
+const WithdrawalPending = "Withdrawal Pending";

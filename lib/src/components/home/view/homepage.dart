@@ -10,23 +10,16 @@ import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 import '../controller/home_controller.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   HomePage({super.key});
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  late HomeController homeCntroller;
-
   late bool showInvoice = false;
-
+  late HomeController homeController;
   @override
   Widget build(BuildContext context) {
-    homeCntroller = Get.put(HomeController());
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final theme = Theme.of(context);
+    homeController = Get.put(HomeController());
 
     return SafeArea(
       child: Scaffold(
@@ -36,13 +29,13 @@ class _HomePageState extends State<HomePage> {
           addVerticalSpace(19.h),
           getHomeHeader(isDarkMode),
           addVerticalSpace(16.h),
-          getHomeDisplay(isDarkMode, theme)
+          getHomeDisplay(isDarkMode, theme, context)
         ])),
       ),
     );
   }
 
-  getHomeDisplay(isDarkMode, theme) {
+  getHomeDisplay(isDarkMode, theme, context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,7 +54,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               addHorizontalSpace(5.w),
-              Text("Mubarak,",
+              Text("",
                   style: TextStyle(
                     color: isDarkMode ? AppColors.white : AppColors.black,
                     fontFamily: "DMSans",
@@ -362,9 +355,9 @@ class _HomePageState extends State<HomePage> {
         children: [
           InkWell(
             onTap: () {
-              setState(() {
-                showInvoice = false;
-              });
+              // setState(() {
+              //   showInvoice = false;
+              // });
             },
             child: Container(
               decoration: BoxDecoration(
@@ -390,9 +383,9 @@ class _HomePageState extends State<HomePage> {
           ),
           InkWell(
             onTap: () {
-              setState(() {
-                showInvoice = true;
-              });
+              // setState(() {
+              //   showInvoice = true;
+              // });
             },
             child: Container(
               decoration:

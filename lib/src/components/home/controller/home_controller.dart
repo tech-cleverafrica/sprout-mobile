@@ -5,10 +5,7 @@ import '../../../repository/preference_repository.dart';
 class HomeController extends GetxController {
   RxBool isInvoice = false.obs;
 
-  late String fullname;
-
-  final PreferenceRepository preferenceRepository =
-      Get.put(PreferenceRepository());
+  String? fullname;
 
   void toggleDisplay() => isInvoice.value = isInvoice.value ? false : true;
 
@@ -18,8 +15,7 @@ class HomeController extends GetxController {
   }
 
   @override
-  void onInit()async {
-    fullname = await preferenceRepository.getStringPref("fullname");
+  void onInit() async {
     super.onInit();
   }
 
