@@ -103,14 +103,17 @@ class SignInController extends GetxController {
     log("Device name is :::$manufacturer");
   }
 
-  Widget getBiometricIcon() {
+  Widget getBiometricIcon(bool isDark) {
     if (isFingerPrintEnabled.value && !Platform.isIOS) {
       return InkWell(
         highlightColor: AppColors.white,
         onTap: _initBiometricAuthentication,
         child: Container(
           height: 50.h,
-          child: Image.asset(AppImages.biometric),
+          child: Image.asset(
+            AppImages.biometric,
+            color: isDark ? AppColors.white : AppColors.black,
+          ),
         ),
       );
     } else if (isFingerPrintEnabled.value && Platform.isIOS) {
@@ -122,7 +125,7 @@ class SignInController extends GetxController {
           padding: EdgeInsets.all(10),
           child: Image.asset(
             "assets/images/faceId.png",
-            color: AppColors.white,
+            color: isDark ? AppColors.white : AppColors.black,
           ),
         ),
       );
@@ -206,7 +209,6 @@ class SignInController extends GetxController {
 
   @override
   void onClose() {
-    // TODO: implement onClose
     super.onClose();
   }
 }

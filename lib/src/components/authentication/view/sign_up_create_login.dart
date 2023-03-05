@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/authentication/controller/signup_controller.dart';
 import 'package:sprout_mobile/src/components/authentication/view/otp_screen.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_password_field.dart';
+import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 import '../../../public/widgets/custom_button.dart';
@@ -20,12 +22,12 @@ class SignUpCreateLogin extends StatefulWidget {
 }
 
 class _SignUpCreateLoginState extends State<SignUpCreateLogin> {
-  final TextEditingController controller = TextEditingController();
-
+  late SignUpController signUpController;
   bool success = false;
 
   @override
   Widget build(BuildContext context) {
+    signUpController = Get.put(SignUpController());
     final theme = Theme.of(context);
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
@@ -82,19 +84,21 @@ class _SignUpCreateLoginState extends State<SignUpCreateLogin> {
                 ),
                 addVerticalSpace(36.h),
                 CustomTextFormField(
+                  controller: signUpController.emailController,
                   label: "Email Address",
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
                 ),
                 CustomTextFormField(
+                  controller: signUpController.phoneController,
                   label: "Phone Number",
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
                 ),
                 CustomTextFormPasswordField(
-                  controller: controller,
+                  controller: signUpController.passwordController,
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
@@ -102,10 +106,10 @@ class _SignUpCreateLoginState extends State<SignUpCreateLogin> {
                 ),
                 addVerticalSpace(10.h),
                 FlutterPwValidator(
-                  controller: controller,
+                  controller: signUpController.passwordController,
                   minLength: 8,
-                  uppercaseCharCount: 2,
-                  numericCharCount: 3,
+                  uppercaseCharCount: 1,
+                  numericCharCount: 1,
                   specialCharCount: 1,
                   normalCharCount: 3,
                   successColor:
@@ -118,8 +122,6 @@ class _SignUpCreateLoginState extends State<SignUpCreateLogin> {
                       success = true;
                     });
                     print("MATCHED");
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Password is good")));
                   },
                   onFail: () {
                     setState(() {
@@ -130,43 +132,17 @@ class _SignUpCreateLoginState extends State<SignUpCreateLogin> {
                 ),
                 addVerticalSpace(16.h),
                 CustomTextFormPasswordField(
-                  // controller: controller,
+                  controller: signUpController.confirmPasswordController,
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
                   label: "Confirm password",
                 ),
                 addVerticalSpace(48.h),
-                Row(
-                  children: [
-                    Container(
-                      width: 246.w,
-                      child: CustomButton(
-                        title: "Continue",
-                        onTap: () {
-                          Get.to(() => OTPScreen());
-                        },
-                      ),
-                    ),
-                    addHorizontalSpace(8.w),
-                    Expanded(
-                        child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: isDarkMode
-                              ? AppColors.inputBackgroundColor
-                              : AppColors.black,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Center(
-                        child: Text(
-                          "Go Back",
-                          style: TextStyle(
-                              fontFamily: "DMSans", color: AppColors.white),
-                        ),
-                      ),
-                    ))
-                  ],
-                ),
+                DecisionButton(
+                    isDarkMode: isDarkMode,
+                    buttonText: "Continue",
+                    onTap: (() => signUpController.validateLoginDetails()))
               ],
             ),
           ),

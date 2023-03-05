@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as get_accessor;
+import 'package:get_storage/get_storage.dart';
 
 import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/authentication/model/response_model.dart';
@@ -18,6 +19,7 @@ import '../repository/auth_repositoryimpl.dart';
 class AuthService {
   final Api api = get_accessor.Get.put(Api(Dio()));
   final Repository repository = get_accessor.Get.put(Repository());
+  final storage = GetStorage();
   SignInResponseModel signInResponseModel =
       get_accessor.Get.put(SignInResponseModel(), permanent: true);
   final PreferenceRepository preferenceRepository =
@@ -58,19 +60,8 @@ class AuthService {
     if (response.data["status"]) {
       User user = User.fromJson(response.data);
 
-      repository.storeInSharedPreference("firstname", user.data!.firstName!);
-
-      // box.write('gender', userInfo.gender ?? "");
-      // box.write('marital', userInfo.maritalstatus ?? "");
-      // box.write('maiden', userInfo.mothermaidenname ?? "");
-
-      // box.write('country_of_origin', userInfo.countryoforigin ?? "");
-      // box.write('state_of_origin', userInfo.stateoforigin ?? "");
-      // box.write('lga_of_origin', userInfo.lgaoforigin ?? "");
-      // box.write('address', userInfo.addressinformation!.first!.address1 ?? "");
-      // box.write('state', userInfo.addressinformation!.first!.state ?? "");
-      // box.write('city', userInfo.addressinformation!.first!.city ?? "");
-      // box.write('zip', userInfo.addressinformation!.first!.zipCode ?? "");
+      storage.write('firstname', user.data!.firstName ?? "");
+      storage.write('accountNumber', user.data!.accountNumber ?? "");
 
       print(":::::::::$responseBody");
       return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
@@ -101,6 +92,23 @@ class AuthService {
     CustomLoader.show(message: loadingMessage);
     Response response =
         await locator<AuthRepositoryImpl>().resetPassword(requestBody);
+    print(response);
+    CustomLoader.dismiss();
+    int statusCode = response.statusCode ?? 000;
+
+    Map<String, dynamic> responseBody = response.data;
+    if (response.data["status"]) {
+      print(":::::::::$responseBody");
+      return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
+    }
+    return AppResponse(false, statusCode, responseBody);
+  }
+
+  Future<AppResponse<dynamic>> createUser(
+      Map<String, dynamic> requestBody, String loadingMessage) async {
+    CustomLoader.show(message: loadingMessage);
+    Response response =
+        await locator<AuthRepositoryImpl>().createUser(requestBody);
     print(response);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;

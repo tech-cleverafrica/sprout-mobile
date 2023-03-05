@@ -40,6 +40,9 @@ dependencies:
   device_information: ^0.0.4
   local_auth: ^2.1.5
   form_field_validator: ^1.1.0
+  basic_utils: ^5.5.1
+  
+  # device_info_plus: ^6.0.0
 
 
 

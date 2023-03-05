@@ -15,6 +15,7 @@ class HomePage extends StatelessWidget {
 
   late bool showInvoice = false;
   late HomeController homeController;
+
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
@@ -54,13 +55,13 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               addHorizontalSpace(5.w),
-              Text("",
+              Text(homeController.fullname,
                   style: TextStyle(
                     color: isDarkMode ? AppColors.white : AppColors.black,
                     fontFamily: "DMSans",
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w700,
-                  ))
+                  )),
             ],
           ),
         ),

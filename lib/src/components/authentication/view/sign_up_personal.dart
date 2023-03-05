@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:sprout_mobile/src/components/authentication/view/sign_up_personal2.dart';
-import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
+import 'package:sprout_mobile/src/components/authentication/controller/signup_controller.dart';
+
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
+import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 import '../../../public/widgets/custom_dropdown_button_field.dart';
@@ -12,10 +13,13 @@ import '../../../utils/app_images.dart';
 import '../../../utils/helper_widgets.dart';
 
 class SignupPersonalScreen extends StatelessWidget {
-  const SignupPersonalScreen({super.key});
+  SignupPersonalScreen({super.key});
+
+  late SignUpController signUpController;
 
   @override
   Widget build(BuildContext context) {
+    signUpController = Get.put(SignUpController());
     final theme = Theme.of(context);
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
@@ -72,6 +76,7 @@ class SignupPersonalScreen extends StatelessWidget {
               ),
               addVerticalSpace(36.h),
               CustomTextFormField(
+                controller: signUpController.firstnameController,
                 label: "First name",
                 hintText: "Enter your first name",
                 fillColor: isDarkMode
@@ -79,6 +84,7 @@ class SignupPersonalScreen extends StatelessWidget {
                     : AppColors.grey,
               ),
               CustomTextFormField(
+                controller: signUpController.lastNameController,
                 label: "Last name",
                 hintText: "Enter your last name",
                 fillColor: isDarkMode
@@ -101,46 +107,27 @@ class SignupPersonalScreen extends StatelessWidget {
                   ),
                   addHorizontalSpace(20.w),
                   Expanded(
-                      child: CustomTextFormField(
-                    label: "D.O.B",
-                    hintText: "YYYY/    MM/     DAY",
-                    fillColor: isDarkMode
-                        ? AppColors.inputBackgroundColor
-                        : AppColors.grey,
+                      child: InkWell(
+                    onTap: () => signUpController.selectDob(),
+                    child: Obx(
+                      (() => CustomTextFormField(
+                            controller: signUpController.dateOfBirthController,
+                            label: "D.O.B",
+                            enabled: false,
+                            hintText: signUpController.birthDate.value,
+                            fillColor: isDarkMode
+                                ? AppColors.inputBackgroundColor
+                                : AppColors.grey,
+                          )),
+                    ),
                   ))
                 ],
               ),
               addVerticalSpace(48.h),
-              Row(
-                children: [
-                  Container(
-                    width: 246.w,
-                    child: CustomButton(
-                      title: "Continue",
-                      onTap: () {
-                        Get.to(() => SignupPersonal2());
-                      },
-                    ),
-                  ),
-                  addHorizontalSpace(8.w),
-                  Expanded(
-                      child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: isDarkMode
-                            ? AppColors.inputBackgroundColor
-                            : AppColors.black,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Center(
-                      child: Text(
-                        "Go Back",
-                        style: TextStyle(
-                            fontFamily: "DMSans", color: AppColors.white),
-                      ),
-                    ),
-                  ))
-                ],
-              ),
+              DecisionButton(
+                  isDarkMode: isDarkMode,
+                  buttonText: "Continue",
+                  onTap: (() => signUpController.validatePersonalDetails())),
               addVerticalSpace(152.h),
               Center(
                   child: Image.asset(

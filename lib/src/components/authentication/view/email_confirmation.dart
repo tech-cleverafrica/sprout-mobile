@@ -11,7 +11,8 @@ import '../../../utils/app_images.dart';
 import '../../../utils/helper_widgets.dart';
 
 class EmailConfirmation extends StatelessWidget {
-  EmailConfirmation({super.key});
+  String? process;
+  EmailConfirmation({super.key, required this.process});
 
   late PasswordResetController passwordResetController;
 
