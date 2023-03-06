@@ -9,7 +9,7 @@ class NotificationController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // push.initialise();
+    push.initialise();
   }
 
   @override
