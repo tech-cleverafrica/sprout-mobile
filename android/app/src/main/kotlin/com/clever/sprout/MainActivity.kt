@@ -1,4 +1,4 @@
-package com.cleverafrica.sprout_mobile
+package com.clever.sprout
 
 import io.flutter.embedding.android.FlutterActivity
 
