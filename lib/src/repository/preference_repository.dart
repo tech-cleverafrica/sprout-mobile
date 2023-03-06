@@ -40,4 +40,9 @@ class PreferenceRepository {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getInt(settingKey);
   }
+
+  Future<bool> getKeyBoolean(String settingKey) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.containsKey(settingKey);
+  }
 }

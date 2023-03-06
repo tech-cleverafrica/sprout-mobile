@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/public/screens/approval_page.dart';
 import 'package:sprout_mobile/src/public/screens/successful_transaction.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
@@ -52,6 +53,20 @@ class SavingsSummaryScreen extends StatelessWidget {
                         children: [
                           Text(
                             "Interest Rate:",
+                            style: titleStyle(),
+                          ),
+                          Text(
+                            "%53.4",
+                            style: detailStyle(isDarkMode),
+                          )
+                        ],
+                      ),
+                      addVerticalSpace(20.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Estimated Interest:",
                             style: titleStyle(),
                           ),
                           Text(
@@ -127,7 +142,9 @@ class SavingsSummaryScreen extends StatelessWidget {
                   isDarkMode: isDarkMode,
                   buttonText: "Start Saving",
                   onTap: () {
-                    Get.to(() => SuccessfultransactionScreen());
+                    Get.to(() => ApprovalScreen(
+                          containShare: false,
+                        ));
                   })
             ],
           ),

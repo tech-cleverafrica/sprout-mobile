@@ -33,16 +33,15 @@ class NewSavingsScreen extends StatelessWidget {
               children: [
                 getHeader(isDarkMode),
                 addVerticalSpace(15.h),
-                CustomDropdownButtonFormField(
-                  label: "How Would You Like To Save",
-                  items: [],
-                  fillColor: isDarkMode
-                      ? AppColors.inputBackgroundColor
-                      : AppColors.grey,
-                ),
-                CustomDropdownButtonFormField(
+                // CustomDropdownButtonFormField(
+                //   label: "How Would You Like To Save",
+                //   items: [],
+                //   fillColor: isDarkMode
+                //       ? AppColors.inputBackgroundColor
+                //       : AppColors.grey,
+                // ),
+                CustomTextFormField(
                   label: "Name Your Savings",
-                  items: [],
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,

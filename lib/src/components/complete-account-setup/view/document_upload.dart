@@ -65,7 +65,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
               onTap: () {
                 Get.to(() => ApprovalScreen(
                       containShare: false,
-                      subHeading:
+                      heading:
                           "Your information has been successfully submitted",
                       messages:
                           "You will be notified once your account is verified",
