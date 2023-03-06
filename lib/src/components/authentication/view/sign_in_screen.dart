@@ -89,7 +89,10 @@ class SignInScreen extends StatelessWidget {
                     ],
                   ),
                   InkWell(
-                    onTap: () => push(page: EmailConfirmation()),
+                    onTap: () => push(
+                        page: EmailConfirmation(
+                      process: "reset",
+                    )),
                     child: Text(
                       'Forgot Password?',
                       style: TextStyle(
@@ -152,7 +155,7 @@ class SignInScreen extends StatelessWidget {
                   child: Column(
                 children: [
                   Obx(() => signInController.isFingerPrintEnabled.value
-                      ? signInController.getBiometricIcon()
+                      ? signInController.getBiometricIcon(isDarkMode)
                       : Container()),
                   SizedBox(
                     height: 8.h,

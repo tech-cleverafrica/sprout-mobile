@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:sprout_mobile/src/components/authentication/view/sign_up_create_login.dart';
+import 'package:sprout_mobile/src/components/authentication/controller/signup_controller.dart';
+import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
-import '../../../public/widgets/custom_button.dart';
 import '../../../public/widgets/custom_text_form_field.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_images.dart';
 import '../../../utils/helper_widgets.dart';
 
 class SignupPersonal2 extends StatelessWidget {
-  const SignupPersonal2({super.key});
+  SignupPersonal2({super.key});
+
+  late SignUpController signUpController;
 
   @override
   Widget build(BuildContext context) {
+    signUpController = Get.put(SignUpController());
     final theme = Theme.of(context);
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
@@ -71,6 +74,7 @@ class SignupPersonal2 extends StatelessWidget {
                 ),
                 addVerticalSpace(36.h),
                 CustomTextFormField(
+                  controller: signUpController.businessNameController,
                   label: "Business name (optional)",
                   hintText: "Enter your business name",
                   fillColor: isDarkMode
@@ -78,6 +82,7 @@ class SignupPersonal2 extends StatelessWidget {
                       : AppColors.grey,
                 ),
                 CustomTextFormField(
+                  controller: signUpController.fullAddressController,
                   label: "Full address",
                   hintText: "Enter your full address",
                   fillColor: isDarkMode
@@ -89,6 +94,7 @@ class SignupPersonal2 extends StatelessWidget {
                     Expanded(
                       child: Container(
                         child: CustomTextFormField(
+                          controller: signUpController.cityController,
                           fillColor: isDarkMode
                               ? AppColors.inputBackgroundColor
                               : AppColors.grey,
@@ -99,6 +105,7 @@ class SignupPersonal2 extends StatelessWidget {
                     addHorizontalSpace(10.w),
                     Expanded(
                         child: CustomTextFormField(
+                      controller: signUpController.stateController,
                       label: "State",
                       fillColor: isDarkMode
                           ? AppColors.inputBackgroundColor
@@ -107,42 +114,17 @@ class SignupPersonal2 extends StatelessWidget {
                   ],
                 ),
                 CustomTextFormField(
+                  controller: signUpController.referralController,
                   label: "Referral code",
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
                 ),
                 addVerticalSpace(48.h),
-                Row(
-                  children: [
-                    Container(
-                      width: 246.w,
-                      child: CustomButton(
-                        title: "Complete",
-                        onTap: () {
-                          Get.to(() => SignUpCreateLogin());
-                        },
-                      ),
-                    ),
-                    addHorizontalSpace(10.w),
-                    Expanded(
-                        child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: isDarkMode
-                              ? AppColors.inputBackgroundColor
-                              : AppColors.black,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Center(
-                        child: Text(
-                          "Go Back",
-                          style: TextStyle(
-                              fontFamily: "DMSans", color: AppColors.white),
-                        ),
-                      ),
-                    ))
-                  ],
-                ),
+                DecisionButton(
+                    isDarkMode: isDarkMode,
+                    buttonText: "Continue",
+                    onTap: (() => signUpController.validateBusinessInfo())),
                 addVerticalSpace(90.h),
                 Center(
                     child: Image.asset(

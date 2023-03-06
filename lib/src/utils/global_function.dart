@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/constants.dart';
 import '../repository/preference_repository.dart';
 
@@ -71,4 +72,31 @@ Future<List> checkAvailableBiometrics(BuildContext context) async {
   } on PlatformException catch (e) {
     return [false, e.message];
   }
+}
+
+Future<DateTime?> showRangeDatePicker() async {
+  return await showDatePicker(
+    context: Get.context!,
+    initialDate:
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
+    firstDate: DateTime(2000),
+    lastDate: DateTime(2100),
+    builder: (context, child) {
+      return Theme(
+        data: Theme.of(context).copyWith(
+          // colorScheme: ColorScheme.light(
+          //   primary:, // <-- SEE HERE
+          //   onPrimary: AppColors.white, // <-- SEE HERE
+          //   onSurface: AppColors.greyText, // <-- SEE HERE
+          // ),
+          textButtonTheme: TextButtonThemeData(
+            style: TextButton.styleFrom(
+              primary: AppColors.mainGreen, // button text color
+            ),
+          ),
+        ),
+        child: child!,
+      );
+    },
+  );
 }
