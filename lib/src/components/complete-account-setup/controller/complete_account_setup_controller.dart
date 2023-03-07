@@ -22,6 +22,9 @@ class CompleteAccountSetupController extends GetxController {
   bool isIDValid = false;
   bool isUtilityValid = false;
 
+  RxString uploadBillText = "Upload your preferred Utility Bill".obs;
+  RxString uploadIdText = "Upload your preferred ID".obs;
+
   File? preferredID, utilityBill;
 
   @override
@@ -97,12 +100,14 @@ class CompleteAccountSetupController extends GetxController {
     if (message == "") {
       preferredID = file;
       uploadingIdentityCard.value = true;
+      uploadIdText.value = preferredID!.path;
       uploadAndCommit(
         preferredID,
         "identityCard",
       );
     } else {
       identityCardUploadError = message;
+      uploadIdText.value = identityCardUploadError!;
       isIDValid = false;
     }
   }
@@ -114,12 +119,14 @@ class CompleteAccountSetupController extends GetxController {
     if (message == "") {
       utilityBill = file;
       uploadingUtilityBill.value = true;
+      uploadBillText.value = utilityBill!.path;
       uploadAndCommit(
         utilityBill,
         "utilityBill",
       );
     } else {
       utilityBillUploadError = message;
+      uploadBillText.value = utilityBillUploadError!;
       isUtilityValid = false;
     }
   }

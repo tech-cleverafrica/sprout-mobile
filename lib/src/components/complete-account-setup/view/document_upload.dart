@@ -238,11 +238,16 @@ class DocumentUpload extends StatelessWidget {
                                   ],
                                 ),
                               ))),
-                      title: cASCtrl.identityCardUploadError != null
-                          ? cASCtrl.identityCardUploadError
-                          : cASCtrl.preferredID != null
-                              ? cASCtrl.preferredID?.path.split("/").last
-                              : "Upload your preferred ID",
+                      title: Obx(
+                        () => Text(
+                          cASCtrl.uploadIdText.value.toString().split("/").last,
+                        ),
+                      ),
+                      // title: cASCtrl.identityCardUploadError != null
+                      //     ? cASCtrl.identityCardUploadError
+                      //     : cASCtrl.preferredID != null
+                      //         ? cASCtrl.preferredID?.path.split("/").last
+                      //         : "Upload your preferred ID",
                       error: cASCtrl.identityCardUploadError != null
                           ? true
                           : false,
@@ -422,11 +427,20 @@ class DocumentUpload extends StatelessWidget {
                                   ],
                                 ),
                               ))),
-                      title: cASCtrl.utilityBillUploadError != null
-                          ? cASCtrl.utilityBillUploadError
-                          : cASCtrl.utilityBill != null
-                              ? cASCtrl.utilityBill?.path.split("/").last
-                              : "Upload your preferred Utility Bill",
+                      // title: cASCtrl.utilityBillUploadError != null
+                      //     ? cASCtrl.utilityBillUploadError
+                      //     : cASCtrl.utilityBill != null
+                      //         ? cASCtrl.utilityBill?.path.split("/").last
+                      //         : "Upload your preferred Utility Bill",
+                      title: Obx(
+                        () => Text(
+                          cASCtrl.uploadBillText.value
+                              .toString()
+                              .split("/")
+                              .last,
+                        ),
+                      ),
+
                       error:
                           cASCtrl.utilityBillUploadError != null ? true : false,
                     ),
