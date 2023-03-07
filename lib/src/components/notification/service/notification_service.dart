@@ -47,7 +47,7 @@ class PushNotificationService {
     String? token = await _fcm.getToken();
     print("FirebaseMessaging token: $token");
     preferenceRepository.setStringPref(NOTIFICATION_ID, jsonEncode(token));
-    _fcm.subscribeToTopic('clever');
+    _fcm.subscribeToTopic('sprout');
   }
 
   _popupNotification(RemoteMessage message) async {
@@ -113,10 +113,10 @@ Future _myBackgroundMessageHandler(RemoteMessage message) async {
 Future _saveNotification(RemoteMessage message) async {
   List<dynamic> _notifications = [];
   dynamic notification;
-  Future<Set<String>> keys = preferenceRepository.getSettings();
 
   // if (await storage.containsKey(key: "notifications") == true) {
   if (await preferenceRepository.getKeyBoolean(NOTIFICATIONS)) {
+    print(message);
     Future<String> notifications =
         preferenceRepository.getStringPref(NOTIFICATIONS);
     _notifications = jsonDecode(await notifications);
@@ -148,6 +148,7 @@ Future _saveNotification(RemoteMessage message) async {
         "date": await _dateNow(),
         "read": false
       };
+      print(_notifications);
       _notifications.insert(0, notification);
       preferenceRepository.setStringPref(
           NOTIFICATIONS, jsonEncode(_notifications));

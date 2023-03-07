@@ -18,6 +18,9 @@ class NotificationScreen extends StatelessWidget {
     notificationController = Get.put(NotificationController());
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final theme = Theme.of(context);
+    notificationController.getNotifications();
+    print(notificationController.notifications);
+    print(notificationController.notification_length);
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
