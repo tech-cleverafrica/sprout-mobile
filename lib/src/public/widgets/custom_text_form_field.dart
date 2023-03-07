@@ -41,6 +41,7 @@ class CustomTextFormField extends StatelessWidget {
   final int maxLines;
   final String? errorText;
   final bool? required;
+  final bool showCounterText;
 
   CustomTextFormField({
     this.prefixIcon,
@@ -80,6 +81,7 @@ class CustomTextFormField extends StatelessWidget {
     this.margin = const EdgeInsets.symmetric(vertical: 8.0),
     this.errorText,
     this.required,
+    this.showCounterText = true,
   });
 
   @override
@@ -127,6 +129,7 @@ class CustomTextFormField extends StatelessWidget {
             maxLines: maxLines,
             decoration: InputDecoration(
               errorText: errorText,
+              counterText: !showCounterText ? "" : null,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(borderRadius),
                 borderSide: BorderSide(

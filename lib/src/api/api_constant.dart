@@ -6,6 +6,8 @@ const String resetPasswordUrl = "auth/api/v1/mobile/reset-password";
 //user
 const String userDetailsUrl = "user-management/api/v1/users/me";
 const String createUserUrl = "user-management/api/v1/users/agent";
+const String requestVerificationUrl = "user-management/api/v1/users/";
+const String uploadUrl = "user-management/api/v1/users/upload";
 
 //transactions
 const String transactionsUrl = "transaction/api/v1/transactions/me";

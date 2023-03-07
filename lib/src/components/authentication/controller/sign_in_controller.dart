@@ -41,7 +41,6 @@ class SignInController extends GetxController {
 
   @override
   void onInit() async {
-    // TODO: implement onInit
     checkIsFingerPrintEnabled();
     emailController.text =
         await preferenceRepository.getStringPref("storedMail");
@@ -52,7 +51,6 @@ class SignInController extends GetxController {
 
   @override
   void onReady() {
-    // TODO: implement onReady
     super.onReady();
   }
 

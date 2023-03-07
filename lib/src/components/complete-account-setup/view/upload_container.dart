@@ -32,26 +32,35 @@ class _UploadContainerState extends State<UploadContainer> {
           ),
         ),
         child: Container(
-          height: 40,
-          padding: EdgeInsets.symmetric(horizontal: 30),
-          alignment: Alignment.topCenter,
-          // margin: EdgeInsets.only(bottom: 25),
-          child: Text(
-            widget.title ?? "",
-            style: TextStyle(
-              color: isDarkMode
-                  ? widget.error
-                      ? AppColors.red
-                      : AppColors.white.withAlpha(400)
-                  : widget.error
-                      ? AppColors.red
-                      : Color.fromRGBO(58, 58, 58, 0.7),
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w500,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
+            height: 40,
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            alignment: Alignment.topCenter,
+            // margin: EdgeInsets.only(bottom: 25),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  widget.title ?? "",
+                  style: TextStyle(
+                    color: isDarkMode
+                        ? widget.error
+                            ? AppColors.red
+                            : AppColors.white.withAlpha(400)
+                        : widget.error
+                            ? AppColors.red
+                            : Color.fromRGBO(58, 58, 58, 0.7),
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                Text(' *',
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10))
+              ],
+            )),
       ),
     );
   }

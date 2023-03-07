@@ -13,6 +13,7 @@ import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 import '../controller/sign_in_controller.dart';
 
+// ignore: must_be_immutable
 class SignInScreen extends StatelessWidget {
   SignInScreen({super.key});
 
