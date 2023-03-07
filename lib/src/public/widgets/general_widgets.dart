@@ -5,20 +5,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/help/view/complaint.dart';
+import 'package:sprout_mobile/src/components/home/controller/home_controller.dart';
 import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
 import 'package:sprout_mobile/src/components/notification/view/notification.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
+import 'package:badges/badges.dart' as badges;
 
-import '../../components/cards/view/cards.dart';
 import '../../components/home/view/homepage.dart';
 import '../../components/invoice/view/invoice.dart';
 import '../../components/profile/view/profile.dart';
 import '../../components/save/view/savings.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/helper_widgets.dart';
+
+late HomeController homeController = Get.put(HomeController());
 
 getHeader(bool isDarkMode, {hideHelp = false, hideNotification = false}) {
   return Padding(
@@ -29,7 +32,7 @@ getHeader(bool isDarkMode, {hideHelp = false, hideNotification = false}) {
         Row(
           children: [
             InkWell(
-              onTap: () => Get.back(),
+              onTap: () => pop(),
               child: SvgPicture.asset(
                 AppSvg.arrow_left,
                 width: 14.0,
@@ -50,7 +53,7 @@ getHeader(bool isDarkMode, {hideHelp = false, hideNotification = false}) {
                 padding: const EdgeInsets.all(10.0),
                 child: Center(
                   child: Text(
-                    "EU",
+                    homeController.abbreviation,
                     style: TextStyle(
                         fontFamily: "DMSans",
                         fontSize: 13.sp,
@@ -81,9 +84,22 @@ getHeader(bool isDarkMode, {hideHelp = false, hideNotification = false}) {
             !hideNotification
                 ? InkWell(
                     onTap: () => Get.to(() => NotificationScreen()),
-                    child: SvgPicture.asset(
-                      AppSvg.notification,
-                      color: isDarkMode ? AppColors.white : AppColors.black,
+                    child: badges.Badge(
+                      child: Icon(
+                        Icons.notifications,
+                        color: isDarkMode ? AppColors.white : AppColors.black,
+                      ),
+                      badgeContent: SizedBox(
+                          width: 10,
+                          height: 10, //badge size
+                          child: Center(
+                            //aligh badge content to center
+                            child: Text("3",
+                                style: TextStyle(
+                                    color: Colors.white, //badge font color
+                                    fontSize: 7.sp //badge font size
+                                    )),
+                          )),
                     ))
                 : SizedBox(),
           ],

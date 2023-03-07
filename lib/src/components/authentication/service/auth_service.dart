@@ -50,9 +50,9 @@ class AuthService {
   }
 
   Future<AppResponse<dynamic>> getUserDetails() async {
-    CustomLoader.show(message: "Getting customer details ...");
+    //  CustomLoader.show(message: "Getting customer details ...");
     Response response = await locator<AuthRepositoryImpl>().getUserDetails();
-    CustomLoader.dismiss();
+    // CustomLoader.dismiss();
 
     int statusCode = response.statusCode ?? 000;
 
@@ -61,7 +61,10 @@ class AuthService {
       User user = User.fromJson(response.data);
 
       storage.write('firstname', user.data!.firstName ?? "");
+      storage.write("lastname", user.data!.lastName ?? "");
       storage.write('accountNumber', user.data!.accountNumber ?? "");
+      storage.write('providusAccount', user.data!.providusAccountNumber ?? "");
+      storage.write('wemaAccount', user.data!.wemaAccountNumber ?? "");
 
       print(":::::::::$responseBody");
       return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);

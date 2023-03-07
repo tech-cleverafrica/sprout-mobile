@@ -38,7 +38,7 @@ class AppFormatter {
         decimalSeparator: '.', thousandSeparator: ',', precision: 2);
   }
 
-  String formatAsMoney(final double amount, [final String? local]) {
+  String formatAsMoney(double amount) {
     return NumberFormat("#,##0.00", "en_US").format(amount);
   }
 
