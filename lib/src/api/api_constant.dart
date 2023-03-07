@@ -13,6 +13,9 @@ const String transactionsUrl = "transaction/api/v1/transactions/me";
 //wallet
 const String walletUrl = "wallet/api/v1/wallets/me";
 
+//sendMoney
+const String beneficiaryUrl = "transfer/api/v1/beneficiary";
+
 apiResponse(String? message, [String? responseCode]) {
   return {
     "status": false,

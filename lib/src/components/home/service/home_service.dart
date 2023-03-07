@@ -22,7 +22,7 @@ class HomeService {
       get_accessor.Get.put(PreferenceRepository());
 
   Future<AppResponse<dynamic>> getWallet() async {
-    CustomLoader.show(message: "Getting balances ...");
+    CustomLoader.show(message: "Fetching balances ...");
     Response response = await locator<HomeRepositoryImpl>().getWallet();
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;

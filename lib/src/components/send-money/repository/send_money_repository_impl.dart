@@ -1,0 +1,3 @@
+class SendMoneyRepository {
+  getBeneficiaries() {}
+}

@@ -8,7 +8,9 @@ import 'package:sprout_mobile/src/components/send-money/view/send-to-bank/send_t
 import 'package:sprout_mobile/src/components/send-money/view/send-to-sprout/send_to_sprout.dart';
 
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
+import 'package:sprout_mobile/src/utils/nav_function.dart';
 
+import '../../../public/screens/coming_soon.dart';
 import '../../../public/widgets/general_widgets.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_svgs.dart';
@@ -30,7 +32,7 @@ class SendMoney extends StatelessWidget {
               addVerticalSpace(29.h),
               InkWell(
                 onTap: () {
-                  Get.to(() => SendToSprout());
+                  push(page: ComingSoon());
                 },
                 child: Container(
                   child: Column(

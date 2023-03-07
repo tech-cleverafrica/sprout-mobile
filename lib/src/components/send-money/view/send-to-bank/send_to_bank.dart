@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/send-money/view/send_money_summary.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_dropdown_button_field.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 
@@ -35,23 +36,21 @@ class SendToBank extends StatelessWidget {
                 children: [
                   getHeader(isDarkMode),
                   addVerticalSpace(15.h),
-                  CustomTextFormField(
+                  CustomDropdownButtonFormField(
+                    items: [],
                     label: "Select Beneficiary",
-                    // hintText: "Your Email",
                     fillColor: isDarkMode
                         ? AppColors.inputBackgroundColor
                         : AppColors.grey,
                   ),
                   CustomTextFormField(
                     label: "Select Bank",
-                    // hintText: "Your Email",
                     fillColor: isDarkMode
                         ? AppColors.inputBackgroundColor
                         : AppColors.grey,
                   ),
                   CustomTextFormField(
                     label: "Account Number",
-                    // hintText: "Your Email",
                     fillColor: isDarkMode
                         ? AppColors.inputBackgroundColor
                         : AppColors.grey,
