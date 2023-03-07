@@ -74,16 +74,17 @@ class AllInvoiceScreen extends StatelessWidget {
                           ],
                         ),
                       )
-                    : ListView.builder(
-                        itemCount: 4,
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return HistoryCard(
-                              theme: theme,
-                              isDarkMode: isDarkMode,
-                              text: "Invoice - #001");
-                        }),
+                    : Container()
+                //  ListView.builder(
+                //     itemCount: 4,
+                //     shrinkWrap: true,
+                //     physics: NeverScrollableScrollPhysics(),
+                //     itemBuilder: (context, index) {
+                //       return HistoryCard(
+                //           theme: theme,
+                //           isDarkMode: isDarkMode,
+                //           text: "Invoice - #001");
+                //     }),
               ],
             ),
           ),

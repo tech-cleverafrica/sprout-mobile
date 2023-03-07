@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sprout_mobile/src/api/api.dart';
 import 'package:sprout_mobile/src/components/authentication/repository/auth_repositoryimpl.dart';
+import 'package:sprout_mobile/src/components/home/repository/home_repositoryImpl.dart';
+import 'package:sprout_mobile/src/components/home/service/home_service.dart';
 
 import '../components/authentication/service/auth_service.dart';
 
@@ -15,4 +17,7 @@ Future<void> registerApiInstance() async {
 
   locator.registerLazySingleton<AuthRepositoryImpl>(() => AuthRepositoryImpl());
   locator.registerLazySingleton<AuthService>(() => AuthService());
+
+  locator.registerLazySingleton<HomeRepositoryImpl>(() => HomeRepositoryImpl());
+  locator.registerLazySingleton<HomeService>(() => HomeService());
 }

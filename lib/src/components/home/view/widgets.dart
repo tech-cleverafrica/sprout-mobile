@@ -1,14 +1,13 @@
+import 'package:badges/badges.dart' as badges;
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/help/view/complaint.dart';
-import 'package:sprout_mobile/src/components/home/controller/home_controller.dart';
 import 'package:sprout_mobile/src/components/notification/view/notification.dart';
 
 import '../../../utils/app_colors.dart';
-import '../../../utils/app_images.dart';
 import '../../../utils/app_svgs.dart';
 import '../../../utils/helper_widgets.dart';
 import '../../borow/borrow.dart';
@@ -16,7 +15,7 @@ import '../../buy-airtime/view/buy-airtime.dart';
 import '../../pay-bills/view/pay_bills.dart';
 import '../../send-money/view/send_money.dart';
 
-getHomeHeader(bool isDarkMode) {
+getHomeHeader(bool isDarkMode, abbreviation) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 24),
     child: Row(
@@ -32,7 +31,7 @@ getHomeHeader(bool isDarkMode) {
             padding: const EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                "EU",
+                abbreviation,
                 style: TextStyle(
                     fontFamily: "DMSans",
                     fontSize: 13.sp,
@@ -56,12 +55,24 @@ getHomeHeader(bool isDarkMode) {
             ),
             addHorizontalSpace(24.w),
             InkWell(
-              onTap: () => Get.to(() => NotificationScreen()),
-              child: SvgPicture.asset(
-                AppSvg.notification,
-                color: isDarkMode ? AppColors.white : AppColors.black,
-              ),
-            ),
+                onTap: () => Get.to(() => NotificationScreen()),
+                child: badges.Badge(
+                  child: Icon(
+                    Icons.notifications,
+                    color: isDarkMode ? AppColors.white : AppColors.black,
+                  ),
+                  badgeContent: SizedBox(
+                      width: 10,
+                      height: 10, //badge size
+                      child: Center(
+                        //aligh badge content to center
+                        child: Text("3",
+                            style: TextStyle(
+                                color: Colors.white, //badge font color
+                                fontSize: 7.sp //badge font size
+                                )),
+                      )),
+                )),
           ],
         )
       ],
@@ -74,15 +85,47 @@ class HistoryCard extends StatelessWidget {
     Key? key,
     required this.theme,
     required this.isDarkMode,
-    required this.text,
+    required this.transactionType,
+    this.transactionAmount,
+    this.transactionRef,
+    this.transactionId,
+    this.createdAt,
   }) : super(key: key);
 
   final ThemeData theme;
   final bool isDarkMode;
-  final String text;
+  final String transactionType;
+  final num? transactionAmount;
+  final String? transactionRef;
+  final String? createdAt;
+  final String? transactionId;
 
   @override
   Widget build(BuildContext context) {
+    String? tType;
+    switch (transactionType) {
+      case "FUNDS_TRANSFER":
+        tType = "Funds Transfer";
+
+        break;
+      case "BILLS_PAYMENT":
+        tType = "Bills";
+        break;
+      case "CASH_OUT":
+        tType = "Cash Withdrawal";
+        break;
+      case "WALLET_TOP_UP":
+        tType = "Wallet Top Up";
+        break;
+      case "AIRTIME_VTU":
+        tType = "Airtime Purchase";
+        break;
+      case "DEBIT":
+        tType = "Debit";
+        break;
+      default:
+        tType = "Funds Transfer";
+    }
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 0),
       child: Container(
@@ -108,7 +151,7 @@ class HistoryCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          text,
+                          tType,
                           style: TextStyle(
                               fontFamily: "DMSans",
                               fontSize: 12.sp,
@@ -121,7 +164,7 @@ class HistoryCard extends StatelessWidget {
                         Container(
                           width: MediaQuery.of(context).size.width * .6,
                           child: Text(
-                            "Transfer Ref - TSWTAYSSUISPPLNDVD L - ",
+                            transactionRef!,
                             style: TextStyle(
                                 fontFamily: "DMSans",
                                 fontSize: 10.sp,
@@ -135,7 +178,7 @@ class HistoryCard extends StatelessWidget {
                         Container(
                           width: MediaQuery.of(context).size.width * .6,
                           child: Text(
-                            "From - TSWTAYSSUISPPLNDsdffadhjjkjhvfdhdVD L - ",
+                            transactionId!,
                             style: TextStyle(
                                 fontFamily: "DMSans",
                                 fontSize: 10.sp,
@@ -149,7 +192,7 @@ class HistoryCard extends StatelessWidget {
                         Container(
                           width: MediaQuery.of(context).size.width * .6,
                           child: Text(
-                            "24 July, 2022. 10:40pm ",
+                            createdAt!,
                             style: TextStyle(
                                 fontFamily: "DMSans",
                                 fontSize: 10.sp,
@@ -164,7 +207,7 @@ class HistoryCard extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  "N20,000",
+                  transactionAmount.toString(),
                   style: TextStyle(
                       fontFamily: "DMSans",
                       color: AppColors.mainGreen,

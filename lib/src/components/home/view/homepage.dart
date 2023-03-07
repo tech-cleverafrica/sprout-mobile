@@ -5,9 +5,11 @@ import 'package:sprout_mobile/src/components/complete-account-setup/view/complet
 import 'package:sprout_mobile/src/components/home/view/all_transactions.dart';
 import 'package:sprout_mobile/src/components/home/view/home_chart.dart';
 import 'package:sprout_mobile/src/components/home/view/widgets.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
+import 'package:sprout_mobile/src/utils/nav_function.dart';
 import '../controller/home_controller.dart';
 
 class HomePage extends StatelessWidget {
@@ -24,14 +26,18 @@ class HomePage extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          addVerticalSpace(19.h),
-          getHomeHeader(isDarkMode),
-          addVerticalSpace(16.h),
-          getHomeDisplay(isDarkMode, theme, context)
-        ])),
+        body: RefreshIndicator(
+          onRefresh: homeController.refreshData,
+          child: SingleChildScrollView(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                addVerticalSpace(19.h),
+                getHomeHeader(isDarkMode, homeController.abbreviation),
+                addVerticalSpace(16.h),
+                getHomeDisplay(isDarkMode, theme, context)
+              ])),
+        ),
       ),
     );
   }
@@ -79,10 +85,10 @@ class HomePage extends StatelessWidget {
                 currency: "Naira",
                 title: "Available Balance",
                 symbol: "N",
-                naira: "19,260",
-                kobo: "00",
-                bank: "Providus Bank",
-                accountNumber: "0087642335",
+                naira: homeController.walletBalance.toString(),
+                kobo: "",
+                bank: homeController.bankToUse,
+                accountNumber: homeController.accountNumberToUse,
                 buttontext: "Fund Account",
                 buttonColor: AppColors.primaryColor,
                 copyVisible: true,
@@ -284,7 +290,9 @@ class HomePage extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  Get.to(() => AlltransactionScreen());
+                  push(
+                      page: AlltransactionScreen(),
+                      arguments: homeController.transactions);
                 },
                 child: Text(
                   "See All",
@@ -303,19 +311,7 @@ class HomePage extends StatelessWidget {
           ),
         ),
         addVerticalSpace(24.h),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: ListView.builder(
-              itemCount: 4,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: ((context, index) {
-                return HistoryCard(
-                    theme: theme,
-                    isDarkMode: isDarkMode,
-                    text: "Fund Transfer");
-              })),
-        ),
+        Obx((() => getTransactions(theme, isDarkMode))),
         addVerticalSpace(10.h),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -414,5 +410,36 @@ class HomePage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  getTransactions(theme, isDarkMode) {
+    if (homeController.isTransactionLoading.value) {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
+        child: buildShimmer(3),
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: ListView.builder(
+            itemCount: homeController.transactions.value.length > 5
+                ? 5
+                : homeController.transactions.length,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: ((context, index) {
+              return HistoryCard(
+                theme: theme,
+                isDarkMode: isDarkMode,
+                transactionType: homeController.transactions.value[index].type!,
+                transactionAmount:
+                    homeController.transactions.value[index].transactionAmount!,
+                transactionRef: homeController.transactions.value[index].ref,
+                transactionId: homeController.transactions.value[index].id,
+                createdAt: homeController.transactions.value[index].createdAt,
+              );
+            })),
+      );
+    }
   }
 }
