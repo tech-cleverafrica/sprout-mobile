@@ -4,21 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/repository/preference_repository.dart';
 import 'package:sprout_mobile/src/utils/constants.dart';
-import '../service/notification_service.dart';
 
 class NotificationController extends GetxController {
   TextEditingController emailController = new TextEditingController();
   final PreferenceRepository preferenceRepository =
       Get.put(PreferenceRepository());
-  final push = PushNotificationService();
 
-  String notifications = "";
-  int notification_length = 0;
+  List<dynamic> notifications = [];
+  int size = 0;
 
   @override
   void onInit() {
     super.onInit();
-    push.initialise();
+    getNotifications();
   }
 
   @override
@@ -32,7 +30,16 @@ class NotificationController extends GetxController {
   }
 
   Future<void> getNotifications() async {
-    notifications = await preferenceRepository.getStringPref(NOTIFICATIONS);
-    notification_length = jsonDecode(notifications)?.length;
+    String notificationsString =
+        await preferenceRepository.getStringPref(NOTIFICATIONS);
+    notifications = jsonDecode(notificationsString);
+    size = jsonDecode(notificationsString)?.length;
+  }
+
+  Future updateNotification(int index) async {
+    notifications.removeAt(index);
+    size = notifications.length;
+    preferenceRepository.setStringPref(
+        NOTIFICATIONS, jsonEncode(notifications));
   }
 }

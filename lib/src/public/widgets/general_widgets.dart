@@ -9,7 +9,6 @@ import 'package:sprout_mobile/src/components/home/controller/home_controller.dar
 import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
 import 'package:sprout_mobile/src/components/notification/view/notification.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
-import 'package:sprout_mobile/src/utils/app_images.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
 import 'package:badges/badges.dart' as badges;
@@ -23,7 +22,8 @@ import '../../utils/helper_widgets.dart';
 
 late HomeController homeController = Get.put(HomeController());
 
-getHeader(bool isDarkMode, {hideHelp = false, hideNotification = false}) {
+getHeader(bool isDarkMode,
+    {hideHelp = false, hideNotification = false, int size = 0}) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 0),
     child: Row(
@@ -84,23 +84,32 @@ getHeader(bool isDarkMode, {hideHelp = false, hideNotification = false}) {
             !hideNotification
                 ? InkWell(
                     onTap: () => Get.to(() => NotificationScreen()),
-                    child: badges.Badge(
-                      child: Icon(
-                        Icons.notifications,
-                        color: isDarkMode ? AppColors.white : AppColors.black,
-                      ),
-                      badgeContent: SizedBox(
-                          width: 10,
-                          height: 10, //badge size
-                          child: Center(
-                            //aligh badge content to center
-                            child: Text("3",
-                                style: TextStyle(
-                                    color: Colors.white, //badge font color
-                                    fontSize: 7.sp //badge font size
-                                    )),
-                          )),
-                    ))
+                    child: size == 0
+                        ? Icon(
+                            Icons.notifications,
+                            color:
+                                isDarkMode ? AppColors.white : AppColors.black,
+                          )
+                        : badges.Badge(
+                            child: Icon(
+                              Icons.notifications,
+                              color: isDarkMode
+                                  ? AppColors.white
+                                  : AppColors.black,
+                            ),
+                            badgeContent: SizedBox(
+                                width: 18,
+                                height: 10, //badge size
+                                child: Center(
+                                  //aligh badge content to center
+                                  child: Text(size.toString(),
+                                      style: TextStyle(
+                                          color:
+                                              Colors.white, //badge font color
+                                          fontSize: 7.sp //badge font size
+                                          )),
+                                )),
+                          ))
                 : SizedBox(),
           ],
         )

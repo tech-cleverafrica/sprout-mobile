@@ -15,7 +15,7 @@ import '../../buy-airtime/view/buy-airtime.dart';
 import '../../pay-bills/view/pay_bills.dart';
 import '../../send-money/view/send_money.dart';
 
-getHomeHeader(bool isDarkMode, abbreviation) {
+getHomeHeader(bool isDarkMode, abbreviation, int size) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 24),
     child: Row(
@@ -56,23 +56,28 @@ getHomeHeader(bool isDarkMode, abbreviation) {
             addHorizontalSpace(24.w),
             InkWell(
                 onTap: () => Get.to(() => NotificationScreen()),
-                child: badges.Badge(
-                  child: Icon(
-                    Icons.notifications,
-                    color: isDarkMode ? AppColors.white : AppColors.black,
-                  ),
-                  badgeContent: SizedBox(
-                      width: 10,
-                      height: 10, //badge size
-                      child: Center(
-                        //aligh badge content to center
-                        child: Text("3",
-                            style: TextStyle(
-                                color: Colors.white, //badge font color
-                                fontSize: 7.sp //badge font size
-                                )),
+                child: size == 0
+                    ? Icon(
+                        Icons.notifications,
+                        color: isDarkMode ? AppColors.white : AppColors.black,
+                      )
+                    : badges.Badge(
+                        child: Icon(
+                          Icons.notifications,
+                          color: isDarkMode ? AppColors.white : AppColors.black,
+                        ),
+                        badgeContent: SizedBox(
+                            width: 18,
+                            height: 10, //badge size
+                            child: Center(
+                              //aligh badge content to center
+                              child: Text(size.toString(),
+                                  style: TextStyle(
+                                      color: Colors.white, //badge font color
+                                      fontSize: 7.sp //badge font size
+                                      )),
+                            )),
                       )),
-                )),
           ],
         )
       ],
