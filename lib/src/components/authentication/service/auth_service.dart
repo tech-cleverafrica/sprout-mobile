@@ -60,6 +60,7 @@ class AuthService {
     if (response.data["status"]) {
       User user = User.fromJson(response.data);
 
+      storage.write('userId', user.data!.id ?? "");
       storage.write('firstname', user.data!.firstName ?? "");
       storage.write("lastname", user.data!.lastName ?? "");
       storage.write('accountNumber', user.data!.accountNumber ?? "");

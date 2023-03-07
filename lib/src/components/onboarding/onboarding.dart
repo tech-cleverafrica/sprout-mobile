@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/authentication/view/sign_in_screen.dart';
 import 'package:sprout_mobile/src/components/authentication/view/sign_up_start.dart';
-import 'package:sprout_mobile/src/components/notification/controller/notification_controller.dart';
+import 'package:sprout_mobile/src/components/notification/service/notification_service.dart';
 import 'package:sprout_mobile/src/components/onboarding/onboarding_content_model.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
@@ -18,11 +18,16 @@ class Onboarding extends StatefulWidget {
 class _OnboardingState extends State<Onboarding> {
   int currentIndex = 0;
   PageController? _controller = PageController(initialPage: 0);
-  late NotificationController notificationController;
+  final push = PushNotificationService();
+
+  @override
+  void initState() {
+    super.initState();
+    push.initialise();
+  }
 
   @override
   Widget build(BuildContext context) {
-    notificationController = Get.put(NotificationController());
     final theme = Theme.of(context);
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sprout_mobile/src/components/complete-account-setup/controller/complete_account_setup_controller.dart';
 import 'package:sprout_mobile/src/components/complete-account-setup/view/upload_container.dart';
 import 'package:sprout_mobile/src/public/screens/approval_page.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
@@ -14,47 +15,18 @@ import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 import '../../../public/widgets/custom_text_form_field.dart';
 import '../../../utils/app_colors.dart';
 
-class DocumentUpload extends StatefulWidget {
+// ignore: must_be_immutable
+class DocumentUpload extends StatelessWidget {
   DocumentUpload({super.key});
 
-  @override
-  _DocumentUploadState createState() => _DocumentUploadState();
-}
-
-class _DocumentUploadState extends State<DocumentUpload> {
-  @override
-  void initState() {
-    super.initState();
-    if (mounted)
-      setState(
-        () {
-          preferredID = null;
-          utilityBill = null;
-        },
-      );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  String identityCardUrl = "";
-  String utilityBillUrl = "";
-  String? identityCardUploadError;
-  String? utilityBillUploadError;
-  bool loading = false;
-  bool uploadingIdentityCard = false;
-  bool uploadingUtilityBill = false;
-  bool isIDValid = false;
-  bool isUtilityValid = false;
-
-  File? preferredID, utilityBill;
+  late CompleteAccountSetupController cASCtrl;
   final picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    cASCtrl = Get.put(CompleteAccountSetupController());
+
     return SafeArea(
       child: Scaffold(
           bottomNavigationBar: Padding(
@@ -63,13 +35,14 @@ class _DocumentUploadState extends State<DocumentUpload> {
               isDarkMode: isDarkMode,
               buttonText: "Done",
               onTap: () {
-                Get.to(() => ApprovalScreen(
-                      containShare: false,
-                      heading:
-                          "Your information has been successfully submitted",
-                      messages:
-                          "You will be notified once your account is verified",
-                    ));
+                cASCtrl.validate();
+                // Get.to(() => ApprovalScreen(
+                //       containShare: false,
+                //       heading:
+                //           "Your information has been successfully submitted",
+                //       messages:
+                //           "You will be notified once your account is verified",
+                //     ));
               },
             ),
           ),
@@ -82,8 +55,17 @@ class _DocumentUploadState extends State<DocumentUpload> {
                   getHeader(isDarkMode),
                   addVerticalSpace(15.h),
                   CustomTextFormField(
+                    controller: cASCtrl.bvnController,
                     label: "BVN",
                     hintText: "Enter your BVN",
+                    maxLength: 11,
+                    maxLengthEnforced: true,
+                    showCounterText: false,
+                    required: true,
+                    validator: (value) {
+                      if (value?.length != 11)
+                        return "BVN must be ${11} digits";
+                    },
                     fillColor: isDarkMode
                         ? AppColors.inputBackgroundColor
                         : AppColors.grey,
@@ -133,7 +115,8 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                           (value) {
                                             Navigator.pop(context);
                                             if (value != null) {
-                                              processIdUpload(File(value.path));
+                                              cASCtrl.processIdUpload(
+                                                  File(value.path));
                                             }
                                           },
                                         );
@@ -176,7 +159,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                             ]).then((value) {
                                           Navigator.pop(context);
                                           if (value != null) {
-                                            processIdUpload(File(
+                                            cASCtrl.processIdUpload(File(
                                                 value.files.single.path ?? ""));
                                           }
                                         });
@@ -219,7 +202,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                                   .then((value) {
                                                 Navigator.pop(context);
                                                 if (value != null) {
-                                                  processIdUpload(File(
+                                                  cASCtrl.processIdUpload(File(
                                                       value.files.single.path ??
                                                           ""));
                                                 }
@@ -255,14 +238,16 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                   ],
                                 ),
                               ))),
-                      title: identityCardUploadError != null
-                          ? identityCardUploadError
-                          : preferredID != null
-                              ? preferredID?.path.split("/").last
+                      title: cASCtrl.identityCardUploadError != null
+                          ? cASCtrl.identityCardUploadError
+                          : cASCtrl.preferredID != null
+                              ? cASCtrl.preferredID?.path.split("/").last
                               : "Upload your preferred ID",
-                      error: identityCardUploadError != null ? true : false,
+                      error: cASCtrl.identityCardUploadError != null
+                          ? true
+                          : false,
                     ),
-                    uploadingIdentityCard
+                    cASCtrl.uploadingIdentityCard
                         ? Container(
                             margin: EdgeInsets.only(right: 20, top: 20),
                             width: double.infinity,
@@ -314,7 +299,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                         (value) {
                                           Navigator.pop(context);
                                           if (value != null) {
-                                            processUtilityUpload(
+                                            cASCtrl.processUtilityUpload(
                                                 File(value.path));
                                           }
                                         },
@@ -357,7 +342,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                             ]).then((value) {
                                           Navigator.pop(context);
                                           if (value != null) {
-                                            processUtilityUpload(File(
+                                            cASCtrl.processUtilityUpload(File(
                                                 value.files.single.path ?? ""));
                                           }
                                         });
@@ -400,8 +385,9 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                                   .then((value) {
                                                 Navigator.pop(context);
                                                 if (value != null) {
-                                                  processUtilityUpload(File(
-                                                      value.files.single.path ??
+                                                  cASCtrl.processUtilityUpload(
+                                                      File(value.files.single
+                                                              .path ??
                                                           ""));
                                                 }
                                               });
@@ -436,14 +422,15 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                   ],
                                 ),
                               ))),
-                      title: utilityBillUploadError != null
-                          ? utilityBillUploadError
-                          : utilityBill != null
-                              ? utilityBill?.path.split("/").last
+                      title: cASCtrl.utilityBillUploadError != null
+                          ? cASCtrl.utilityBillUploadError
+                          : cASCtrl.utilityBill != null
+                              ? cASCtrl.utilityBill?.path.split("/").last
                               : "Upload your preferred Utility Bill",
-                      error: utilityBillUploadError != null ? true : false,
+                      error:
+                          cASCtrl.utilityBillUploadError != null ? true : false,
                     ),
-                    uploadingUtilityBill
+                    cASCtrl.uploadingUtilityBill
                         ? Container(
                             margin: EdgeInsets.only(right: 20, top: 20),
                             width: double.infinity,
@@ -456,49 +443,5 @@ class _DocumentUploadState extends State<DocumentUpload> {
             ),
           )),
     );
-  }
-
-  void processIdUpload(File file) {
-    setState(() {
-      identityCardUploadError = null;
-    });
-    // String message = FileService().validateFileSize(file, 5);
-    // if (message == null) {
-    //   setState(() {
-    //     preferredID = file;
-    //     uploadingIdentityCard = true;
-    //   });
-    //   uploadAndCommit(
-    //     preferredID,
-    //     "identityCard",
-    //   );
-    // } else {
-    //   setState(() {
-    //     identityCardUploadError = message;
-    //     isIDValid = false;
-    //   });
-    // }
-  }
-
-  void processUtilityUpload(File? file) {
-    setState(() {
-      utilityBillUploadError = null;
-    });
-    // String message = FileService().validateFileSize(file, 5);
-    // if (message == null) {
-    //   setState(() {
-    //     utilityBill = file;
-    //     uploadingUtilityBill = true;
-    //   });
-    //   uploadAndCommit(
-    //     utilityBill,
-    //     "utilityBill",
-    //   );
-    // } else {
-    //   setState(() {
-    //     utilityBillUploadError = message;
-    //     isUtilityValid = false;
-    //   });
-    // }
   }
 }
