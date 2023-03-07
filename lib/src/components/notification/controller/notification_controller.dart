@@ -12,13 +12,14 @@ class NotificationController extends GetxController {
       Get.put(PreferenceRepository());
   final push = PushNotificationService();
 
-  String notifications = "";
-  int notification_length = 0;
+  List<dynamic> notifications = [];
+  int size = 0;
 
   @override
   void onInit() {
     super.onInit();
     push.initialise();
+    getNotifications();
   }
 
   @override
@@ -32,7 +33,16 @@ class NotificationController extends GetxController {
   }
 
   Future<void> getNotifications() async {
-    notifications = await preferenceRepository.getStringPref(NOTIFICATIONS);
-    notification_length = jsonDecode(notifications)?.length;
+    String notificationsString =
+        await preferenceRepository.getStringPref(NOTIFICATIONS);
+    notifications = jsonDecode(notificationsString);
+    size = jsonDecode(notificationsString)?.length;
+  }
+
+  Future updateNotification(int index) async {
+    notifications.removeAt(index);
+    size = notifications.length;
+    preferenceRepository.setStringPref(
+        NOTIFICATIONS, jsonEncode(notifications));
   }
 }

@@ -12,6 +12,7 @@ class NotificationScreen extends StatelessWidget {
   NotificationScreen({super.key});
 
   late NotificationController notificationController;
+  List<dynamic> _notifications = [];
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +20,7 @@ class NotificationScreen extends StatelessWidget {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final theme = Theme.of(context);
     notificationController.getNotifications();
-    print(notificationController.notifications);
-    print(notificationController.notification_length);
+    _notifications = notificationController.notifications;
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -32,17 +32,32 @@ class NotificationScreen extends StatelessWidget {
                 getHeader(isDarkMode, hideNotification: true),
                 addVerticalSpace(35.h),
                 ListView.builder(
-                    itemCount: 7,
+                    itemCount: notificationController.size,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: ((context, index) {
-                      return NotificationCard(
-                        theme: theme,
-                        isDarkMode: isDarkMode,
-                        date: "01 Feb 2023, 18:05",
-                        notification:
-                            "Lorem ipsum dolor sit amet consectetur. Cursus aliquam at aliquet quis volutpat arcu feugiat dui. Non mus facilisi facilisi id sodales leo diam pellentesque volutpat arcu feugiat dui. Non mus facilisi facilisi id sodales leo diam pellentesque...",
-                        select: () => {},
+                      return Dismissible(
+                        key: UniqueKey(),
+                        direction: DismissDirection.endToStart,
+                        onDismissed: (_) {
+                          notificationController.updateNotification(index);
+                        },
+                        child: NotificationCard(
+                          theme: theme,
+                          isDarkMode: isDarkMode,
+                          date: _notifications[index]["date"],
+                          notification: _notifications[index]["body"],
+                          select: () => {},
+                        ),
+                        background: Container(
+                          color: Colors.red,
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          alignment: Alignment.centerRight,
+                          child: const Icon(
+                            Icons.delete,
+                            color: Colors.white,
+                          ),
+                        ),
                       );
                     }))
               ],
