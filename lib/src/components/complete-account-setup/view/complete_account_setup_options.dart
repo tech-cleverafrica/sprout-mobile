@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/complete-account-setup/view/document_upload.dart';
+import 'package:sprout_mobile/src/components/notification/controller/notification_controller.dart';
 
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 
@@ -12,12 +13,17 @@ import '../../../public/widgets/general_widgets.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_svgs.dart';
 
+// ignore: must_be_immutable
 class CompleteAccountSetupOptions extends StatelessWidget {
-  const CompleteAccountSetupOptions({super.key});
+  CompleteAccountSetupOptions({super.key});
+
+  late NotificationController notificationController;
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    notificationController = Get.put(NotificationController());
+
     return SafeArea(
       child: Scaffold(
         body: Padding(

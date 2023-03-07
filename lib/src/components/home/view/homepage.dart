@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:sprout_mobile/src/components/complete-account-setup/view/complete_account_setup_options.dart';
+import 'package:sprout_mobile/src/components/complete-account-setup/view/document_upload.dart';
 import 'package:sprout_mobile/src/components/home/view/all_transactions.dart';
 import 'package:sprout_mobile/src/components/home/view/home_chart.dart';
 import 'package:sprout_mobile/src/components/home/view/widgets.dart';
@@ -193,8 +193,7 @@ class HomePage extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(5)),
                                   child: Center(
                                       child: GestureDetector(
-                                    onTap: () => Get.to(
-                                        () => CompleteAccountSetupOptions()),
+                                    onTap: () => Get.to(() => DocumentUpload()),
                                     child: Text(
                                       "Complete",
                                       style: TextStyle(
@@ -250,8 +249,7 @@ class HomePage extends StatelessWidget {
                                   alignment: Alignment.topRight,
                                   child: Center(
                                       child: GestureDetector(
-                                    onTap: () => Get.to(
-                                        () => CompleteAccountSetupOptions()),
+                                    onTap: () => Get.to(() => DocumentUpload()),
                                     child: Text(
                                       "Complete",
                                       style: TextStyle(
