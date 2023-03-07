@@ -24,7 +24,7 @@ class SavingsScreen extends StatelessWidget {
             children: [
               getHeader(isDarkMode),
               addVerticalSpace(15.h),
-              getDisplaySwitch(isDarkMode),
+              // getDisplaySwitch(isDarkMode),
               addVerticalSpace(16.h),
               Container(
                 width: double.infinity,
