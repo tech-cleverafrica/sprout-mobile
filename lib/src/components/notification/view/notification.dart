@@ -16,9 +16,9 @@ class NotificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    notificationController = Get.put(NotificationController());
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final theme = Theme.of(context);
+    notificationController = Get.put(NotificationController());
     notificationController.getNotifications();
     _notifications = notificationController.notifications;
     return SafeArea(

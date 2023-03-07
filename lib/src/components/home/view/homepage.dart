@@ -5,6 +5,7 @@ import 'package:sprout_mobile/src/components/complete-account-setup/view/complet
 import 'package:sprout_mobile/src/components/home/view/all_transactions.dart';
 import 'package:sprout_mobile/src/components/home/view/home_chart.dart';
 import 'package:sprout_mobile/src/components/home/view/widgets.dart';
+import 'package:sprout_mobile/src/components/notification/controller/notification_controller.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
@@ -17,12 +18,14 @@ class HomePage extends StatelessWidget {
 
   late bool showInvoice = false;
   late HomeController homeController;
+  late NotificationController notificationController;
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final theme = Theme.of(context);
     homeController = Get.put(HomeController());
+    notificationController = Get.put(NotificationController());
 
     return SafeArea(
       child: Scaffold(
@@ -33,7 +36,8 @@ class HomePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                 addVerticalSpace(19.h),
-                getHomeHeader(isDarkMode, homeController.abbreviation),
+                getHomeHeader(isDarkMode, homeController.abbreviation,
+                    notificationController.size),
                 addVerticalSpace(16.h),
                 getHomeDisplay(isDarkMode, theme, context)
               ])),
