@@ -51,10 +51,8 @@ class ResolvedIssueScreen extends StatelessWidget {
                           resolvedIssuesController
                               .validate(issue)
                               .then((value) => {
-                                    print("ONE"),
                                     if (value != null)
                                       {
-                                        print("TWO"),
                                         pop(),
                                         onReopened(value),
                                         refreshIssue(),
@@ -298,7 +296,7 @@ class ResolvedIssueScreen extends StatelessWidget {
                               ? Container(
                                   width: double.infinity,
                                   child: Text(
-                                    "Clever:",
+                                    "Sprout:",
                                     style: TextStyle(
                                       color: isDarkMode
                                           ? AppColors.white
@@ -334,7 +332,9 @@ class ResolvedIssueScreen extends StatelessWidget {
                           Text(
                             "Please give us details of the issue.",
                             style: TextStyle(
-                              color: AppColors.primaryColor,
+                              color: isDarkMode
+                                  ? AppColors.white
+                                  : AppColors.black,
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w500,
                             ),
@@ -477,7 +477,7 @@ class ResolvedIssueScreen extends StatelessWidget {
                                           fontWeight: FontWeight.w400,
                                           color: isDarkMode
                                               ? AppColors.white
-                                              : AppColors.primaryColor,
+                                              : AppColors.black,
                                         ),
                                       ),
                                     ),

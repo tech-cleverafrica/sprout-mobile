@@ -14,7 +14,7 @@ const String issueCategoriesUrl = "resolution/api/v1/categories";
 const String issueOverviewUrl = "resolution/api/v1/issues/overview?agentId=";
 const String issuesUrl = "resolution/api/v1/issues?size=";
 const String pendingIssuesUrl = "resolution/api/v1/issues/mobile?size=";
-const String reopenIssueUrl = "resolution/api/v1/issues/";
+const String updateIssueUrl = "resolution/api/v1/issues/";
 
 //transactions
 const String transactionsUrl = "transaction/api/v1/transactions/me";

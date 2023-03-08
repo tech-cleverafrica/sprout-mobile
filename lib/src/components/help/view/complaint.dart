@@ -231,10 +231,16 @@ class ComplaintScreen extends StatelessWidget {
                                                 onTap: (issue) => {
                                                       Get.to(() =>
                                                           PendingIssueScreen(
-                                                            issue: null,
+                                                            issue: issue,
                                                             refreshIssue: () =>
-                                                                helpController
-                                                                    .getPendingIssues(),
+                                                                {
+                                                              helpController
+                                                                  .getPendingIssues(),
+                                                              helpController
+                                                                  .getIssues(),
+                                                              helpController
+                                                                  .getOverview()
+                                                            },
                                                           ))
                                                     })))
                         : SizedBox())),

@@ -63,7 +63,18 @@ class HelpRepositoryImpl implements HelpRepository {
   reopenIssue(requestBody, String id) async {
     try {
       return await api.dio
-          .post(reopenIssueUrl + id + '/reopen', data: requestBody);
+          .post(updateIssueUrl + id + '/reopen', data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
+
+  @override
+  updateIssue(requestBody, String id) async {
+    try {
+      return await api.dio.put(updateIssueUrl + id, data: requestBody);
     } on DioError catch (e) {
       return api.handleError(e);
     } catch (e) {

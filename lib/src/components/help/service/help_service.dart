@@ -75,6 +75,23 @@ class HelpService {
     int statusCode = response.statusCode ?? 000;
 
     Map<String, dynamic> responseBody = response.data;
+    if (response.data["status"]) {
+      print(":::::::::$responseBody");
+      return AppResponse<Issues>(true, statusCode, responseBody,
+          Issues.fromJson(responseBody["data"]));
+    }
+    return AppResponse(false, statusCode, responseBody);
+  }
+
+  Future<AppResponse<Issues>> updateIssue(Map<String, dynamic> requestBody,
+      String id, String loadingMessage) async {
+    CustomLoader.show(message: loadingMessage);
+    Response response =
+        await locator<HelpRepositoryImpl>().updateIssue(requestBody, id);
+    CustomLoader.dismiss();
+    int statusCode = response.statusCode ?? 000;
+
+    Map<String, dynamic> responseBody = response.data;
     print(response.data);
     print("EWEWEWEWEWEWEWEWWEEWWE");
     if (response.data["status"]) {
