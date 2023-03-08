@@ -17,8 +17,8 @@ class CompleteAccountSetupController extends GetxController {
   String? identityCardUploadError;
   String? utilityBillUploadError;
   bool loading = false;
-  RxBool uploadingIdentityCard = false.obs;
-  RxBool uploadingUtilityBill = false.obs;
+  // RxBool uploadingIdentityCard = false.obs;
+  // RxBool uploadingUtilityBill = false.obs;
   bool isIDValid = false;
   bool isUtilityValid = false;
 
@@ -81,11 +81,13 @@ class CompleteAccountSetupController extends GetxController {
     if (response.status) {
       if (fileType == "identityCard") {
         identityCardUrl = response.data["data"];
-        uploadingIdentityCard.value = false;
+        // uploadingIdentityCard.value = false;
+        uploadIdText.value = preferredID!.path;
         isIDValid = true;
       } else if (fileType == "utilityBill") {
         utilityBillUrl = response.data["data"];
-        uploadingUtilityBill.value = false;
+        // uploadingUtilityBill.value = false;
+        uploadBillText.value = utilityBill!.path;
         isUtilityValid = true;
       }
     } else {
@@ -99,8 +101,7 @@ class CompleteAccountSetupController extends GetxController {
         locator.get<CompleteAccountSetupService>().validateFileSize(file, 5);
     if (message == "") {
       preferredID = file;
-      uploadingIdentityCard.value = true;
-      uploadIdText.value = preferredID!.path;
+      // uploadingIdentityCard.value = true;
       uploadAndCommit(
         preferredID,
         "identityCard",
@@ -118,8 +119,7 @@ class CompleteAccountSetupController extends GetxController {
         locator.get<CompleteAccountSetupService>().validateFileSize(file, 5);
     if (message == "") {
       utilityBill = file;
-      uploadingUtilityBill.value = true;
-      uploadBillText.value = utilityBill!.path;
+      // uploadingUtilityBill.value = true;
       uploadAndCommit(
         utilityBill,
         "utilityBill",
