@@ -48,7 +48,18 @@ class ResolvedIssueScreen extends StatelessWidget {
                         isDarkMode: isDarkMode,
                         buttonText: "Reopen",
                         onTap: () {
-                          resolvedIssuesController.reopenIssue();
+                          resolvedIssuesController
+                              .validate(issue)
+                              .then((value) => {
+                                    print("ONE"),
+                                    if (value != null)
+                                      {
+                                        print("TWO"),
+                                        pop(),
+                                        onReopened(value),
+                                        refreshIssue(),
+                                      }
+                                  });
                         },
                         onBack: () =>
                             resolvedIssuesController.reopened.value = false,
@@ -328,20 +339,23 @@ class ResolvedIssueScreen extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          SizedBox(height: 10),
-                          Container(
-                            height: 180,
-                            width: double.infinity,
-                            child: CustomMultilineTextFormField(
-                              controller: resolvedIssuesController.description,
-                              maxLines: 4,
-                              maxLength: 500,
-                              label: null,
-                              hintText: "Enter issue description",
-                              fillColor: isDarkMode
-                                  ? AppColors.inputBackgroundColor
-                                  : AppColors.grey,
-                            ),
+                          CustomMultilineTextFormField(
+                            controller:
+                                resolvedIssuesController.descriptionController,
+                            maxLines: 4,
+                            maxLength: 500,
+                            maxLengthEnforced: true,
+                            label: null,
+                            hintText: "Enter issue description",
+                            required: true,
+                            validator: (value) {
+                              if (value!.length < 20)
+                                return "Issue description is too short";
+                              return null;
+                            },
+                            fillColor: isDarkMode
+                                ? AppColors.inputBackgroundColor
+                                : AppColors.grey,
                           ),
                           SizedBox(height: 20),
                           resolvedIssuesController.files.length > 0
@@ -360,7 +374,7 @@ class ResolvedIssueScreen extends StatelessWidget {
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.7,
+                                              0.6,
                                           child: Text(
                                             resolvedIssuesController
                                                     .files[index].name ??

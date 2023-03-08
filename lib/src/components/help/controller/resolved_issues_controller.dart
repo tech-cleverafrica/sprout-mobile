@@ -2,15 +2,20 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
-import 'package:sprout_mobile/src/components/help/model/file_model.dart';
-import 'package:sprout_mobile/src/components/help/model/issues_model.dart';
+import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/help/service/help_service.dart';
-import 'package:sprout_mobile/src/components/help/view/dispense_error.dart';
+import 'package:sprout_mobile/src/public/model/file_model.dart';
+import 'package:sprout_mobile/src/components/help/model/issues_model.dart';
+import 'package:sprout_mobile/src/public/services/shared_service.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
+import 'package:sprout_mobile/src/utils/app_colors.dart';
 
 class ResolvedIssuesController extends GetxController {
-  TextEditingController description = new TextEditingController();
-  File? file, fileToUpload;
+  final storage = GetStorage();
+  TextEditingController descriptionController = new TextEditingController();
+  File? file;
   RxList<NamedFile> files = <NamedFile>[].obs;
   RxString fileError = "".obs;
   RxBool loading = false.obs;
@@ -32,7 +37,7 @@ class ResolvedIssuesController extends GetxController {
   }
 
   void setDescription(Issues issue) {
-    description = TextEditingController(text: issue.issueDescription);
+    descriptionController = TextEditingController(text: issue.issueDescription);
   }
 
   void addFiles(Issues issue) {
@@ -43,12 +48,11 @@ class ResolvedIssuesController extends GetxController {
   }
 
   processFile(File file) {
-    String message = locator.get<HelpService>().validateFileSize(file, 1);
+    String message = locator.get<SharedService>().validateFileSize(file, 1);
     if (message == "") {
-      fileToUpload = file;
       fileError.value = "";
       loading.value = true;
-      uploadAndCommit();
+      uploadAndCommit(file, "issue");
     } else {
       fileError.value = message;
     }
@@ -64,130 +68,68 @@ class ResolvedIssuesController extends GetxController {
     files.removeAt(index);
   }
 
-  Future uploadAndCommit() async {}
-
-  void processIdUpload(File file) {}
-
-  void processUtilityUpload(File file) {}
-
-  Future<void> submitIssue(issue) async {}
-
-  Future<void> updateIssue() async {
-    submitCallback(null);
-    // widget.refreshIssue();
+  Future<Issues?> validate(Issues issue) async {
+    if (descriptionController.text.isNotEmpty &&
+        descriptionController.text.length >= 20 &&
+        descriptionController.text.length <= 500) {
+      List<String> supportingDocuments =
+          await locator.get<SharedService>().allFilesUrl(files);
+      String agentProfileId = storage.read("userId");
+      Issues? returneedIssue = await reopenIssue(
+          buildRequestModel(
+              agentProfileId, descriptionController.text, supportingDocuments),
+          issue.id ?? "");
+      return returneedIssue;
+    } else if (descriptionController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Issue description cannot be empty"),
+          backgroundColor: AppColors.errorRed));
+    } else if (descriptionController.text.length < 20) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Issue description is too short"),
+          backgroundColor: AppColors.errorRed));
+    } else if (descriptionController.text.length > 500) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Issue description should be more than 500 characters"),
+          backgroundColor: AppColors.errorRed));
+    } else {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("All fields are required"),
+          backgroundColor: AppColors.errorRed));
+    }
+    return null;
   }
 
-  Future<void> reopenIssue() async {
-    // if (description.text.isNotEmpty &&
-    //     description.text.length >= 20 &&
-    //     description.text.length <= 500) {
-    //   setState(() => loading = true);
-    //   List<String> supportingDocuments =
-    //       await ResolutionService().allFilesUrl(files);
-    //   var response = await ResolutionService()
-    //       .reopenIssue(
-    //           context, widget.issue.id, description.text, supportingDocuments)
-    //       .catchError((e) {
-    //     setState(() => loading = false);
-    //   });
-    //   if (response.statusCode == 200 && jsonDecode(response.body)["status"]) {
-    //     setState(() => loading = false);
-    //     var data = jsonDecode(response.body)["data"];
-    //     final Issue issue = Issue.fromJson(data);
-    //     Future.delayed(const Duration(milliseconds: 500),
-    //         () => {widget.onReopened(issue), Navigator.pop(context)});
-    //   } else if (response.statusCode == 401) {
-    //     refreshToken(context, reopenIssue);
-    //   } else {
-    //     setState(() => loading = false);
-    //     try {
-    //       if (jsonDecode(response.body)["message"] != '' ||
-    //           jsonDecode(response.body)["message"] != null) {
-    //         snackBar(jsonDecode(response.body)["message"]);
-    //       } else {
-    //         snackBar(jsonDecode(response.body)["message"]);
-    //       }
-    //     } catch (e) {
-    //       snackBar(response.body);
-    //     }
-    //   }
-    // } else if (description.text.isEmpty) {
-    //   snackBar('Issue description cannot be empty');
-    // } else if (description.text.length < 20) {
-    //   snackBar('Issue description is too short');
-    // } else if (description.text.length > 500) {
-    //   snackBar('Issue description should be more than 500 characters');
-    // }
+  Future<Issues?> reopenIssue(Map<String, dynamic> model, String id) async {
+    AppResponse<Issues> response =
+        await locator.get<HelpService>().reopenIssue(model, id, "Please wait");
+    if (response.status) {
+      final Issues issue = response.data;
+      return issue;
+    } else {
+      CustomToastNotification.show(response.message, type: ToastType.error);
+    }
+    return null;
   }
 
-  buildRequestModel(bvn, identityCard, utilityBill) {
+  Future uploadAndCommit(File image, String fileType) async {
+    AppResponse response = await locator
+        .get<SharedService>()
+        .uploadAndCommit(image, fileType, "Please wait");
+    if (response.status) {
+      addFile(image, response.data["data"]);
+      loading.value = false;
+    } else {
+      CustomToastNotification.show(response.message, type: ToastType.error);
+    }
+  }
+
+  buildRequestModel(String agentProfileId, String issueDescription,
+      List<String> supportingDocuments) {
     return {
-      "bvn": bvn,
-      "identityCard": identityCard,
-      "utilityBill": utilityBill
+      "agentProfileId": agentProfileId,
+      "supportingFiles": supportingDocuments,
+      "description": issueDescription
     };
-  }
-
-  void submitCallback(void issue) {
-    // final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    // final theme = Theme.of(context);
-    // Future.delayed(
-    //     Duration(seconds: 1),
-    //     () => showDialog(
-    //         context: context,
-    //         barrierDismissible: true,
-    //         builder: ((context) {
-    //           return Dialog(
-    //             backgroundColor:
-    //                 isDarkMode ? AppColors.blackBg : AppColors.white,
-    //             shape: RoundedRectangleBorder(
-    //                 borderRadius: BorderRadius.circular(10.0)),
-    //             child: Container(
-    //               height: 130.h,
-    //               child: Padding(
-    //                 padding: const EdgeInsets.symmetric(
-    //                     vertical: 20, horizontal: 20),
-    //                 child: Column(
-    //                   children: [
-    //                     addVerticalSpace(5.h),
-    //                     Column(
-    //                       crossAxisAlignment: CrossAxisAlignment.start,
-    //                       children: [
-    //                         Text(
-    //                           "Dear Oluwaseun,",
-    //                           style: theme.textTheme.subtitle2,
-    //                         ),
-    //                         addVerticalSpace(5.h),
-    //                         Text(
-    //                           "Your complaint has been updated successfully.",
-    //                           style: theme.textTheme.subtitle2,
-    //                         ),
-    //                         addVerticalSpace(10.h),
-    //                         Text(
-    //                           "Thank You!",
-    //                           style: theme.textTheme.subtitle2,
-    //                         ),
-    //                       ],
-    //                     )
-    //                   ],
-    //                 ),
-    //               ),
-    //             ),
-    //           );
-    //         })));
-  }
-
-  void navigateNext(String title, String category, void dispenseSubCategory) {
-    Future.delayed(
-      const Duration(seconds: 1),
-      () => {
-        Get.to(() => DispenseErrorScreen(
-              title: "",
-              category: "",
-              data: null,
-              onSubmit: ((issue) => {submitCallback(issue)}),
-            ))
-      },
-    );
   }
 }

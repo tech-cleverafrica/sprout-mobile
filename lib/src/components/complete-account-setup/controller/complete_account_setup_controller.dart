@@ -7,6 +7,7 @@ import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/complete-account-setup/service/complete_account_setup_service.dart';
 import 'package:sprout_mobile/src/public/screens/approval_page.dart';
+import 'package:sprout_mobile/src/public/services/shared_service.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
@@ -82,7 +83,7 @@ class CompleteAccountSetupController extends GetxController {
 
   Future uploadAndCommit(File? image, String fileType) async {
     AppResponse response = await locator
-        .get<CompleteAccountSetupService>()
+        .get<SharedService>()
         .uploadAndCommit(image, fileType, "Please wait");
     if (response.status) {
       if (fileType == "identityCard") {
@@ -103,8 +104,7 @@ class CompleteAccountSetupController extends GetxController {
 
   void processIdUpload(File file) {
     identityCardUploadError = null;
-    String message =
-        locator.get<CompleteAccountSetupService>().validateFileSize(file, 5);
+    String message = locator.get<SharedService>().validateFileSize(file, 5);
     if (message == "") {
       preferredID = file;
       // uploadingIdentityCard.value = true;
@@ -121,8 +121,7 @@ class CompleteAccountSetupController extends GetxController {
 
   void processUtilityUpload(File file) {
     utilityBillUploadError = null;
-    String message =
-        locator.get<CompleteAccountSetupService>().validateFileSize(file, 5);
+    String message = locator.get<SharedService>().validateFileSize(file, 5);
     if (message == "") {
       utilityBill = file;
       // uploadingUtilityBill.value = true;

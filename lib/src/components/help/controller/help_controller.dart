@@ -15,6 +15,7 @@ import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart'
 import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 class HelpController extends GetxController {
+  final storage = GetStorage();
   final ScrollController scrollController = new ScrollController();
   RxInt currentIndex = 0.obs;
   RxInt size = 15.obs;
@@ -29,8 +30,7 @@ class HelpController extends GetxController {
   RxString resolved = "".obs;
   RxList<Issues> pendingIssues = <Issues>[].obs;
   RxList<Issues> resolvedIssues = <Issues>[].obs;
-
-  final storage = GetStorage();
+  String name = "";
 
   RxString uploadBillText = "Upload your preferred Utility Bill".obs;
   RxString uploadIdText = "Upload your preferred ID".obs;
@@ -50,6 +50,7 @@ class HelpController extends GetxController {
         }
       }
     });
+    name = storage.read("firstname") + " " + storage.read("lastname");
   }
 
   @override
@@ -94,7 +95,6 @@ class HelpController extends GetxController {
         await locator.get<HelpService>().getIssues(size.value, status.value);
     pendingIssuesLoading.value = false;
     resolvedIssuesLoading.value = false;
-    pendingIssues.clear();
     resolvedIssues.clear();
     if (response.status) {
       print(response.data);
@@ -110,7 +110,6 @@ class HelpController extends GetxController {
     pendingIssuesLoading.value = false;
     resolvedIssuesLoading.value = false;
     pendingIssues.clear();
-    resolvedIssues.clear();
     if (response.status) {
       print(response.data);
       pendingIssues.assignAll(response.data!);
@@ -145,6 +144,10 @@ class HelpController extends GetxController {
   }
 
   var oCcy = new NumberFormat("#,##0.00", "en_US");
+
+  String inCaps(String str) {
+    return str.length > 0 ? '${str[0].toUpperCase()}${str.substring(1)}' : '';
+  }
 
   void submitCallback(void issue) {
     // final isDarkMode = Theme.of(context).brightness == Brightness.dark;

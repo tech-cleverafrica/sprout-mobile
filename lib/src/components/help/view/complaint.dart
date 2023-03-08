@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sprout_mobile/src/components/help/controller/help_controller.dart';
+import 'package:sprout_mobile/src/components/help/model/issues_model.dart';
 import 'package:sprout_mobile/src/components/help/view/cant_find_my_issue.dart';
 import 'package:sprout_mobile/src/components/help/view/complaint_tab.dart';
 import 'package:sprout_mobile/src/components/help/view/pending_issue.dart';
@@ -310,10 +311,18 @@ class ComplaintScreen extends StatelessWidget {
                                                           ResolvedIssueScreen(
                                                             issue: issue,
                                                             refreshIssue: () =>
-                                                                helpController
-                                                                    .getIssues(),
-                                                            onReopened:
-                                                                (issue) => {},
+                                                                {
+                                                              helpController
+                                                                  .getPendingIssues(),
+                                                              helpController
+                                                                  .getIssues(),
+                                                              helpController
+                                                                  .getOverview()
+                                                            },
+                                                            onReopened: (issue) =>
+                                                                reopenedCallback(
+                                                                    issue,
+                                                                    context),
                                                           ))
                                                     })))
                         : SizedBox())),
@@ -352,5 +361,68 @@ class ComplaintScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void reopenedCallback(Issues issue, BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: ((context) {
+          return Dialog(
+            backgroundColor: isDarkMode ? AppColors.blackBg : AppColors.white,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            child: Container(
+                height: 150,
+                alignment: Alignment.center,
+                width: MediaQuery.of(context).size.width * 0.85,
+                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Dear " +
+                          helpController.inCaps(helpController.name) +
+                          ",",
+                      style: TextStyle(
+                        color: isDarkMode ? AppColors.white : AppColors.black,
+                        fontSize: 12.sp,
+                        height: 1.5,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      "Your complaint has been reopened, and it will be resolved shortly",
+                      style: TextStyle(
+                        color: isDarkMode ? AppColors.white : AppColors.black,
+                        fontSize: 12.sp,
+                        height: 1.5,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      "Thank You!",
+                      style: TextStyle(
+                        color: isDarkMode ? AppColors.white : AppColors.black,
+                        fontSize: 12.sp,
+                        height: 1.5,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                )),
+          );
+        }));
   }
 }

@@ -1,13 +1,11 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 
 import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/help/model/catergories_model.dart';
 import 'package:sprout_mobile/src/components/help/model/issues_model.dart';
 import 'package:sprout_mobile/src/components/help/model/overview_model.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
 import '../../../api-setup/api_setup.dart';
-import '../../../public/widgets/custom_loader.dart';
 import '../repository/help_repositoryimpl.dart';
 
 class HelpService {
@@ -60,7 +58,6 @@ class HelpService {
 
     Map<String, dynamic> responseBody = response.data;
     print(response.data);
-    print("EWEWEWEWEWEWEWEWWEEWWE");
     if (statusCode >= 200 && statusCode <= 300) {
       print(":::::::::$responseBody");
       return AppResponse<List<Issues>>(
@@ -69,16 +66,22 @@ class HelpService {
     return AppResponse(false, statusCode, responseBody);
   }
 
-  String validateFileSize(File file, int maxSize) {
-    final bytes = file.readAsBytesSync().lengthInBytes;
-    final kb = bytes / 1024;
-    final mb = kb / 1024;
-    String message = "";
-    if (mb > maxSize) {
-      message = 'File size is too large. The maximum allowable file size is ' +
-          maxSize.toString() +
-          'mb.';
+  Future<AppResponse<Issues>> reopenIssue(Map<String, dynamic> requestBody,
+      String id, String loadingMessage) async {
+    CustomLoader.show(message: loadingMessage);
+    Response response =
+        await locator<HelpRepositoryImpl>().reopenIssue(requestBody, id);
+    CustomLoader.dismiss();
+    int statusCode = response.statusCode ?? 000;
+
+    Map<String, dynamic> responseBody = response.data;
+    print(response.data);
+    print("EWEWEWEWEWEWEWEWWEEWWE");
+    if (response.data["status"]) {
+      print(":::::::::$responseBody");
+      return AppResponse<Issues>(true, statusCode, responseBody,
+          Issues.fromJson(responseBody["data"]));
     }
-    return message;
+    return AppResponse(false, statusCode, responseBody);
   }
 }
