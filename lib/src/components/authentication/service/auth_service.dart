@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as get_accessor;
 import 'package:get_storage/get_storage.dart';
@@ -66,6 +63,21 @@ class AuthService {
       storage.write('accountNumber', user.data!.accountNumber ?? "");
       storage.write('providusAccount', user.data!.providusAccountNumber ?? "");
       storage.write('wemaAccount', user.data!.wemaAccountNumber ?? "");
+      storage.write('profilePicture', user.data!.profilePicture ?? "");
+      storage.write('phoneNumber', user.data!.phoneNumber ?? "");
+      storage.write('email', user.data!.email ?? "");
+      storage.write('agentId', user.data!.agentId ?? "");
+      storage.write('businessName', user.data!.businessName ?? "");
+      storage.write('address', user.data!.address ?? "");
+      storage.write('city', user.data!.city ?? "");
+      storage.write('state', user.data!.state ?? "");
+      storage.write('displayedAccount', user.data!.displayedAccount ?? "");
+      storage.write('bankTID', user.data!.bankTID ?? "");
+      storage.write('terminalId', user.data!.terminalId ?? "");
+      storage.write('deviceSerialNumber', user.data!.deviceSerialNumber ?? "");
+      storage.write('approvalStatus', user.data!.approvalStatus ?? "");
+      storage.write('hasPin', user.data!.hasPin ?? "");
+      storage.write('metaMapInfo', user.data!.metaMapInfo ?? "");
 
       print(":::::::::$responseBody");
       return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);

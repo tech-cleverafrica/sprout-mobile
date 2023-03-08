@@ -18,7 +18,8 @@ class CompleteAccountSetupRepositoryImpl
   requestVerification(requestBody) async {
     try {
       String id = storage.read("userId");
-      return await api.dio.post(requestVerificationUrl + id, data: requestBody);
+      return await api.dio
+          .patch(requestVerificationUrl + id, data: requestBody);
     } on DioError catch (e) {
       return api.handleError(e);
     } catch (e) {
@@ -29,11 +30,8 @@ class CompleteAccountSetupRepositoryImpl
   @override
   uploadAndCommit(File? image, String fileType) async {
     try {
-      print(image);
       final mimeTypeData =
           lookupMimeType(image!.path, headerBytes: [0xFF, 0xD8])!.split('/');
-      print(mimeTypeData[0]);
-      print(mimeTypeData[1]);
       FormData formData = FormData.fromMap({
         "file": await MultipartFile.fromFile(image.path,
             filename: fileType,

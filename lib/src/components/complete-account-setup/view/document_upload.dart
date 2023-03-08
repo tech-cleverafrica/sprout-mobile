@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sprout_mobile/src/components/complete-account-setup/controller/complete_account_setup_controller.dart';
 import 'package:sprout_mobile/src/components/complete-account-setup/view/upload_container.dart';
-import 'package:sprout_mobile/src/public/screens/approval_page.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
@@ -243,22 +242,10 @@ class DocumentUpload extends StatelessWidget {
                           cASCtrl.uploadIdText.value.toString().split("/").last,
                         ),
                       ),
-                      // title: cASCtrl.identityCardUploadError != null
-                      //     ? cASCtrl.identityCardUploadError
-                      //     : cASCtrl.preferredID != null
-                      //         ? cASCtrl.preferredID?.path.split("/").last
-                      //         : "Upload your preferred ID",
                       error: cASCtrl.identityCardUploadError != null
                           ? true
                           : false,
                     ),
-                    cASCtrl.uploadingIdentityCard.value
-                        ? Container(
-                            margin: EdgeInsets.only(right: 20, top: 20),
-                            width: double.infinity,
-                            alignment: Alignment.center,
-                            child: Text("Loading"))
-                        : SizedBox()
                   ]),
                   SizedBox(height: 40),
                   Stack(alignment: Alignment.topRight, children: [
@@ -427,11 +414,6 @@ class DocumentUpload extends StatelessWidget {
                                   ],
                                 ),
                               ))),
-                      // title: cASCtrl.utilityBillUploadError != null
-                      //     ? cASCtrl.utilityBillUploadError
-                      //     : cASCtrl.utilityBill != null
-                      //         ? cASCtrl.utilityBill?.path.split("/").last
-                      //         : "Upload your preferred Utility Bill",
                       title: Obx(
                         () => Text(
                           cASCtrl.uploadBillText.value
@@ -440,17 +422,9 @@ class DocumentUpload extends StatelessWidget {
                               .last,
                         ),
                       ),
-
                       error:
                           cASCtrl.utilityBillUploadError != null ? true : false,
                     ),
-                    cASCtrl.uploadingUtilityBill.value
-                        ? Container(
-                            margin: EdgeInsets.only(right: 20, top: 20),
-                            width: double.infinity,
-                            alignment: Alignment.centerRight,
-                            child: Text("Loading"))
-                        : SizedBox()
                   ]),
                 ],
               ),

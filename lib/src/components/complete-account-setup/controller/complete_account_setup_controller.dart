@@ -6,8 +6,10 @@ import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/complete-account-setup/service/complete_account_setup_service.dart';
+import 'package:sprout_mobile/src/public/screens/approval_page.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
+import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 class CompleteAccountSetupController extends GetxController {
   TextEditingController bvnController = new TextEditingController();
@@ -17,8 +19,8 @@ class CompleteAccountSetupController extends GetxController {
   String? identityCardUploadError;
   String? utilityBillUploadError;
   bool loading = false;
-  RxBool uploadingIdentityCard = false.obs;
-  RxBool uploadingUtilityBill = false.obs;
+  // RxBool uploadingIdentityCard = false.obs;
+  // RxBool uploadingUtilityBill = false.obs;
   bool isIDValid = false;
   bool isUtilityValid = false;
 
@@ -67,8 +69,12 @@ class CompleteAccountSetupController extends GetxController {
         .get<CompleteAccountSetupService>()
         .requestVerification(model, "Please wait");
     if (response.status) {
-      print(response.data);
-      // push(page: BottomNav());
+      pushUntil(
+          page: ApprovalScreen(
+        containShare: false,
+        heading: "Your information has been successfully submitted",
+        messages: "You will be notified once your account is verified",
+      ));
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }
@@ -81,11 +87,13 @@ class CompleteAccountSetupController extends GetxController {
     if (response.status) {
       if (fileType == "identityCard") {
         identityCardUrl = response.data["data"];
-        uploadingIdentityCard.value = false;
+        // uploadingIdentityCard.value = false;
+        uploadIdText.value = preferredID!.path;
         isIDValid = true;
       } else if (fileType == "utilityBill") {
         utilityBillUrl = response.data["data"];
-        uploadingUtilityBill.value = false;
+        // uploadingUtilityBill.value = false;
+        uploadBillText.value = utilityBill!.path;
         isUtilityValid = true;
       }
     } else {
@@ -99,8 +107,7 @@ class CompleteAccountSetupController extends GetxController {
         locator.get<CompleteAccountSetupService>().validateFileSize(file, 5);
     if (message == "") {
       preferredID = file;
-      uploadingIdentityCard.value = true;
-      uploadIdText.value = preferredID!.path;
+      // uploadingIdentityCard.value = true;
       uploadAndCommit(
         preferredID,
         "identityCard",
@@ -118,8 +125,7 @@ class CompleteAccountSetupController extends GetxController {
         locator.get<CompleteAccountSetupService>().validateFileSize(file, 5);
     if (message == "") {
       utilityBill = file;
-      uploadingUtilityBill.value = true;
-      uploadBillText.value = utilityBill!.path;
+      // uploadingUtilityBill.value = true;
       uploadAndCommit(
         utilityBill,
         "utilityBill",
