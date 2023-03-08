@@ -64,9 +64,9 @@ class Categories {
   }
 
   static getList(List<dynamic>? json) {
-    List<Map<String, dynamic>> transaction =
+    List<Map<String, dynamic>> category =
         List<Map<String, dynamic>>.from(json ?? []);
     return List.generate(
-        transaction.length, (index) => Categories.fromJson(transaction[index]));
+        category.length, (index) => Categories.fromJson(category[index]));
   }
 }

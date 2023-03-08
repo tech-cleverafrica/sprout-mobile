@@ -5,6 +5,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/help/model/catergories_model.dart';
+import 'package:sprout_mobile/src/components/help/model/issues_model.dart';
+import 'package:sprout_mobile/src/components/help/model/overview_model.dart';
 import 'package:sprout_mobile/src/components/help/service/help_service.dart';
 import 'package:sprout_mobile/src/components/help/view/dispense_error.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
@@ -12,54 +14,20 @@ import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 class HelpController extends GetxController {
   RxInt currentIndex = 0.obs;
-  bool loading = false;
+  RxInt size = 15.obs;
+  RxBool loading = false.obs;
   RxBool categoriesLoading = false.obs;
-  bool pendingIssuesLoading = false;
-  bool resolvedIssuesLoading = false;
+  RxBool pendingIssuesLoading = false.obs;
+  RxBool resolvedIssuesLoading = false.obs;
+  RxString status = "".obs;
   RxList<Categories> categories = <Categories>[].obs;
   var overview = {};
-  String status = "";
-  String pending = "";
-  String resolved = "";
-  List pendingIssues = [
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-  ];
-  List resolvedIssues = [
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-  ];
-  int size = 15;
+  RxString pending = "".obs;
+  RxString resolved = "".obs;
+  RxList<Issues> pendingIssues = <Issues>[].obs;
+  RxList<Issues> resolvedIssues = <Issues>[].obs;
 
   final storage = GetStorage();
-  // RxBool uploadingIdentityCard = false.obs;
-  // RxBool uploadingUtilityBill = false.obs;
-  bool isIDValid = false;
-  bool isUtilityValid = false;
 
   RxString uploadBillText = "Upload your preferred Utility Bill".obs;
   RxString uploadIdText = "Upload your preferred ID".obs;
@@ -68,6 +36,7 @@ class HelpController extends GetxController {
   void onInit() {
     super.onInit();
     getCategories();
+    getOverview();
   }
 
   @override
@@ -88,11 +57,51 @@ class HelpController extends GetxController {
         await locator.get<HelpService>().getCategories();
     categoriesLoading.value = false;
     if (response.status) {
-      print(response.data);
       categories.assignAll(response.data!);
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
       pop();
+    }
+  }
+
+  Future getOverview() async {
+    AppResponse<Overview> response =
+        await locator.get<HelpService>().getOverview();
+    if (response.status) {
+      pending.value =
+          (response.data!.data!.total! - response.data!.data!.resolved!)
+              .toString();
+      resolved.value = response.data!.data!.resolved!.toString();
+    }
+  }
+
+  Future<void> getIssues() async {
+    AppResponse<List<Issues>> response =
+        await locator.get<HelpService>().getIssues(size.value, status.value);
+    pendingIssuesLoading.value = false;
+    resolvedIssuesLoading.value = false;
+    pendingIssues.clear();
+    resolvedIssues.clear();
+    if (response.status) {
+      print(response.data);
+      resolvedIssues.assignAll(response.data!);
+    } else {
+      CustomToastNotification.show(response.message, type: ToastType.error);
+    }
+  }
+
+  Future<void> getPendingIssues() async {
+    AppResponse<List<Issues>> response =
+        await locator.get<HelpService>().getPendingIssues(size.value);
+    pendingIssuesLoading.value = false;
+    resolvedIssuesLoading.value = false;
+    pendingIssues.clear();
+    resolvedIssues.clear();
+    if (response.status) {
+      print(response.data);
+      pendingIssues.assignAll(response.data!);
+    } else {
+      CustomToastNotification.show(response.message, type: ToastType.error);
     }
   }
 
@@ -182,6 +191,4 @@ class HelpController extends GetxController {
       },
     );
   }
-
-  Future<void> getPendingIssues() async {}
 }

@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sprout_mobile/src/components/help/controller/help_controller.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
+import 'package:get/get.dart';
 
+// ignore: must_be_immutable
 class ComplaintTab extends StatelessWidget {
   ComplaintTab(
       {required this.title,
       required this.index,
-      required this.currentIndex,
       required this.setIndex,
       required this.withBadge,
       required this.badge});
   final String title;
   final int index;
-  final int currentIndex;
   final Function(int) setIndex;
   final bool withBadge;
   final String badge;
 
+  late HelpController helpController;
+
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    helpController = Get.put(HelpController());
     return GestureDetector(
       onTap: () => setIndex(index),
       child: Container(
@@ -30,21 +34,21 @@ class ComplaintTab extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        title,
-                        style: TextStyle(
-                          color: currentIndex == index
-                              ? isDarkMode
-                                  ? AppColors.white
-                                  : AppColors.black
-                              : isDarkMode
-                                  ? Color.fromRGBO(110, 113, 120, 1)
-                                  : Color.fromRGBO(12, 31, 69, 1)
-                                      .withOpacity(0.3),
-                          fontWeight: FontWeight.w900,
-                          fontSize: 12.sp,
-                        ),
-                      ),
+                      Obx((() => Text(
+                            title,
+                            style: TextStyle(
+                              color: helpController.currentIndex.value == index
+                                  ? isDarkMode
+                                      ? AppColors.white
+                                      : AppColors.black
+                                  : isDarkMode
+                                      ? Color.fromRGBO(110, 113, 120, 1)
+                                      : Color.fromRGBO(12, 31, 69, 1)
+                                          .withOpacity(0.3),
+                              fontWeight: FontWeight.w900,
+                              fontSize: 12.sp,
+                            ),
+                          ))),
                       badge != ""
                           ? Container(
                               height: 12,
@@ -65,22 +69,23 @@ class ComplaintTab extends StatelessWidget {
                           : SizedBox(),
                     ],
                   )
-                : Text(
-                    title,
-                    style: TextStyle(
-                      color: currentIndex == index
-                          ? isDarkMode
-                              ? AppColors.white
-                              : AppColors.black
-                          : isDarkMode
-                              ? Color.fromRGBO(110, 113, 120, 1)
-                              : Color.fromRGBO(12, 31, 69, 1).withOpacity(0.3),
-                      fontWeight: FontWeight.w900,
-                      fontSize: 12.sp,
-                    ),
-                  ),
+                : Obx((() => Text(
+                      title,
+                      style: TextStyle(
+                        color: helpController.currentIndex.value == index
+                            ? isDarkMode
+                                ? AppColors.white
+                                : AppColors.black
+                            : isDarkMode
+                                ? Color.fromRGBO(110, 113, 120, 1)
+                                : Color.fromRGBO(12, 31, 69, 1)
+                                    .withOpacity(0.3),
+                        fontWeight: FontWeight.w900,
+                        fontSize: 12.sp,
+                      ),
+                    ))),
             SizedBox(height: 5),
-            currentIndex == index
+            Obx((() => helpController.currentIndex.value == index
                 ? Container(
                     height: 4,
                     width: MediaQuery.of(context).size.width * 0.25,
@@ -93,7 +98,7 @@ class ComplaintTab extends StatelessWidget {
                     margin: EdgeInsets.only(top: 2),
                     height: 1,
                     width: MediaQuery.of(context).size.width * 0.25,
-                    color: isDarkMode ? AppColors.white : AppColors.black),
+                    color: isDarkMode ? AppColors.white : AppColors.black))),
           ],
         ),
       ),

@@ -41,56 +41,57 @@ class ComplaintScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     addVerticalSpace(5.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ComplaintTab(
-                          title: "Select Issue",
-                          index: 0,
-                          currentIndex: helpController.currentIndex.value,
-                          setIndex: (index) =>
-                              helpController.currentIndex.value = index,
-                          withBadge: false,
-                          badge: "",
-                        ),
-                        ComplaintTab(
-                          title: "Pending",
-                          index: 1,
-                          currentIndex: helpController.currentIndex.value,
-                          setIndex: (index) => {
-                            if (helpController.currentIndex.value != index)
-                              {
-                                helpController.currentIndex.value = index,
-                                // pendingIssuesLoading = true;
-                                helpController.pendingIssuesLoading = false,
-                                helpController.resolvedIssuesLoading = false,
-                                helpController.size = 15,
-                                helpController.status = 'PENDING',
-                              }
-                          },
-                          withBadge: true,
-                          badge: helpController.pending,
-                        ),
-                        ComplaintTab(
-                          title: "Resolved",
-                          index: 2,
-                          currentIndex: helpController.currentIndex.value,
-                          setIndex: (index) => {
-                            if (helpController.currentIndex.value != index)
-                              {
-                                helpController.currentIndex.value = index,
-                                helpController.pendingIssuesLoading = false,
-                                // resolvedIssuesLoading = true,
-                                helpController.resolvedIssuesLoading = false,
-                                helpController.size = 15,
-                                helpController.status = 'RESOLVED',
-                              }
-                          },
-                          withBadge: true,
-                          badge: helpController.resolved,
-                        ),
-                      ],
-                    ),
+                    Obx((() => Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ComplaintTab(
+                              title: "Select Issue",
+                              index: 0,
+                              setIndex: (index) =>
+                                  helpController.currentIndex.value = index,
+                              withBadge: false,
+                              badge: "",
+                            ),
+                            ComplaintTab(
+                              title: "Pending",
+                              index: 1,
+                              setIndex: (index) => {
+                                if (helpController.currentIndex.value != index)
+                                  {
+                                    helpController.currentIndex.value = index,
+                                    helpController.pendingIssuesLoading.value =
+                                        true,
+                                    helpController.resolvedIssuesLoading.value =
+                                        false,
+                                    helpController.size.value = 15,
+                                    helpController.status.value = 'PENDING',
+                                    helpController.getPendingIssues(),
+                                  }
+                              },
+                              withBadge: true,
+                              badge: helpController.pending.value,
+                            ),
+                            ComplaintTab(
+                              title: "Resolved",
+                              index: 2,
+                              setIndex: (index) => {
+                                if (helpController.currentIndex.value != index)
+                                  {
+                                    helpController.currentIndex.value = index,
+                                    helpController.pendingIssuesLoading.value =
+                                        false,
+                                    helpController.resolvedIssuesLoading.value =
+                                        true,
+                                    helpController.size.value = 15,
+                                    helpController.status.value = 'RESOLVED',
+                                    helpController.getIssues(),
+                                  }
+                              },
+                              withBadge: true,
+                              badge: helpController.resolved.value,
+                            ),
+                          ],
+                        ))),
                     addVerticalSpace(10.h),
                     Obx((() => helpController.currentIndex.value == 0
                         ? helpController.categoriesLoading.value
@@ -190,10 +191,12 @@ class ComplaintScreen extends StatelessWidget {
                           )
                         : SizedBox())),
                     Obx((() => helpController.currentIndex.value == 1
-                        ? helpController.pendingIssuesLoading
+                        ? helpController.pendingIssuesLoading.value
                             ? Container(
                                 margin: EdgeInsets.only(bottom: 50),
                                 width: double.infinity,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.42,
                                 alignment: Alignment.center,
                                 child: Text(
                                   "Loading",
@@ -208,15 +211,15 @@ class ComplaintScreen extends StatelessWidget {
                             : Expanded(
                                 child: ListView.builder(
                                     controller: _scrollController,
-                                    itemCount:
-                                        helpController.pendingIssues.length,
+                                    itemCount: helpController
+                                        .pendingIssues.value.length,
                                     shrinkWrap: true,
                                     padding: EdgeInsets.only(top: 20),
                                     physics: BouncingScrollPhysics(),
                                     itemBuilder: (context, index) =>
                                         SingleIssue(
                                             issue: helpController
-                                                .pendingIssues[index],
+                                                .pendingIssues.value[index],
                                             onTap: (issue) => {
                                                   Get.to(
                                                       () => PendingIssueScreen(
@@ -227,7 +230,7 @@ class ComplaintScreen extends StatelessWidget {
                                                           ))
                                                 })))
                         : SizedBox())),
-                    Obx((() => !helpController.pendingIssuesLoading &&
+                    Obx((() => !helpController.pendingIssuesLoading.value &&
                             helpController.currentIndex.value == 1
                         ? GestureDetector(
                             onTap: () => showDialog(
@@ -255,10 +258,12 @@ class ComplaintScreen extends StatelessWidget {
                           )
                         : SizedBox())),
                     Obx((() => helpController.currentIndex.value == 2
-                        ? helpController.resolvedIssuesLoading
+                        ? helpController.resolvedIssuesLoading.value
                             ? Container(
                                 margin: EdgeInsets.only(bottom: 50),
                                 width: double.infinity,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.42,
                                 alignment: Alignment.center,
                                 child: Text(
                                   "Loading",
@@ -281,18 +286,18 @@ class ComplaintScreen extends StatelessWidget {
                                     itemBuilder: (context, index) =>
                                         SingleIssue(
                                             issue: helpController
-                                                .pendingIssues[index],
+                                                .resolvedIssues[index],
                                             onTap: (issue) => {
                                                   Get.to(
                                                       () => ResolvedIssueScreen(
                                                             issue: null,
                                                             refreshIssue: () =>
                                                                 helpController
-                                                                    .getPendingIssues(),
+                                                                    .getIssues(),
                                                           ))
                                                 })))
                         : SizedBox())),
-                    Obx((() => !helpController.resolvedIssuesLoading &&
+                    Obx((() => !helpController.resolvedIssuesLoading.value &&
                             helpController.currentIndex.value == 2
                         ? GestureDetector(
                             onTap: () => showDialog(
