@@ -13,6 +13,7 @@ import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
 import '../controller/home_controller.dart';
 
+// ignore: must_be_immutable
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
