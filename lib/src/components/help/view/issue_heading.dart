@@ -26,7 +26,6 @@ class IssueHeading extends StatelessWidget {
                         ? AppColors.white
                         : Color.fromRGBO(29, 30, 31, 1),
                     fontSize: 14,
-                    fontFamily: 'MontSerrat',
                     fontWeight: FontWeight.bold,
                   ),
                 ),

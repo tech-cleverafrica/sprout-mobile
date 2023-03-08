@@ -6,6 +6,7 @@ class Environment {
 
   static const apiUrl = String.fromEnvironment(
     'API_URL',
-    defaultValue: 'https://dev.cleverafrica.com/',
+    defaultValue: 'https://be.clevermoni.com/',
+    // defaultValue: 'https://dev.cleverafrica.com/',
   );
 }

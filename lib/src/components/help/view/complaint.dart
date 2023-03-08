@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sprout_mobile/src/components/help/controller/help_controller.dart';
 import 'package:sprout_mobile/src/components/help/view/cant_find_my_issue.dart';
 import 'package:sprout_mobile/src/components/help/view/complaint_tab.dart';
@@ -18,7 +19,6 @@ class ComplaintScreen extends StatelessWidget {
   ComplaintScreen({super.key});
 
   late HelpController helpController;
-  final ScrollController _scrollController = new ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -101,15 +101,11 @@ class ComplaintScreen extends StatelessWidget {
                                 height:
                                     MediaQuery.of(context).size.height * 0.42,
                                 alignment: Alignment.center,
-                                child: Text(
-                                  "Loading",
-                                  style: TextStyle(
-                                    color: isDarkMode
-                                        ? AppColors.white
-                                        : AppColors.black,
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 12.sp,
-                                  ),
+                                child: SpinKitFadingCircle(
+                                  color: isDarkMode
+                                      ? AppColors.white
+                                      : AppColors.black,
+                                  size: 30,
                                 ))
                             : Expanded(
                                 child: ListView.builder(
@@ -198,37 +194,48 @@ class ComplaintScreen extends StatelessWidget {
                                 height:
                                     MediaQuery.of(context).size.height * 0.42,
                                 alignment: Alignment.center,
-                                child: Text(
-                                  "Loading",
-                                  style: TextStyle(
-                                    color: isDarkMode
-                                        ? AppColors.white
-                                        : AppColors.black,
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 12.sp,
-                                  ),
+                                child: SpinKitFadingCircle(
+                                  color: isDarkMode
+                                      ? AppColors.white
+                                      : AppColors.black,
+                                  size: 30,
                                 ))
-                            : Expanded(
-                                child: ListView.builder(
-                                    controller: _scrollController,
-                                    itemCount: helpController
-                                        .pendingIssues.value.length,
-                                    shrinkWrap: true,
-                                    padding: EdgeInsets.only(top: 20),
-                                    physics: BouncingScrollPhysics(),
-                                    itemBuilder: (context, index) =>
-                                        SingleIssue(
-                                            issue: helpController
-                                                .pendingIssues.value[index],
-                                            onTap: (issue) => {
-                                                  Get.to(
-                                                      () => PendingIssueScreen(
+                            : helpController.pendingIssues.isEmpty
+                                ? Expanded(
+                                    child: Container(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.42,
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          "You have no pending issue",
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontStyle: FontStyle.italic),
+                                        )),
+                                  )
+                                : Expanded(
+                                    child: ListView.builder(
+                                        controller:
+                                            helpController.scrollController,
+                                        itemCount:
+                                            helpController.pendingIssues.length,
+                                        shrinkWrap: true,
+                                        padding: EdgeInsets.only(top: 20),
+                                        physics: BouncingScrollPhysics(),
+                                        itemBuilder: (context, index) =>
+                                            SingleIssue(
+                                                issue: helpController
+                                                    .pendingIssues[index],
+                                                onTap: (issue) => {
+                                                      Get.to(() =>
+                                                          PendingIssueScreen(
                                                             issue: null,
                                                             refreshIssue: () =>
                                                                 helpController
                                                                     .getPendingIssues(),
                                                           ))
-                                                })))
+                                                    })))
                         : SizedBox())),
                     Obx((() => !helpController.pendingIssuesLoading.value &&
                             helpController.currentIndex.value == 1
@@ -265,37 +272,50 @@ class ComplaintScreen extends StatelessWidget {
                                 height:
                                     MediaQuery.of(context).size.height * 0.42,
                                 alignment: Alignment.center,
-                                child: Text(
-                                  "Loading",
-                                  style: TextStyle(
-                                    color: isDarkMode
-                                        ? AppColors.white
-                                        : AppColors.black,
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 12.sp,
-                                  ),
+                                child: SpinKitFadingCircle(
+                                  color: isDarkMode
+                                      ? AppColors.white
+                                      : AppColors.black,
+                                  size: 30,
                                 ))
-                            : Expanded(
-                                child: ListView.builder(
-                                    controller: _scrollController,
-                                    itemCount:
-                                        helpController.resolvedIssues.length,
-                                    shrinkWrap: true,
-                                    padding: EdgeInsets.only(top: 20),
-                                    physics: BouncingScrollPhysics(),
-                                    itemBuilder: (context, index) =>
-                                        SingleIssue(
-                                            issue: helpController
-                                                .resolvedIssues[index],
-                                            onTap: (issue) => {
-                                                  Get.to(
-                                                      () => ResolvedIssueScreen(
-                                                            issue: null,
+                            : helpController.resolvedIssues.isEmpty
+                                ? Expanded(
+                                    child: Container(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.42,
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          "You have no resolved issue",
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontStyle: FontStyle.italic),
+                                        )),
+                                  )
+                                : Expanded(
+                                    child: ListView.builder(
+                                        controller:
+                                            helpController.scrollController,
+                                        itemCount: helpController
+                                            .resolvedIssues.length,
+                                        shrinkWrap: true,
+                                        padding: EdgeInsets.only(top: 20),
+                                        physics: BouncingScrollPhysics(),
+                                        itemBuilder: (context, index) =>
+                                            SingleIssue(
+                                                issue: helpController
+                                                    .resolvedIssues[index],
+                                                onTap: (issue) => {
+                                                      Get.to(() =>
+                                                          ResolvedIssueScreen(
+                                                            issue: issue,
                                                             refreshIssue: () =>
                                                                 helpController
                                                                     .getIssues(),
+                                                            onReopened:
+                                                                (issue) => {},
                                                           ))
-                                                })))
+                                                    })))
                         : SizedBox())),
                     Obx((() => !helpController.resolvedIssuesLoading.value &&
                             helpController.currentIndex.value == 2

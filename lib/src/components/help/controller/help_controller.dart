@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/help/model/catergories_model.dart';
@@ -13,6 +15,7 @@ import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart'
 import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 class HelpController extends GetxController {
+  final ScrollController scrollController = new ScrollController();
   RxInt currentIndex = 0.obs;
   RxInt size = 15.obs;
   RxBool loading = false.obs;
@@ -36,7 +39,17 @@ class HelpController extends GetxController {
   void onInit() {
     super.onInit();
     getCategories();
-    getOverview();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        size.value = size.value + 10;
+        if (status.value == 'PENDING') {
+          getPendingIssues();
+        } else {
+          getIssues();
+        }
+      }
+    });
   }
 
   @override
@@ -58,6 +71,7 @@ class HelpController extends GetxController {
     categoriesLoading.value = false;
     if (response.status) {
       categories.assignAll(response.data!);
+      getOverview();
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
       pop();
@@ -111,6 +125,13 @@ class HelpController extends GetxController {
 
   void processUtilityUpload(File file) {}
 
+  Future<void> submitIssue(issue) async {}
+
+  Future<void> updateIssue() async {
+    submitCallback(null);
+    // widget.refreshIssue();
+  }
+
   buildRequestModel(bvn, identityCard, utilityBill) {
     return {
       "bvn": bvn,
@@ -118,6 +139,12 @@ class HelpController extends GetxController {
       "utilityBill": utilityBill
     };
   }
+
+  DateTime localDate(String date) {
+    return DateTime.parse(date).toLocal();
+  }
+
+  var oCcy = new NumberFormat("#,##0.00", "en_US");
 
   void submitCallback(void issue) {
     // final isDarkMode = Theme.of(context).brightness == Brightness.dark;

@@ -51,8 +51,6 @@ class ComplaintTab extends StatelessWidget {
                           ))),
                       badge != ""
                           ? Container(
-                              height: 12,
-                              width: 12,
                               margin: EdgeInsets.only(left: 8, top: 0),
                               alignment: Alignment.center,
                               child: Text(
@@ -61,7 +59,7 @@ class ComplaintTab extends StatelessWidget {
                                   color: isDarkMode
                                       ? AppColors.white
                                       : AppColors.black,
-                                  fontSize: 12.sp,
+                                  fontSize: 10.sp,
                                   fontWeight: FontWeight.w900,
                                 ),
                               ),

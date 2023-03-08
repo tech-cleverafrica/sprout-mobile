@@ -32,7 +32,7 @@ class SingleIssue extends StatelessWidget {
                             : Color.fromRGBO(29, 30, 31, 1),
                         fontSize: 14.sp,
                         fontFamily: 'MontSerrat',
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     Container(
@@ -61,7 +61,7 @@ class SingleIssue extends StatelessWidget {
             SizedBox(height: 15),
             Divider(
               height: 1,
-              thickness: 1,
+              thickness: 0.7,
             )
           ],
         ),
