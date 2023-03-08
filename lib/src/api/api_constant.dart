@@ -9,6 +9,9 @@ const String createUserUrl = "user-management/api/v1/users/agent";
 const String requestVerificationUrl = "user-management/api/v1/users/";
 const String uploadUrl = "user-management/api/v1/users/upload";
 
+//issue
+const String issueCategories = "resolution/api/v1/categories";
+
 //transactions
 const String transactionsUrl = "transaction/api/v1/transactions/me";
 

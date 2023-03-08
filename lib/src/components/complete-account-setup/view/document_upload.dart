@@ -35,13 +35,6 @@ class DocumentUpload extends StatelessWidget {
               buttonText: "Done",
               onTap: () {
                 cASCtrl.validate();
-                // Get.to(() => ApprovalScreen(
-                //       containShare: false,
-                //       heading:
-                //           "Your information has been successfully submitted",
-                //       messages:
-                //           "You will be notified once your account is verified",
-                //     ));
               },
             ),
           ),

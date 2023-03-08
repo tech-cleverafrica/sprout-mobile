@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sprout_mobile/src/components/help/controller/help_controller.dart';
 import 'package:sprout_mobile/src/components/help/view/cant_find_my_issue.dart';
 import 'package:sprout_mobile/src/components/help/view/complaint_tab.dart';
-import 'package:sprout_mobile/src/components/help/view/dispense_error.dart';
 import 'package:sprout_mobile/src/components/help/view/pending_issue.dart';
 import 'package:sprout_mobile/src/components/help/view/reolved_issue.dart';
 import 'package:sprout_mobile/src/components/help/view/singleIssue.dart';
@@ -13,140 +13,17 @@ import 'package:get/get.dart';
 
 import '../../../utils/app_colors.dart';
 
-class ComplaintScreen extends StatefulWidget {
+// ignore: must_be_immutable
+class ComplaintScreen extends StatelessWidget {
   ComplaintScreen({super.key});
 
-  @override
-  _ComplaintScreenState createState() => _ComplaintScreenState();
-}
-
-class _ComplaintScreenState extends State<ComplaintScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
+  late HelpController helpController;
   final ScrollController _scrollController = new ScrollController();
-  int currentIndex = 0;
-  bool loading = false;
-  bool categoriesLoading = false;
-  bool pendingIssuesLoading = false;
-  bool resolvedIssuesLoading = false;
-  List<String> issueCategories = [
-    "POS Withdrawal",
-    "Funds Transfer",
-    "Mobile App",
-    "POS Device",
-    "Wallet Top-Up",
-    "Airtime",
-    "Bills Payment",
-    "Others"
-  ];
-  var overview = {};
-  String status = "";
-  String pending = "";
-  String resolved = "";
-  List pendingIssues = [
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-  ];
-  List resolvedIssues = [
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-    {"id": 1, "caseId": "CVL-960228000-FAI253"},
-  ];
-  int size = 15;
-
-  void submitCallback(void issue) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final theme = Theme.of(context);
-    Future.delayed(
-        Duration(seconds: 1),
-        () => showDialog(
-            context: context,
-            barrierDismissible: true,
-            builder: ((context) {
-              return Dialog(
-                backgroundColor:
-                    isDarkMode ? AppColors.blackBg : AppColors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0)),
-                child: Container(
-                  height: 200.h,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 20),
-                    child: Column(
-                      children: [
-                        addVerticalSpace(5.h),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Dear Oluwaseun,",
-                              style: theme.textTheme.subtitle2,
-                            ),
-                            addVerticalSpace(5.h),
-                            Text(
-                              "Your complaint has been received. This will be resolved within 24hrs.",
-                              style: theme.textTheme.subtitle2,
-                            ),
-                            addVerticalSpace(5.h),
-                            Text(
-                              "Your Case ID is:",
-                              style: theme.textTheme.subtitle2,
-                            ),
-                            addVerticalSpace(5.h),
-                            Text(
-                              "CLV-492250000-APP124",
-                              style: theme.textTheme.headline6,
-                            ),
-                            addVerticalSpace(10.h),
-                            Text(
-                              "Thank You!",
-                              style: theme.textTheme.subtitle2,
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            })));
-  }
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    helpController = Get.put(HelpController());
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -170,57 +47,53 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
                         ComplaintTab(
                           title: "Select Issue",
                           index: 0,
-                          currentIndex: currentIndex,
+                          currentIndex: helpController.currentIndex.value,
                           setIndex: (index) =>
-                              setState(() => currentIndex = index),
+                              helpController.currentIndex.value = index,
                           withBadge: false,
                           badge: "",
                         ),
                         ComplaintTab(
                           title: "Pending",
                           index: 1,
-                          currentIndex: currentIndex,
+                          currentIndex: helpController.currentIndex.value,
                           setIndex: (index) => {
-                            if (currentIndex != index)
+                            if (helpController.currentIndex.value != index)
                               {
-                                setState(() {
-                                  currentIndex = index;
-                                  // pendingIssuesLoading = true;
-                                  pendingIssuesLoading = false;
-                                  resolvedIssuesLoading = false;
-                                  size = 15;
-                                  status = 'PENDING';
-                                })
+                                helpController.currentIndex.value = index,
+                                // pendingIssuesLoading = true;
+                                helpController.pendingIssuesLoading = false,
+                                helpController.resolvedIssuesLoading = false,
+                                helpController.size = 15,
+                                helpController.status = 'PENDING',
                               }
                           },
                           withBadge: true,
-                          badge: pending,
+                          badge: helpController.pending,
                         ),
                         ComplaintTab(
                           title: "Resolved",
                           index: 2,
-                          currentIndex: currentIndex,
+                          currentIndex: helpController.currentIndex.value,
                           setIndex: (index) => {
-                            if (currentIndex != index)
+                            if (helpController.currentIndex.value != index)
                               {
-                                setState(() {
-                                  currentIndex = index;
-                                  pendingIssuesLoading = false;
-                                  // resolvedIssuesLoading = true;
-                                  resolvedIssuesLoading = false;
-                                  size = 15;
-                                  status = 'RESOLVED';
-                                })
+                                helpController.currentIndex.value = index,
+                                helpController.pendingIssuesLoading = false,
+                                // resolvedIssuesLoading = true,
+                                helpController.resolvedIssuesLoading = false,
+                                helpController.size = 15,
+                                helpController.status = 'RESOLVED',
                               }
                           },
                           withBadge: true,
-                          badge: resolved,
+                          badge: helpController.resolved,
                         ),
                       ],
                     ),
                     addVerticalSpace(10.h),
-                    currentIndex == 0
-                        ? categoriesLoading
+                    Obx((() => helpController.currentIndex.value == 0
+                        ? helpController.categoriesLoading.value
                             ? Container(
                                 margin: EdgeInsets.only(bottom: 50),
                                 width: double.infinity,
@@ -239,18 +112,20 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
                                 ))
                             : Expanded(
                                 child: ListView.builder(
-                                  itemCount: issueCategories.length,
+                                  itemCount: helpController.categories.length,
                                   shrinkWrap: true,
                                   physics: BouncingScrollPhysics(),
                                   itemBuilder: (context, index) =>
                                       GestureDetector(
-                                    onTap: () => Get.to(() =>
-                                        SubmitComplaintScreen(
-                                            onSubmit: (issue) =>
-                                                submitCallback(issue),
+                                    onTap: () => Get
+                                        .to(() => SubmitComplaintScreen(
+                                            onSubmit: (issue) => helpController
+                                                .submitCallback(issue),
                                             navigateNext: (title, category,
                                                     subCategory) =>
-                                                navigateNext(title, category,
+                                                helpController.navigateNext(
+                                                    title,
+                                                    category,
                                                     subCategory))),
                                     child: Container(
                                       width: double.infinity,
@@ -262,7 +137,9 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            issueCategories[index],
+                                            helpController
+                                                    .categories[index].name ??
+                                                "",
                                             style: TextStyle(
                                               color: isDarkMode
                                                   ? AppColors.white
@@ -284,8 +161,9 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
                                   ),
                                 ),
                               )
-                        : SizedBox(),
-                    !categoriesLoading && currentIndex == 0
+                        : SizedBox())),
+                    Obx((() => !helpController.categoriesLoading.value &&
+                            helpController.currentIndex.value == 0
                         ? GestureDetector(
                             onTap: () => showDialog(
                               context: (context),
@@ -310,9 +188,9 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
                               ),
                             ),
                           )
-                        : SizedBox(),
-                    currentIndex == 1
-                        ? pendingIssuesLoading
+                        : SizedBox())),
+                    Obx((() => helpController.currentIndex.value == 1
+                        ? helpController.pendingIssuesLoading
                             ? Container(
                                 margin: EdgeInsets.only(bottom: 50),
                                 width: double.infinity,
@@ -330,23 +208,27 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
                             : Expanded(
                                 child: ListView.builder(
                                     controller: _scrollController,
-                                    itemCount: pendingIssues.length,
+                                    itemCount:
+                                        helpController.pendingIssues.length,
                                     shrinkWrap: true,
                                     padding: EdgeInsets.only(top: 20),
                                     physics: BouncingScrollPhysics(),
                                     itemBuilder: (context, index) =>
                                         SingleIssue(
-                                            issue: pendingIssues[index],
+                                            issue: helpController
+                                                .pendingIssues[index],
                                             onTap: (issue) => {
                                                   Get.to(
                                                       () => PendingIssueScreen(
                                                             issue: null,
                                                             refreshIssue: () =>
-                                                                getPendingIssues(),
+                                                                helpController
+                                                                    .getPendingIssues(),
                                                           ))
                                                 })))
-                        : SizedBox(),
-                    !pendingIssuesLoading && currentIndex == 1
+                        : SizedBox())),
+                    Obx((() => !helpController.pendingIssuesLoading &&
+                            helpController.currentIndex.value == 1
                         ? GestureDetector(
                             onTap: () => showDialog(
                               context: (context),
@@ -371,9 +253,9 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
                               ),
                             ),
                           )
-                        : SizedBox(),
-                    currentIndex == 2
-                        ? resolvedIssuesLoading
+                        : SizedBox())),
+                    Obx((() => helpController.currentIndex.value == 2
+                        ? helpController.resolvedIssuesLoading
                             ? Container(
                                 margin: EdgeInsets.only(bottom: 50),
                                 width: double.infinity,
@@ -391,23 +273,27 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
                             : Expanded(
                                 child: ListView.builder(
                                     controller: _scrollController,
-                                    itemCount: resolvedIssues.length,
+                                    itemCount:
+                                        helpController.resolvedIssues.length,
                                     shrinkWrap: true,
                                     padding: EdgeInsets.only(top: 20),
                                     physics: BouncingScrollPhysics(),
                                     itemBuilder: (context, index) =>
                                         SingleIssue(
-                                            issue: pendingIssues[index],
+                                            issue: helpController
+                                                .pendingIssues[index],
                                             onTap: (issue) => {
                                                   Get.to(
                                                       () => ResolvedIssueScreen(
                                                             issue: null,
                                                             refreshIssue: () =>
-                                                                getPendingIssues(),
+                                                                helpController
+                                                                    .getPendingIssues(),
                                                           ))
                                                 })))
-                        : SizedBox(),
-                    !resolvedIssuesLoading && currentIndex == 2
+                        : SizedBox())),
+                    Obx((() => !helpController.resolvedIssuesLoading &&
+                            helpController.currentIndex.value == 2
                         ? GestureDetector(
                             onTap: () => showDialog(
                               context: (context),
@@ -432,7 +318,7 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
                               ),
                             ),
                           )
-                        : SizedBox(),
+                        : SizedBox())),
                   ],
                 ),
               ),
@@ -442,20 +328,4 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
       ),
     );
   }
-
-  void navigateNext(String title, String category, void dispenseSubCategory) {
-    Future.delayed(
-      const Duration(seconds: 1),
-      () => {
-        Get.to(() => DispenseErrorScreen(
-              title: "",
-              category: "",
-              data: null,
-              onSubmit: ((issue) => {submitCallback(issue)}),
-            ))
-      },
-    );
-  }
-
-  Future<void> getPendingIssues() async {}
 }
