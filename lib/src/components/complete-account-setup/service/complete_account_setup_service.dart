@@ -13,7 +13,6 @@ class CompleteAccountSetupService {
     CustomLoader.show(message: loadingMessage);
     Response response = await locator<CompleteAccountSetupRepositoryImpl>()
         .requestVerification(requestBody);
-    print(response);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
 
@@ -30,7 +29,6 @@ class CompleteAccountSetupService {
     CustomLoader.show(message: loadingMessage);
     Response response = await locator<CompleteAccountSetupRepositoryImpl>()
         .uploadAndCommit(file, fileType);
-    print(response);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
 
