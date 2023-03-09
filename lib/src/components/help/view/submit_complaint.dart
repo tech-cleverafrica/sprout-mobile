@@ -28,8 +28,7 @@ class SubmitComplaintScreen extends StatelessWidget {
   final Function(Issues issue) onSubmit;
   final String id;
   final String category;
-  final Function(String title, String category, IssuesSubCategory? subCategory)
-      navigateNext;
+  final Function(String category, IssuesSubCategory? subCategory) navigateNext;
 
   late HelpController helpController;
   late PostComplaintController postComplaintController;
@@ -463,11 +462,10 @@ class SubmitComplaintScreen extends StatelessWidget {
                             CustomButton(
                                 title: "Proceed",
                                 onTap: () => {
-                                      Get.back(),
-                                      Get.back(),
+                                      pop(),
+                                      pop(),
                                       navigateNext(
-                                          "",
-                                          "",
+                                          postComplaintController.category,
                                           postComplaintController
                                               .dispenseSubCategory.value)
                                     })
@@ -479,10 +477,5 @@ class SubmitComplaintScreen extends StatelessWidget {
                 ),
               );
             })));
-  }
-
-  Future<void> submitIssue(issue) async {
-    // Future.delayed(const Duration(milliseconds: 500),
-    //     () => {onSubmit(issue), Navigator.pop(context)});
   }
 }

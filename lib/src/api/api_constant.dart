@@ -17,6 +17,7 @@ const String issuesUrl = "resolution/api/v1/issues?size=";
 const String pendingIssuesUrl = "resolution/api/v1/issues/mobile?size=";
 const String updateIssueUrl = "resolution/api/v1/issues/";
 const String submitIssueUrl = "resolution/api/v1/issues";
+const String submitDispenseErrorIssueUrl = "resolution/api/v1/issues/error";
 
 //transactions
 const String transactionsUrl = "transaction/api/v1/transactions/me";

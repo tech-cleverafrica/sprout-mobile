@@ -11,9 +11,11 @@ import 'package:sprout_mobile/src/components/help/view/pending_issue.dart';
 import 'package:sprout_mobile/src/components/help/view/reolved_issue.dart';
 import 'package:sprout_mobile/src/components/help/view/singleIssue.dart';
 import 'package:sprout_mobile/src/components/help/view/submit_complaint.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 import '../../../utils/app_colors.dart';
 
@@ -134,9 +136,9 @@ class ComplaintScreen extends StatelessWidget {
                                                     .categories[index]
                                                     .category ??
                                                 "",
-                                            navigateNext: (title, category,
+                                            navigateNext: (category,
                                                     subCategory) =>
-                                                navigateNext(title, category,
+                                                navigateNext(category,
                                                     subCategory, context))),
                                     child: Container(
                                       width: double.infinity,
@@ -529,16 +531,24 @@ class ComplaintScreen extends StatelessWidget {
             })));
   }
 
-  void navigateNext(String title, String category,
-      IssuesSubCategory? dispenseSubCategory, BuildContext context) {
+  void navigateNext(String category, IssuesSubCategory? dispenseSubCategory,
+      BuildContext context) {
+    CustomLoader.show(message: "Please wait");
     Future.delayed(
       const Duration(seconds: 1),
       () => {
-        Get.to(() => DispenseErrorScreen(
-              category: "",
-              data: null,
-              onSubmit: ((issue) => {submitCallback(issue, context)}),
-            ))
+        CustomLoader.dismiss(),
+        push(
+            page: DispenseErrorScreen(
+          category: category,
+          data: dispenseSubCategory,
+          onSubmit: ((issue) => {
+                submitCallback(issue, context),
+                helpController.getPendingIssues(),
+                helpController.getIssues(),
+                helpController.getOverview()
+              }),
+        ))
       },
     );
   }

@@ -97,7 +97,6 @@ class HelpController extends GetxController {
     resolvedIssuesLoading.value = false;
     resolvedIssues.clear();
     if (response.status) {
-      print(response.data);
       resolvedIssues.assignAll(response.data!);
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
@@ -111,7 +110,6 @@ class HelpController extends GetxController {
     resolvedIssuesLoading.value = false;
     pendingIssues.clear();
     if (response.status) {
-      print(response.data);
       pendingIssues.assignAll(response.data!);
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);

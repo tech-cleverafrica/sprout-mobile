@@ -103,4 +103,15 @@ class HelpRepositoryImpl implements HelpRepository {
       e.printError();
     }
   }
+
+  @override
+  submitDispenseError(requestBody) async {
+    try {
+      return await api.dio.post(submitDispenseErrorIssueUrl, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
 }

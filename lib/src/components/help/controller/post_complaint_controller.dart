@@ -16,6 +16,15 @@ import 'package:sprout_mobile/src/utils/app_colors.dart';
 class PostComplaintController extends GetxController {
   final storage = GetStorage();
   TextEditingController descriptionController = new TextEditingController();
+  TextEditingController transactionAmountController =
+      new TextEditingController();
+  TextEditingController cardPANController = new TextEditingController();
+  TextEditingController cardNameController = new TextEditingController();
+  TextEditingController phoneNumberController = new TextEditingController();
+  TextEditingController rrnController = new TextEditingController();
+  RxString dateToDisplay = "DD-MM-YYYY".obs;
+  RxString transactionDate = "".obs;
+  final receipt = Rxn<NamedFile>();
   File? file;
   RxList<NamedFile> files = <NamedFile>[].obs;
   RxString fileError = "".obs;
@@ -26,6 +35,7 @@ class PostComplaintController extends GetxController {
   final dispenseSubCategory = Rxn<IssuesSubCategory>();
   RxBool isFileRequired = false.obs;
   String category = "";
+  IssuesSubCategory? subCategory;
 
   @override
   void onInit() {
@@ -69,14 +79,23 @@ class PostComplaintController extends GetxController {
     var name = file.path.split("/").last;
     var data = {"name": name, "file": url};
     files.add(NamedFile.fromJson(data));
+    receipt.value = NamedFile.fromJson(data);
   }
 
-  removeFile(int index) {
-    files.removeAt(index);
+  removeFile(int? index) {
+    if (index == null) {
+      receipt.value = null;
+    } else {
+      files.removeAt(index);
+    }
   }
 
   void setCategory(String parentCategory) {
     category = parentCategory;
+  }
+
+  void setSubCategory(IssuesSubCategory? parentSubCategory) {
+    subCategory = parentSubCategory;
   }
 
   Future<List<String>> allSubCategories(List<IssuesSubCategory> p) async {
@@ -165,9 +184,58 @@ class PostComplaintController extends GetxController {
     return null;
   }
 
+  Future<Issues?> validateDispenseError() async {
+    if (transactionDate.value == "" ||
+        transactionAmountController.text.isEmpty ||
+        cardPANController.text.isEmpty ||
+        cardNameController.text.isEmpty ||
+        phoneNumberController.text.isEmpty ||
+        rrnController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Fields marked (*) are required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (int.parse(
+            transactionAmountController.text.split(",").join("")) ==
+        0) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Invalid amount"),
+          backgroundColor: AppColors.errorRed));
+    } else if (cardPANController.text.length < 4) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Card PAN must be 4 digits"),
+          backgroundColor: AppColors.errorRed));
+    } else if (phoneNumberController.text.length < 11) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Phone number must be 11 digits"),
+          backgroundColor: AppColors.errorRed));
+    } else if (rrnController.text.length < 11) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("RRN must be 12 digits"),
+          backgroundColor: AppColors.errorRed));
+    } else {
+      Issues? returneedIssue =
+          await submitDispenseError(buildDispenseErrorRequestModel());
+      return returneedIssue;
+    }
+    return null;
+  }
+
   Future<Issues?> submitIssue(Map<String, dynamic> model) async {
     AppResponse<Issues> response =
         await locator.get<HelpService>().submitIssue(model, "Please wait");
+    if (response.status) {
+      final Issues issue = response.data;
+      return issue;
+    } else {
+      CustomToastNotification.show(response.message, type: ToastType.error);
+    }
+    return null;
+  }
+
+  Future<Issues?> submitDispenseError(Map<String, dynamic> model) async {
+    AppResponse<Issues> response = await locator
+        .get<HelpService>()
+        .submitDispenseError(model, "Please wait");
     if (response.status) {
       final Issues issue = response.data;
       return issue;
@@ -188,6 +256,23 @@ class PostComplaintController extends GetxController {
       "sla": issuesSubCategory.value?.sla,
       "issueDescription": issueDescription,
       "supportingDocuments": supportingDocuments,
+    };
+  }
+
+  buildDispenseErrorRequestModel() {
+    String agentId = storage.read("agentId");
+    return {
+      "category": category,
+      "subCategory": subCategory?.subcategory,
+      "transactionDate": transactionDate.value,
+      "transactionAmount": transactionAmountController.text.split(",").join(),
+      "cardName": cardNameController.text,
+      "cardPAN": cardPANController.text,
+      "cardHolderPhoneNumber": phoneNumberController.text,
+      "rrn": rrnController.text,
+      "receipt": receipt,
+      "agentId": agentId,
+      "issueDescription": ""
     };
   }
 }

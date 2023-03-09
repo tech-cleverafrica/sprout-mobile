@@ -42,6 +42,7 @@ class CustomTextFormField extends StatelessWidget {
   final String? errorText;
   final bool? required;
   final bool showCounterText;
+  final TextInputAction? textInputAction;
 
   CustomTextFormField({
     this.prefixIcon,
@@ -82,6 +83,7 @@ class CustomTextFormField extends StatelessWidget {
     this.errorText,
     this.required,
     this.showCounterText = true,
+    this.textInputAction = TextInputAction.none,
   });
 
   @override
@@ -127,6 +129,7 @@ class CustomTextFormField extends StatelessWidget {
             autovalidateMode: autovalidateMode,
             inputFormatters: inputFormatters,
             maxLines: maxLines,
+            textInputAction: textInputAction,
             decoration: InputDecoration(
               errorText: errorText,
               counterText: !showCounterText ? "" : null,

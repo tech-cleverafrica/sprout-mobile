@@ -7,4 +7,5 @@ class HelpRepository {
   reopenIssue(Map<String, dynamic> requestBody, String id) async {}
   updateIssue(Map<String, dynamic> requestBody, String id) async {}
   submitIssue(Map<String, dynamic> requestBody) async {}
+  submitDispenseError(Map<String, dynamic> requestBody) async {}
 }
