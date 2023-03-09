@@ -45,7 +45,7 @@ class Transactions {
   double? actionableAmount;
   num? aggregatorCut;
   double? cleverCut;
-  String? providerFee;
+  var providerFee;
   String? type;
   String? responseCode;
   String? responseMessage;

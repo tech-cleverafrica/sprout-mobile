@@ -57,6 +57,7 @@ class DocumentUpload extends StatelessWidget {
                     validator: (value) {
                       if (value?.length != 11)
                         return "BVN must be ${11} digits";
+                      return null;
                     },
                     fillColor: isDarkMode
                         ? AppColors.inputBackgroundColor

@@ -10,10 +10,14 @@ const String requestVerificationUrl = "user-management/api/v1/users/";
 const String uploadUrl = "user-management/api/v1/users/upload";
 
 //issue
-const String issueCategories = "resolution/api/v1/categories";
-const String issueOverview = "resolution/api/v1/issues/overview?agentId=";
-const String issues = "resolution/api/v1/issues?size=";
-const String pendingIssues = "resolution/api/v1/issues/mobile?size=";
+const String issueCategoriesUrl = "resolution/api/v1/categories";
+const String issueSubCategoriesUrl = "resolution/api/v1/subcategories/";
+const String issueOverviewUrl = "resolution/api/v1/issues/overview?agentId=";
+const String issuesUrl = "resolution/api/v1/issues?size=";
+const String pendingIssuesUrl = "resolution/api/v1/issues/mobile?size=";
+const String updateIssueUrl = "resolution/api/v1/issues/";
+const String submitIssueUrl = "resolution/api/v1/issues";
+const String submitDispenseErrorIssueUrl = "resolution/api/v1/issues/error";
 
 //transactions
 const String transactionsUrl = "transaction/api/v1/transactions/me";

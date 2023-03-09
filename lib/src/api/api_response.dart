@@ -2,7 +2,7 @@ class AppResponse<T> {
   late bool status;
   late String responseCode;
   late String message;
-  T? data;
+  var data;
 
   AppResponse(isSuccess, int? statusCode, Map<String, dynamic> response,
       [data]) {

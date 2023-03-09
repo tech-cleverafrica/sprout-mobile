@@ -41,7 +41,7 @@ class Issues {
   String? resolutionDeadline;
   String? createdBy;
   var supportingFiles;
-  var cleverResponse;
+  List<dynamic>? cleverResponse;
   int? sla;
   String? acknowledgedTime;
   int? acknowledgementTime;
@@ -56,6 +56,7 @@ class Issues {
   String? cardName;
   int? transactionAmount;
   String? cardHolderPhoneNumber;
+  String? rrn;
   String? receipt;
   String? agentFirstName;
   String? agentLastName;
@@ -98,6 +99,7 @@ class Issues {
     this.cardName,
     this.transactionAmount,
     this.cardHolderPhoneNumber,
+    this.rrn,
     this.receipt,
     this.agentFirstName,
     this.agentLastName,
@@ -126,7 +128,7 @@ class Issues {
     resolutionDeadline = json['resolutionDeadline'];
     createdBy = json['createdBy'];
     supportingFiles = json['supportingFiles'];
-    cleverResponse = json['cleverResponse'];
+    cleverResponse = json["cleverResponse"] ?? [];
     sla = json['sla'];
     acknowledgedTime = json['acknowledgedTime'];
     acknowledgementTime = json['acknowledgementTime'];
@@ -141,6 +143,7 @@ class Issues {
     cardName = json['cardName'];
     transactionAmount = json['transactionAmount'];
     cardHolderPhoneNumber = json['cardHolderPhoneNumber'];
+    rrn = json['rrn'];
     receipt = json['receipt'];
     agentFirstName = json['agentFirstName'];
     agentLastName = json['agentLastName'];
@@ -185,6 +188,7 @@ class Issues {
     data['cardName'] = this.cardName;
     data['transactionAmount'] = this.transactionAmount;
     data['cardHolderPhoneNumber'] = this.cardHolderPhoneNumber;
+    data['rrn'] = this.rrn;
     data['receipt'] = this.receipt;
     data['agentFirstName'] = this.agentFirstName;
     data['agentLastName'] = this.agentLastName;

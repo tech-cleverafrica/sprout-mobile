@@ -9,6 +9,8 @@ import 'package:sprout_mobile/src/components/help/repository/help_repositoryimpl
 import 'package:sprout_mobile/src/components/help/service/help_service.dart';
 import 'package:sprout_mobile/src/components/home/repository/home_repositoryImpl.dart';
 import 'package:sprout_mobile/src/components/home/service/home_service.dart';
+import 'package:sprout_mobile/src/public/repository/shared_repositoryimpl.dart';
+import 'package:sprout_mobile/src/public/services/shared_service.dart';
 
 import '../components/authentication/service/auth_service.dart';
 
@@ -32,4 +34,8 @@ Future<void> registerApiInstance() async {
 
   locator.registerLazySingleton<HelpRepositoryImpl>(() => HelpRepositoryImpl());
   locator.registerLazySingleton<HelpService>(() => HelpService());
+
+  locator.registerLazySingleton<SharedRepositoryImpl>(
+      () => SharedRepositoryImpl());
+  locator.registerLazySingleton<SharedService>(() => SharedService());
 }

@@ -14,7 +14,18 @@ class HelpRepositoryImpl implements HelpRepository {
   @override
   getCategories() async {
     try {
-      return await api.dio.get(issueCategories);
+      return await api.dio.get(issueCategoriesUrl);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
+
+  @override
+  getSubCategories(id) async {
+    try {
+      return await api.dio.get(issueSubCategoriesUrl + id);
     } on DioError catch (e) {
       return api.handleError(e);
     } catch (e) {
@@ -26,7 +37,7 @@ class HelpRepositoryImpl implements HelpRepository {
   getOverview() async {
     try {
       String agentId = storage.read("agentId");
-      return await api.dio.get(issueOverview + agentId);
+      return await api.dio.get(issueOverviewUrl + agentId);
     } on DioError catch (e) {
       return api.handleError(e);
     } catch (e) {
@@ -38,7 +49,8 @@ class HelpRepositoryImpl implements HelpRepository {
   getIssues(int size, String param) async {
     try {
       String agentId = storage.read("agentId");
-      return await api.dio.get('$issues$size&agentId=$agentId&status=$param');
+      return await api.dio
+          .get('$issuesUrl$size&agentId=$agentId&status=$param');
     } on DioError catch (e) {
       return api.handleError(e);
     } catch (e) {
@@ -50,7 +62,52 @@ class HelpRepositoryImpl implements HelpRepository {
   getPendingIssues(int size) async {
     try {
       String agentId = storage.read("agentId");
-      return await api.dio.get('$pendingIssues$size&agentId=$agentId');
+      return await api.dio.get('$pendingIssuesUrl$size&agentId=$agentId');
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
+
+  @override
+  reopenIssue(requestBody, String id) async {
+    try {
+      return await api.dio
+          .post(updateIssueUrl + id + '/reopen', data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
+
+  @override
+  updateIssue(requestBody, String id) async {
+    try {
+      return await api.dio.put(updateIssueUrl + id, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
+
+  @override
+  submitIssue(requestBody) async {
+    try {
+      return await api.dio.post(submitIssueUrl, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
+
+  @override
+  submitDispenseError(requestBody) async {
+    try {
+      return await api.dio.post(submitDispenseErrorIssueUrl, data: requestBody);
     } on DioError catch (e) {
       return api.handleError(e);
     } catch (e) {
