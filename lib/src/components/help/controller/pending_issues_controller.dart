@@ -38,6 +38,7 @@ class PendingIssuesController extends GetxController {
   }
 
   void addFiles(Issues issue) {
+    files.clear();
     issue.supportingFiles.forEach(
       (e) =>
           files.add(NamedFile.fromJson({"name": e.split("/").last, "file": e})),

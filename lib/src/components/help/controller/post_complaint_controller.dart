@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
+import 'package:sprout_mobile/src/components/help/model/issues_sub_category_model.dart';
 import 'package:sprout_mobile/src/components/help/service/help_service.dart';
 import 'package:sprout_mobile/src/public/model/file_model.dart';
 import 'package:sprout_mobile/src/components/help/model/issues_model.dart';
@@ -12,18 +13,24 @@ import 'package:sprout_mobile/src/public/services/shared_service.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 
-class ResolvedIssuesController extends GetxController {
+class PostComplaintController extends GetxController {
   final storage = GetStorage();
   TextEditingController descriptionController = new TextEditingController();
   File? file;
   RxList<NamedFile> files = <NamedFile>[].obs;
   RxString fileError = "".obs;
   RxBool loading = false.obs;
-  RxBool reopened = false.obs;
+  List<IssuesSubCategory> issuesSubCategories = [];
+  RxList subCategoriesname = [].obs;
+  final issuesSubCategory = Rxn<IssuesSubCategory>();
+  final dispenseSubCategory = Rxn<IssuesSubCategory>();
+  RxBool isFileRequired = false.obs;
+  String category = "";
 
   @override
   void onInit() {
     super.onInit();
+    file = null;
   }
 
   @override
@@ -41,7 +48,6 @@ class ResolvedIssuesController extends GetxController {
   }
 
   void addFiles(Issues issue) {
-    files.clear();
     issue.supportingFiles.forEach(
       (e) =>
           files.add(NamedFile.fromJson({"name": e.split("/").last, "file": e})),
@@ -69,48 +75,48 @@ class ResolvedIssuesController extends GetxController {
     files.removeAt(index);
   }
 
-  Future<Issues?> validate(Issues issue) async {
-    if (descriptionController.text.isNotEmpty &&
-        descriptionController.text.length >= 20 &&
-        descriptionController.text.length <= 500) {
-      List<String> supportingDocuments =
-          await locator.get<SharedService>().allFilesUrl(files);
-      String agentProfileId = storage.read("userId");
-      Issues? returneedIssue = await reopenIssue(
-          buildRequestModel(
-              agentProfileId, descriptionController.text, supportingDocuments),
-          issue.id ?? "");
-      return returneedIssue;
-    } else if (descriptionController.text.isEmpty) {
-      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-          content: Text("Issue description cannot be empty"),
-          backgroundColor: AppColors.errorRed));
-    } else if (descriptionController.text.length < 20) {
-      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-          content: Text("Issue description is too short"),
-          backgroundColor: AppColors.errorRed));
-    } else if (descriptionController.text.length > 500) {
-      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-          content: Text("Issue description should be more than 500 characters"),
-          backgroundColor: AppColors.errorRed));
-    } else {
-      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-          content: Text("All fields are required"),
-          backgroundColor: AppColors.errorRed));
-    }
-    return null;
+  void setCategory(String parentCategory) {
+    category = parentCategory;
   }
 
-  Future<Issues?> reopenIssue(Map<String, dynamic> model, String id) async {
-    AppResponse<Issues> response =
-        await locator.get<HelpService>().reopenIssue(model, id, "Please wait");
+  Future<List<String>> allSubCategories(List<IssuesSubCategory> p) async {
+    if (p.length > 0) {
+      List<String> ps = p.map<String>((e) => e.name ?? "").toList();
+      return ps;
+    }
+    return [];
+  }
+
+  Future<void> getSubCategories(String id) async {
+    AppResponse<List<IssuesSubCategory>> response =
+        await locator.get<HelpService>().getSubCategories(id, "Please wait");
+    issuesSubCategories.clear();
+    subCategoriesname.clear();
     if (response.status) {
-      final Issues issue = response.data;
-      return issue;
+      issuesSubCategories.assignAll(response.data!);
+      var names = await allSubCategories(issuesSubCategories);
+      subCategoriesname.addAll(names);
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }
-    return null;
+  }
+
+  Future<String> sortPackage(String value) async {
+    IssuesSubCategory x =
+        issuesSubCategories.firstWhere((i) => i.name == value);
+    isFileRequired.value = false;
+    if (x.subcategory == 'DISPENSE_ERROR') {
+      issuesSubCategory.value = null;
+      dispenseSubCategory.value = x;
+      return x.subcategory ?? "";
+    } else {
+      issuesSubCategory.value = x;
+    }
+
+    if (x.subcategory == 'APPROVED_TRANSACTION_NOT_SETTLED_TO_THE_WALLET') {
+      isFileRequired.value = true;
+    }
+    return "";
   }
 
   Future uploadAndCommit(File image, String fileType) async {
@@ -125,12 +131,63 @@ class ResolvedIssuesController extends GetxController {
     }
   }
 
-  buildRequestModel(String agentProfileId, String issueDescription,
-      List<String> supportingDocuments) {
+  Future<Issues?> validate() async {
+    if (descriptionController.text.isNotEmpty &&
+        descriptionController.text.length >= 20 &&
+        descriptionController.text.length <= 500 &&
+        (!isFileRequired.value || isFileRequired.value && files.length > 0)) {
+      List<String> supportingDocuments =
+          await locator.get<SharedService>().allFilesUrl(files);
+      Issues? returneedIssue = await submitIssue(
+          buildRequestModel(descriptionController.text, supportingDocuments));
+      return returneedIssue;
+    } else if (descriptionController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Issue description cannot be empty"),
+          backgroundColor: AppColors.errorRed));
+    } else if (descriptionController.text.length < 20) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Issue description is too short"),
+          backgroundColor: AppColors.errorRed));
+    } else if (descriptionController.text.length > 500) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Issue description should be more than 500 characters"),
+          backgroundColor: AppColors.errorRed));
+    } else if (isFileRequired.value) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please attach receipt or evidence"),
+          backgroundColor: AppColors.errorRed));
+    } else {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("All fields are required"),
+          backgroundColor: AppColors.errorRed));
+    }
+    return null;
+  }
+
+  Future<Issues?> submitIssue(Map<String, dynamic> model) async {
+    AppResponse<Issues> response =
+        await locator.get<HelpService>().submitIssue(model, "Please wait");
+    if (response.status) {
+      final Issues issue = response.data;
+      return issue;
+    } else {
+      CustomToastNotification.show(response.message, type: ToastType.error);
+    }
+    return null;
+  }
+
+  buildRequestModel(String issueDescription, List<String> supportingDocuments) {
+    String agentId = storage.read("agentId");
+    String profileId = storage.read("userId");
     return {
-      "agentProfileId": agentProfileId,
-      "supportingFiles": supportingDocuments,
-      "description": issueDescription
+      "issueCategory": category,
+      "agentId": agentId,
+      "profileId": profileId,
+      "issueSubCategory": issuesSubCategory.value?.subcategory,
+      "sla": issuesSubCategory.value?.sla,
+      "issueDescription": issueDescription,
+      "supportingDocuments": supportingDocuments,
     };
   }
 }

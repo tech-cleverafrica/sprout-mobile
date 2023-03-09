@@ -23,6 +23,17 @@ class HelpRepositoryImpl implements HelpRepository {
   }
 
   @override
+  getSubCategories(id) async {
+    try {
+      return await api.dio.get(issueSubCategoriesUrl + id);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
+
+  @override
   getOverview() async {
     try {
       String agentId = storage.read("agentId");
@@ -75,6 +86,17 @@ class HelpRepositoryImpl implements HelpRepository {
   updateIssue(requestBody, String id) async {
     try {
       return await api.dio.put(updateIssueUrl + id, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
+
+  @override
+  submitIssue(requestBody) async {
+    try {
+      return await api.dio.post(submitIssueUrl, data: requestBody);
     } on DioError catch (e) {
       return api.handleError(e);
     } catch (e) {

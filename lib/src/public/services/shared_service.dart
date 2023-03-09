@@ -45,4 +45,18 @@ class SharedService {
     }
     return [];
   }
+
+  String toHrMin(var sla) {
+    double val = sla / 60;
+    String hr = val.toString().split(".")[0];
+    int mod = sla % 60;
+    String min = mod.toString();
+    String hrRes = val >= 1
+        ? val > 1
+            ? hr + "hrs "
+            : hr + "hr "
+        : "";
+    String minRes = mod > 1 ? min + "mins" : min + "min";
+    return mod > 0 ? hrRes + minRes : hrRes;
+  }
 }

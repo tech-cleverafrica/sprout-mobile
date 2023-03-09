@@ -37,6 +37,7 @@ class ResolvedIssueScreen extends StatelessWidget {
     helpController = Get.put(HelpController());
     resolvedIssuesController = Get.put(ResolvedIssuesController());
     resolvedIssuesController.setDescription(issue);
+    resolvedIssuesController.addFiles(issue);
     return SafeArea(
       child: Scaffold(
           bottomNavigationBar:
@@ -349,7 +350,9 @@ class ResolvedIssueScreen extends StatelessWidget {
                             hintText: "Enter issue description",
                             required: true,
                             validator: (value) {
-                              if (value!.length < 20)
+                              if (value!.length == 0)
+                                return "Issue description cannot be empty";
+                              else if (value.length < 20)
                                 return "Issue description is too short";
                               return null;
                             },

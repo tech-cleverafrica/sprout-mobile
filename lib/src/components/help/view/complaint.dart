@@ -3,8 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sprout_mobile/src/components/help/controller/help_controller.dart';
 import 'package:sprout_mobile/src/components/help/model/issues_model.dart';
+import 'package:sprout_mobile/src/components/help/model/issues_sub_category_model.dart';
 import 'package:sprout_mobile/src/components/help/view/cant_find_my_issue.dart';
 import 'package:sprout_mobile/src/components/help/view/complaint_tab.dart';
+import 'package:sprout_mobile/src/components/help/view/dispense_error.dart';
 import 'package:sprout_mobile/src/components/help/view/pending_issue.dart';
 import 'package:sprout_mobile/src/components/help/view/reolved_issue.dart';
 import 'package:sprout_mobile/src/components/help/view/singleIssue.dart';
@@ -115,16 +117,27 @@ class ComplaintScreen extends StatelessWidget {
                                   physics: BouncingScrollPhysics(),
                                   itemBuilder: (context, index) =>
                                       GestureDetector(
-                                    onTap: () => Get
-                                        .to(() => SubmitComplaintScreen(
-                                            onSubmit: (issue) => helpController
-                                                .submitCallback(issue),
+                                    onTap: () => Get.to(() =>
+                                        SubmitComplaintScreen(
+                                            onSubmit: (issue) => {
+                                                  submitCallback(
+                                                      issue, context),
+                                                  helpController
+                                                      .getPendingIssues(),
+                                                  helpController.getIssues(),
+                                                  helpController.getOverview()
+                                                },
+                                            id: helpController
+                                                    .categories[index].id ??
+                                                "",
+                                            category: helpController
+                                                    .categories[index]
+                                                    .category ??
+                                                "",
                                             navigateNext: (title, category,
                                                     subCategory) =>
-                                                helpController.navigateNext(
-                                                    title,
-                                                    category,
-                                                    subCategory))),
+                                                navigateNext(title, category,
+                                                    subCategory, context))),
                                     child: Container(
                                       width: double.infinity,
                                       color: Colors.transparent,
@@ -430,5 +443,103 @@ class ComplaintScreen extends StatelessWidget {
                 )),
           );
         }));
+  }
+
+  void submitCallback(Issues issue, BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
+    Future.delayed(
+        Duration(seconds: 1),
+        () => showDialog(
+            context: context,
+            barrierDismissible: true,
+            builder: ((context) {
+              return Dialog(
+                backgroundColor:
+                    isDarkMode ? AppColors.blackBg : AppColors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                child: Container(
+                  height: 200.h,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 20),
+                    child: Column(
+                      children: [
+                        addVerticalSpace(5.h),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Dear " +
+                                  helpController.inCaps(helpController.name) +
+                                  ",",
+                              style: theme.textTheme.subtitle2,
+                            ),
+                            addVerticalSpace(5.h),
+                            issue.sla == null
+                                ? Text(
+                                    "Your complaint has been received. This will be resolved within " +
+                                        issue.sla.toString() +
+                                        ".",
+                                    style: TextStyle(
+                                      color: isDarkMode
+                                          ? AppColors.white
+                                          : AppColors.black,
+                                      fontSize: 12.sp,
+                                      height: 1.5,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  )
+                                : Text(
+                                    "Your complaint has been received. This will be resolved within " +
+                                        helpController.toHrMin(issue.sla) +
+                                        ".",
+                                    style: TextStyle(
+                                      color: isDarkMode
+                                          ? AppColors.white
+                                          : AppColors.black,
+                                      fontSize: 12.sp,
+                                      height: 1.5,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                            addVerticalSpace(5.h),
+                            Text(
+                              "Your Case ID is:",
+                              style: theme.textTheme.subtitle2,
+                            ),
+                            addVerticalSpace(5.h),
+                            Text(
+                              issue.caseId ?? '-',
+                              style: theme.textTheme.headline6,
+                            ),
+                            addVerticalSpace(10.h),
+                            Text(
+                              "Thank You!",
+                              style: theme.textTheme.subtitle2,
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            })));
+  }
+
+  void navigateNext(String title, String category,
+      IssuesSubCategory? dispenseSubCategory, BuildContext context) {
+    Future.delayed(
+      const Duration(seconds: 1),
+      () => {
+        Get.to(() => DispenseErrorScreen(
+              category: "",
+              data: null,
+              onSubmit: ((issue) => {submitCallback(issue, context)}),
+            ))
+      },
+    );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:sprout_mobile/src/components/help/model/issues_model.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
@@ -10,15 +11,13 @@ import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 class DispenseErrorScreen extends StatefulWidget {
   DispenseErrorScreen({
     super.key,
-    required this.title,
     required this.category,
     required this.data,
     required this.onSubmit,
   });
-  final String title;
   final String category;
   final void data;
-  final Function(void issue) onSubmit;
+  final Function(Issues issue) onSubmit;
 
   @override
   _DispenseErrorScreenState createState() => _DispenseErrorScreenState();
@@ -254,7 +253,7 @@ class _DispenseErrorScreenState extends State<DispenseErrorScreen> {
   }
 
   Future submitDispenseError() async {
-    Future.delayed(const Duration(milliseconds: 500),
-        () => {widget.onSubmit(null), Navigator.pop(context)});
+    // Future.delayed(const Duration(milliseconds: 500),
+    //     () => {widget.onSubmit(issue), Navigator.pop(context)});
   }
 }

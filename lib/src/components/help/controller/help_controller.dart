@@ -10,7 +10,7 @@ import 'package:sprout_mobile/src/components/help/model/catergories_model.dart';
 import 'package:sprout_mobile/src/components/help/model/issues_model.dart';
 import 'package:sprout_mobile/src/components/help/model/overview_model.dart';
 import 'package:sprout_mobile/src/components/help/service/help_service.dart';
-import 'package:sprout_mobile/src/components/help/view/dispense_error.dart';
+import 'package:sprout_mobile/src/public/services/shared_service.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
 
@@ -50,7 +50,7 @@ class HelpController extends GetxController {
         }
       }
     });
-    name = storage.read("firstname") + " " + storage.read("lastname");
+    name = storage.read("firstname");
   }
 
   @override
@@ -126,11 +126,6 @@ class HelpController extends GetxController {
 
   Future<void> submitIssue(issue) async {}
 
-  Future<void> updateIssue() async {
-    submitCallback(null);
-    // widget.refreshIssue();
-  }
-
   buildRequestModel(bvn, identityCard, utilityBill) {
     return {
       "bvn": bvn,
@@ -149,76 +144,8 @@ class HelpController extends GetxController {
     return str.length > 0 ? '${str[0].toUpperCase()}${str.substring(1)}' : '';
   }
 
-  void submitCallback(void issue) {
-    // final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    // final theme = Theme.of(context);
-    // Future.delayed(
-    //     Duration(seconds: 1),
-    //     () => showDialog(
-    //         context: context,
-    //         barrierDismissible: true,
-    //         builder: ((context) {
-    //           return Dialog(
-    //             backgroundColor:
-    //                 isDarkMode ? AppColors.blackBg : AppColors.white,
-    //             shape: RoundedRectangleBorder(
-    //                 borderRadius: BorderRadius.circular(10.0)),
-    //             child: Container(
-    //               height: 200.h,
-    //               child: Padding(
-    //                 padding: const EdgeInsets.symmetric(
-    //                     vertical: 20, horizontal: 20),
-    //                 child: Column(
-    //                   children: [
-    //                     addVerticalSpace(5.h),
-    //                     Column(
-    //                       crossAxisAlignment: CrossAxisAlignment.start,
-    //                       children: [
-    //                         Text(
-    //                           "Dear Oluwaseun,",
-    //                           style: theme.textTheme.subtitle2,
-    //                         ),
-    //                         addVerticalSpace(5.h),
-    //                         Text(
-    //                           "Your complaint has been received. This will be resolved within 24hrs.",
-    //                           style: theme.textTheme.subtitle2,
-    //                         ),
-    //                         addVerticalSpace(5.h),
-    //                         Text(
-    //                           "Your Case ID is:",
-    //                           style: theme.textTheme.subtitle2,
-    //                         ),
-    //                         addVerticalSpace(5.h),
-    //                         Text(
-    //                           "CLV-492250000-APP124",
-    //                           style: theme.textTheme.headline6,
-    //                         ),
-    //                         addVerticalSpace(10.h),
-    //                         Text(
-    //                           "Thank You!",
-    //                           style: theme.textTheme.subtitle2,
-    //                         ),
-    //                       ],
-    //                     )
-    //                   ],
-    //                 ),
-    //               ),
-    //             ),
-    //           );
-    //         })));
-  }
-
-  void navigateNext(String title, String category, void dispenseSubCategory) {
-    Future.delayed(
-      const Duration(seconds: 1),
-      () => {
-        Get.to(() => DispenseErrorScreen(
-              title: "",
-              category: "",
-              data: null,
-              onSubmit: ((issue) => {submitCallback(issue)}),
-            ))
-      },
-    );
+  String toHrMin(var sla) {
+    String response = locator.get<SharedService>().toHrMin(sla);
+    return response;
   }
 }
