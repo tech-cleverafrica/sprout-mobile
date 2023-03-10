@@ -13,6 +13,7 @@ import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 
 import '../../../theme/theme_service.dart';
 
+// ignore: must_be_immutable
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
 

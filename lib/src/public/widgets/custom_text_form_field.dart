@@ -43,6 +43,8 @@ class CustomTextFormField extends StatelessWidget {
   final bool? required;
   final bool showCounterText;
   final TextInputAction? textInputAction;
+  final TextAlign? textAlign;
+  final bool? autofocus;
 
   CustomTextFormField({
     this.prefixIcon,
@@ -84,6 +86,8 @@ class CustomTextFormField extends StatelessWidget {
     this.required,
     this.showCounterText = true,
     this.textInputAction = TextInputAction.none,
+    this.textAlign = TextAlign.left,
+    this.autofocus = false,
   });
 
   @override
@@ -130,6 +134,9 @@ class CustomTextFormField extends StatelessWidget {
             inputFormatters: inputFormatters,
             maxLines: maxLines,
             textInputAction: textInputAction,
+            cursorColor: AppColors.transparent,
+            textAlign: textAlign ?? TextAlign.left,
+            autofocus: autofocus ?? false,
             decoration: InputDecoration(
               errorText: errorText,
               counterText: !showCounterText ? "" : null,

@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.clever.sprout">
    <application
-        android:label="sprout_mobile"
+        android:label="Sprout"
         android:name="${applicationName}"
         android:icon="@mipmap/logo_icon">
         <activity

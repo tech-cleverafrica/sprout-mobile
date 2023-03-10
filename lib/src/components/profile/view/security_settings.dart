@@ -83,7 +83,7 @@ class _SecuritySettingsState extends State<SecuritySettings> {
                     children: [
                       SvgPicture.asset(AppSvg.face_id),
                       Text(
-                        "Enable Face ID",
+                        "Enable Biometric",
                         style: TextStyle(
                             fontFamily: "DMSans",
                             fontSize: 14.sp,
