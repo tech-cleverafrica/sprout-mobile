@@ -98,7 +98,8 @@ class Api {
         if (e.response?.data.runtimeType == String ||
             e.error.toString().contains("404")) {
           response = Response(
-              data: apiResponse("An error occurred, please try again"),
+              data: apiResponse(e.response?.data?["message"] ??
+                  "An error occurred, please try again"),
               statusCode: 000,
               requestOptions: RequestOptions(path: ''));
         } else if (e.response?.data.runtimeType == String ||

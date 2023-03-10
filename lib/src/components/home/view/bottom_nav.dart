@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sprout_mobile/src/components/cards/view/cards.dart';
 import 'package:sprout_mobile/src/components/home/view/homepage.dart';
 import 'package:sprout_mobile/src/components/invoice/view/invoice.dart';
 import 'package:sprout_mobile/src/components/profile/view/profile.dart';
@@ -13,6 +12,7 @@ import 'package:sprout_mobile/src/utils/app_svgs.dart';
 
 import '../../../utils/app_colors.dart';
 
+// ignore: must_be_immutable
 class BottomNav extends StatefulWidget {
   int? index;
   BottomNav({Key? key, this.index}) : super(key: key);
