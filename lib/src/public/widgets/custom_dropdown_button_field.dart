@@ -42,6 +42,7 @@ class CustomDropdownButtonFormField extends StatelessWidget {
     this.controller,
     this.maxLines = 1,
     this.errorText,
+    this.required = false,
   }) : super(key: key);
 
   final List<dynamic> items;
@@ -79,6 +80,7 @@ class CustomDropdownButtonFormField extends StatelessWidget {
   final TextEditingController? controller;
   final int maxLines;
   final String? errorText;
+  final bool? required;
 
   @override
   Widget build(BuildContext context) {
@@ -89,12 +91,24 @@ class CustomDropdownButtonFormField extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (label != null) ...[
-            Text(
-              '$label',
-              style: TextStyle(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.inputLabelColor),
+            Row(
+              children: [
+                Text(
+                  '$label',
+                  style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: "DMSans",
+                      color: AppColors.inputLabelColor),
+                ),
+                required != null && required == true
+                    ? Text(' *',
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10))
+                    : SizedBox()
+              ],
             ),
             SizedBox(height: 8.0),
           ],

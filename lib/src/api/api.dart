@@ -98,11 +98,22 @@ class Api {
         if (e.response?.data.runtimeType == String ||
             e.error.toString().contains("404")) {
           response = Response(
-              data: apiResponse("An error occurred, please try again"),
+              data: apiResponse(e.response?.data?["message"] ??
+                  "An error occurred, please try again"),
               statusCode: 000,
               requestOptions: RequestOptions(path: ''));
         } else if (e.response?.data.runtimeType == String ||
             e.error.toString().contains("400")) {
+          response = Response(
+              data: apiResponse(e.response?.data?["message"],
+                  e.response?.data?["responseCode"]),
+              statusCode: e.response?.statusCode ?? 000,
+              requestOptions: RequestOptions(path: ''));
+        } else if (e.response?.data.runtimeType == String ||
+            (e.error.toString().contains("401") &&
+                e.response
+                    .toString()
+                    .contains("Incorrect username/password"))) {
           response = Response(
               data: apiResponse(e.response?.data?["message"],
                   e.response?.data?["responseCode"]),

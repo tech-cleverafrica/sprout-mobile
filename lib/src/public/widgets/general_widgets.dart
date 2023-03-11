@@ -203,16 +203,18 @@ class KeyboardNumber extends StatelessWidget {
 }
 
 class DecisionButton extends StatelessWidget {
-  const DecisionButton(
-      {Key? key,
-      required this.isDarkMode,
-      required this.buttonText,
-      required this.onTap})
-      : super(key: key);
+  const DecisionButton({
+    Key? key,
+    required this.isDarkMode,
+    required this.buttonText,
+    required this.onTap,
+    this.onBack,
+  }) : super(key: key);
 
   final bool isDarkMode;
   final String buttonText;
   final VoidCallback onTap;
+  final Function()? onBack;
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +227,7 @@ class DecisionButton extends StatelessWidget {
         addHorizontalSpace(8.w),
         Expanded(
             child: InkWell(
-          onTap: () => pop(),
+          onTap: () => onBack != null ? onBack!() : pop(),
           child: Container(
             height: 50,
             decoration: BoxDecoration(

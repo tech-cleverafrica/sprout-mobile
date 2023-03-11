@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -23,7 +24,7 @@ class CleverComment extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               border: Border.all(
-                color: isDarkMode ? AppColors.mainGreen : AppColors.boxesColor,
+                color: isDarkMode ? AppColors.mainGreen : AppColors.greyText,
                 width: 0.5,
               ),
             ),
@@ -44,7 +45,8 @@ class CleverComment extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              cleverResponseTime,
+              DateFormat('dd-MM-yyyy \thh:mm:ssa')
+                  .format(localDate(cleverResponseTime)),
               style: TextStyle(
                 color: isDarkMode
                     ? AppColors.white
@@ -53,10 +55,6 @@ class CleverComment extends StatelessWidget {
                 fontWeight: FontWeight.w300,
               ),
             )
-            // Text(
-            //     DateFormat('dd-MM-yyyy \thh:mm:ssa')
-            //         .format(localDate(cleverResponseTime)),
-            //     style: Theme.of(context).primaryTextTheme.headline3)
           ],
         ),
         SizedBox(
