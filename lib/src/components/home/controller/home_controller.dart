@@ -58,6 +58,7 @@ class HomeController extends GetxController {
     if (response.status) {
       Wallet wallet = Wallet.fromJson(response.data);
       walletBalance = wallet.data!.balance!;
+      storage.write("userBalance", walletBalance);
     }
   }
 

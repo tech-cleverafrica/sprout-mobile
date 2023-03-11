@@ -9,15 +9,12 @@ import 'package:sprout_mobile/src/components/help/repository/help_repositoryimpl
 import 'package:sprout_mobile/src/components/help/service/help_service.dart';
 import 'package:sprout_mobile/src/components/home/repository/home_repositoryImpl.dart';
 import 'package:sprout_mobile/src/components/home/service/home_service.dart';
-<<<<<<< HEAD
 import 'package:sprout_mobile/src/components/send-money/repository/send_money_repository.dart';
 import 'package:sprout_mobile/src/components/send-money/service/send_money_service.dart';
-=======
 import 'package:sprout_mobile/src/components/profile/repository/profile_repositoryimpl.dart';
 import 'package:sprout_mobile/src/components/profile/service/profile_service.dart';
 import 'package:sprout_mobile/src/public/repository/shared_repositoryimpl.dart';
 import 'package:sprout_mobile/src/public/services/shared_service.dart';
->>>>>>> 6cc3874fb32a88573f5f9c48848cd0222473659d
 
 import '../components/authentication/service/auth_service.dart';
 
@@ -39,11 +36,9 @@ Future<void> registerApiInstance() async {
   locator.registerLazySingleton<CompleteAccountSetupService>(
       () => CompleteAccountSetupService());
 
-<<<<<<< HEAD
   locator.registerLazySingleton<SendMoneyRepositoryImpl>(
       () => SendMoneyRepositoryImpl());
   locator.registerLazySingleton<SendMoneyService>(() => SendMoneyService());
-=======
   locator.registerLazySingleton<HelpRepositoryImpl>(() => HelpRepositoryImpl());
   locator.registerLazySingleton<HelpService>(() => HelpService());
 
@@ -54,5 +49,4 @@ Future<void> registerApiInstance() async {
   locator.registerLazySingleton<ProfileRepositoryImpl>(
       () => ProfileRepositoryImpl());
   locator.registerLazySingleton<ProfileService>(() => ProfileService());
->>>>>>> 6cc3874fb32a88573f5f9c48848cd0222473659d
 }

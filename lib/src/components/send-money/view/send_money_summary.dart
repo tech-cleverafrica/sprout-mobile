@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:sprout_mobile/src/utils/global_function.dart';
+import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 import '../../../public/screens/pin_confirmation.dart';
 import '../../../public/widgets/custom_button.dart';
@@ -9,10 +12,18 @@ import '../../../utils/app_colors.dart';
 import '../../../utils/helper_widgets.dart';
 
 class SendMoneySummaryScreen extends StatelessWidget {
-  const SendMoneySummaryScreen({super.key});
+  String? source, name, number;
+  double? amount;
+  SendMoneySummaryScreen(
+      {super.key,
+      required this.source,
+      required this.name,
+      required this.number,
+      required this.amount});
 
   @override
   Widget build(BuildContext context) {
+    final DateTime now = DateTime.now();
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
       child: Scaffold(
@@ -37,11 +48,53 @@ class SendMoneySummaryScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
+                            "Account Source:",
+                            style: titleStyle(),
+                          ),
+                          Text(
+                            source!,
+                            style: detailStyle(isDarkMode),
+                          )
+                        ],
+                      ),
+                      addVerticalSpace(20.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Account Name:",
+                            style: titleStyle(),
+                          ),
+                          Text(
+                            name!,
+                            style: detailStyle(isDarkMode),
+                          )
+                        ],
+                      ),
+                      addVerticalSpace(20.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Account Number:",
+                            style: titleStyle(),
+                          ),
+                          Text(
+                            number!,
+                            style: detailStyle(isDarkMode),
+                          )
+                        ],
+                      ),
+                      addVerticalSpace(20.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
                             "Amount:",
                             style: titleStyle(),
                           ),
                           Text(
-                            "N21,000",
+                            amount.toString(),
                             style: detailStyle(isDarkMode),
                           )
                         ],
@@ -51,11 +104,11 @@ class SendMoneySummaryScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Transaction charge:",
+                            "Date",
                             style: titleStyle(),
                           ),
                           Text(
-                            "N53.4",
+                            "${DateFormat.yMMMMd().format(now)} at ${DateFormat.jm().format(now)}",
                             style: detailStyle(isDarkMode),
                           )
                         ],
@@ -65,91 +118,40 @@ class SendMoneySummaryScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Bank name:",
+                            "Charges:",
                             style: titleStyle(),
                           ),
                           Text(
-                            "First Bank",
-                            style: detailStyle(isDarkMode),
+                            currencySymbol + "20.00",
+                            style: TextStyle(
+                                fontSize: 12.sp,
+                                fontFamily: "Outfit",
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.errorRed),
                           )
                         ],
                       ),
-                      addVerticalSpace(20.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Bank Account:",
-                            style: titleStyle(),
-                          ),
-                          Text(
-                            "3199886543",
-                            style: detailStyle(isDarkMode),
-                          )
-                        ],
-                      ),
-                      addVerticalSpace(20.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Beneficiary name:",
-                            style: titleStyle(),
-                          ),
-                          Text(
-                            "John Doe",
-                            style: detailStyle(isDarkMode),
-                          )
-                        ],
-                      ),
-                      addVerticalSpace(20.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Payment method:",
-                            style: titleStyle(),
-                          ),
-                          Text(
-                            "Wallet",
-                            style: detailStyle(isDarkMode),
-                          )
-                        ],
-                      )
                     ],
                   ),
                 ),
               ),
+              addVerticalSpace(16.h),
+              Text(
+                  "Please ensure the details entered are correct before proceeding with this transfer as Clever Digital Ltd will not be responsible for recall of funds transferred in error. Thank You.",
+                  style: TextStyle(
+                    fontFamily: "DMSans",
+                    color: isDarkMode
+                        ? AppColors.mainGreen
+                        : AppColors.primaryColor,
+                  )),
               addVerticalSpace(36.h),
-              Row(
-                children: [
-                  Container(
-                    width: 246.w,
-                    child: CustomButton(
-                        title: "Send Money",
-                        onTap: () {
-                          Get.to(() => PinPage());
-                        }),
-                  ),
-                  addHorizontalSpace(8.w),
-                  Expanded(
-                      child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: isDarkMode
-                            ? AppColors.inputBackgroundColor
-                            : AppColors.black,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Center(
-                      child: Text(
-                        "Go Back",
-                        style: TextStyle(
-                            fontFamily: "DMSans", color: AppColors.white),
-                      ),
-                    ),
-                  ))
-                ],
-              ),
+              DecisionButton(
+                isDarkMode: isDarkMode,
+                buttonText: "Send Money",
+                onTap: () {
+                  push(page: PinPage(process: "transfer"));
+                },
+              )
             ],
           ),
         ),
@@ -161,15 +163,15 @@ class SendMoneySummaryScreen extends StatelessWidget {
     return TextStyle(
         fontFamily: "DMSans",
         fontSize: 12.sp,
-        fontWeight: FontWeight.w400,
+        fontWeight: FontWeight.w700,
         color: AppColors.inputLabelColor);
   }
 
   TextStyle detailStyle(isDark) {
     return TextStyle(
         fontFamily: "DMSans",
-        fontSize: 14.sp,
-        fontWeight: FontWeight.w500,
-        color: isDark ? AppColors.white : Color(0xFF0D0D0D));
+        fontSize: 12.sp,
+        fontWeight: FontWeight.w700,
+        color: isDark ? AppColors.mainGreen : AppColors.primaryColor);
   }
 }

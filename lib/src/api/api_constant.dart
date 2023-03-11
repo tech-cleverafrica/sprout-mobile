@@ -31,6 +31,8 @@ const String walletUrl = "wallet/api/v1/wallets/me";
 const String beneficiaryUrl = "transfer/api/v1/beneficiary";
 const String banksUrl = "transfer/api/v1/banks";
 const String transferMoney = "transfer/api/v1/disburse";
+const String validateBankUrl = "transfer/api/v1/resolve/account";
+const String makeTransferUrl = "transfer/api/v1/disburse";
 
 apiResponse(String? message, [String? responseCode]) {
   return {

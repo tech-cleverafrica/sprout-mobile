@@ -27,4 +27,26 @@ class SendMoneyRepositoryImpl implements SendMoneyRepository {
       return api.handleError(e);
     }
   }
+
+  @override
+  validateBank(requestBody) async {
+    try {
+      return await api.dio.post(validateBankUrl, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
+
+  @override
+  makeTransfer(requestBody) async {
+    try {
+      return await api.dio.post(makeTransferUrl, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
 }

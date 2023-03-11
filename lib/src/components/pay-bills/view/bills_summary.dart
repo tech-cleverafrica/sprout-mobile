@@ -114,7 +114,9 @@ class BillSummaryPage extends StatelessWidget {
                     child: CustomButton(
                         title: "Send Money",
                         onTap: () {
-                          Get.to(() => PinPage());
+                          Get.to(() => PinPage(
+                                process: "bills",
+                              ));
                         }),
                   ),
                   addHorizontalSpace(8.w),

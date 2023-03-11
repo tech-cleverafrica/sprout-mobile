@@ -2,15 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:sprout_mobile/src/components/send-money/view/send_money_summary.dart';
-import 'package:sprout_mobile/src/public/widgets/custom_dropdown_button_field.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 
 import '../../../../public/widgets/custom_text_form_field.dart';
 import '../../../../utils/app_colors.dart';
+import '../../../../utils/global_function.dart';
 import '../../controller/send_money_controller.dart';
 
+// ignore: must_be_immutable
 class SendToBank extends StatelessWidget {
   SendToBank({super.key});
 
@@ -28,7 +28,7 @@ class SendToBank extends StatelessWidget {
               isDarkMode: isDarkMode,
               buttonText: "Continue",
               onTap: () {
-                Get.to(() => SendMoneySummaryScreen());
+                sendMoneyController.validateFields();
               },
             ),
           ),
@@ -55,13 +55,19 @@ class SendToBank extends StatelessWidget {
                     ),
                   ),
                   Obx(
-                    () => CustomTextFormField(
-                      controller: sendMoneyController.bankController,
-                      label: "Select Bank",
-                      hintText: sendMoneyController.beneficiaryBank.value,
-                      fillColor: isDarkMode
-                          ? AppColors.inputBackgroundColor
-                          : AppColors.grey,
+                    () => GestureDetector(
+                      onTap: () {
+                        sendMoneyController.showBankList(context, isDarkMode);
+                      },
+                      child: CustomTextFormField(
+                        controller: sendMoneyController.bankController,
+                        label: "Select Bank",
+                        enabled: false,
+                        hintText: sendMoneyController.beneficiaryBank.value,
+                        fillColor: isDarkMode
+                            ? AppColors.inputBackgroundColor
+                            : AppColors.grey,
+                      ),
                     ),
                   ),
                   Obx(
@@ -70,6 +76,13 @@ class SendToBank extends StatelessWidget {
                       label: "Account Number",
                       hintText:
                           sendMoneyController.beneficiaryAccountNumber.value,
+                      onChanged: ((value) {
+                        if (sendMoneyController
+                                .accountNumberController.text.length >=
+                            10) {
+                          sendMoneyController.validateBank();
+                        }
+                      }),
                       fillColor: isDarkMode
                           ? AppColors.inputBackgroundColor
                           : AppColors.grey,
@@ -149,6 +162,13 @@ class SendToBank extends StatelessWidget {
                         ? AppColors.inputBackgroundColor
                         : AppColors.grey,
                   ),
+                  Text(
+                      "$currencySymbol${sendMoneyController.formatter.formatAsMoney(sendMoneyController.userBalance!)}",
+                      style: TextStyle(
+                          color: AppColors.black,
+                          fontSize: 18.sp,
+                          fontFamily: "Outfit",
+                          fontWeight: FontWeight.w700)),
                   CustomTextFormField(
                     controller: sendMoneyController.purposeController,
                     label: "Purpose",

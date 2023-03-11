@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/send-money/controller/send_money_controller.dart';
 import 'package:sprout_mobile/src/public/screens/successful_transaction.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 
@@ -13,25 +14,46 @@ import '../../utils/helper_widgets.dart';
 import '../widgets/general_widgets.dart';
 
 // ignore: must_be_immutable
-class PinPage extends StatelessWidget {
-  PinPage({super.key});
+class PinPage extends StatefulWidget {
+  String? process;
+  PinPage({super.key, required this.process});
 
+  @override
+  State<PinPage> createState() => _PinPageState();
+}
+
+class _PinPageState extends State<PinPage> {
   List<String> currentPin = ["", "", "", ""];
+
   TextEditingController pinOneController = TextEditingController();
+
   TextEditingController pinTwoController = TextEditingController();
+
   TextEditingController pinThreeController = TextEditingController();
+
   TextEditingController pinFourController = TextEditingController();
+
+  String pinOneValue = "";
+
+  String pinTwoValue = "";
+
+  String pinThreeValue = "";
+
+  String pinFourValue = "";
 
   var outlineInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(100.0),
-    borderSide: BorderSide(color: AppColors.black, width: 5.0),
+    borderSide: BorderSide(color: AppColors.transparent, width: 5.0),
   );
 
   int pinIndex = 0;
 
+  late SendMoneyController sendMoneyController;
+
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    sendMoneyController = Get.put(SendMoneyController());
 
     return SafeArea(
       child: Scaffold(
@@ -197,7 +219,6 @@ class PinPage extends StatelessWidget {
         ),
       ),
     );
-    //);
   }
 
   clearPin() {
@@ -226,8 +247,12 @@ class PinPage extends StatelessWidget {
     });
     if (pinIndex == 4) {
       print(strPin);
-      log(":::::::::: navigation here");
-      Get.to(() => SuccessfultransactionScreen());
+      switch (widget.process) {
+        case "transfer":
+          sendMoneyController.makeTransafer(strPin);
+          break;
+        default:
+      }
     }
   }
 
@@ -235,16 +260,28 @@ class PinPage extends StatelessWidget {
     switch (n) {
       case 1:
         pinOneController.text = text;
+        setState(() {
+          pinOneValue = text;
+        });
         break;
 
       case 2:
         pinTwoController.text = text;
+        setState(() {
+          pinTwoValue = text;
+        });
         break;
       case 3:
         pinThreeController.text = text;
+        setState(() {
+          pinThreeValue = text;
+        });
         break;
       case 4:
         pinFourController.text = text;
+        setState(() {
+          pinFourValue = text;
+        });
         break;
     }
   }
@@ -256,18 +293,22 @@ class PinPage extends StatelessWidget {
         PINNumber(
           outlineInputBorder: outlineInputBorder,
           textEditingController: pinOneController,
+          value: pinOneValue,
         ),
         PINNumber(
           outlineInputBorder: outlineInputBorder,
           textEditingController: pinTwoController,
+          value: pinTwoValue,
         ),
         PINNumber(
           outlineInputBorder: outlineInputBorder,
           textEditingController: pinThreeController,
+          value: pinThreeValue,
         ),
         PINNumber(
           outlineInputBorder: outlineInputBorder,
           textEditingController: pinFourController,
+          value: pinFourValue,
         ),
       ],
     );

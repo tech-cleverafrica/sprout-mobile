@@ -95,7 +95,9 @@ class SelectNetworkScreen extends StatelessWidget {
                       child: CustomButton(
                         title: "Buy Airtime",
                         onTap: () {
-                          Get.to(() => PinPage());
+                          Get.to(() => PinPage(
+                                process: "airtime",
+                              ));
                         },
                       ),
                     ),
