@@ -9,12 +9,16 @@ import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 
 import '../../../../public/widgets/custom_text_form_field.dart';
 import '../../../../utils/app_colors.dart';
+import '../../controller/send_money_controller.dart';
 
 class SendToBank extends StatelessWidget {
-  const SendToBank({super.key});
+  SendToBank({super.key});
+
+  late SendMoneyController sendMoneyController;
 
   @override
   Widget build(BuildContext context) {
+    sendMoneyController = Get.put(SendMoneyController());
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
       child: Scaffold(
@@ -36,89 +40,118 @@ class SendToBank extends StatelessWidget {
                 children: [
                   getHeader(isDarkMode),
                   addVerticalSpace(15.h),
-                  CustomDropdownButtonFormField(
-                    items: [],
-                    label: "Select Beneficiary",
-                    fillColor: isDarkMode
-                        ? AppColors.inputBackgroundColor
-                        : AppColors.grey,
-                  ),
-                  CustomTextFormField(
-                    label: "Select Bank",
-                    fillColor: isDarkMode
-                        ? AppColors.inputBackgroundColor
-                        : AppColors.grey,
-                  ),
-                  CustomTextFormField(
-                    label: "Account Number",
-                    fillColor: isDarkMode
-                        ? AppColors.inputBackgroundColor
-                        : AppColors.grey,
-                  ),
-                  Container(
-                    alignment: Alignment.topRight,
-                    child: Text(
-                      "Jossy Davids",
-                      style: TextStyle(
-                          fontFamily: "DMSans",
-                          fontSize: 13.sp,
-                          color: isDarkMode ? AppColors.white : AppColors.black,
-                          fontWeight: FontWeight.w700),
+                  GestureDetector(
+                    onTap: () => sendMoneyController.showBeneficiaryList(
+                        context, isDarkMode),
+                    child: Obx(
+                      () => CustomTextFormField(
+                        label: "Select Beneficiary",
+                        hintText: sendMoneyController.beneficiaryName.value,
+                        enabled: false,
+                        fillColor: isDarkMode
+                            ? AppColors.inputBackgroundColor
+                            : AppColors.grey,
+                      ),
                     ),
                   ),
-                  addVerticalSpace(28.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                  Obx(
+                    () => CustomTextFormField(
+                      controller: sendMoneyController.bankController,
+                      label: "Select Bank",
+                      hintText: sendMoneyController.beneficiaryBank.value,
+                      fillColor: isDarkMode
+                          ? AppColors.inputBackgroundColor
+                          : AppColors.grey,
+                    ),
+                  ),
+                  Obx(
+                    () => CustomTextFormField(
+                      controller: sendMoneyController.accountNumberController,
+                      label: "Account Number",
+                      hintText:
+                          sendMoneyController.beneficiaryAccountNumber.value,
+                      fillColor: isDarkMode
+                          ? AppColors.inputBackgroundColor
+                          : AppColors.grey,
+                    ),
+                  ),
+                  Visibility(
+                    child: Container(
+                      alignment: Alignment.topRight,
+                      child: Obx(
+                        () => Text(
+                          sendMoneyController.beneficiaryName.value,
+                          style: TextStyle(
+                              fontFamily: "DMSans",
+                              fontSize: 13.sp,
+                              color: isDarkMode
+                                  ? AppColors.white
+                                  : AppColors.black,
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Obx(
+                    () => Visibility(
+                      visible: sendMoneyController.showSaver.value,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            "Save as beneficiary",
-                            style: TextStyle(
-                                fontFamily: "DMSans",
-                                fontSize: 13.sp,
-                                color: isDarkMode
-                                    ? AppColors.white
-                                    : AppColors.black,
-                                fontWeight: FontWeight.w700),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              Text(
+                                "Save as beneficiary",
+                                style: TextStyle(
+                                    fontFamily: "DMSans",
+                                    fontSize: 13.sp,
+                                    color: isDarkMode
+                                        ? AppColors.white
+                                        : AppColors.black,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                              addVerticalSpace(9.h),
+                              Text(
+                                "We will save this Account for next time",
+                                style: TextStyle(
+                                    fontFamily: "DMSans",
+                                    fontSize: 10.sp,
+                                    color: isDarkMode
+                                        ? AppColors.semi_white.withOpacity(0.5)
+                                        : AppColors.black,
+                                    fontWeight: FontWeight.w400),
+                              )
+                            ],
                           ),
-                          addVerticalSpace(9.h),
-                          Text(
-                            "We will save this Account for next time",
-                            style: TextStyle(
-                                fontFamily: "DMSans",
-                                fontSize: 10.sp,
-                                color: isDarkMode
-                                    ? AppColors.semi_white.withOpacity(0.5)
-                                    : AppColors.greyText,
-                                fontWeight: FontWeight.w400),
+                          Obx(
+                            () => CupertinoSwitch(
+                                activeColor: AppColors.primaryColor,
+                                value: sendMoneyController.save.value,
+                                onChanged: (value) {
+                                  sendMoneyController.toggleSaver();
+                                }),
                           )
                         ],
                       ),
-                      CupertinoSwitch(
-                          activeColor: AppColors.primaryColor,
-                          value: true,
-                          onChanged: (value) {})
-                    ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10.h,
                   ),
                   CustomTextFormField(
+                    controller: sendMoneyController.amountController,
                     label: "Enter Amount",
-                    // hintText: "Your Email",
                     fillColor: isDarkMode
                         ? AppColors.inputBackgroundColor
                         : AppColors.grey,
                   ),
                   CustomTextFormField(
+                    controller: sendMoneyController.purposeController,
                     label: "Purpose",
-                    // hintText: "Your Email",
-                    fillColor: isDarkMode
-                        ? AppColors.inputBackgroundColor
-                        : AppColors.grey,
-                  ),
-                  CustomTextFormField(
-                    label: "Schedule this payment",
-                    // hintText: "Your Email",
                     fillColor: isDarkMode
                         ? AppColors.inputBackgroundColor
                         : AppColors.grey,

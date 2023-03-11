@@ -1,3 +1,4 @@
 class SendMoneyRepository {
   getBeneficiaries() {}
+  getBanks() {}
 }

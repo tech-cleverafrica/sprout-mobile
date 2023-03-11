@@ -7,6 +7,8 @@ import 'package:sprout_mobile/src/components/complete-account-setup/repository/c
 import 'package:sprout_mobile/src/components/complete-account-setup/service/complete_account_setup_service.dart';
 import 'package:sprout_mobile/src/components/home/repository/home_repositoryImpl.dart';
 import 'package:sprout_mobile/src/components/home/service/home_service.dart';
+import 'package:sprout_mobile/src/components/send-money/repository/send_money_repository.dart';
+import 'package:sprout_mobile/src/components/send-money/service/send_money_service.dart';
 
 import '../components/authentication/service/auth_service.dart';
 
@@ -27,4 +29,8 @@ Future<void> registerApiInstance() async {
       () => CompleteAccountSetupRepositoryImpl());
   locator.registerLazySingleton<CompleteAccountSetupService>(
       () => CompleteAccountSetupService());
+
+  locator.registerLazySingleton<SendMoneyRepositoryImpl>(
+      () => SendMoneyRepositoryImpl());
+  locator.registerLazySingleton<SendMoneyService>(() => SendMoneyService());
 }
