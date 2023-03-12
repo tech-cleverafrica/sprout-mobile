@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/home/view/widgets.dart';
+import 'package:sprout_mobile/src/components/invoice/controller/invoice_controller.dart';
 import 'package:sprout_mobile/src/components/invoice/view/create_invoice.dart';
+import 'package:sprout_mobile/src/components/invoice/view/widgets/invoice_widgets.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
 
+import '../../../public/widgets/custom_loader.dart';
 import '../../../public/widgets/custom_text_form_field.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/helper_widgets.dart';
@@ -15,10 +18,11 @@ import '../../../utils/helper_widgets.dart';
 class AllInvoiceScreen extends StatelessWidget {
   AllInvoiceScreen({super.key});
 
-  bool isEmpty = false;
+  late InvoiceController invoiceIncontroller;
 
   @override
   Widget build(BuildContext context) {
+    invoiceIncontroller = Get.put(InvoiceController());
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final theme = Theme.of(context);
 
@@ -48,7 +52,7 @@ class AllInvoiceScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
                 addVerticalSpace(20.h),
-                isEmpty
+                invoiceIncontroller.invoice.value.length < 1
                     ? Center(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -74,23 +78,13 @@ class AllInvoiceScreen extends StatelessWidget {
                           ],
                         ),
                       )
-                    : Container()
-                //  ListView.builder(
-                //     itemCount: 4,
-                //     shrinkWrap: true,
-                //     physics: NeverScrollableScrollPhysics(),
-                //     itemBuilder: (context, index) {
-                //       return HistoryCard(
-                //           theme: theme,
-                //           isDarkMode: isDarkMode,
-                //           text: "Invoice - #001");
-                //     }),
+                    : Obx((() => getInvoiceList(theme, isDarkMode)))
               ],
             ),
           ),
         ),
         bottomNavigationBar: Padding(
-          padding: const EdgeInsets.only(bottom: 0, left: 50, right: 50),
+          padding: const EdgeInsets.only(bottom: 20, left: 50, right: 50),
           child: CustomButton(
             title: "Create Invoice",
             prefixIcon: Icon(
@@ -104,6 +98,32 @@ class AllInvoiceScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  getInvoiceList(theme, isDarkMode) {
+    if (invoiceIncontroller.isInvoiceLoading.value) {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
+        child: buildShimmer(3),
+      );
+    } else {
+      return ListView.builder(
+          itemCount: invoiceIncontroller.invoice.value.length,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            return InvoiceCard(
+              theme: theme,
+              isDarkMode: isDarkMode,
+              invoiceNo: invoiceIncontroller.invoice.value[index].invoiceNo!,
+              invoiceTotalPrice: invoiceIncontroller.invoice.value[index].total,
+              to: invoiceIncontroller.invoice.value[index].customer!.fullName,
+              from: invoiceIncontroller
+                  .invoice.value[index].businessInfo!.businessName,
+              createdAt: invoiceIncontroller.invoice.value[index].createdAt,
+            );
+          });
+    }
   }
 
   getDisplaySwitch(bool isDarkMode) {

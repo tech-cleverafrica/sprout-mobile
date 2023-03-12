@@ -68,4 +68,6 @@ class AppSvg {
   static const String business = path + 'business.svg';
   static const String kin = path + 'kin.svg';
   static const String message = path + 'message.svg';
+
+  static const String invoice_icon = path + "invoice-icon.svg";
 }
