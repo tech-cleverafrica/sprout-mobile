@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/profile/controller/change_pin_controller.dart';
+import 'package:sprout_mobile/src/components/profile/controller/create_pin_controller.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
@@ -11,14 +12,18 @@ import '../../../utils/app_colors.dart';
 
 // ignore: must_be_immutable
 class OtpScreen extends StatelessWidget {
-  OtpScreen({super.key});
+  OtpScreen({super.key, required this.screen});
+
+  String screen;
 
   late ChangePinController changePinController;
+  late CreatePinController createPinController;
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     changePinController = Get.put(ChangePinController());
+    createPinController = Get.put(CreatePinController());
 
     return SafeArea(
       child: Scaffold(
@@ -41,14 +46,18 @@ class OtpScreen extends StatelessWidget {
                                   "Please enter the OTP sent to your registered email address ",
                               style: TextStyle(
                                   fontFamily: "DMSans",
-                                  fontSize: 14.sp,
+                                  fontSize: 12.sp,
                                   color: isDarkMode
                                       ? AppColors.white
                                       : AppColors.black,
                                   fontWeight: FontWeight.w500),
                             ),
                             TextSpan(
-                              text: "- " + "senjonnes@gmail.com",
+                              text: "- " + screen == "CHANGE_PIN"
+                                  ? changePinController.email
+                                  : screen == "CREATE_PIN"
+                                      ? createPinController.email
+                                      : "",
                               style: TextStyle(
                                   fontFamily: "DMSans",
                                   fontSize: 14.sp,
@@ -63,7 +72,9 @@ class OtpScreen extends StatelessWidget {
                     ]),
               ),
               CustomTextFormField(
-                  controller: changePinController.otpController,
+                  controller: screen == "CHANGE_PIN"
+                      ? changePinController.otpController
+                      : createPinController.otpController,
                   label: "",
                   maxLength: 6,
                   maxLengthEnforced: true,
@@ -99,7 +110,11 @@ class OtpScreen extends StatelessWidget {
               CustomButton(
                 title: "Submit",
                 onTap: () {
-                  changePinController.validateOtp();
+                  if (screen == "CHANGE_PIN") {
+                    changePinController.validateOtp();
+                  } else if (screen == "CREATE_PIN") {
+                    createPinController.validateOtp();
+                  }
                 },
               )
             ],

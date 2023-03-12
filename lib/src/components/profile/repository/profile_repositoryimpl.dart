@@ -28,4 +28,15 @@ class ProfileRepositoryImpl implements ProfileRepository {
       e.printError();
     }
   }
+
+  @override
+  createPin(requestBody) async {
+    try {
+      return await api.dio.post(createPinUrl, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
 }
