@@ -4,6 +4,7 @@ const String confirmEmailUrl = "auth/api/v1/otp";
 const String resetPasswordUrl = "auth/api/v1/mobile/reset-password";
 const String sendOtpdUrl = "auth/api/v1/otp";
 const String changePasswordUrl = "auth/api/v1/mobile/password";
+const String logoutUrl = "auth/api/v1/logout";
 
 //user
 const String userDetailsUrl = "user-management/api/v1/users/me";

@@ -50,4 +50,15 @@ class ProfileRepositoryImpl implements ProfileRepository {
       e.printError();
     }
   }
+
+  @override
+  logout(requestBody) async {
+    try {
+      return await api.dio.post(logoutUrl, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
 }
