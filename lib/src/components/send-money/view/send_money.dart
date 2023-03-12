@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/send-money/view/send-to-bank/send_to_bank.dart';
-import 'package:sprout_mobile/src/components/send-money/view/send-to-sprout/send_to_sprout.dart';
 
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
@@ -54,7 +51,7 @@ class SendMoney extends StatelessWidget {
                         ],
                       ),
                       Divider(
-                          thickness: 0.4,
+                          thickness: 0.1,
                           color: isDarkMode
                               ? AppColors.semi_white.withOpacity(0.3)
                               : AppColors.black.withOpacity(0.3)),
@@ -62,6 +59,7 @@ class SendMoney extends StatelessWidget {
                   ),
                 ),
               ),
+              addVerticalSpace(6.h),
               InkWell(
                 onTap: () {
                   Get.to(() => SendToBank());
@@ -86,7 +84,7 @@ class SendMoney extends StatelessWidget {
                         ],
                       ),
                       Divider(
-                          thickness: 0.4,
+                          thickness: 0.1,
                           color: isDarkMode
                               ? AppColors.semi_white.withOpacity(0.3)
                               : AppColors.black.withOpacity(0.3)),

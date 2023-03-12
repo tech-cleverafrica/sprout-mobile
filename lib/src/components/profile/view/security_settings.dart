@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/profile/view/change_password.dart';
 import 'package:sprout_mobile/src/components/profile/view/change_pin.dart';
+import 'package:sprout_mobile/src/components/profile/view/create_pin.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import 'package:sprout_mobile/src/utils/constants.dart';
@@ -54,6 +55,30 @@ class _SecuritySettingsState extends State<SecuritySettings> {
             children: [
               getHeader(isDarkMode),
               addVerticalSpace(15.h),
+              InkWell(
+                onTap: () {
+                  Get.to(() => CreatePin());
+                },
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      AppSvg.create_pin,
+                    ),
+                    Text(
+                      "Create PIN",
+                      style: TextStyle(
+                          fontFamily: "DMSans",
+                          fontSize: 14.sp,
+                          color: isDarkMode ? AppColors.white : AppColors.black,
+                          fontWeight: FontWeight.w500),
+                    )
+                  ],
+                ),
+              ),
+              Divider(
+                color: isDarkMode ? AppColors.white : AppColors.white,
+              ),
+              addVerticalSpace(10.h),
               InkWell(
                 onTap: () {
                   Get.to(() => ChangePin());

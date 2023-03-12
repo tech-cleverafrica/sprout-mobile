@@ -12,6 +12,7 @@ import '../../../utils/app_colors.dart';
 import '../../../utils/app_images.dart';
 import '../../../utils/helper_widgets.dart';
 
+// ignore: must_be_immutable
 class SignupPersonalScreen extends StatelessWidget {
   SignupPersonalScreen({super.key});
 

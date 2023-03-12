@@ -10,11 +10,9 @@ import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart'
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
 
-class ChangePinController extends GetxController {
+class CreatePinController extends GetxController {
   final storage = GetStorage();
-  final TextEditingController currentPinController =
-      new TextEditingController();
-  final TextEditingController newPinController = new TextEditingController();
+  final TextEditingController pinController = new TextEditingController();
   final TextEditingController confirmPinController =
       new TextEditingController();
   final TextEditingController otpController = new TextEditingController();
@@ -37,19 +35,13 @@ class ChangePinController extends GetxController {
   }
 
   validate() async {
-    if (currentPinController.text.isNotEmpty &&
-        newPinController.text.isNotEmpty &&
+    if (pinController.text.isNotEmpty &&
         confirmPinController.text.isNotEmpty &&
-        currentPinController.text.length == 4 &&
-        newPinController.text.length == 4 &&
+        pinController.text.length == 4 &&
         confirmPinController.text.length == 4 &&
-        newPinController.text == confirmPinController.text) {
+        pinController.text == confirmPinController.text) {
       sendOtp(buildRequestModel());
-    } else if (currentPinController.text.isEmpty) {
-      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-          content: Text("Current PIN cannot be empty"),
-          backgroundColor: AppColors.errorRed));
-    } else if (newPinController.text.isEmpty) {
+    } else if (pinController.text.isEmpty) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("New PIN cannot be empty"),
           backgroundColor: AppColors.errorRed));
@@ -57,11 +49,7 @@ class ChangePinController extends GetxController {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("Confirm PIN cannot be empty"),
           backgroundColor: AppColors.errorRed));
-    } else if (currentPinController.text.length < 4) {
-      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-          content: Text("Current PIN must be 4 digits"),
-          backgroundColor: AppColors.errorRed));
-    } else if (newPinController.text.length < 4) {
+    } else if (pinController.text.length < 4) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("New PIN must be 4 digits"),
           backgroundColor: AppColors.errorRed));
@@ -69,7 +57,7 @@ class ChangePinController extends GetxController {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("Confirm PIN must be 4 digits"),
           backgroundColor: AppColors.errorRed));
-    } else if (newPinController.text != confirmPinController.text) {
+    } else if (pinController.text != confirmPinController.text) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("PIN does not match"),
           backgroundColor: AppColors.errorRed));
@@ -83,7 +71,7 @@ class ChangePinController extends GetxController {
 
   validateOtp() async {
     if (otpController.text.isNotEmpty && otpController.text.length == 6) {
-      changePin(buildChangePinRequestModel());
+      createPin(buildCreatePinRequestModel());
     } else if (otpController.text.isEmpty) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("OTP cannot be empty"),
@@ -106,22 +94,22 @@ class ChangePinController extends GetxController {
     if (response.status) {
       push(
           page: OtpScreen(
-        screen: "CHANGE_PIN",
+        screen: "CREATE_PIN",
       ));
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }
   }
 
-  changePin(Map<String, dynamic> model) async {
+  createPin(Map<String, dynamic> model) async {
     AppResponse response =
-        await locator.get<ProfileService>().changePin(model, "Please wait");
+        await locator.get<ProfileService>().createPin(model, "Please wait");
     if (response.status) {
       pushUntil(
           page: ApprovalScreen(
         containShare: false,
         heading: "Good Job!",
-        messages: "Your PIN has been changed Successfully",
+        messages: "Your PIN has been created Successfully",
       ));
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
@@ -135,11 +123,7 @@ class ChangePinController extends GetxController {
     };
   }
 
-  buildChangePinRequestModel() {
-    return {
-      "pin": newPinController.text,
-      "currentPin": currentPinController.text,
-      "otp": otpController.text
-    };
+  buildCreatePinRequestModel() {
+    return {"transactionPin": pinController.text, "otp": otpController.text};
   }
 }

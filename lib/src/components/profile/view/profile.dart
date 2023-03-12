@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/profile/controller/profile_controller.dart';
 import 'package:sprout_mobile/src/components/profile/view/security_settings.dart';
 import 'package:sprout_mobile/src/components/profile/view/support.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
@@ -18,11 +19,13 @@ class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
 
   bool isTapped = false;
+  late ProfileController profileController;
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final theme = Theme.of(context);
+    profileController = Get.put(ProfileController());
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -174,79 +177,79 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 ),
                 addVerticalSpace(20.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset(AppSvg.security),
-                        addHorizontalSpace(10.w),
-                        Text(
-                          "Security settings",
-                          style: TextStyle(
-                              color: isDarkMode
-                                  ? AppColors.white
-                                  : AppColors.greyDot,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 14.sp),
-                        )
-                      ],
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          Get.to(() => SecuritySettings());
-                        },
-                        icon: Icon(Icons.arrow_forward_ios))
-                  ],
+                InkWell(
+                  onTap: () => Get.to(() => SecuritySettings()),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset(AppSvg.security),
+                          addHorizontalSpace(10.w),
+                          Text(
+                            "Security settings",
+                            style: TextStyle(
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.greyDot,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 14.sp),
+                          )
+                        ],
+                      ),
+                      Icon(Icons.arrow_forward_ios)
+                    ],
+                  ),
                 ),
                 addVerticalSpace(15.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset(AppSvg.download_statement),
-                        addHorizontalSpace(10.w),
-                        Text(
-                          "Download statement",
-                          style: TextStyle(
-                              color: isDarkMode
-                                  ? AppColors.white
-                                  : AppColors.greyDot,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 14.sp),
-                        )
-                      ],
-                    ),
-                    IconButton(
-                        onPressed: () {}, icon: Icon(Icons.arrow_forward_ios))
-                  ],
+                InkWell(
+                  onTap: () => {},
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset(AppSvg.download_statement),
+                          addHorizontalSpace(10.w),
+                          Text(
+                            "Download statement",
+                            style: TextStyle(
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.greyDot,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 14.sp),
+                          )
+                        ],
+                      ),
+                      Icon(Icons.arrow_forward_ios)
+                    ],
+                  ),
                 ),
                 addVerticalSpace(15.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset(AppSvg.support),
-                        addHorizontalSpace(10.w),
-                        Text(
-                          "Support",
-                          style: TextStyle(
-                              color: isDarkMode
-                                  ? AppColors.white
-                                  : AppColors.greyDot,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 14.sp),
-                        )
-                      ],
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          Get.to(() => SupportScreen());
-                        },
-                        icon: Icon(Icons.arrow_forward_ios))
-                  ],
+                InkWell(
+                  onTap: () => Get.to(() => SupportScreen()),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset(AppSvg.support),
+                          addHorizontalSpace(10.w),
+                          Text(
+                            "Support",
+                            style: TextStyle(
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.greyDot,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 14.sp),
+                          )
+                        ],
+                      ),
+                      Icon(Icons.arrow_forward_ios)
+                    ],
+                  ),
                 ),
                 addVerticalSpace(15.h),
                 Row(
@@ -263,29 +266,33 @@ class ProfileScreen extends StatelessWidget {
                     )
                   ],
                 ),
-                addVerticalSpace(60.h),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(
-                        AppSvg.logout,
-                        color: isDarkMode ? AppColors.white : AppColors.greyDot,
-                      ),
-                      addHorizontalSpace(10.w),
-                      Text(
-                        "Log out",
-                        style: TextStyle(
-                            color: isDarkMode
-                                ? AppColors.white
-                                : AppColors.greyDot,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14.sp),
-                      )
-                    ],
+                addVerticalSpace(50.h),
+                InkWell(
+                  onTap: () => profileController.logout(),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          AppSvg.logout,
+                          color:
+                              isDarkMode ? AppColors.white : AppColors.greyDot,
+                        ),
+                        addHorizontalSpace(10.w),
+                        Text(
+                          "Log out",
+                          style: TextStyle(
+                              color: isDarkMode
+                                  ? AppColors.white
+                                  : AppColors.greyDot,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14.sp),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-                addVerticalSpace(60.h),
+                addVerticalSpace(50.h),
                 Center(
                   child: Text(
                     "V.S.1.0.0",
