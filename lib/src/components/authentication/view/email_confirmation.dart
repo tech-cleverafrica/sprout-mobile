@@ -10,6 +10,7 @@ import '../../../utils/app_colors.dart';
 import '../../../utils/app_images.dart';
 import '../../../utils/helper_widgets.dart';
 
+// ignore: must_be_immutable
 class EmailConfirmation extends StatelessWidget {
   String? process;
   EmailConfirmation({super.key, required this.process});

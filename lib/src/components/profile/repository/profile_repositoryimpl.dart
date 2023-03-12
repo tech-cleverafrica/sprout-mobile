@@ -39,4 +39,15 @@ class ProfileRepositoryImpl implements ProfileRepository {
       e.printError();
     }
   }
+
+  @override
+  changePassword(requestBody) async {
+    try {
+      return await api.dio.patch(changePasswordUrl, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
 }
