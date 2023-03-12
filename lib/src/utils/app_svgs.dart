@@ -48,6 +48,7 @@ class AppSvg {
   static const String privacy = path + 'privacy.svg';
   static const String logout = path + 'Logout.svg';
 
+  static const String create_pin = path + 'create-pin.svg';
   static const String change_pin = path + 'change-pin.svg';
   static const String face_id = path + 'face-id.svg';
   static const String change_password = path + 'change-password.svg';
