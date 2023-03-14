@@ -29,4 +29,5 @@ class AppColors {
   static const Color lightGrey = Color(0xFFF5F4F8);
   static const Color lightGreyBg = Color(0xFFF4F4F6);
   static const Color greyBg = Color(0xFFF5F5F5);
+  static const Color hoverBlack = Color.fromRGBO(31, 38, 48, 1);
 }
