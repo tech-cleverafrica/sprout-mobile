@@ -348,7 +348,8 @@ class BalanceCard extends StatelessWidget {
       required this.bankVisible,
       required this.iconVisible,
       required this.copyVisible,
-      required this.buttonVisible})
+      required this.buttonVisible,
+      required this.onTap})
       : super(key: key);
 
   final bool isDarkMode;
@@ -366,6 +367,7 @@ class BalanceCard extends StatelessWidget {
   final bool bankVisible;
   final bool copyVisible;
   final bool buttonVisible;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -498,37 +500,39 @@ class BalanceCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Visibility(
-                  visible: buttonVisible,
-                  child: Container(
-                    width: 122.w,
-                    height: 32.h,
-                    decoration: BoxDecoration(
-                        color: buttonColor,
-                        borderRadius: BorderRadius.circular(5)),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Visibility(
-                            visible: iconVisible,
-                            child: Icon(
-                              Icons.add,
-                              color: AppColors.white,
-                              size: 18,
-                            ),
-                          ),
-                          addHorizontalSpace(5.w),
-                          Text(
-                            buttontext,
-                            style: TextStyle(
-                                fontFamily: "DMSans",
-                                color: AppColors.white,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w700),
-                          )
-                        ]),
-                  ),
-                ),
+                InkWell(
+                    onTap: onTap,
+                    child: Visibility(
+                      visible: buttonVisible,
+                      child: Container(
+                        width: 122.w,
+                        height: 32.h,
+                        decoration: BoxDecoration(
+                            color: buttonColor,
+                            borderRadius: BorderRadius.circular(5)),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Visibility(
+                                visible: iconVisible,
+                                child: Icon(
+                                  Icons.add,
+                                  color: AppColors.white,
+                                  size: 18,
+                                ),
+                              ),
+                              addHorizontalSpace(5.w),
+                              Text(
+                                buttontext,
+                                style: TextStyle(
+                                    fontFamily: "DMSans",
+                                    color: AppColors.white,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w700),
+                              )
+                            ]),
+                      ),
+                    )),
                 Visibility(
                   visible: bankVisible,
                   child: Column(
@@ -564,7 +568,7 @@ class BalanceCard extends StatelessWidget {
                   ),
                 )
               ],
-            )
+            ),
           ],
         ),
       ),

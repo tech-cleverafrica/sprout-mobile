@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/complete-account-setup/view/document_upload.dart';
+import 'package:sprout_mobile/src/components/fund-wallet/view/fund_wallet.dart';
 import 'package:sprout_mobile/src/components/home/view/all_transactions.dart';
 import 'package:sprout_mobile/src/components/home/view/home_chart.dart';
 import 'package:sprout_mobile/src/components/home/view/widgets.dart';
@@ -100,6 +101,7 @@ class HomePage extends StatelessWidget {
                 iconVisible: true,
                 bankVisible: true,
                 buttonVisible: true,
+                onTap: () => push(page: FundWalletScreen()),
               ),
               addHorizontalSpace(10.w),
               BalanceCard(
@@ -118,6 +120,7 @@ class HomePage extends StatelessWidget {
                 iconVisible: false,
                 bankVisible: false,
                 buttonVisible: true,
+                onTap: () => {},
               ),
               addHorizontalSpace(10.w),
               BalanceCard(
@@ -136,6 +139,7 @@ class HomePage extends StatelessWidget {
                 iconVisible: false,
                 bankVisible: false,
                 buttonVisible: false,
+                onTap: () => {},
               )
             ],
           ),
