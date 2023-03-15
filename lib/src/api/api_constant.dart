@@ -39,6 +39,11 @@ const String makeTransferUrl = "transfer/api/v1/disburse";
 //invoice
 const String getInvoicesUrl = "invoice/api/v1/invoice/invoices";
 
+//cashout
+const String initiateCardlessPaymentUrl =
+    "cashout/api/v1/netpos/mobile-initiate";
+const String saveCardlessPaymentUrl = "cashout/api/v1/netpos/mobile/save";
+
 apiResponse(String? message, [String? responseCode]) {
   return {
     "status": false,

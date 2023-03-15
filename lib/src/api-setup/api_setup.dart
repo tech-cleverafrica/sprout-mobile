@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sprout_mobile/src/api/api.dart';
 import 'package:sprout_mobile/src/components/authentication/repository/auth_repositoryimpl.dart';
+import 'package:sprout_mobile/src/components/borow/repository/borrow_repositoryimpl.dart';
+import 'package:sprout_mobile/src/components/borow/service/borrow_service.dart';
 import 'package:sprout_mobile/src/components/complete-account-setup/repository/complete_account_setup_repositoryimpl.dart';
 import 'package:sprout_mobile/src/components/complete-account-setup/service/complete_account_setup_service.dart';
 import 'package:sprout_mobile/src/components/help/repository/help_repositoryimpl.dart';
@@ -55,4 +57,8 @@ Future<void> registerApiInstance() async {
   locator.registerLazySingleton<InvoiceRepositoryImpl>(
       () => InvoiceRepositoryImpl());
   locator.registerLazySingleton<InvoiceService>(() => InvoiceService());
+
+  locator.registerLazySingleton<BorrowRepositoryImpl>(
+      () => BorrowRepositoryImpl());
+  locator.registerLazySingleton<BorrowService>(() => BorrowService());
 }
