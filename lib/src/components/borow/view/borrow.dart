@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:sprout_mobile/src/components/borow/amount_page.dart';
-import 'package:sprout_mobile/src/components/borow/nfc_page.dart';
+import 'package:sprout_mobile/src/components/borow/view/amount_page.dart';
+import 'package:sprout_mobile/src/components/borow/view/nfc_page.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
 
-import '../../utils/app_colors.dart';
-import '../../utils/helper_widgets.dart';
+import '../../../utils/app_colors.dart';
+import '../../../utils/helper_widgets.dart';
 
 class BorrowScren extends StatelessWidget {
   const BorrowScren({super.key});
@@ -50,10 +50,10 @@ class BorrowScren extends StatelessWidget {
                           ],
                         ),
                         Divider(
-                            thickness: 0.4,
+                            thickness: 0.1,
                             color: isDarkMode
                                 ? AppColors.semi_white.withOpacity(0.3)
-                                : AppColors.black),
+                                : AppColors.black.withOpacity(0.3)),
                       ],
                     ),
                   ),
@@ -83,10 +83,10 @@ class BorrowScren extends StatelessWidget {
                           ],
                         ),
                         Divider(
-                            thickness: 0.4,
+                            thickness: 0.1,
                             color: isDarkMode
                                 ? AppColors.semi_white.withOpacity(0.3)
-                                : AppColors.black),
+                                : AppColors.black.withOpacity(0.3)),
                       ],
                     ),
                   ),
