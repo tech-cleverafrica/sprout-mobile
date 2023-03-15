@@ -107,8 +107,8 @@ class NFCScreen extends StatelessWidget {
       if (isNFCEnabled && nfcController.bankTID == "") {
         print("HEY 3");
         nfcController.getUserInfo().then((value) => setUserData(context));
-      } else if (isNFCEnabled) {
-        // } else if (!isNFCEnabled) {
+        // } else if (isNFCEnabled) {
+      } else if (!isNFCEnabled) {
         print("HEY 4");
         print(nfcController.bankTID);
         showNFCFeedback(
