@@ -22,7 +22,29 @@ class HomeRepositoryImpl implements HomeRepository {
   getTransactions() async {
     try {
       return await api.dio.get(
-        transactionsUrl,
+        transactionsUrl + "?size=10&status=successful",
+      );
+    } on DioError catch (e) {
+      return api.handleError(e);
+    }
+  }
+
+  @override
+  getTransactionsWithFilter(String filters) async {
+    try {
+      return await api.dio.get(
+        transactionsUrl + filters,
+      );
+    } on DioError catch (e) {
+      return api.handleError(e);
+    }
+  }
+
+  @override
+  downloadTransactionRecords(String filters) async {
+    try {
+      return await api.dio.get(
+        transactionReportsUrl + filters,
       );
     } on DioError catch (e) {
       return api.handleError(e);

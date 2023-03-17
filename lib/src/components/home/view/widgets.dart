@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:sprout_mobile/src/components/help/view/complaint.dart';
 import 'package:sprout_mobile/src/components/notification/view/notification.dart';
 
@@ -14,6 +15,12 @@ import '../../borow/view/borrow.dart';
 import '../../buy-airtime/view/buy-airtime.dart';
 import '../../pay-bills/view/pay_bills.dart';
 import '../../send-money/view/send_money.dart';
+
+var oCcy = new NumberFormat("#,##0.00", "en_US");
+
+DateTime localDate(String date) {
+  return DateTime.parse(date).toLocal();
+}
 
 getHomeHeader(bool isDarkMode, abbreviation, int size) {
   return Padding(
@@ -92,18 +99,24 @@ class HistoryCard extends StatelessWidget {
     required this.isDarkMode,
     required this.transactionType,
     this.transactionAmount,
-    this.transactionRef,
-    this.transactionId,
     this.createdAt,
+    this.balance,
+    this.tfFee,
+    this.commission,
+    this.incoming,
+    this.narration,
   }) : super(key: key);
 
   final ThemeData theme;
   final bool isDarkMode;
   final String transactionType;
   final num? transactionAmount;
-  final String? transactionRef;
   final String? createdAt;
-  final String? transactionId;
+  final num? balance;
+  final num? tfFee;
+  final String? commission;
+  final bool? incoming;
+  final String? narration;
 
   @override
   Widget build(BuildContext context) {
@@ -111,13 +124,12 @@ class HistoryCard extends StatelessWidget {
     switch (transactionType) {
       case "FUNDS_TRANSFER":
         tType = "Funds Transfer";
-
         break;
       case "BILLS_PAYMENT":
         tType = "Bills";
         break;
       case "CASH_OUT":
-        tType = "Cash Withdrawal";
+        tType = "POS Withdrawal";
         break;
       case "WALLET_TOP_UP":
         tType = "Wallet Top Up";
@@ -147,7 +159,7 @@ class HistoryCard extends StatelessWidget {
                   children: [
                     SvgPicture.asset(
                       AppSvg.send,
-                      color: AppColors.mainGreen,
+                      color: incoming! ? AppColors.mainGreen : AppColors.red,
                       height: 18,
                       width: 18,
                     ),
@@ -158,8 +170,8 @@ class HistoryCard extends StatelessWidget {
                         Text(
                           tType,
                           style: TextStyle(
-                              fontFamily: "DMSans",
-                              fontSize: 12.sp,
+                              fontFamily: "Mont",
+                              fontSize: 10.sp,
                               color: isDarkMode
                                   ? AppColors.white
                                   : AppColors.black,
@@ -167,43 +179,26 @@ class HistoryCard extends StatelessWidget {
                         ),
                         addVerticalSpace(5.h),
                         Container(
-                          width: MediaQuery.of(context).size.width * .6,
+                          width: MediaQuery.of(context).size.width * .5,
                           child: Text(
-                            transactionRef!,
+                            DateFormat('h:mma\t.\tdd-MM-yyyy')
+                                .format(localDate(createdAt!)),
                             style: TextStyle(
-                                fontFamily: "DMSans",
-                                fontSize: 10.sp,
-                                color: isDarkMode
-                                    ? AppColors.inputLabelColor
-                                    : AppColors.black,
+                                fontFamily: "Mont",
+                                fontSize: 9.sp,
+                                color: AppColors.inputLabelColor,
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
-                        addVerticalSpace(5.h),
+                        addVerticalSpace(10.h),
                         Container(
-                          width: MediaQuery.of(context).size.width * .6,
+                          width: MediaQuery.of(context).size.width * .5,
                           child: Text(
-                            transactionId!,
+                            narration ?? "",
                             style: TextStyle(
-                                fontFamily: "DMSans",
-                                fontSize: 10.sp,
-                                color: isDarkMode
-                                    ? AppColors.inputLabelColor
-                                    : AppColors.black,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                        addVerticalSpace(5.h),
-                        Container(
-                          width: MediaQuery.of(context).size.width * .6,
-                          child: Text(
-                            createdAt!,
-                            style: TextStyle(
-                                fontFamily: "DMSans",
-                                fontSize: 10.sp,
-                                color: isDarkMode
-                                    ? AppColors.inputLabelColor
-                                    : AppColors.black,
+                                fontFamily: "Mont",
+                                fontSize: 9.sp,
+                                color: AppColors.greyText,
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
@@ -211,20 +206,62 @@ class HistoryCard extends StatelessWidget {
                     )
                   ],
                 ),
-                Text(
-                  transactionAmount.toString(),
-                  style: TextStyle(
-                      fontFamily: "DMSans",
-                      color: AppColors.mainGreen,
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.w500),
-                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      "₦ " +
+                          (transactionAmount != null
+                              ? oCcy
+                                  .format(double.parse(
+                                      transactionAmount!.toStringAsFixed(2)))
+                                  .toString()
+                              : "0.00"),
+                      style: TextStyle(
+                          fontFamily: "Mont",
+                          fontSize: 9.sp,
+                          color:
+                              incoming! ? AppColors.mainGreen : AppColors.red,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    addVerticalSpace(5.h),
+                    Text(
+                      "Fee: ₦ " +
+                          (tfFee != null
+                              ? oCcy
+                                  .format(
+                                      double.parse(tfFee!.toStringAsFixed(2)))
+                                  .toString()
+                              : "0.00"),
+                      style: TextStyle(
+                          fontFamily: "Mont",
+                          fontSize: 9.sp,
+                          color: AppColors.inputLabelColor,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    addVerticalSpace(5.h),
+                    Text(
+                      "Balance: ₦ " +
+                          (balance != null
+                              ? oCcy
+                                  .format(
+                                      double.parse(balance!.toStringAsFixed(2)))
+                                  .toString()
+                              : "0.00"),
+                      style: TextStyle(
+                          fontFamily: "Mont",
+                          fontSize: 9.sp,
+                          color: AppColors.inputLabelColor,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                )
               ],
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.only(left: 20),
               child: Divider(
-                thickness: 1,
+                thickness: .4,
               ),
             )
           ],
@@ -281,6 +318,7 @@ getItems(isDark) {
   );
 }
 
+// ignore: camel_case_types
 class itemOptions extends StatelessWidget {
   itemOptions(
       {Key? key,

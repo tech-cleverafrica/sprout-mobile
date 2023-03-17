@@ -298,8 +298,9 @@ class HomePage extends StatelessWidget {
               InkWell(
                 onTap: () {
                   push(
-                      page: AlltransactionScreen(),
-                      arguments: homeController.transactions);
+                    page: AlltransactionScreen(),
+                    // arguments: homeController.transactions
+                  );
                 },
                 child: Text(
                   "See All",
@@ -429,21 +430,36 @@ class HomePage extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: ListView.builder(
-            itemCount: homeController.transactions.value.length > 5
-                ? 5
-                : homeController.transactions.length,
+            itemCount: homeController.transactions.length,
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: ((context, index) {
               return HistoryCard(
                 theme: theme,
                 isDarkMode: isDarkMode,
-                transactionType: homeController.transactions.value[index].type!,
+                transactionType: homeController.transactions[index].type!,
                 transactionAmount:
-                    homeController.transactions.value[index].transactionAmount!,
-                transactionRef: homeController.transactions.value[index].ref,
-                transactionId: homeController.transactions.value[index].id,
-                createdAt: homeController.transactions.value[index].createdAt,
+                    homeController.transactions[index].transactionAmount!,
+                createdAt: homeController.transactions[index].createdAt,
+                balance: homeController.transactions[index].postBalance,
+                tfFee: homeController.transactions[index].transactionFee,
+                commission: homeController.transactions[index].agentCut,
+                incoming: homeController.transactions[index].type ==
+                        "CASH_OUT" ||
+                    homeController.transactions[index].type == "WALLET_TOP_UP",
+                narration: homeController.transactions[index].type ==
+                            "DEPOSIT" ||
+                        homeController.transactions[index].type ==
+                            "FUNDS_TRANSFER" ||
+                        homeController.transactions[index].type ==
+                            "WALLET_TOP_UP"
+                    ? homeController.transactions[index].narration
+                    : homeController.transactions[index].type == "BILLS_PAYMENT"
+                        ? homeController.transactions[index].bouquetName
+                        : homeController.transactions[index].type ==
+                                "AIRTIME_VTU"
+                            ? homeController.transactions[index].billerPackage
+                            : homeController.transactions[index].transactionID,
               );
             })),
       );
