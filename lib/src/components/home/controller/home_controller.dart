@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:basic_utils/basic_utils.dart';
@@ -83,24 +82,6 @@ class HomeController extends GetxController {
       rethrow;
     }
   }
-
-  void onSearch(String query) {
-    List<Transactions> result = [];
-    debugPrint(query);
-    if (query.isEmpty) {
-      result = searchableTransactions.value;
-    } else if (query.length % 2 == 0) {
-      result = transactions
-          .where((Transactions transactions) =>
-              transactions.type!.toLowerCase().contains(query))
-          .toList();
-    }
-    print("got here!!!!");
-    print(result);
-    searchableTransactions.value = result;
-  }
-
-  void toggleDisplay() => isInvoice.value = isInvoice.value ? false : true;
 
   @override
   void onClose() {

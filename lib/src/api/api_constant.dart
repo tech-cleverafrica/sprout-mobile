@@ -26,6 +26,7 @@ const String submitDispenseErrorIssueUrl = "resolution/api/v1/issues/error";
 
 //transactions
 const String transactionsUrl = "transaction/api/v1/transactions/me";
+const String transactionReportsUrl = "transaction/api/v1/transactions/report";
 
 //wallet
 const String walletUrl = "wallet/api/v1/wallets/me";

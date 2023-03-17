@@ -38,4 +38,7 @@ class AppImages {
   static const String file_upload = path + "file-upload.png";
   static const String gallery_dark = path + "gallery-dark.png";
   static const String gallery = path + "gallery.png";
+  static const String whiteCheck = path + "white-check.png";
+  static const String filter = path + "filter.png";
+  static const String download = path + "download.png";
 }
