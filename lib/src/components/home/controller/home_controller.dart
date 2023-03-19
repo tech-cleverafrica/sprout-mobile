@@ -64,7 +64,7 @@ class HomeController extends GetxController {
   loadTransactions() async {
     isTransactionLoading.value = true;
     AppResponse<List<Transactions>> transactionsResponse =
-        await locator.get<HomeService>().getTransaction();
+        await locator.get<HomeService>().getTransactions();
     isTransactionLoading.value = false;
 
     if (transactionsResponse.status) {

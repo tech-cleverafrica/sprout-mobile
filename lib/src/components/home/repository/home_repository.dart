@@ -3,4 +3,5 @@ class HomeRepository {
   getTransactions() async {}
   getTransactionsWithFilter(String filters) async {}
   downloadTransactionRecords(String filters) async {}
+  getTransaction(String slug) async {}
 }

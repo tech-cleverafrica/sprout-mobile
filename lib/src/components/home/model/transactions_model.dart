@@ -41,10 +41,10 @@ class Transactions {
   String? transactionID;
   num? totalAmount;
   num? transactionAmount;
-  double? transactionFee;
-  double? actionableAmount;
+  var transactionFee;
+  var actionableAmount;
   num? aggregatorCut;
-  double? cleverCut;
+  var cleverCut;
   var providerFee;
   String? type;
   String? responseCode;
@@ -59,6 +59,8 @@ class Transactions {
   String? uniqueTransactionID;
   String? provider;
   String? slug;
+  String? bundle;
+  String? group;
   String? transactionDateTime;
   String? createdAt;
   String? updatedAt;
@@ -72,7 +74,7 @@ class Transactions {
   String? beneficiaryBankName;
   String? sessionID;
   String? status;
-  String? agentCut;
+  var agentCut;
   String? bouquetCode;
   String? smartCardNumber;
   String? bouquetName;
@@ -82,7 +84,12 @@ class Transactions {
   String? billerGroup;
   String? originatorAccountNumber;
   String? originatorName;
+  String? bankName;
   String? multiTransferBatchID;
+  String? phoneNumber;
+  String? networkProvider;
+  String? serviceType;
+  String? accountNumber;
 
   Transactions(
       {this.id,
@@ -112,6 +119,8 @@ class Transactions {
       this.uniqueTransactionID,
       this.provider,
       this.slug,
+      this.bundle,
+      this.group,
       this.transactionDateTime,
       this.createdAt,
       this.updatedAt,
@@ -135,7 +144,12 @@ class Transactions {
       this.billerGroup,
       this.originatorAccountNumber,
       this.originatorName,
-      this.multiTransferBatchID});
+      this.bankName,
+      this.multiTransferBatchID,
+      this.phoneNumber,
+      this.networkProvider,
+      this.serviceType,
+      this.accountNumber});
 
   Transactions.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -165,6 +179,8 @@ class Transactions {
     uniqueTransactionID = json['uniqueTransactionID'];
     provider = json['provider'];
     slug = json['slug'];
+    bundle = json["bundle"];
+    group = json["group"];
     transactionDateTime = json['transactionDateTime'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
@@ -188,7 +204,12 @@ class Transactions {
     billerGroup = json['billerGroup'];
     originatorAccountNumber = json['originatorAccountNumber'];
     originatorName = json['originatorName'];
+    bankName = json['bankName'];
     multiTransferBatchID = json['multiTransferBatchID'];
+    phoneNumber = json['phoneNumber'];
+    networkProvider = json['networkProvider'];
+    serviceType = json['serviceType'];
+    accountNumber = json['accountNumber'];
   }
 
   Map<String, dynamic> toJson() {
@@ -220,6 +241,8 @@ class Transactions {
     data['uniqueTransactionID'] = this.uniqueTransactionID;
     data['provider'] = this.provider;
     data['slug'] = this.slug;
+    data['bundle'] = this.bundle;
+    data['group'] = this.group;
     data['transactionDateTime'] = this.transactionDateTime;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
@@ -243,7 +266,12 @@ class Transactions {
     data['billerGroup'] = this.billerGroup;
     data['originatorAccountNumber'] = this.originatorAccountNumber;
     data['originatorName'] = this.originatorName;
+    data['bankName'] = this.bankName;
     data['multiTransferBatchID'] = this.multiTransferBatchID;
+    data['phoneNumber'] = this.phoneNumber;
+    data['networkProvider'] = this.networkProvider;
+    data['serviceType'] = this.serviceType;
+    data['accountNumber'] = this.accountNumber;
     return data;
   }
 

@@ -60,11 +60,9 @@ class ChangePassword extends StatelessWidget {
                     height: 150,
                     onSuccess: () {
                       changePasswordController.success.value = true;
-                      print("MATCHED");
                     },
                     onFail: () {
                       changePasswordController.success.value = false;
-                      print("NOT MATCHED");
                     },
                   ),
                   addVerticalSpace(16.h),
