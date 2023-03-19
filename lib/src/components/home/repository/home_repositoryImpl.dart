@@ -50,4 +50,15 @@ class HomeRepositoryImpl implements HomeRepository {
       return api.handleError(e);
     }
   }
+
+  @override
+  getTransaction(String slug) async {
+    try {
+      return await api.dio.get(
+        slug,
+      );
+    } on DioError catch (e) {
+      return api.handleError(e);
+    }
+  }
 }

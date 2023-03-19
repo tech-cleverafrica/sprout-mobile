@@ -114,7 +114,7 @@ class HistoryCard extends StatelessWidget {
   final String? createdAt;
   final num? balance;
   final num? tfFee;
-  final String? commission;
+  final commission;
   final bool? incoming;
   final String? narration;
 
@@ -194,7 +194,7 @@ class HistoryCard extends StatelessWidget {
                         Container(
                           width: MediaQuery.of(context).size.width * .5,
                           child: Text(
-                            narration ?? "",
+                            narration?.split("_").join(" ") ?? "",
                             style: TextStyle(
                                 fontFamily: "Mont",
                                 fontSize: 9.sp,

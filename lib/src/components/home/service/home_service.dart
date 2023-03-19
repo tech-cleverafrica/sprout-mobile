@@ -29,7 +29,7 @@ class HomeService {
     return AppResponse(false, statusCode, responseBody);
   }
 
-  Future<AppResponse<List<Transactions>>> getTransaction() async {
+  Future<AppResponse<List<Transactions>>> getTransactions() async {
     Response response = await locator<HomeRepositoryImpl>().getTransactions();
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
@@ -67,6 +67,19 @@ class HomeService {
     if (statusCode >= 200 && statusCode <= 300) {
       print("vvv$responseBody");
       return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
+    }
+    return AppResponse(false, statusCode, {});
+  }
+
+  Future<AppResponse<Transactions>> getTransaction(String slug) async {
+    Response response =
+        await locator<HomeRepositoryImpl>().getTransaction(slug);
+    int statusCode = response.statusCode ?? 000;
+    Map<String, dynamic> responseBody = response.data;
+    if (statusCode >= 200 && statusCode <= 300) {
+      print("vvv$responseBody");
+      return AppResponse<Transactions>(true, statusCode, responseBody,
+          Transactions.fromJson(responseBody["data"]));
     }
     return AppResponse(false, statusCode, {});
   }

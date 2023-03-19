@@ -32,14 +32,17 @@ getHeader(bool isDarkMode,
         Row(
           children: [
             InkWell(
-              onTap: () => pop(),
-              child: SvgPicture.asset(
-                AppSvg.arrow_left,
-                width: 14.0,
-                height: 15.0,
-                color: isDarkMode ? AppColors.greyBg : AppColors.primaryColor,
-              ),
-            ),
+                onTap: () => pop(),
+                child: Container(
+                  padding: EdgeInsets.only(right: 5, bottom: 5, top: 5),
+                  child: SvgPicture.asset(
+                    AppSvg.arrow_left,
+                    width: 14.0,
+                    height: 15.0,
+                    color:
+                        isDarkMode ? AppColors.greyBg : AppColors.primaryColor,
+                  ),
+                )),
             SizedBox(
               width: 18,
             ),

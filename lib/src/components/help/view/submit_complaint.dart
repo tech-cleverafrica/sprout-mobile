@@ -71,7 +71,6 @@ class SubmitComplaintScreen extends StatelessWidget {
                             .map((element) => element)
                             .toList(),
                         onSaved: (value) => {
-                          print(value),
                           postComplaintController
                               .sortPackage(value ?? "")
                               .then((value) => {

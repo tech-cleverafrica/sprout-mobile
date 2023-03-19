@@ -19,6 +19,7 @@ import 'package:sprout_mobile/src/components/profile/repository/profile_reposito
 import 'package:sprout_mobile/src/components/profile/service/profile_service.dart';
 import 'package:sprout_mobile/src/public/repository/shared_repositoryimpl.dart';
 import 'package:sprout_mobile/src/public/services/date_service.dart';
+import 'package:sprout_mobile/src/public/services/pdf_service.dart';
 import 'package:sprout_mobile/src/public/services/shared_service.dart';
 
 import '../components/authentication/service/auth_service.dart';
@@ -64,4 +65,5 @@ Future<void> registerApiInstance() async {
   locator.registerLazySingleton<BorrowService>(() => BorrowService());
 
   locator.registerLazySingleton<DateService>(() => DateService());
+  locator.registerLazySingleton<PdfService>(() => PdfService());
 }

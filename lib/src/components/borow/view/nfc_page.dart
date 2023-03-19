@@ -95,22 +95,16 @@ class NFCScreen extends StatelessWidget {
   Future<void> initializeNetPOS(BuildContext context) async {
     nfcController = Get.put(NfcController());
     if (Platform.isIOS) {
-      print("HEY 1");
       showNFCFeedback(
           context,
           "Tap-to-Pay Service",
           "An NFC enabled android device will be required to use this service. The Tap-to-Pay (Soft POS) service enables you to process card transactions through your Clevermoni app.\n\nThank you.",
           false);
     } else {
-      print("HEY 2");
       bool isNFCEnabled = await NfcManager.instance.isAvailable();
       if (isNFCEnabled && nfcController.bankTID == "") {
-        print("HEY 3");
         nfcController.getUserInfo().then((value) => setUserData(context));
-        // } else if (isNFCEnabled) {
       } else if (!isNFCEnabled) {
-        print("HEY 4");
-        print(nfcController.bankTID);
         showNFCFeedback(
             context,
             "Tap-to-Pay Service",

@@ -3,11 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/home/controller/transactions_controller.dart';
+import 'package:sprout_mobile/src/components/home/view/transaction_details.dart';
 import 'package:sprout_mobile/src/components/home/view/widgets.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
 import 'package:sprout_mobile/src/public/widgets/filter_popup.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
+import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 import '../../../public/widgets/general_widgets.dart';
 import '../../../utils/app_colors.dart';
@@ -34,7 +36,7 @@ class AlltransactionScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Download",
+                          "Download transactions",
                           style: TextStyle(
                             color: AppColors.deepOrange,
                             fontSize: 12.sp,
@@ -175,53 +177,65 @@ class AlltransactionScreen extends StatelessWidget {
                                 shrinkWrap: true,
                                 physics: BouncingScrollPhysics(),
                                 itemBuilder: ((context, index) {
-                                  return HistoryCard(
-                                    theme: theme,
-                                    isDarkMode: isDarkMode,
-                                    transactionType:
-                                        trxCtrl.transactions[index].type!,
-                                    transactionAmount: trxCtrl
-                                                    .transactions[index].type ==
-                                                "WALLET_TOP_UP" ||
+                                  return InkWell(
+                                      onTap: () => push(
+                                          page: TransactionDetailsScreen(),
+                                          arguments:
+                                              trxCtrl.transactions[index]),
+                                      child: HistoryCard(
+                                        theme: theme,
+                                        isDarkMode: isDarkMode,
+                                        transactionType:
+                                            trxCtrl.transactions[index].type!,
+                                        transactionAmount:
                                             trxCtrl.transactions[index].type ==
-                                                "DEBIT"
-                                        ? trxCtrl
-                                            .transactions[index].totalAmount!
-                                        : trxCtrl.transactions[index]
-                                            .transactionAmount!,
-                                    createdAt:
-                                        trxCtrl.transactions[index].createdAt,
-                                    balance:
-                                        trxCtrl.transactions[index].postBalance,
-                                    tfFee: trxCtrl
-                                        .transactions[index].transactionFee,
-                                    commission:
-                                        trxCtrl.transactions[index].agentCut,
-                                    incoming:
-                                        trxCtrl.transactions[index].type ==
+                                                        "WALLET_TOP_UP" ||
+                                                    trxCtrl.transactions[index]
+                                                            .type ==
+                                                        "DEBIT"
+                                                ? trxCtrl.transactions[index]
+                                                    .totalAmount!
+                                                : trxCtrl.transactions[index]
+                                                    .transactionAmount!,
+                                        createdAt: trxCtrl
+                                            .transactions[index].createdAt,
+                                        balance: trxCtrl
+                                            .transactions[index].postBalance,
+                                        tfFee: trxCtrl
+                                            .transactions[index].transactionFee,
+                                        commission: trxCtrl
+                                            .transactions[index].agentCut,
+                                        incoming: trxCtrl
+                                                    .transactions[index].type ==
                                                 "CASH_OUT" ||
                                             trxCtrl.transactions[index].type ==
                                                 "WALLET_TOP_UP",
-                                    narration: trxCtrl
-                                                    .transactions[index].type ==
-                                                "DEPOSIT" ||
-                                            trxCtrl.transactions[index].type ==
-                                                "FUNDS_TRANSFER" ||
-                                            trxCtrl.transactions[index].type ==
-                                                "WALLET_TOP_UP"
-                                        ? trxCtrl.transactions[index].narration
-                                        : trxCtrl.transactions[index].type ==
-                                                "BILLS_PAYMENT"
+                                        narration: trxCtrl.transactions[index]
+                                                        .type ==
+                                                    "DEPOSIT" ||
+                                                trxCtrl.transactions[index]
+                                                        .type ==
+                                                    "FUNDS_TRANSFER" ||
+                                                trxCtrl.transactions[index]
+                                                        .type ==
+                                                    "WALLET_TOP_UP"
                                             ? trxCtrl
-                                                .transactions[index].bouquetName
+                                                .transactions[index].narration
                                             : trxCtrl.transactions[index]
                                                         .type ==
-                                                    "AIRTIME_VTU"
+                                                    "BILLS_PAYMENT"
                                                 ? trxCtrl.transactions[index]
                                                     .billerPackage
                                                 : trxCtrl.transactions[index]
-                                                    .transactionID,
-                                  );
+                                                            .type ==
+                                                        "AIRTIME_VTU"
+                                                    ? trxCtrl
+                                                        .transactions[index]
+                                                        .billerPackage
+                                                    : trxCtrl
+                                                        .transactions[index]
+                                                        .transactionID,
+                                      ));
                                 }))
                             : trxCtrl.loading.value
                                 ? Padding(

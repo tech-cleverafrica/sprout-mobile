@@ -5,6 +5,7 @@ import 'package:sprout_mobile/src/components/complete-account-setup/view/documen
 import 'package:sprout_mobile/src/components/fund-wallet/view/fund_wallet.dart';
 import 'package:sprout_mobile/src/components/home/view/all_transactions.dart';
 import 'package:sprout_mobile/src/components/home/view/home_chart.dart';
+import 'package:sprout_mobile/src/components/home/view/transaction_details.dart';
 import 'package:sprout_mobile/src/components/home/view/widgets.dart';
 import 'package:sprout_mobile/src/components/notification/controller/notification_controller.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
@@ -434,32 +435,40 @@ class HomePage extends StatelessWidget {
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: ((context, index) {
-              return HistoryCard(
-                theme: theme,
-                isDarkMode: isDarkMode,
-                transactionType: homeController.transactions[index].type!,
-                transactionAmount:
-                    homeController.transactions[index].transactionAmount!,
-                createdAt: homeController.transactions[index].createdAt,
-                balance: homeController.transactions[index].postBalance,
-                tfFee: homeController.transactions[index].transactionFee,
-                commission: homeController.transactions[index].agentCut,
-                incoming: homeController.transactions[index].type ==
-                        "CASH_OUT" ||
-                    homeController.transactions[index].type == "WALLET_TOP_UP",
-                narration: homeController.transactions[index].type ==
-                            "DEPOSIT" ||
-                        homeController.transactions[index].type ==
-                            "FUNDS_TRANSFER" ||
-                        homeController.transactions[index].type ==
-                            "WALLET_TOP_UP"
-                    ? homeController.transactions[index].narration
-                    : homeController.transactions[index].type == "BILLS_PAYMENT"
-                        ? homeController.transactions[index].bouquetName
-                        : homeController.transactions[index].type ==
-                                "AIRTIME_VTU"
-                            ? homeController.transactions[index].billerPackage
-                            : homeController.transactions[index].transactionID,
+              return InkWell(
+                onTap: () => push(
+                    page: TransactionDetailsScreen(),
+                    arguments: homeController.transactions[index]),
+                child: HistoryCard(
+                  theme: theme,
+                  isDarkMode: isDarkMode,
+                  transactionType: homeController.transactions[index].type!,
+                  transactionAmount:
+                      homeController.transactions[index].transactionAmount!,
+                  createdAt: homeController.transactions[index].createdAt,
+                  balance: homeController.transactions[index].postBalance,
+                  tfFee: homeController.transactions[index].transactionFee,
+                  commission: homeController.transactions[index].agentCut,
+                  incoming:
+                      homeController.transactions[index].type == "CASH_OUT" ||
+                          homeController.transactions[index].type ==
+                              "WALLET_TOP_UP",
+                  narration: homeController.transactions[index].type ==
+                              "DEPOSIT" ||
+                          homeController.transactions[index].type ==
+                              "FUNDS_TRANSFER" ||
+                          homeController.transactions[index].type ==
+                              "WALLET_TOP_UP"
+                      ? homeController.transactions[index].narration
+                      : homeController.transactions[index].type ==
+                              "BILLS_PAYMENT"
+                          ? homeController.transactions[index].billerPackage
+                          : homeController.transactions[index].type ==
+                                  "AIRTIME_VTU"
+                              ? homeController.transactions[index].billerPackage
+                              : homeController
+                                  .transactions[index].transactionID,
+                ),
               );
             })),
       );
