@@ -45,6 +45,10 @@ const String initiateCardlessPaymentUrl =
     "cashout/api/v1/netpos/mobile-initiate";
 const String saveCardlessPaymentUrl = "cashout/api/v1/netpos/mobile/save";
 
+//pay bills
+const String billsUrl = "bills/api/v2/";
+const String billerGroupsUrl = "bills/api/v2/biller-group";
+
 apiResponse(String? message, [String? responseCode]) {
   return {
     "status": false,

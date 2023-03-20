@@ -11,8 +11,8 @@ import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 import '../../../../public/widgets/custom_button.dart';
 import '../../../../public/widgets/custom_text_form_field.dart';
 
-class SelectPackageScreen extends StatelessWidget {
-  const SelectPackageScreen({super.key});
+class SelectCableTvPackageScreen extends StatelessWidget {
+  const SelectCableTvPackageScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
