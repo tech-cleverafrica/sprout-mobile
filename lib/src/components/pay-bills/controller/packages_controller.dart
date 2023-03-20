@@ -6,6 +6,7 @@ import 'package:sprout_mobile/src/components/pay-bills/controller/billers_contro
 import 'package:sprout_mobile/src/components/pay-bills/model/biller_model.dart';
 import 'package:sprout_mobile/src/components/pay-bills/model/biller_package_model.dart';
 import 'package:sprout_mobile/src/components/pay-bills/service/pay_bills_service.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
@@ -19,6 +20,7 @@ class PackagesController extends GetxController {
   final BillersController billersController = Get.put(BillersController());
   var amountController = Rxn<MoneyMaskedTextController>();
   TextEditingController phoneNumberController = new TextEditingController();
+  TextEditingController beneficiaryNameController = new TextEditingController();
   TextEditingController digitController = new TextEditingController();
 
   // arguments
@@ -64,7 +66,7 @@ class PackagesController extends GetxController {
     }
   }
 
-  Future<dynamic> lookupDisco(Map<String, dynamic> requestBody, String route,
+  Future<dynamic> lookup(Map<String, dynamic> requestBody, String route,
       String loadingMessage) async {
     loading.value = true;
     AppResponse response = await locator
@@ -86,13 +88,23 @@ class PackagesController extends GetxController {
         phoneNumberController.text.length == 11 &&
         digitController.text.isNotEmpty) {
       String route = getLookupRoute();
-      var response = await lookupDisco(
-          buildDiscoLookupRequestModel(), route, "Please wait");
+      var response =
+          await lookup(buildLookupRequestModel(), route, "Please wait");
       return response;
     } else if (amountController.value!.text.isEmpty ||
         double.parse(amountController.value!.text.split(",").join()) == 0) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("Amount is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (double.parse(amountController.value!.text.split(",").join()) <
+            1 ||
+        double.parse(amountController.value!.text.split(",").join()) > 200000) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Invalid amount"),
+          backgroundColor: AppColors.errorRed));
+    } else if (phoneNumberController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Phone number is required"),
           backgroundColor: AppColors.errorRed));
     } else if (phoneNumberController.text.length < 11) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
@@ -101,6 +113,148 @@ class PackagesController extends GetxController {
     } else if (digitController.text.isEmpty) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("Meter number is required"),
+          backgroundColor: AppColors.errorRed));
+    } else {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("All fields are required"),
+          backgroundColor: AppColors.errorRed));
+    }
+    return null;
+  }
+
+  Future<dynamic> validateCable() async {
+    if ((double.parse(amountController.value!.text.split(",").join()) > 0 &&
+            double.parse(amountController.value!.text.split(",").join()) <=
+                200000 &&
+            digitController.text.isNotEmpty &&
+            biller.value!.slug != "SHOWMAX") ||
+        (double.parse(amountController.value!.text.split(",").join()) > 0 &&
+            double.parse(amountController.value!.text.split(",").join()) <=
+                200000 &&
+            beneficiaryNameController.text.isNotEmpty &&
+            digitController.text.isNotEmpty &&
+            biller.value!.slug == "SHOWMAX" &&
+            beneficiaryNameController.text.isNotEmpty)) {
+      if (biller.value!.slug == "SHOWMAX") {
+        CustomLoader.show(message: "Please wait");
+        await Future.delayed(
+            Duration(microseconds: 2000),
+            () => {
+                  CustomLoader.dismiss(),
+                });
+        return true;
+      } else {
+        String route = getLookupRoute();
+        var response =
+            await lookup(buildLookupRequestModel(), route, "Please wait");
+        return response;
+      }
+    } else if (amountController.value!.text.isEmpty ||
+        double.parse(amountController.value!.text.split(",").join()) == 0) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Amount is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (double.parse(amountController.value!.text.split(",").join()) <
+            1 ||
+        double.parse(amountController.value!.text.split(",").join()) > 200000) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Invalid amount"),
+          backgroundColor: AppColors.errorRed));
+    } else if (beneficiaryNameController.text.isEmpty &&
+        biller.value!.slug == "SHOWMAX") {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Beneficiary name is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (digitController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Smartcard number is required"),
+          backgroundColor: AppColors.errorRed));
+    } else {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("All fields are required"),
+          backgroundColor: AppColors.errorRed));
+    }
+    return null;
+  }
+
+  Future<dynamic> validateData() async {
+    if ((double.parse(amountController.value!.text.split(",").join()) > 0 &&
+            double.parse(amountController.value!.text.split(",").join()) <=
+                200000 &&
+            digitController.text.isNotEmpty &&
+            biller.value!.slug != "SPECTRANET") ||
+        (double.parse(amountController.value!.text.split(",").join()) > 0 &&
+            double.parse(amountController.value!.text.split(",").join()) <=
+                200000 &&
+            beneficiaryNameController.text.isNotEmpty &&
+            digitController.text.isNotEmpty &&
+            biller.value!.slug == "SPECTRANET" &&
+            beneficiaryNameController.text.isNotEmpty)) {
+      if (biller.value!.slug == "SPECTRANET") {
+        CustomLoader.show(message: "Please wait");
+        await Future.delayed(
+            Duration(microseconds: 2000),
+            () => {
+                  CustomLoader.dismiss(),
+                });
+        return true;
+      } else {
+        String route = getLookupRoute();
+        var response =
+            await lookup(buildLookupRequestModel(), route, "Please wait");
+        return response;
+      }
+    } else if (amountController.value!.text.isEmpty ||
+        double.parse(amountController.value!.text.split(",").join()) == 0) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Amount is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (double.parse(amountController.value!.text.split(",").join()) <
+            1 ||
+        double.parse(amountController.value!.text.split(",").join()) > 200000) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Invalid amount"),
+          backgroundColor: AppColors.errorRed));
+    } else if (beneficiaryNameController.text.isEmpty &&
+        biller.value!.slug == "SPECTRANET") {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Beneficiary name is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (digitController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Phone number is required"),
+          backgroundColor: AppColors.errorRed));
+    } else {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("All fields are required"),
+          backgroundColor: AppColors.errorRed));
+    }
+    return null;
+  }
+
+  Future<dynamic> validateBetting() async {
+    if (double.parse(amountController.value!.text.split(",").join()) > 0 &&
+        double.parse(amountController.value!.text.split(",").join()) <=
+            200000 &&
+        digitController.text.isNotEmpty) {
+      String route = getLookupRoute();
+      var response =
+          await lookup(buildLookupRequestModel(), route, "Please wait");
+      return response;
+    } else if (amountController.value!.text.isEmpty ||
+        double.parse(amountController.value!.text.split(",").join()) == 0) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Amount is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (double.parse(amountController.value!.text.split(",").join()) <
+            1 ||
+        double.parse(amountController.value!.text.split(",").join()) > 200000) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Invalid amount"),
+          backgroundColor: AppColors.errorRed));
+    } else if (digitController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("User ID is required"),
           backgroundColor: AppColors.errorRed));
     } else {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
@@ -188,7 +342,7 @@ class PackagesController extends GetxController {
     return {"id": biller.value!.id, "slug": biller.value!.slug};
   }
 
-  buildDiscoLookupRequestModel() {
+  buildLookupRequestModel() {
     String digitKey = getDigitKey();
     return {
       digitKey: digitController.text,
@@ -211,103 +365,117 @@ class PackagesController extends GetxController {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
-              child: SingleChildScrollView(
+              child: Container(
                   child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 17.h,
+                  Container(
+                    child: Column(children: [
+                      SizedBox(
+                        height: 17.h,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.h, horizontal: 20.w),
+                        child: Text(
+                          billersController.group == "AIRTIME_AND_DATA"
+                              ? "Select Bundle"
+                              : "Select Package",
+                          style: TextStyle(
+                              fontFamily: "DMSans",
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w700,
+                              color: isDarkMode
+                                  ? AppColors.mainGreen
+                                  : AppColors.primaryColor),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                    ]),
                   ),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
-                    child: Text(
-                      "Select Package",
-                      style: TextStyle(
-                          fontFamily: "DMSans",
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w700,
-                          color: isDarkMode
-                              ? AppColors.mainGreen
-                              : AppColors.primaryColor),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 5.h,
-                  ),
-                  ListView.builder(
-                      itemCount: packages.length,
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: ((context, index) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 10.h, horizontal: 20.w),
-                          child: GestureDetector(
-                            onTap: () {
-                              pop();
-                              package.value = packages[index];
-                              if (packages[index].amount != null) {
-                                amountController.value =
-                                    new MoneyMaskedTextController(
-                                        initialValue: 200,
-                                        decimalSeparator: ".",
-                                        thousandSeparator: ",");
-                              } else {
-                                amountController.value =
-                                    new MoneyMaskedTextController(
-                                        initialValue: 0,
-                                        decimalSeparator: ".",
-                                        thousandSeparator: ",");
-                              }
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: isDarkMode
-                                      ? AppColors.inputBackgroundColor
-                                      : AppColors.grey,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 15.w, vertical: 16.h),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      packages[index].name!,
-                                      style: TextStyle(
-                                          fontFamily: "DMSans",
-                                          fontSize: 12.sp,
-                                          fontWeight: package.value != null &&
-                                                  package.value?.id ==
-                                                      packages[index].id
-                                              ? FontWeight.w700
-                                              : FontWeight.w600,
-                                          color: isDarkMode
-                                              ? AppColors.mainGreen
-                                              : AppColors.primaryColor),
+                  Expanded(
+                      child: ListView.builder(
+                          itemCount: packages.length,
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: ((context, index) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.h, horizontal: 20.w),
+                              child: GestureDetector(
+                                onTap: () {
+                                  pop();
+                                  package.value = packages[index];
+                                  showField.value = false;
+                                  if (packages[index].amount != null) {
+                                    amountController.value =
+                                        new MoneyMaskedTextController(
+                                            initialValue: double.parse(
+                                                packages[index]
+                                                    .amount
+                                                    .toString()),
+                                            decimalSeparator: ".",
+                                            thousandSeparator: ",");
+                                    showField.value = true;
+                                  } else {
+                                    amountController.value =
+                                        new MoneyMaskedTextController(
+                                            initialValue: 0,
+                                            decimalSeparator: ".",
+                                            thousandSeparator: ",");
+                                  }
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: isDarkMode
+                                          ? AppColors.inputBackgroundColor
+                                          : AppColors.grey,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 15.w, vertical: 16.h),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          packages[index].name!,
+                                          style: TextStyle(
+                                              fontFamily: "DMSans",
+                                              fontSize: 12.sp,
+                                              fontWeight:
+                                                  package.value != null &&
+                                                          package.value?.id ==
+                                                              packages[index].id
+                                                      ? FontWeight.w700
+                                                      : FontWeight.w600,
+                                              color: isDarkMode
+                                                  ? AppColors.mainGreen
+                                                  : AppColors.primaryColor),
+                                        ),
+                                        package.value != null &&
+                                                package.value?.id ==
+                                                    packages[index].id
+                                            ? SvgPicture.asset(
+                                                AppSvg.mark_green,
+                                                height: 20,
+                                                color: isDarkMode
+                                                    ? AppColors.mainGreen
+                                                    : AppColors.primaryColor,
+                                              )
+                                            : SizedBox()
+                                      ],
                                     ),
-                                    package.value != null &&
-                                            package.value?.id ==
-                                                packages[index].id
-                                        ? SvgPicture.asset(
-                                            AppSvg.mark_green,
-                                            height: 20,
-                                            color: isDarkMode
-                                                ? AppColors.mainGreen
-                                                : AppColors.primaryColor,
-                                          )
-                                        : SizedBox()
-                                  ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        );
-                      }))
+                            );
+                          })))
                 ],
               )),
             ),

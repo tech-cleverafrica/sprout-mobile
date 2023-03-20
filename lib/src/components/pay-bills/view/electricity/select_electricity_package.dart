@@ -139,9 +139,7 @@ class SelectElectricityPackageScreen extends StatelessWidget {
                   Obx((() => packagesController.showField.value
                       ? CustomTextFormField(
                           controller: packagesController.digitController,
-                          label: packagesController.biller.value!.name! +
-                              " " +
-                              "Meter Number",
+                          label: "Meter Number",
                           hintText: "Enter Meter Number",
                           required: true,
                           fillColor: isDarkMode

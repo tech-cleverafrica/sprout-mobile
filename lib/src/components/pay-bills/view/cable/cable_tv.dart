@@ -7,6 +7,7 @@ import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
+import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 import '../../../../public/widgets/custom_text_form_field.dart';
 import '../../../../utils/app_colors.dart';
@@ -70,7 +71,10 @@ class CableTvScreen extends StatelessWidget {
                                               ? AppImages.showmax
                                               : AppImages.logo_icon,
                               onTap: () {
-                                Get.to(() => SelectCableTvPackageScreen());
+                                push(
+                                    page: SelectCableTvPackageScreen(),
+                                    arguments:
+                                        billersController.billers[index]);
                               },
                             ),
                           ],

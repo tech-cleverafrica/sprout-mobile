@@ -1,21 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/pay-bills/controller/packages_controller.dart';
 import 'package:sprout_mobile/src/components/pay-bills/view/bills_summary.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_dropdown_button_field.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
+import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 import '../../../../public/widgets/custom_text_form_field.dart';
 
+// ignore: must_be_immutable
 class SelectBettingPackageScreen extends StatelessWidget {
-  const SelectBettingPackageScreen({super.key});
+  SelectBettingPackageScreen({super.key});
+
+  late PackagesController packagesController;
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    packagesController = Get.put(PackagesController());
     return SafeArea(
       child: Scaffold(
           bottomNavigationBar: Padding(
@@ -24,7 +31,10 @@ class SelectBettingPackageScreen extends StatelessWidget {
               isDarkMode: isDarkMode,
               buttonText: "Continue",
               onTap: () {
-                Get.to(() => BillSummaryPage());
+                packagesController.validateBetting().then((value) => {
+                      if (value != null)
+                        {push(page: BillSummaryPage(), arguments: value)}
+                    });
               },
             ),
           ),
@@ -36,73 +46,99 @@ class SelectBettingPackageScreen extends StatelessWidget {
                 children: [
                   getHeader(isDarkMode),
                   addVerticalSpace(15.h),
-                  CustomDropdownButtonFormField(
-                    items: [],
-                    label: "Select Package",
-                    // hintText: "Your Email",
-                    fillColor: isDarkMode
-                        ? AppColors.inputBackgroundColor
-                        : AppColors.grey,
+                  GestureDetector(
+                    onTap: () =>
+                        packagesController.showPackages(context, isDarkMode),
+                    child: Obx(
+                      () => CustomTextFormField(
+                          label: "Select Package",
+                          hintText: packagesController.package.value?.name ??
+                              "Select Package",
+                          required: true,
+                          enabled: false,
+                          fillColor: isDarkMode
+                              ? AppColors.inputBackgroundColor
+                              : AppColors.grey,
+                          hintTextStyle:
+                              packagesController.package.value == null
+                                  ? null
+                                  : TextStyle(
+                                      color: isDarkMode
+                                          ? AppColors.white
+                                          : AppColors.black,
+                                      fontWeight: FontWeight.w600)),
+                    ),
                   ),
-                  CustomDropdownButtonFormField(
-                    items: [],
-                    label: "Smartcard Number",
-                    // hintText: "Your Email",
-                    fillColor: isDarkMode
-                        ? AppColors.inputBackgroundColor
-                        : AppColors.grey,
-                  ),
-                  CustomTextFormField(
-                    label: "Automated Amount",
-                    // hintText: "Your Email",
-                    fillColor: isDarkMode
-                        ? AppColors.inputBackgroundColor
-                        : AppColors.grey,
-                  ),
-                  CustomDropdownButtonFormField(
-                    items: [],
-                    label: "Schedule This Payment",
-                    // hintText: "Your Email",
-                    fillColor: isDarkMode
-                        ? AppColors.inputBackgroundColor
-                        : AppColors.grey,
-                  ),
-                  addVerticalSpace(10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Save this purchase",
-                            style: TextStyle(
-                                fontFamily: "DMSans",
-                                fontSize: 13.sp,
-                                color: isDarkMode
-                                    ? AppColors.white
-                                    : AppColors.black,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          addVerticalSpace(9.h),
-                          Text(
-                            "We will add it to your quick airtime purchase",
-                            style: TextStyle(
-                                fontFamily: "DMSans",
-                                fontSize: 10.sp,
-                                color: isDarkMode
-                                    ? AppColors.semi_white.withOpacity(0.5)
-                                    : AppColors.greyText,
-                                fontWeight: FontWeight.w400),
-                          )
-                        ],
-                      ),
-                      CupertinoSwitch(
-                          activeColor: AppColors.primaryColor,
-                          value: true,
-                          onChanged: (value) {})
-                    ],
-                  ),
+                  Obx((() => packagesController.package.value != null
+                      ? CustomTextFormField(
+                          controller: packagesController.amountController.value,
+                          label: "Amount",
+                          hintText: "Enter Amount",
+                          required: true,
+                          enabled:
+                              packagesController.package.value!.amount == null,
+                          textInputType: TextInputType.phone,
+                          fillColor: isDarkMode
+                              ? AppColors.inputBackgroundColor
+                              : AppColors.grey,
+                          textInputAction: TextInputAction.next,
+                          validator: (value) {
+                            if (value!.length == 0)
+                              return "Amount is required";
+                            else if (double.parse(value.split(",").join("")) ==
+                                0) {
+                              return "Invalid amount";
+                            } else if (double.parse(value.split(",").join("")) <
+                                1) {
+                              return "Invalid amount";
+                            } else if (double.parse(value.split(",").join("")) >
+                                200000) {
+                              return "Maximum amount is 200,000";
+                            }
+                            return null;
+                          },
+                          onChanged: ((value) => {
+                                print(value),
+                                if (double.parse(value.split(",").join("")) <
+                                        1 ||
+                                    double.parse(value.split(",").join("")) >
+                                        200000)
+                                  {
+                                    packagesController.showField.value = false,
+                                  }
+                                else
+                                  {
+                                    packagesController.showField.value = true,
+                                  }
+                              }),
+                        )
+                      : SizedBox())),
+                  Obx((() => packagesController.showField.value
+                      ? CustomTextFormField(
+                          controller: packagesController.digitController,
+                          label: packagesController.biller.value!.name! +
+                              " " +
+                              "User ID",
+                          hintText: "Enter User ID",
+                          required: true,
+                          fillColor: isDarkMode
+                              ? AppColors.inputBackgroundColor
+                              : AppColors.grey,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'^[0-9]*$'))
+                          ],
+                          textInputAction: TextInputAction.go,
+                          textInputType: TextInputType.phone,
+                          validator: (value) {
+                            if (value!.length == 0)
+                              return "User ID is required";
+                            return null;
+                          },
+                          onFieldSubmitted: (value) {
+                            packagesController.validateBetting();
+                          })
+                      : SizedBox())),
                 ],
               ),
             ),
