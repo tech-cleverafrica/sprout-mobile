@@ -6,7 +6,7 @@ import '../../../api-setup/api_setup.dart';
 import '../../../api/api_response.dart';
 
 class BillersController extends GetxController {
-  String slug = "";
+  String group = "";
   RxList<Biller> billers = <Biller>[].obs;
   List<Biller> baseBillers = <Biller>[];
   RxBool loading = false.obs;
@@ -14,7 +14,7 @@ class BillersController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    slug = Get.arguments;
+    group = Get.arguments;
     getBillers();
   }
 
@@ -49,7 +49,7 @@ class BillersController extends GetxController {
   }
 
   String buildRoute() {
-    switch (slug) {
+    switch (group) {
       case "ELECTRIC_DISCO":
         return "discos/biller";
       case "DISCO":

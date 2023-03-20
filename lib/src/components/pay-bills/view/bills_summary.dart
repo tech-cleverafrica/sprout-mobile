@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/pay-bills/controller/payment_controller.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 
 import '../../../public/screens/pin_confirmation.dart';
@@ -8,12 +9,16 @@ import '../../../public/widgets/custom_button.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/helper_widgets.dart';
 
+// ignore: must_be_immutable
 class BillSummaryPage extends StatelessWidget {
-  const BillSummaryPage({super.key});
+  BillSummaryPage({super.key});
+
+  late PaymentController paymentController;
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    paymentController = Get.put(PaymentController());
     return SafeArea(
       child: Scaffold(
         body: Padding(
