@@ -13,7 +13,6 @@ class PayBillsService {
     Response response =
         await locator<PayBillsRepositoryImpl>().getBillerGroups();
     int statusCode = response.statusCode ?? 000;
-
     Map<String, dynamic> responseBody = response.data;
     if (response.data["status"] == "success") {
       print(":::::::::$responseBody");
@@ -27,7 +26,6 @@ class PayBillsService {
     Response response =
         await locator<PayBillsRepositoryImpl>().getBillers(route);
     int statusCode = response.statusCode ?? 000;
-
     Map<String, dynamic> responseBody = response.data;
     if (response.data["status"] == "success") {
       print(":::::::::$responseBody");
@@ -46,7 +44,6 @@ class PayBillsService {
         await locator<PayBillsRepositoryImpl>().getPackages(requestBody, route);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
-
     Map<String, dynamic> responseBody = response.data;
     if (response.data["status"] == "success") {
       print(":::::::::$responseBody");
@@ -63,9 +60,23 @@ class PayBillsService {
         await locator<PayBillsRepositoryImpl>().lookup(requestBody, route);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
-
     Map<String, dynamic> responseBody = response.data;
     if (response.data["status"] == "success") {
+      print(":::::::::$responseBody");
+      return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
+    }
+    return AppResponse(false, statusCode, responseBody);
+  }
+
+  Future<AppResponse<dynamic>> makePayment(Map<String, dynamic> requestBody,
+      String route, String loadingMessage) async {
+    CustomLoader.show(message: loadingMessage);
+    Response response =
+        await locator<PayBillsRepositoryImpl>().makePayment(requestBody, route);
+    CustomLoader.dismiss();
+    int statusCode = response.statusCode ?? 000;
+    Map<String, dynamic> responseBody = response.data;
+    if (response.data["status"]) {
       print(":::::::::$responseBody");
       return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
     }

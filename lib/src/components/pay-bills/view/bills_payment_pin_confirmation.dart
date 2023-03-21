@@ -3,24 +3,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/pay-bills/controller/payment_controller.dart';
-import 'package:sprout_mobile/src/components/send-money/controller/send_money_controller.dart';
+import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 
-import '../../utils/app_images.dart';
-import '../../utils/app_svgs.dart';
-import '../../utils/helper_widgets.dart';
-import '../widgets/general_widgets.dart';
+import '../../../utils/app_images.dart';
+import '../../../utils/app_svgs.dart';
+import '../../../utils/helper_widgets.dart';
 
 // ignore: must_be_immutable
-class PinPage extends StatefulWidget {
-  String? process;
-  PinPage({super.key, required this.process});
+class BillsPaymentPinPage extends StatefulWidget {
+  BillsPaymentPinPage({super.key});
 
   @override
-  State<PinPage> createState() => _PinPageState();
+  State<BillsPaymentPinPage> createState() => _BillsPaymentPinPageState();
 }
 
-class _PinPageState extends State<PinPage> {
+class _BillsPaymentPinPageState extends State<BillsPaymentPinPage> {
   List<String> currentPin = ["", "", "", ""];
 
   TextEditingController pinOneController = TextEditingController();
@@ -46,13 +44,11 @@ class _PinPageState extends State<PinPage> {
 
   int pinIndex = 0;
 
-  late SendMoneyController sendMoneyController;
   late PaymentController paymentController;
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    sendMoneyController = Get.put(SendMoneyController());
     paymentController = Get.put(PaymentController());
     return SafeArea(
       child: Scaffold(
@@ -245,16 +241,7 @@ class _PinPageState extends State<PinPage> {
       strPin += e;
     });
     if (pinIndex == 4) {
-      print(strPin);
-      switch (widget.process) {
-        case "transfer":
-          sendMoneyController.makeTransafer(strPin);
-          break;
-        case "bills":
-          paymentController.pay(strPin);
-          break;
-        default:
-      }
+      paymentController.pay(strPin);
     }
   }
 
@@ -266,7 +253,6 @@ class _PinPageState extends State<PinPage> {
           pinOneValue = text;
         });
         break;
-
       case 2:
         pinTwoController.text = text;
         setState(() {

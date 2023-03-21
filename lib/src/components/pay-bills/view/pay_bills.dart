@@ -61,22 +61,27 @@ class PayBillsScreen extends StatelessWidget {
                             child: InkWell(
                                 onTap: () {
                                   push(
-                                      page: group.slug == "PAY_TV"
+                                      page: group.slug == "PAY_TV" ||
+                                              group.slug == "PAID_TV"
                                           ? CableTvScreen()
                                           : group.slug == "AIRTIME_AND_DATA"
                                               ? InternetDataScreen()
-                                              : group.slug == "ELECTRIC_DISCO"
+                                              : group.slug ==
+                                                          "ELECTRIC_DISCO" ||
+                                                      group.slug == "DISCO"
                                                   ? ElectricityScreen()
                                                   : BettingScreen(),
                                       arguments: group.slug);
                                 },
-                                child: group.slug == "PAY_TV"
+                                child: group.slug == "PAY_TV" ||
+                                        group.slug == "PAID_TV"
                                     ? getItems(
                                         isDarkMode, AppSvg.cable, "Cable TV")
                                     : group.slug == "AIRTIME_AND_DATA"
                                         ? getItems(isDarkMode, AppSvg.mobile,
                                             "Mobile Data &\n Internet")
-                                        : group.slug == "ELECTRIC_DISCO"
+                                        : group.slug == "ELECTRIC_DISCO" ||
+                                                group.slug == "DISCO"
                                             ? getItems(
                                                 isDarkMode,
                                                 AppSvg.electricity,

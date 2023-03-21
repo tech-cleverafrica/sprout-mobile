@@ -74,7 +74,18 @@ class PackagesController extends GetxController {
         .lookup(requestBody, route, loadingMessage);
     loading.value = false;
     if (response.status) {
-      return response;
+      String x = amountController.value!.text.split(",").join();
+      var minPayableAmount = double.parse(
+          response.data["responseData"]["minPayableAmount"].toString());
+      var inputAmount = double.parse(x);
+      if (inputAmount < minPayableAmount) {
+        CustomToastNotification.show(
+            'Amount is less than minimum payable amount of ' +
+                minPayableAmount.toString(),
+            type: ToastType.error);
+      } else {
+        return response.data["responseData"];
+      }
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }
@@ -334,6 +345,28 @@ class PackagesController extends GetxController {
         return 'bettings/customer-lookup';
       case 'TRANSPORT_AND_TOLL_PAYMENT':
         return 'utilitypayments/customer-lookup';
+    }
+    return "";
+  }
+
+  String getPaymentRoute() {
+    switch (billersController.group) {
+      case 'DISCO':
+        return 'discos/mobile/purchase';
+      case 'ELECTRIC_DISCO':
+        return 'discos/mobile/purchase';
+      case 'PAID_TV':
+        return 'cables/mobile/purchase';
+      case 'PAY_TV':
+        return 'cables/mobile/purchase';
+      case 'AIRTIME_AND_DATA':
+        return 'data/mobile/purchase';
+      case 'AIRTIME':
+        return 'airtime/mobile/purchase';
+      case 'BETTING_AND_LOTTERY':
+        return 'bettings/mobile/purchase';
+      case 'TRANSPORT_AND_TOLL_PAYMENT':
+        return 'utilitypayments/mobile/purchase';
     }
     return "";
   }

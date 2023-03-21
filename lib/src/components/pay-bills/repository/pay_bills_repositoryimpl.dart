@@ -52,4 +52,15 @@ class PayBillsRepositoryImpl implements PayBillsRepository {
       e.printError();
     }
   }
+
+  @override
+  makePayment(Map<String, dynamic> requestBody, String route) async {
+    try {
+      return await api.dio.post(billsUrl + route, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
 }
