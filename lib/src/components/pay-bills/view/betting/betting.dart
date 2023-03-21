@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/pay-bills/controller/billers_controller.dart';
-import 'package:sprout_mobile/src/components/pay-bills/view/cable/select_cable_tv_package.dart';
+import 'package:sprout_mobile/src/components/pay-bills/view/betting/select_betting_package.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
@@ -13,8 +13,8 @@ import '../../../../public/widgets/custom_text_form_field.dart';
 import '../../../../utils/app_colors.dart';
 
 // ignore: must_be_immutable
-class CableTvScreen extends StatelessWidget {
-  CableTvScreen({super.key});
+class BettingScreen extends StatelessWidget {
+  BettingScreen({super.key});
 
   late BillersController billersController;
 
@@ -55,24 +55,55 @@ class CableTvScreen extends StatelessWidget {
                             addVerticalSpace(30.h),
                             BillsCard(
                               title: billersController.billers[index].name,
-                              subTitle: "Tv Subscription",
+                              subTitle: "Betting",
                               image: billersController.billers[index].slug ==
-                                      "DSTV"
-                                  ? AppImages.dstv
+                                      "BET9JA"
+                                  ? AppImages.bet9ja
                                   : billersController.billers[index].slug ==
-                                          "GOTV"
-                                      ? AppImages.gotv
+                                          "WINNERS_GOLDEN_CHANCE"
+                                      ? AppImages.winners
                                       : billersController.billers[index].slug ==
-                                              "STARTIMES"
-                                          ? AppImages.startime
+                                              "WESTERN_LOTTO"
+                                          ? AppImages.westernlotto
                                           : billersController
                                                       .billers[index].slug ==
-                                                  "SHOWMAX"
-                                              ? AppImages.showmax
-                                              : AppImages.logo_icon,
+                                                  "NAIRABET"
+                                              ? AppImages.nairabet
+                                              : billersController.billers[index]
+                                                          .slug ==
+                                                      "BETKING"
+                                                  ? AppImages.betking
+                                                  : billersController
+                                                              .billers[index]
+                                                              .slug ==
+                                                          "BETWAY"
+                                                      ? AppImages.betway
+                                                      : billersController
+                                                                  .billers[
+                                                                      index]
+                                                                  .slug ==
+                                                              "LIVESCOREBET"
+                                                          ? AppImages
+                                                              .livescorebet
+                                                          : billersController
+                                                                      .billers[
+                                                                          index]
+                                                                      .slug ==
+                                                                  "1XBET"
+                                                              ? AppImages
+                                                                  .onexbet
+                                                              : billersController
+                                                                          .billers[
+                                                                              index]
+                                                                          .slug ==
+                                                                      "MERRYBET"
+                                                                  ? AppImages
+                                                                      .merrybet
+                                                                  : AppImages
+                                                                      .logo_icon,
                               onTap: () {
                                 push(
-                                    page: SelectCableTvPackageScreen(),
+                                    page: SelectBettingPackageScreen(),
                                     arguments:
                                         billersController.billers[index]);
                               },

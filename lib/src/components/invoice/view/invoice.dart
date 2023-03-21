@@ -10,6 +10,7 @@ import 'package:sprout_mobile/src/utils/app_images.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/helper_widgets.dart';
 
+// ignore: must_be_immutable
 class InvoiceScreen extends StatelessWidget {
   InvoiceScreen({super.key});
 

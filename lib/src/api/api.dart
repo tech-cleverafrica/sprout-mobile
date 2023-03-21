@@ -132,7 +132,8 @@ class Api {
         } else {
           debugPrint("came in here");
           response = Response(
-              data: apiResponse(e.response?.data?["message"],
+              data: apiResponse(
+                  e.response?.data?["data"] ?? e.response?.data?["message"],
                   e.response?.data?["responseCode"]),
               statusCode: e.response?.statusCode ?? 000,
               requestOptions: RequestOptions(path: ''));

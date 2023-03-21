@@ -45,6 +45,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final TextAlign? textAlign;
   final bool? autofocus;
+  final Function(String)? onFieldSubmitted;
 
   CustomTextFormField({
     this.prefixIcon,
@@ -88,6 +89,7 @@ class CustomTextFormField extends StatelessWidget {
     this.textInputAction = TextInputAction.none,
     this.textAlign = TextAlign.left,
     this.autofocus = false,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -133,6 +135,7 @@ class CustomTextFormField extends StatelessWidget {
             autovalidateMode: autovalidateMode,
             inputFormatters: inputFormatters,
             maxLines: maxLines,
+            onFieldSubmitted: onFieldSubmitted,
             textInputAction: textInputAction,
             cursorColor: AppColors.transparent,
             textAlign: textAlign ?? TextAlign.left,

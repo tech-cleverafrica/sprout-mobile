@@ -42,6 +42,36 @@ class CustomLoadingContainer extends StatelessWidget {
   }
 }
 
+Widget buildBillsShimmer() {
+  return Shimmer.fromColors(
+    baseColor: AppColors.primaryColor.withOpacity(0.7),
+    highlightColor: Colors.grey.withOpacity(0.7),
+    enabled: true,
+    child: Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: AppColors.primaryColor.withOpacity(0.1),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          children: [
+            Container(
+              height: 35,
+              width: 35,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColors.primaryColor.withOpacity(0.1),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
 Widget buildShimmer(count) {
   return Shimmer.fromColors(
     baseColor: AppColors.primaryColor.withOpacity(0.7),
@@ -88,6 +118,75 @@ Widget buildLoadingContainer() {
               children: [
                 Container(
                   height: 25,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.grey.withOpacity(0.1),
+                  ),
+                ),
+                SizedBox(height: 15),
+                Text(
+                  'Loading',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey.withOpacity(0.1),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget buildSlimShimmer(count) {
+  return Shimmer.fromColors(
+    baseColor: AppColors.primaryColor.withOpacity(0.7),
+    highlightColor: Colors.grey.withOpacity(0.7),
+    enabled: true,
+    child: ListView.builder(
+      padding: EdgeInsets.only(top: 10),
+      physics: ScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: count,
+      itemBuilder: (context, index) {
+        return buildSlimLoadingContainer();
+      },
+    ),
+  );
+}
+
+Widget buildSlimLoadingContainer() {
+  return Container(
+    margin: EdgeInsets.symmetric(vertical: 10),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(8),
+      color: AppColors.primaryColor.withOpacity(0.1),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(12),
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColors.primaryColor.withOpacity(0.1),
+              ),
+            ),
+          ),
+          SizedBox(width: 10),
+          Expanded(
+            flex: 4,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 15,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     color: Colors.grey.withOpacity(0.1),
