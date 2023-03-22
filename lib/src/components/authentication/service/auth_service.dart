@@ -26,13 +26,9 @@ class AuthService {
       Map<String, dynamic> requestBody, String loadingMessage) async {
     CustomLoader.show(message: loadingMessage);
     Response response = await locator<AuthRepositoryImpl>().signin(requestBody);
-    CustomLoader.dismiss();
-
     int statusCode = response.statusCode ?? 000;
-
     Map<String, dynamic> responseBody = response.data;
     if (response.data["status"]) {
-      CustomLoader.dismiss();
       String accessToken = responseBody["data"]["accessToken"];
       preferenceRepository.setStringPref(accessTokenKey, accessToken);
       api.baseOptions.headers.addAll({"Authorization": "Bearer $accessToken"});
@@ -47,10 +43,8 @@ class AuthService {
   }
 
   Future<AppResponse<dynamic>> getUserDetails() async {
-    //  CustomLoader.show(message: "Getting customer details ...");
     Response response = await locator<AuthRepositoryImpl>().getUserDetails();
-    // CustomLoader.dismiss();
-
+    CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
 
     Map<String, dynamic> responseBody = response.data;
