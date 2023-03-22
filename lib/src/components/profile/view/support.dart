@@ -2,21 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/help/view/complaint.dart';
+import 'package:sprout_mobile/src/components/profile/controller/profile_controller.dart';
+import 'package:sprout_mobile/src/public/screens/contact_us.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
+import 'package:sprout_mobile/src/utils/nav_function.dart';
 
-import '../../../public/widgets/custom_button.dart';
 import '../../../utils/app_svgs.dart';
 
+// ignore: must_be_immutable
 class SupportScreen extends StatelessWidget {
-  const SupportScreen({super.key});
+  SupportScreen({super.key});
+
+  late ProfileController profileController;
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final theme = Theme.of(context);
-
+    profileController = Get.put(ProfileController());
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -39,14 +45,12 @@ class SupportScreen extends StatelessWidget {
                   )
                 ],
               ),
-              addVerticalSpace(10.h),
               Divider(
                 thickness: 0.3,
                 color: isDarkMode
                     ? AppColors.semi_white.withOpacity(0.3)
                     : AppColors.inputLabelColor.withOpacity(0.6),
               ),
-              addVerticalSpace(10.h),
               InkWell(
                 onTap: () {
                   showPopUp(context, isDarkMode, theme);
@@ -65,7 +69,32 @@ class SupportScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              addVerticalSpace(10.h),
+              Divider(
+                thickness: 0.3,
+                color: isDarkMode
+                    ? AppColors.semi_white.withOpacity(0.3)
+                    : AppColors.inputLabelColor.withOpacity(0.6),
+              ),
+              InkWell(
+                onTap: () {
+                  push(page: ComplaintScreen());
+                },
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      AppSvg.log,
+                    ),
+                    Text(
+                      "Log a complaint",
+                      style: TextStyle(
+                          fontFamily: "DMSans",
+                          fontSize: 14.sp,
+                          color: isDarkMode ? AppColors.white : AppColors.black,
+                          fontWeight: FontWeight.w500),
+                    )
+                  ],
+                ),
+              ),
               Divider(
                 thickness: 0.3,
                 color: isDarkMode
@@ -81,50 +110,12 @@ class SupportScreen extends StatelessWidget {
 
   showPopUp(context, isDarkMode, theme) {
     showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: ((context) {
-          return Dialog(
-            backgroundColor: isDarkMode ? AppColors.greyDot : AppColors.white,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            child: Container(
-              height: 230.h,
-              width: 200.w,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Cancel",
-                          style: theme.textTheme.headline6,
-                        ),
-                        InkWell(
-                            onTap: () => Get.back(),
-                            child: SvgPicture.asset(AppSvg.cancel))
-                      ],
-                    ),
-                    addVerticalSpace(10.h),
-                    Text("Call Customer Support"),
-                    addVerticalSpace(10.h),
-                    Text(
-                      "+234-9070866545",
-                      style: theme.textTheme.headline2,
-                    ),
-                    addVerticalSpace(15.h),
-                    CustomButton(
-                      title: "Call now",
-                      onTap: () {},
-                    )
-                  ],
-                ),
-              ),
-            ),
-          );
-        }));
+      context: (context),
+      builder: (BuildContext context) => ContactUs(
+        heading: "Contact Customer Support",
+        title: "0817-9435-965",
+        phone: "+2348179435965",
+      ),
+    );
   }
 }

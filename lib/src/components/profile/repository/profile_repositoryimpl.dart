@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' hide FormData, MultipartFile;
+import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/api/api.dart';
 import 'package:sprout_mobile/src/api/api_constant.dart';
 import 'package:sprout_mobile/src/components/profile/repository/profile_repository.dart';
 
 class ProfileRepositoryImpl implements ProfileRepository {
   final Api api = Get.find<Api>();
+  final storage = GetStorage();
 
   @override
   sendOtp(requestBody) async {
@@ -44,6 +46,19 @@ class ProfileRepositoryImpl implements ProfileRepository {
   changePassword(requestBody) async {
     try {
       return await api.dio.patch(changePasswordUrl, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
+
+  @override
+  updateProfilePicture(requestBody) async {
+    try {
+      String userId = storage.read("userId");
+      return await api.dio
+          .patch(uploadProfilePictureUrl + userId, data: requestBody);
     } on DioError catch (e) {
       return api.handleError(e);
     } catch (e) {

@@ -55,6 +55,7 @@ class AppSvg {
 
   static const String faqs = path + 'faqs.svg';
   static const String ccs = path + 'ccs.svg';
+  static const String log = path + 'log.svg';
   static const String onboarding1 = path + 'onboarding1.svg';
 
   static const String glo = path + 'glo.svg';

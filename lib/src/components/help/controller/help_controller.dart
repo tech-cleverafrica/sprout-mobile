@@ -116,14 +116,6 @@ class HelpController extends GetxController {
     }
   }
 
-  Future uploadAndCommit(File? image, String fileType) async {}
-
-  void processIdUpload(File file) {}
-
-  void processUtilityUpload(File file) {}
-
-  Future<void> submitIssue(issue) async {}
-
   buildRequestModel(bvn, identityCard, utilityBill) {
     return {
       "bvn": bvn,

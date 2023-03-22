@@ -13,6 +13,7 @@ const String requestVerificationUrl = "user-management/api/v1/users/";
 const String uploadUrl = "user-management/api/v1/users/upload";
 const String changePinUrl = "user-management/api/v1/users/pin/change";
 const String createPinUrl = "user-management/api/v1/users/pin";
+const String uploadProfilePictureUrl = "user-management/api/v1/users/";
 
 //issue
 const String issueCategoriesUrl = "resolution/api/v1/categories";
