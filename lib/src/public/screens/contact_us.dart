@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
+import 'package:url_launcher/url_launcher.dart' as launcher;
 
-class CantFindMyIssue extends StatefulWidget {
-  CantFindMyIssue({required this.title, required this.phone});
+class ContactUs extends StatefulWidget {
+  ContactUs({required this.heading, required this.title, required this.phone});
+  final String heading;
   final String title;
   final String phone;
   @override
-  _CantFindMyIssueState createState() => _CantFindMyIssueState();
+  _ContactUsState createState() => _ContactUsState();
 }
 
-class _CantFindMyIssueState extends State<CantFindMyIssue>
+class _ContactUsState extends State<ContactUs>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
   late Animation<double> scaleAnimation;
@@ -35,6 +37,11 @@ class _CantFindMyIssueState extends State<CantFindMyIssue>
     super.dispose();
   }
 
+  void launchWhatsapp() async {
+    String url = "whatsapp://send?phone=${widget.phone}";
+    await launcher.launchUrl(Uri.parse(url));
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
@@ -52,7 +59,7 @@ class _CantFindMyIssueState extends State<CantFindMyIssue>
           ScaleTransition(
             scale: scaleAnimation,
             child: Container(
-              height: 200.h,
+              height: 180.h,
               width: MediaQuery.of(context).size.width * 0.85,
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
               decoration: BoxDecoration(
@@ -67,7 +74,7 @@ class _CantFindMyIssueState extends State<CantFindMyIssue>
                     height: 10,
                   ),
                   Text(
-                    "Can't find your issue?",
+                    widget.heading,
                     style: TextStyle(
                       color: isDarkMode ? AppColors.white : AppColors.black,
                       fontSize: 14.sp,
@@ -77,7 +84,7 @@ class _CantFindMyIssueState extends State<CantFindMyIssue>
                   ),
                   SizedBox(height: 5),
                   Text(
-                    "Please call our customer support line on contact us on WhatsApp",
+                    "Please call our customer support line or contact us on WhatsApp",
                     style: TextStyle(
                       color: isDarkMode ? AppColors.white : AppColors.black,
                       fontSize: 12.sp,
@@ -86,7 +93,8 @@ class _CantFindMyIssueState extends State<CantFindMyIssue>
                   ),
                   SizedBox(height: 20),
                   GestureDetector(
-                    onTap: () => {},
+                    onTap: () =>
+                        launcher.launchUrl(Uri.parse("tel:${widget.phone}")),
                     child: Container(
                       color: AppColors.transparent,
                       child: Row(
@@ -113,7 +121,7 @@ class _CantFindMyIssueState extends State<CantFindMyIssue>
                   ),
                   SizedBox(height: 20),
                   GestureDetector(
-                    onTap: () => {},
+                    onTap: () => launchWhatsapp(),
                     child: Container(
                       color: AppColors.transparent,
                       child: Row(

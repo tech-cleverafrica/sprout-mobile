@@ -4,7 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sprout_mobile/src/components/help/controller/help_controller.dart';
 import 'package:sprout_mobile/src/components/help/model/issues_model.dart';
 import 'package:sprout_mobile/src/components/help/model/issues_sub_category_model.dart';
-import 'package:sprout_mobile/src/components/help/view/cant_find_my_issue.dart';
+import 'package:sprout_mobile/src/public/screens/contact_us.dart';
 import 'package:sprout_mobile/src/components/help/view/complaint_tab.dart';
 import 'package:sprout_mobile/src/components/help/view/dispense_error.dart';
 import 'package:sprout_mobile/src/components/help/view/pending_issue.dart';
@@ -180,8 +180,8 @@ class ComplaintScreen extends StatelessWidget {
                         ? GestureDetector(
                             onTap: () => showDialog(
                               context: (context),
-                              builder: (BuildContext context) =>
-                                  CantFindMyIssue(
+                              builder: (BuildContext context) => ContactUs(
+                                heading: "Can't find your issue?",
                                 title: "0817-9435-965",
                                 phone: "+2348179435965",
                               ),
@@ -264,8 +264,8 @@ class ComplaintScreen extends StatelessWidget {
                         ? GestureDetector(
                             onTap: () => showDialog(
                               context: (context),
-                              builder: (BuildContext context) =>
-                                  CantFindMyIssue(
+                              builder: (BuildContext context) => ContactUs(
+                                heading: "Can't find your issue?",
                                 title: "0817-9435-965",
                                 phone: "+2348179435965",
                               ),
@@ -352,8 +352,8 @@ class ComplaintScreen extends StatelessWidget {
                         ? GestureDetector(
                             onTap: () => showDialog(
                               context: (context),
-                              builder: (BuildContext context) =>
-                                  CantFindMyIssue(
+                              builder: (BuildContext context) => ContactUs(
+                                heading: "Can't find your issue?",
                                 title: "0817-9435-965",
                                 phone: "+2348179435965",
                               ),
