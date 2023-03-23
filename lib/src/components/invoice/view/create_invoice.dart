@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:sprout_mobile/src/components/buy-airtime/view/buy-airtime.dart';
+import 'package:sprout_mobile/src/components/buy-airtime/view/buy_airtime.dart';
 import 'package:sprout_mobile/src/components/invoice/view/invoice_preview.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_dropdown_button_field.dart';

@@ -96,7 +96,6 @@ class SelectBundleScreen extends StatelessWidget {
                           return null;
                         },
                         onChanged: ((value) => {
-                              print(value),
                               if (double.parse(value.split(",").join("")) < 1 ||
                                   double.parse(value.split(",").join("")) >
                                       200000)

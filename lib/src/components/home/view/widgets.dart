@@ -12,7 +12,7 @@ import '../../../utils/app_colors.dart';
 import '../../../utils/app_svgs.dart';
 import '../../../utils/helper_widgets.dart';
 import '../../borow/view/borrow.dart';
-import '../../buy-airtime/view/buy-airtime.dart';
+import '../../buy-airtime/view/buy_airtime.dart';
 import '../../pay-bills/view/pay_bills.dart';
 import '../../send-money/view/send_money.dart';
 

@@ -131,12 +131,19 @@ class Api {
               requestOptions: RequestOptions(path: ''));
         } else {
           debugPrint("came in here");
-          response = Response(
-              data: apiResponse(
-                  e.response?.data?["data"] ?? e.response?.data?["message"],
-                  e.response?.data?["responseCode"]),
-              statusCode: e.response?.statusCode ?? 000,
-              requestOptions: RequestOptions(path: ''));
+          if (e.response?.data?["data"].runtimeType == String) {
+            response = Response(
+                data: apiResponse(e.response?.data?["data"],
+                    e.response?.data?["responseCode"]),
+                statusCode: e.response?.statusCode ?? 000,
+                requestOptions: RequestOptions(path: ''));
+          } else {
+            response = Response(
+                data: apiResponse(e.response?.data?["message"],
+                    e.response?.data?["responseCode"]),
+                statusCode: e.response?.statusCode ?? 000,
+                requestOptions: RequestOptions(path: ''));
+          }
         }
     }
     return response;
