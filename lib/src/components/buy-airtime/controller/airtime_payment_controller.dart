@@ -1,17 +1,16 @@
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
+import 'package:sprout_mobile/src/components/buy-airtime/controller/airtime_controller.dart';
+import 'package:sprout_mobile/src/components/buy-airtime/controller/airtime_packages_controller.dart';
 import 'package:sprout_mobile/src/components/home/model/transactions_model.dart';
-import 'package:sprout_mobile/src/components/pay-bills/controller/billers_controller.dart';
-import 'package:sprout_mobile/src/components/pay-bills/controller/packages_controller.dart';
 import 'package:sprout_mobile/src/components/pay-bills/service/pay_bills_service.dart';
-import 'package:sprout_mobile/src/components/pay-bills/view/bills_payment_approval_page.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
-import 'package:sprout_mobile/src/utils/nav_function.dart';
 
-class PaymentController extends GetxController {
-  final BillersController billersController = Get.put(BillersController());
-  final PackagesController packagesController = Get.put(PackagesController());
+class AirtimePaymentController extends GetxController {
+  final AirtimeController airtimeController = Get.put(AirtimeController());
+  final AirtimePackagesController airtimePackagesController =
+      Get.put(AirtimePackagesController());
 
   // arguments
   var args;
@@ -37,7 +36,7 @@ class PaymentController extends GetxController {
   }
 
   Future<dynamic> pay(String pin) async {
-    String route = packagesController.getPaymentRoute();
+    String route = "airtime/mobile/purchase";
     loading.value = true;
     AppResponse response = await locator
         .get<PayBillsService>()
@@ -53,24 +52,21 @@ class PaymentController extends GetxController {
   }
 
   buildRequestModel(String transactionPin) {
-    String digitKey = packagesController.getDigitKey();
     return {
       "transactionPin": transactionPin,
-      digitKey: packagesController.digitController.text,
-      "packageSlug": packagesController.package.value!.slug,
-      "biller": packagesController.biller.value!.slug,
-      "amount":
-          packagesController.amountController.value!.text.split(",").join(),
-      "subscriberPhone": packagesController.phoneNumberController.text,
+      "phoneNumber": airtimePackagesController.phoneNumberController.text,
+      "packageSlug": airtimePackagesController.package.value!.slug,
+      "biller": airtimePackagesController.biller.value!.slug,
+      "amount": airtimePackagesController.amountController.value!.text
+          .split(",")
+          .join(),
+      "subscriberPhone": airtimePackagesController.phoneNumberController.text,
       "customerName": customer.value != true
           ? customer.value["customer"]['customerName']
           : "",
-      "beneficiaryName":
-          packagesController.beneficiaryNameController.text.isEmpty
-              ? customer.value == true
-                  ? packagesController.biller.value!.slug
-                  : customer.value["customer"]['customerName']
-              : packagesController.beneficiaryNameController.text,
+      "beneficiaryName": customer.value == true
+          ? airtimePackagesController.biller.value!.slug
+          : customer.value["customer"]['customerName']
     };
   }
 }

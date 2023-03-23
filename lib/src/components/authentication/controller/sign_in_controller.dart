@@ -188,8 +188,6 @@ class SignInController extends GetxController {
     if (response.status) {
       saveLoginDetailsToSharePref(model);
       preferenceRepository.setStringPref("storedMail", model['username']);
-      setLoginStatus(true);
-      push(page: BottomNav());
       getUserInfo();
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
@@ -199,6 +197,8 @@ class SignInController extends GetxController {
   getUserInfo() async {
     AppResponse response = await locator.get<AuthService>().getUserDetails();
     if (response.status) {
+      setLoginStatus(true);
+      push(page: BottomNav());
       CustomToastNotification.show(response.message, type: ToastType.success);
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);

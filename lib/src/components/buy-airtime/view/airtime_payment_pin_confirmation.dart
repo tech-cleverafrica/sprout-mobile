@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:sprout_mobile/src/components/pay-bills/controller/payment_controller.dart';
-import 'package:sprout_mobile/src/components/pay-bills/view/bills_payment_approval_page.dart';
+import 'package:sprout_mobile/src/components/buy-airtime/controller/airtime_payment_controller.dart';
+import 'package:sprout_mobile/src/components/buy-airtime/view/airtime_payment_approval_page.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
@@ -13,14 +13,14 @@ import '../../../utils/app_svgs.dart';
 import '../../../utils/helper_widgets.dart';
 
 // ignore: must_be_immutable
-class BillsPaymentPinPage extends StatefulWidget {
-  BillsPaymentPinPage({super.key});
+class AirtimePaymentPinPage extends StatefulWidget {
+  AirtimePaymentPinPage({super.key});
 
   @override
-  State<BillsPaymentPinPage> createState() => _BillsPaymentPinPageState();
+  State<AirtimePaymentPinPage> createState() => _AirtimePaymentPinPageState();
 }
 
-class _BillsPaymentPinPageState extends State<BillsPaymentPinPage> {
+class _AirtimePaymentPinPageState extends State<AirtimePaymentPinPage> {
   List<String> currentPin = ["", "", "", ""];
 
   TextEditingController pinOneController = TextEditingController();
@@ -46,12 +46,12 @@ class _BillsPaymentPinPageState extends State<BillsPaymentPinPage> {
 
   int pinIndex = 0;
 
-  late PaymentController paymentController;
+  late AirtimePaymentController airtimePaymentController;
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    paymentController = Get.put(PaymentController());
+    airtimePaymentController = Get.put(AirtimePaymentController());
     return SafeArea(
       child: Scaffold(
           bottomNavigationBar: Container(
@@ -243,7 +243,7 @@ class _BillsPaymentPinPageState extends State<BillsPaymentPinPage> {
       strPin += e;
     });
     if (pinIndex == 4) {
-      await paymentController.pay(strPin).then((value) => {
+      airtimePaymentController.pay(strPin).then((value) => {
             if (value == false)
               {
                 setPin(4, ""),
@@ -255,7 +255,7 @@ class _BillsPaymentPinPageState extends State<BillsPaymentPinPage> {
             else
               {
                 pushUntil(
-                    page: BillsPaymentApprovalScreen(
+                    page: AirtimePaymentApprovalScreen(
                   trans: value,
                 ))
               }
