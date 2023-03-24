@@ -68,7 +68,8 @@ class FundWalletScreen extends StatelessWidget {
                 isDarkMode: isDarkMode,
                 title: "Transfer from Card",
                 text: "Fund your wallet through debit card",
-                onTap: () => {},
+                onTap: () =>
+                    fundWalletController.handlePaymentInitialization(context),
               ),
             ],
           ),

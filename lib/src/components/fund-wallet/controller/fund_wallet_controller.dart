@@ -1,3 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:flutterwave_standard/core/flutterwave.dart';
+import 'package:flutterwave_standard/models/requests/customer.dart';
+import 'package:flutterwave_standard/models/requests/customizations.dart';
+import 'package:flutterwave_standard/models/responses/charge_response.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:basic_utils/basic_utils.dart';
@@ -53,5 +58,25 @@ class FundWalletController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+  }
+
+  handlePaymentInitialization(BuildContext context) async {
+    final Customer customer = Customer(
+        name: "Flutterwave Developer",
+        phoneNumber: "1234566677777",
+        email: "customer@customer.com");
+    final Flutterwave flutterwave = Flutterwave(
+        context: context,
+        publicKey: "Public Key-here",
+        currency: "currency-here",
+        redirectUrl: "add-your-redirect-url-here",
+        txRef: "add-your-unique-reference-here",
+        amount: "3000",
+        customer: customer,
+        paymentOptions: "ussd, card, barter, payattitude",
+        customization: Customization(title: "My Payment"),
+        isTestMode: true);
+    final ChargeResponse response = await flutterwave.charge();
+    print(response.transactionId);
   }
 }
