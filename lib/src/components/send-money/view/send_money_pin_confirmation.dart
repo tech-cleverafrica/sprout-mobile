@@ -3,23 +3,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/send-money/controller/send_money_controller.dart';
+import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 
-import '../../utils/app_images.dart';
-import '../../utils/app_svgs.dart';
-import '../../utils/helper_widgets.dart';
-import '../widgets/general_widgets.dart';
+import '../../../utils/app_images.dart';
+import '../../../utils/app_svgs.dart';
+import '../../../utils/helper_widgets.dart';
 
 // ignore: must_be_immutable
-class PinPage extends StatefulWidget {
-  String? process;
-  PinPage({super.key, required this.process});
+class SendMoneyPinPage extends StatefulWidget {
+  SendMoneyPinPage({super.key});
 
   @override
-  State<PinPage> createState() => _PinPageState();
+  State<SendMoneyPinPage> createState() => _SendMoneyPinPageState();
 }
 
-class _PinPageState extends State<PinPage> {
+class _SendMoneyPinPageState extends State<SendMoneyPinPage> {
   List<String> currentPin = ["", "", "", ""];
 
   TextEditingController pinOneController = TextEditingController();
@@ -243,12 +242,7 @@ class _PinPageState extends State<PinPage> {
     });
     if (pinIndex == 4) {
       print(strPin);
-      switch (widget.process) {
-        case "transfer":
-          sendMoneyController.makeTransafer(strPin);
-          break;
-        default:
-      }
+      sendMoneyController.makeTransafer(strPin);
     }
   }
 

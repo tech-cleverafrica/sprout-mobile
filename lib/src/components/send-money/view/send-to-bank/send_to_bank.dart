@@ -45,137 +45,223 @@ class SendToBank extends StatelessWidget {
                         context, isDarkMode),
                     child: Obx(
                       () => CustomTextFormField(
-                        label: "Select Beneficiary",
-                        hintText: sendMoneyController.beneficiaryName.value,
-                        enabled: false,
-                        fillColor: isDarkMode
-                            ? AppColors.inputBackgroundColor
-                            : AppColors.grey,
-                      ),
+                          label: "Select Beneficiary",
+                          hintText:
+                              sendMoneyController.beneficiaryName.value == ""
+                                  ? "Select Beneficiary"
+                                  : sendMoneyController.beneficiaryName.value,
+                          required: true,
+                          enabled: false,
+                          fillColor: isDarkMode
+                              ? AppColors.inputBackgroundColor
+                              : AppColors.grey,
+                          hintTextStyle:
+                              sendMoneyController.beneficiaryName.value == ""
+                                  ? null
+                                  : TextStyle(
+                                      color: isDarkMode
+                                          ? AppColors.white
+                                          : AppColors.black,
+                                      fontWeight: FontWeight.w600)),
                     ),
                   ),
-                  Obx(
-                    () => GestureDetector(
-                      onTap: () {
-                        sendMoneyController.showBankList(context, isDarkMode);
-                      },
-                      child: CustomTextFormField(
-                        controller: sendMoneyController.bankController,
-                        label: "Select Bank",
-                        enabled: false,
-                        hintText: sendMoneyController.beneficiaryBank.value,
-                        fillColor: isDarkMode
-                            ? AppColors.inputBackgroundColor
-                            : AppColors.grey,
-                      ),
-                    ),
-                  ),
-                  Obx(
-                    () => CustomTextFormField(
-                      controller: sendMoneyController.accountNumberController,
-                      label: "Account Number",
-                      hintText:
-                          sendMoneyController.beneficiaryAccountNumber.value,
-                      onChanged: ((value) {
-                        if (sendMoneyController
-                                .accountNumberController.text.length >=
-                            10) {
-                          sendMoneyController.validateBank();
-                        }
-                      }),
-                      fillColor: isDarkMode
-                          ? AppColors.inputBackgroundColor
-                          : AppColors.grey,
-                    ),
-                  ),
-                  Visibility(
-                    child: Container(
-                      alignment: Alignment.topRight,
-                      child: Obx(
-                        () => Text(
-                          sendMoneyController.beneficiaryName.value,
-                          style: TextStyle(
-                              fontFamily: "DMSans",
-                              fontSize: 13.sp,
-                              color: isDarkMode
-                                  ? AppColors.white
-                                  : AppColors.black,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Obx(
-                    () => Visibility(
-                      visible: sendMoneyController.showSaver.value,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: 20.h,
+                  Obx((() => sendMoneyController.showFields.value
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                sendMoneyController.showBankList(
+                                    context, isDarkMode);
+                              },
+                              child: CustomTextFormField(
+                                  controller:
+                                      sendMoneyController.bankController,
+                                  label: "Select Bank",
+                                  hintText: sendMoneyController
+                                              .beneficiaryBank.value ==
+                                          ""
+                                      ? "Select Bank"
+                                      : sendMoneyController
+                                          .beneficiaryBank.value,
+                                  required: true,
+                                  enabled: false,
+                                  fillColor: isDarkMode
+                                      ? AppColors.inputBackgroundColor
+                                      : AppColors.grey,
+                                  hintTextStyle: sendMoneyController
+                                                  .beneficiaryBank.value ==
+                                              "" &&
+                                          sendMoneyController
+                                              .isNewTransfer.value
+                                      ? null
+                                      : TextStyle(
+                                          color: isDarkMode
+                                              ? AppColors.white
+                                              : AppColors.black,
+                                          fontWeight: FontWeight.w600)),
+                            ),
+                            CustomTextFormField(
+                              controller:
+                                  sendMoneyController.accountNumberController,
+                              required: true,
+                              label: "Account Number",
+                              hintText: "Enter Account Number",
+                              enabled:
+                                  !sendMoneyController.isValidating.value ||
+                                      sendMoneyController.isNewTransfer.value,
+                              onChanged: ((value) {
+                                if (sendMoneyController.accountNumberController
+                                            .text.length >=
+                                        10 &&
+                                    sendMoneyController.canResolve.value) {
+                                  sendMoneyController.validateBank();
+                                } else {
+                                  sendMoneyController.canResolve.value = true;
+                                }
+                              }),
+                              fillColor: isDarkMode
+                                  ? AppColors.inputBackgroundColor
+                                  : AppColors.grey,
+                            ),
+                            sendMoneyController.beneficiaryName.value != "" &&
+                                    sendMoneyController.showBeneficiary.value
+                                ? Container(
+                                    alignment: Alignment.topRight,
+                                    child: Text(
+                                      sendMoneyController.beneficiaryName.value,
+                                      style: TextStyle(
+                                          fontFamily: "DMSans",
+                                          fontSize: 13.sp,
+                                          color: isDarkMode
+                                              ? AppColors.white
+                                              : AppColors.black,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                  )
+                                : SizedBox(),
+                            sendMoneyController.beneficiaryName.value != "" &&
+                                    sendMoneyController.showBeneficiary.value
+                                ? addVerticalSpace(10)
+                                : SizedBox(),
+                            Obx(
+                              () => Visibility(
+                                visible: sendMoneyController.showSaver.value,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Save as beneficiary",
+                                          style: TextStyle(
+                                              fontFamily: "DMSans",
+                                              fontSize: 13.sp,
+                                              color: isDarkMode
+                                                  ? AppColors.white
+                                                  : AppColors.black,
+                                              fontWeight: FontWeight.w700),
+                                        ),
+                                        addVerticalSpace(9.h),
+                                        Text(
+                                          "We will save this Account for next time",
+                                          style: TextStyle(
+                                              fontFamily: "DMSans",
+                                              fontSize: 10.sp,
+                                              color: isDarkMode
+                                                  ? AppColors.semi_white
+                                                      .withOpacity(0.5)
+                                                  : AppColors.black,
+                                              fontWeight: FontWeight.w400),
+                                        )
+                                      ],
+                                    ),
+                                    Obx(
+                                      () => CupertinoSwitch(
+                                          activeColor: AppColors.primaryColor,
+                                          value: sendMoneyController.save.value,
+                                          onChanged: (value) {
+                                            sendMoneyController.toggleSaver();
+                                          }),
+                                    )
+                                  ],
+                                ),
                               ),
-                              Text(
-                                "Save as beneficiary",
+                            ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            sendMoneyController.save.value
+                                ? CustomTextFormField(
+                                    controller:
+                                        sendMoneyController.nicknameController,
+                                    label: "Nickname",
+                                    hintText: "Enter Nickname",
+                                    required: true,
+                                    fillColor: isDarkMode
+                                        ? AppColors.inputBackgroundColor
+                                        : AppColors.grey,
+                                    textInputAction: TextInputAction.next,
+                                    textInputType: TextInputType.text,
+                                    validator: (value) {
+                                      if (value!.length == 0 &&
+                                          sendMoneyController.save.value)
+                                        return "Nickname is required";
+                                      return null;
+                                    },
+                                  )
+                                : SizedBox(),
+                            CustomTextFormField(
+                              controller: sendMoneyController.amountController,
+                              enabled: !sendMoneyController.isValidating.value,
+                              label: "Amount",
+                              required: true,
+                              textInputType: TextInputType.phone,
+                              textInputAction: TextInputAction.next,
+                              fillColor: isDarkMode
+                                  ? AppColors.inputBackgroundColor
+                                  : AppColors.grey,
+                              validator: (value) {
+                                if (value!.length == 0)
+                                  return "Amount is required";
+                                else if (double.parse(
+                                        value.split(",").join("")) ==
+                                    0) {
+                                  return "Invalid amount";
+                                } else if (double.parse(
+                                        value.split(",").join("")) <
+                                    1) {
+                                  return "Invalid amount";
+                                } else if (double.parse(
+                                        value.split(",").join("")) >
+                                    450000) {
+                                  return "Maximum amount is 450,000";
+                                }
+                                return null;
+                              },
+                            ),
+                            Text(
+                                "$currencySymbol${sendMoneyController.formatter.formatAsMoney(sendMoneyController.userBalance!)}",
                                 style: TextStyle(
-                                    fontFamily: "DMSans",
-                                    fontSize: 13.sp,
-                                    color: isDarkMode
-                                        ? AppColors.white
-                                        : AppColors.black,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                              addVerticalSpace(9.h),
-                              Text(
-                                "We will save this Account for next time",
-                                style: TextStyle(
-                                    fontFamily: "DMSans",
-                                    fontSize: 10.sp,
-                                    color: isDarkMode
-                                        ? AppColors.semi_white.withOpacity(0.5)
-                                        : AppColors.black,
-                                    fontWeight: FontWeight.w400),
-                              )
-                            ],
-                          ),
-                          Obx(
-                            () => CupertinoSwitch(
-                                activeColor: AppColors.primaryColor,
-                                value: sendMoneyController.save.value,
-                                onChanged: (value) {
-                                  sendMoneyController.toggleSaver();
-                                }),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  CustomTextFormField(
-                    controller: sendMoneyController.amountController,
-                    label: "Enter Amount",
-                    fillColor: isDarkMode
-                        ? AppColors.inputBackgroundColor
-                        : AppColors.grey,
-                  ),
-                  Text(
-                      "$currencySymbol${sendMoneyController.formatter.formatAsMoney(sendMoneyController.userBalance!)}",
-                      style: TextStyle(
-                          color: AppColors.black,
-                          fontSize: 18.sp,
-                          fontFamily: "Outfit",
-                          fontWeight: FontWeight.w700)),
-                  CustomTextFormField(
-                    controller: sendMoneyController.purposeController,
-                    label: "Purpose",
-                    fillColor: isDarkMode
-                        ? AppColors.inputBackgroundColor
-                        : AppColors.grey,
-                  ),
+                                    color: AppColors.black,
+                                    fontSize: 15.sp,
+                                    fontFamily: "Outfit",
+                                    fontWeight: FontWeight.w700)),
+                            addVerticalSpace(5),
+                            CustomTextFormField(
+                              controller: sendMoneyController.purposeController,
+                              label: "Purpose",
+                              required: true,
+                              fillColor: isDarkMode
+                                  ? AppColors.inputBackgroundColor
+                                  : AppColors.grey,
+                            ),
+                          ],
+                        )
+                      : SizedBox())),
                 ],
               ),
             ),

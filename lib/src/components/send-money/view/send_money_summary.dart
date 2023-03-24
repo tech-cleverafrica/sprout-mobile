@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:sprout_mobile/src/components/send-money/view/send_money_pin_confirmation.dart';
 import 'package:sprout_mobile/src/utils/global_function.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
 
-import '../../../public/screens/pin_confirmation.dart';
-import '../../../public/widgets/custom_button.dart';
 import '../../../public/widgets/general_widgets.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/helper_widgets.dart';
 
+// ignore: must_be_immutable
 class SendMoneySummaryScreen extends StatelessWidget {
   String? source, name, number;
   double? amount;
@@ -125,7 +124,7 @@ class SendMoneySummaryScreen extends StatelessWidget {
                             currencySymbol + "20.00",
                             style: TextStyle(
                                 fontSize: 12.sp,
-                                fontFamily: "Outfit",
+                                fontFamily: "Mont",
                                 fontWeight: FontWeight.w700,
                                 color: AppColors.errorRed),
                           )
@@ -149,7 +148,7 @@ class SendMoneySummaryScreen extends StatelessWidget {
                 isDarkMode: isDarkMode,
                 buttonText: "Send Money",
                 onTap: () {
-                  push(page: PinPage(process: "transfer"));
+                  push(page: SendMoneyPinPage());
                 },
               )
             ],
@@ -161,17 +160,17 @@ class SendMoneySummaryScreen extends StatelessWidget {
 
   TextStyle titleStyle() {
     return TextStyle(
-        fontFamily: "DMSans",
+        fontFamily: "Mont",
         fontSize: 12.sp,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.w400,
         color: AppColors.inputLabelColor);
   }
 
   TextStyle detailStyle(isDark) {
     return TextStyle(
-        fontFamily: "DMSans",
+        fontFamily: "Mont",
         fontSize: 12.sp,
-        fontWeight: FontWeight.w700,
-        color: isDark ? AppColors.mainGreen : AppColors.primaryColor);
+        fontWeight: FontWeight.w600,
+        color: isDark ? AppColors.white : Color(0xFF0D0D0D));
   }
 }

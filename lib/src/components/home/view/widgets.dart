@@ -1,12 +1,17 @@
+import 'dart:io';
+
 import 'package:badges/badges.dart' as badges;
+import 'package:clipboard/clipboard.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:sprout_mobile/src/components/help/view/complaint.dart';
 import 'package:sprout_mobile/src/components/notification/view/notification.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
 
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_svgs.dart';
@@ -468,7 +473,7 @@ class BalanceCard extends StatelessWidget {
                           Text(
                             symbol,
                             style: TextStyle(
-                                fontFamily: "DMSans",
+                                fontFamily: "Mont",
                                 fontSize: 14.sp,
                                 color: isDarkMode
                                     ? AppColors.white
@@ -598,13 +603,31 @@ class BalanceCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Visibility(
-                  visible: copyVisible,
-                  child: SvgPicture.asset(
-                    AppSvg.copy,
-                    height: 20,
-                  ),
-                )
+                GestureDetector(
+                    onTap: () => Platform.isIOS
+                        ? Clipboard.setData(ClipboardData(text: accountNumber))
+                            .then((value) => {
+                                  CustomToastNotification.show(
+                                      "Account number has been copied successfully",
+                                      type: ToastType.success),
+                                })
+                        : FlutterClipboard.copy(accountNumber).then((value) => {
+                              CustomToastNotification.show(
+                                  "Account number has been copied successfully",
+                                  type: ToastType.success),
+                            }),
+                    child: Container(
+                      color: Colors.transparent,
+                      alignment: Alignment.center,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              AppSvg.copy,
+                              height: 16,
+                            ),
+                          ]),
+                    )),
               ],
             ),
           ],

@@ -5,19 +5,21 @@ import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/home/model/wallet_model.dart';
 import 'package:sprout_mobile/src/components/home/service/home_service.dart';
+import 'package:sprout_mobile/src/utils/app_formatter.dart';
 
 class FundWalletController extends GetxController {
   final storage = GetStorage();
   RxBool isInvoice = false.obs;
+  final AppFormatter formatter = Get.put(AppFormatter());
 
   //information
   String fullname = "";
   String accountNumber = "";
   String providusAccountNumber = "";
   String wemaAccountNumber = "";
-  String accountNumberToUse = "";
-  String bankToUse = "";
-  late double walletBalance = 0.0;
+  RxString accountNumberToUse = "".obs;
+  RxString bankToUse = "".obs;
+  late RxDouble walletBalance = 0.0.obs;
 
   @override
   void onReady() {
@@ -31,8 +33,9 @@ class FundWalletController extends GetxController {
     accountNumber = storage.read("accountNumber");
     providusAccountNumber = storage.read("providusAccount");
     wemaAccountNumber = storage.read("wemaAccount");
-    bankToUse = providusAccountNumber.isEmpty ? "Wema Bank" : "Providus Bank";
-    accountNumberToUse = providusAccountNumber.isEmpty
+    bankToUse.value =
+        providusAccountNumber.isEmpty ? "Wema Bank" : "Providus Bank";
+    accountNumberToUse.value = providusAccountNumber.isEmpty
         ? wemaAccountNumber
         : providusAccountNumber;
     super.onInit();
@@ -42,8 +45,8 @@ class FundWalletController extends GetxController {
     AppResponse response = await locator.get<HomeService>().getWallet();
     if (response.status) {
       Wallet wallet = Wallet.fromJson(response.data);
-      walletBalance = wallet.data!.balance!;
-      storage.write("userBalance", walletBalance);
+      walletBalance.value = wallet.data!.balance!;
+      storage.write("userBalance", walletBalance.value);
     }
   }
 
