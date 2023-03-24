@@ -11,6 +11,7 @@ import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart'
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
+import 'package:sprout_mobile/src/utils/global_function.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 import 'package:get/get.dart';
 
@@ -35,18 +36,20 @@ class FundWalletScreen extends StatelessWidget {
             children: [
               getHeader(isDarkMode),
               addVerticalSpace(35.h),
-              FundWalletCard(
-                isDarkMode: isDarkMode,
-                flag: AppSvg.nigeria,
-                currency: "Naira",
-                title: "Available Balance",
-                symbol: "N",
-                naira: fundWalletController.walletBalance.toString(),
-                kobo: "",
-                bank: fundWalletController.bankToUse,
-                accountNumber: fundWalletController.accountNumberToUse,
-                onTap: () => {},
-              ),
+              Obx((() => FundWalletCard(
+                    isDarkMode: isDarkMode,
+                    flag: AppSvg.nigeria,
+                    currency: "Naira",
+                    title: "Available Balance",
+                    symbol: currencySymbol,
+                    naira: fundWalletController.formatter.formatAsMoney(
+                        fundWalletController.walletBalance.value),
+                    kobo: "",
+                    bank: fundWalletController.bankToUse.value,
+                    accountNumber:
+                        fundWalletController.accountNumberToUse.value,
+                    onTap: () => {},
+                  ))),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.07,
               ),
@@ -56,8 +59,8 @@ class FundWalletScreen extends StatelessWidget {
                 text: "Fund your wallet through bank transfer",
                 onTap: () => fundFromBank(
                     context,
-                    fundWalletController.accountNumberToUse,
-                    fundWalletController.bankToUse,
+                    fundWalletController.accountNumberToUse.value,
+                    fundWalletController.bankToUse.value,
                     fundWalletController.fullname),
               ),
               addVerticalSpace(24.h),

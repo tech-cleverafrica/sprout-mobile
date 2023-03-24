@@ -11,6 +11,7 @@ import 'package:sprout_mobile/src/components/notification/controller/notificatio
 import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
+import 'package:sprout_mobile/src/utils/global_function.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
 import '../controller/home_controller.dart';
@@ -86,24 +87,25 @@ class HomePage extends StatelessWidget {
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             children: [
-              BalanceCard(
-                isDarkMode: isDarkMode,
-                flag: AppSvg.nigeria,
-                currency: "Naira",
-                title: "Available Balance",
-                symbol: "N",
-                naira: homeController.walletBalance.toString(),
-                kobo: "",
-                bank: homeController.bankToUse,
-                accountNumber: homeController.accountNumberToUse,
-                buttontext: "Fund Account",
-                buttonColor: AppColors.primaryColor,
-                copyVisible: true,
-                iconVisible: true,
-                bankVisible: true,
-                buttonVisible: true,
-                onTap: () => push(page: FundWalletScreen()),
-              ),
+              Obx((() => BalanceCard(
+                    isDarkMode: isDarkMode,
+                    flag: AppSvg.nigeria,
+                    currency: "Naira",
+                    title: "Available Balance",
+                    symbol: currencySymbol,
+                    naira: homeController.formatter
+                        .formatAsMoney(homeController.walletBalance.value),
+                    kobo: "",
+                    bank: homeController.bankToUse.value,
+                    accountNumber: homeController.accountNumberToUse.value,
+                    buttontext: "Fund Account",
+                    buttonColor: AppColors.primaryColor,
+                    copyVisible: true,
+                    iconVisible: true,
+                    bankVisible: true,
+                    buttonVisible: true,
+                    onTap: () => push(page: FundWalletScreen()),
+                  ))),
               addHorizontalSpace(10.w),
               BalanceCard(
                 isDarkMode: isDarkMode,

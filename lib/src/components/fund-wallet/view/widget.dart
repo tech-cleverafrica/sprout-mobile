@@ -1,6 +1,11 @@
+import 'dart:io';
+
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
 
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_svgs.dart';
@@ -94,7 +99,7 @@ class FundWalletCard extends StatelessWidget {
                           Text(
                             symbol,
                             style: TextStyle(
-                                fontFamily: "DMSans",
+                                fontFamily: "Mont",
                                 fontSize: 20.sp,
                                 color: isDarkMode
                                     ? AppColors.white
@@ -173,13 +178,31 @@ class FundWalletCard extends StatelessWidget {
                   ),
                 ),
                 addHorizontalSpace(12.w),
-                Visibility(
-                  visible: true,
-                  child: SvgPicture.asset(
-                    AppSvg.copy,
-                    height: 20,
-                  ),
-                )
+                GestureDetector(
+                    onTap: () => Platform.isIOS
+                        ? Clipboard.setData(ClipboardData(text: accountNumber))
+                            .then((value) => {
+                                  CustomToastNotification.show(
+                                      "Account number has been copied successfully",
+                                      type: ToastType.success),
+                                })
+                        : FlutterClipboard.copy(accountNumber).then((value) => {
+                              CustomToastNotification.show(
+                                  "Account number has been copied successfully",
+                                  type: ToastType.success),
+                            }),
+                    child: Container(
+                      color: Colors.transparent,
+                      alignment: Alignment.center,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              AppSvg.copy,
+                              height: 16,
+                            ),
+                          ]),
+                    )),
               ],
             ),
           ],
