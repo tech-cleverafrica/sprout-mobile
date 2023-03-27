@@ -38,8 +38,8 @@ class AuthService {
           responseBody["data"],
           SignInResponseModel.fromJson(responseBody['data']));
     }
-
-    return AppResponse(false, statusCode, responseBody[""]);
+    CustomLoader.dismiss();
+    return AppResponse(false, statusCode, responseBody);
   }
 
   Future<AppResponse<dynamic>> getUserDetails() async {

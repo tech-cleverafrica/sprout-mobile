@@ -3,8 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/send-money/controller/send_money_controller.dart';
+import 'package:sprout_mobile/src/components/send-money/view/send_money_approval_page.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
+import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 import '../../../utils/app_images.dart';
 import '../../../utils/app_svgs.dart';
@@ -230,7 +232,7 @@ class _SendMoneyPinPageState extends State<SendMoneyPinPage> {
     }
   }
 
-  pinIndexSetup(String text) {
+  pinIndexSetup(String text) async {
     if (pinIndex == 0)
       pinIndex = 1;
     else if (pinIndex < 4) pinIndex++;
@@ -242,7 +244,23 @@ class _SendMoneyPinPageState extends State<SendMoneyPinPage> {
     });
     if (pinIndex == 4) {
       print(strPin);
-      sendMoneyController.makeTransafer(strPin);
+      await sendMoneyController.makeTransafer(strPin).then((value) => {
+            if (value == false)
+              {
+                setPin(4, ""),
+                setPin(3, ""),
+                setPin(2, ""),
+                setPin(1, ""),
+                pinIndex = 0,
+              }
+            else
+              {
+                pushUntil(
+                    page: SendMoneyApprovalScreen(
+                  trans: value,
+                ))
+              }
+          });
     }
   }
 
