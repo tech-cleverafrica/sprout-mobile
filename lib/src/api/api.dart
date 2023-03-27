@@ -111,9 +111,7 @@ class Api {
               requestOptions: RequestOptions(path: ''));
         } else if (e.response?.data.runtimeType == String ||
             (e.error.toString().contains("401") &&
-                e.response
-                    .toString()
-                    .contains("Incorrect username/password"))) {
+                e.response.toString().contains("Incorrect username"))) {
           response = Response(
               data: apiResponse(e.response?.data?["message"],
                   e.response?.data?["responseCode"]),

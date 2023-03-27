@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
@@ -41,8 +42,11 @@ class SendToBank extends StatelessWidget {
                   getHeader(isDarkMode),
                   addVerticalSpace(15.h),
                   GestureDetector(
-                    onTap: () => sendMoneyController.showBeneficiaryList(
-                        context, isDarkMode),
+                    onTap: () => {
+                      if (!sendMoneyController.isValidating.value)
+                        sendMoneyController.showBeneficiaryList(
+                            context, isDarkMode)
+                    },
                     child: Obx(
                       () => CustomTextFormField(
                           label: "Select Beneficiary",
@@ -71,8 +75,10 @@ class SendToBank extends StatelessWidget {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                sendMoneyController.showBankList(
-                                    context, isDarkMode);
+                                if (sendMoneyController.isNewTransfer.value &&
+                                    !sendMoneyController.isValidating.value)
+                                  sendMoneyController.showBankList(
+                                      context, isDarkMode);
                               },
                               child: CustomTextFormField(
                                   controller:
@@ -107,29 +113,56 @@ class SendToBank extends StatelessWidget {
                               required: true,
                               label: "Account Number",
                               hintText: "Enter Account Number",
+                              maxLength: 10,
+                              showCounterText: false,
+                              maxLengthEnforced: true,
                               enabled:
-                                  !sendMoneyController.isValidating.value ||
+                                  !sendMoneyController.isValidating.value &&
                                       sendMoneyController.isNewTransfer.value,
+                              validator: (value) {
+                                if (sendMoneyController.isNewTransfer.value) {
+                                  if (value!.length == 0)
+                                    return "Account number is required";
+                                  else if (value.length < 10)
+                                    return "Account number should be 10 digits";
+                                  return null;
+                                }
+                                return null;
+                              },
                               onChanged: ((value) {
+                                print("object");
                                 if (sendMoneyController.accountNumberController
-                                            .text.length >=
+                                            .text.length ==
                                         10 &&
                                     sendMoneyController.canResolve.value) {
                                   sendMoneyController.validateBank();
                                 } else {
                                   sendMoneyController.canResolve.value = true;
+                                  sendMoneyController.showBeneficiary.value =
+                                      false;
                                 }
                               }),
+                              textInputAction: TextInputAction.next,
                               fillColor: isDarkMode
                                   ? AppColors.inputBackgroundColor
                                   : AppColors.grey,
                             ),
-                            sendMoneyController.beneficiaryName.value != "" &&
-                                    sendMoneyController.showBeneficiary.value
+                            (sendMoneyController.isNewTransfer.value &&
+                                        sendMoneyController
+                                            .showBeneficiary.value &&
+                                        !sendMoneyController
+                                            .isValidating.value) ||
+                                    (!sendMoneyController.isNewTransfer.value &&
+                                        sendMoneyController
+                                            .showBeneficiary.value)
                                 ? Container(
                                     alignment: Alignment.topRight,
                                     child: Text(
-                                      sendMoneyController.beneficiaryName.value,
+                                      !sendMoneyController.isNewTransfer.value
+                                          ? sendMoneyController
+                                              .beneficiaryName.value
+                                          : sendMoneyController
+                                              .newBeneficiaryName.value,
                                       style: TextStyle(
                                           fontFamily: "DMSans",
                                           fontSize: 13.sp,
@@ -139,9 +172,24 @@ class SendToBank extends StatelessWidget {
                                           fontWeight: FontWeight.w700),
                                     ),
                                   )
-                                : SizedBox(),
-                            sendMoneyController.beneficiaryName.value != "" &&
-                                    sendMoneyController.showBeneficiary.value
+                                : sendMoneyController.isValidating.value
+                                    ? Container(
+                                        alignment: Alignment.topRight,
+                                        child: SpinKitFadingCircle(
+                                          color: isDarkMode
+                                              ? AppColors.white
+                                              : AppColors.black,
+                                          size: 20,
+                                        ))
+                                    : SizedBox(),
+                            (sendMoneyController.isNewTransfer.value &&
+                                        sendMoneyController
+                                            .showBeneficiary.value &&
+                                        !sendMoneyController
+                                            .isValidating.value) ||
+                                    (!sendMoneyController.isNewTransfer.value &&
+                                        sendMoneyController
+                                            .showBeneficiary.value)
                                 ? addVerticalSpace(10)
                                 : SizedBox(),
                             Obx(
@@ -191,10 +239,14 @@ class SendToBank extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              height: 10.h,
-                            ),
-                            sendMoneyController.save.value
+                            sendMoneyController.showSaver.value &&
+                                    sendMoneyController.save.value
+                                ? SizedBox(
+                                    height: 10.h,
+                                  )
+                                : SizedBox(),
+                            sendMoneyController.showSaver.value &&
+                                    sendMoneyController.save.value
                                 ? CustomTextFormField(
                                     controller:
                                         sendMoneyController.nicknameController,
@@ -233,8 +285,15 @@ class SendToBank extends StatelessWidget {
                                   return "Invalid amount";
                                 } else if (double.parse(
                                         value.split(",").join("")) <
-                                    1) {
-                                  return "Invalid amount";
+                                    10) {
+                                  return "Amount too small";
+                                } else if (double.parse(
+                                        value.split(",").join()) >
+                                    double.parse(sendMoneyController.userBalance
+                                        .toString()
+                                        .split(",")
+                                        .join())) {
+                                  return "Amount is greater than wallet balance";
                                 } else if (double.parse(
                                         value.split(",").join("")) >
                                     450000) {
@@ -254,10 +313,17 @@ class SendToBank extends StatelessWidget {
                             CustomTextFormField(
                               controller: sendMoneyController.purposeController,
                               label: "Purpose",
+                              hintText: "Enter Purpose",
                               required: true,
+                              validator: (value) {
+                                if (value!.length == 0)
+                                  return "Purpose is required";
+                                return null;
+                              },
                               fillColor: isDarkMode
                                   ? AppColors.inputBackgroundColor
                                   : AppColors.grey,
+                              textInputAction: TextInputAction.go,
                             ),
                           ],
                         )

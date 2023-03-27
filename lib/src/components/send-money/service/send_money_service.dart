@@ -64,4 +64,17 @@ class SendMoneyService {
     }
     return AppResponse(false, statusCode, responseBody);
   }
+
+  Future<AppResponse<dynamic>> addBeneficiary(
+      Map<String, dynamic> requestBody) async {
+    Response response =
+        await locator<SendMoneyRepositoryImpl>().addBeneficiary(requestBody);
+    int statusCode = response.statusCode ?? 000;
+    Map<String, dynamic> responseBody = response.data;
+    if (response.data["status"]) {
+      print(":::::::::$responseBody");
+      return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
+    }
+    return AppResponse(false, statusCode, responseBody);
+  }
 }

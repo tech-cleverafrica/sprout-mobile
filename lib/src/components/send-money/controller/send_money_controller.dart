@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
+import 'package:sprout_mobile/src/components/home/model/transactions_model.dart';
 import 'package:sprout_mobile/src/components/send-money/model/bank_beneficiary.dart';
 import 'package:sprout_mobile/src/components/send-money/service/send_money_service.dart';
 import 'package:sprout_mobile/src/components/send-money/view/send_money_summary.dart';
@@ -43,9 +44,9 @@ class SendMoneyController extends GetxController {
   RxString beneficiaryBank = "".obs;
   RxString beneficiaryAccountNumber = "".obs;
   RxString beneficiaryName = "".obs;
+  RxString newBeneficiaryName = "".obs;
   RxString beneficiaryId = "".obs;
   final DateTime now = DateTime.now();
-  String? transactionId;
 
   RxBool showSaver = false.obs;
   RxBool save = false.obs;
@@ -60,12 +61,6 @@ class SendMoneyController extends GetxController {
   @override
   void onInit() {
     userBalance = storage.read("userBalance");
-    transactionId = now.year.toString() +
-        now.month.toString() +
-        now.day.toString() +
-        now.hour.toString() +
-        now.minute.toString() +
-        now.second.toString();
     loadBeneficiary();
     getBanks();
     super.onInit();
@@ -78,6 +73,7 @@ class SendMoneyController extends GetxController {
 
   toggleSaver() {
     save.value = !save.value;
+    nicknameController.text = "";
   }
 
   buildValidationModel(String accountNumber) {
@@ -88,73 +84,149 @@ class SendMoneyController extends GetxController {
     };
   }
 
-  buildTransferModel(String pin) {
+  buildBeneficiaryModel() {
     return {
-      "accountNumber": accountNumberController.text.isEmpty
-          ? beneficiaryAccountNumber.value
-          : accountNumberController.text,
+      "accountNumber": accountNumberController.text,
+      "beneficiaryBank": beneficiaryBank.value,
+      "beneficiaryName": newBeneficiaryName.value,
+      "nickname": nicknameController.text,
+    };
+  }
+
+  buildTransferModel(String pin) {
+    String id = storage.read("userId");
+    String suffix = DateTime.now().year.toString() +
+        DateTime.now().month.toString() +
+        DateTime.now().day.toString() +
+        DateTime.now().hour.toString() +
+        DateTime.now().minute.toString() +
+        DateTime.now().second.toString();
+    return {
+      "accountNumber": accountNumberController.text,
       "amount": amountController.text,
       "bankCode": selectedBankCode.value,
       "beneficiaryBankName": beneficiaryBank.value,
-      "beneficiaryName": beneficiaryName.value,
+      "beneficiaryName": isNewTransfer.value
+          ? newBeneficiaryName.value
+          : beneficiaryName.value,
       "currency": "NGN",
       "narration": purposeController.text,
-      "senderName": storage.read("firstname") + storage.read("lastname"),
-      "transactionId": transactionId,
+      "senderName": storage.read("firstname") + " " + storage.read("lastname"),
+      "transactionId": "CLV$id$suffix".toUpperCase(),
       "transactionPin": pin,
       "userId": storage.read("userId")
     };
   }
 
-  makeTransafer(pin) async {
+  Future<dynamic> makeTransafer(pin) async {
+    if (save.value) {
+      await locator
+          .get<SendMoneyService>()
+          .addBeneficiary(buildBeneficiaryModel());
+    }
     AppResponse response = await locator
         .get<SendMoneyService>()
         .makeTransfer(buildTransferModel(pin), "Process transfer");
     if (response.status) {
-      debugPrint("Hereeeeeeeeee!${json.encode(response.data)}");
-      beneficiaryName.value =
-          json.encode(response.data['data']['account_name'].toString().trim());
+      Transactions trans = Transactions.fromJson(response.data["data"]);
+      return trans;
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }
+    return false;
   }
 
   validateFields() {
-    print(beneficiaryName.value +
-        beneficiaryBank.value +
-        accountNumberController.text +
-        beneficiaryAccountNumber.value +
-        amountController.text);
-    if (beneficiaryName.value.isEmpty ||
-        beneficiaryBank.value.isEmpty ||
-        accountNumberController.text.isEmpty &&
-            beneficiaryAccountNumber.value.isEmpty ||
-        amountController.text.isEmpty) {
-      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-          content: Text("Please supply all required fields"),
-          backgroundColor: AppColors.errorRed));
-    } else {
+    if ((!isNewTransfer.value &&
+            showBeneficiary.value &&
+            accountNumberController.text.isNotEmpty &&
+            (double.parse(amountController.text.split(",").join()) >= 10 &&
+                double.parse(amountController.text.split(",").join()) <=
+                    450000 &&
+                double.parse(amountController.text.split(",").join()) <=
+                    double.parse(userBalance.toString().split(",").join())) &&
+            purposeController.text.isNotEmpty) ||
+        (isNewTransfer.value &&
+            showBeneficiary.value &&
+            accountNumberController.text.isNotEmpty &&
+            (double.parse(amountController.text.split(",").join()) >= 10 &&
+                double.parse(amountController.text.split(",").join()) <=
+                    450000 &&
+                double.parse(amountController.text.split(",").join()) <=
+                    double.parse(userBalance.toString().split(",").join())) &&
+            purposeController.text.isNotEmpty &&
+            (save.value && nicknameController.text.isNotEmpty ||
+                !save.value))) {
       push(
           page: SendMoneySummaryScreen(
               source: beneficiaryBank.value,
-              name: beneficiaryName.value,
-              number: accountNumberController.text.isEmpty
-                  ? beneficiaryAccountNumber.value
-                  : accountNumberController.text,
+              name: isNewTransfer.value
+                  ? newBeneficiaryName.value
+                  : beneficiaryName.value,
+              number: accountNumberController.text,
               amount: amountController.numberValue));
+    } else if (!showFields.value) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please select a beneficiary or create a new one"),
+          backgroundColor: AppColors.errorRed));
+    } else if (isNewTransfer.value && beneficiaryBank.value == "") {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please select a bank"),
+          backgroundColor: AppColors.errorRed));
+    } else if (isNewTransfer.value && accountNumberController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Account number is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (isNewTransfer.value &&
+        accountNumberController.text.length < 10) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Account number should be 10 digits"),
+          backgroundColor: AppColors.errorRed));
+    } else if (isNewTransfer.value && !showBeneficiary.value) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Invalid account details"),
+          backgroundColor: AppColors.errorRed));
+    } else if (save.value && nicknameController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please provide a nickname"),
+          backgroundColor: AppColors.errorRed));
+    } else if (double.parse(amountController.text.split(",").join("")) == 0) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please enter a valid amount"),
+          backgroundColor: AppColors.errorRed));
+    } else if (double.parse(amountController.text.split(",").join("")) < 10) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Amount is too small"),
+          backgroundColor: AppColors.errorRed));
+    } else if (double.parse(amountController.text.split(",").join()) >
+        double.parse(userBalance.toString().split(",").join())) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Amount is greater than wallet balance"),
+          backgroundColor: AppColors.errorRed));
+    } else if (double.parse(amountController.text.split(",").join("")) >
+        450000) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Maximum amount is 450,000"),
+          backgroundColor: AppColors.errorRed));
+    } else if (purposeController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Purpose is required"),
+          backgroundColor: AppColors.errorRed));
+    } else {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please supply all required fields"),
+          backgroundColor: AppColors.errorRed));
     }
   }
 
   validateBank() async {
     isValidating.value = true;
-    AppResponse response = await locator
-        .get<SendMoneyService>()
-        .validateBank(buildValidationModel(accountNumberController.text));
+    AppResponse response = await locator.get<SendMoneyService>().validateBank(
+        buildValidationModel(accountNumberController.text.trim()));
     canResolve.value = false;
     isValidating.value = false;
     if (response.status) {
-      debugPrint("Hereeeeeeeeee!${json.encode(response.data)}");
-      beneficiaryName.value =
+      newBeneficiaryName.value =
           response.data['data']['account_name'].toString().trim();
       showBeneficiary.value = true;
     } else {
@@ -178,7 +250,6 @@ class SendMoneyController extends GetxController {
       beneficiary.assignAll(beneficiaryResponse.data!);
       beneficiary.insert(0, none);
       baseBeneficiary.assignAll(beneficiary);
-      print(beneficiaryResponse);
     }
   }
 
@@ -289,7 +360,11 @@ class SendMoneyController extends GetxController {
                                   beneficiaryBank.value = bankList[index];
                                   selectedBankCode.value = bankCode[
                                       bankList.indexOf(beneficiaryBank.value)];
-                                  debugPrint(selectedBankCode.value);
+                                  canResolve.value = true;
+                                  accountNumberController.clear();
+                                  showBeneficiary.value = false;
+                                  newBeneficiaryName.value = "";
+                                  bankList = baseBankList;
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -426,12 +501,15 @@ class SendMoneyController extends GetxController {
                                     canResolve.value = true;
                                     accountNumberController.clear();
                                     showBeneficiary.value = false;
+                                    newBeneficiaryName.value = "";
                                   } else {
                                     showSaver.value = false;
                                     isNewTransfer.value = false;
                                     selectedBankCode.value =
                                         beneficiary[index].id!;
                                     beneficiaryAccountNumber.value =
+                                        beneficiary[index].accountNumber!;
+                                    accountNumberController.text =
                                         beneficiary[index].accountNumber!;
                                     beneficiaryName.value =
                                         beneficiary[index].beneficiaryName!;
@@ -440,6 +518,8 @@ class SendMoneyController extends GetxController {
                                     beneficiaryId.value =
                                         beneficiary[index].id!;
                                     showBeneficiary.value = true;
+                                    newBeneficiaryName.value = "";
+                                    nicknameController.text = "";
                                   }
                                 },
                                 child: Container(

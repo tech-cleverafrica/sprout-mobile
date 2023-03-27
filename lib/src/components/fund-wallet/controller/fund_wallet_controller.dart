@@ -61,22 +61,30 @@ class FundWalletController extends GetxController {
   }
 
   handlePaymentInitialization(BuildContext context) async {
+    String id = storage.read("userId");
+    String suffix = DateTime.now().year.toString() +
+        DateTime.now().month.toString() +
+        DateTime.now().day.toString() +
+        DateTime.now().hour.toString() +
+        DateTime.now().minute.toString() +
+        DateTime.now().second.toString();
     final Customer customer = Customer(
         name: "Flutterwave Developer",
         phoneNumber: "1234566677777",
         email: "customer@customer.com");
     final Flutterwave flutterwave = Flutterwave(
         context: context,
-        publicKey: "Public Key-here",
-        currency: "currency-here",
+        publicKey: "FLWPUBK_TEST-c9c17e8e7f23ee3e840970bc2143326d-X",
+        currency: "NGN",
         redirectUrl: "add-your-redirect-url-here",
-        txRef: "add-your-unique-reference-here",
+        txRef: "CLV$id$suffix".toUpperCase(),
         amount: "3000",
         customer: customer,
         paymentOptions: "ussd, card, barter, payattitude",
         customization: Customization(title: "My Payment"),
         isTestMode: true);
     final ChargeResponse response = await flutterwave.charge();
+    print("TEST OUTPUT");
     print(response.transactionId);
   }
 }

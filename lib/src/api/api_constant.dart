@@ -37,6 +37,7 @@ const String beneficiaryUrl = "transfer/api/v1/beneficiary";
 const String banksUrl = "transfer/api/v1/banks";
 const String validateBankUrl = "transfer/api/v1/resolve/account";
 const String makeTransferUrl = "transfer/api/v1/disburse";
+const String addBeneficiaryUrl = "transfer/api/v1/beneficiary/add";
 
 //invoice
 const String getInvoicesUrl = "invoice/api/v1/invoice/invoices";
