@@ -173,7 +173,7 @@ class _FilterPopupState extends State<FilterPopup> {
                 _title ?? "",
                 style: TextStyle(
                   color: widget.altTextColor ?? Color(0xff2254D3),
-                  fontSize: widget.textSize ?? 10.sp,
+                  fontSize: widget.textSize ?? 9.sp,
                   fontWeight: FontWeight.w600,
                   fontFamily: "Mont",
                 ),

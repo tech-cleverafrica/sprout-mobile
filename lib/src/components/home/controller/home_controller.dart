@@ -29,6 +29,9 @@ class HomeController extends GetxController {
   RxList<Transactions> transactions = <Transactions>[].obs;
   Rx<List<Transactions>> searchableTransactions = Rx<List<Transactions>>([]);
   RxBool isTransactionLoading = false.obs;
+  RxBool isApproved = false.obs;
+  RxBool inReview = false.obs;
+  RxBool showAmount = true.obs;
 
   SignInController signInController = Get.put(SignInController());
 
@@ -52,6 +55,9 @@ class HomeController extends GetxController {
     accountNumberToUse.value = providusAccountNumber.isEmpty
         ? wemaAccountNumber
         : providusAccountNumber;
+    String approvalStatus = storage.read("approvalStatus");
+    isApproved.value = approvalStatus == "APPROVED" ? true : false;
+    inReview.value = approvalStatus == "IN_REVIEW" ? true : false;
     super.onInit();
   }
 
