@@ -31,6 +31,7 @@ class HomeController extends GetxController {
   RxBool isTransactionLoading = false.obs;
   RxBool isApproved = false.obs;
   RxBool inReview = false.obs;
+  RxBool showAmount = true.obs;
 
   SignInController signInController = Get.put(SignInController());
 

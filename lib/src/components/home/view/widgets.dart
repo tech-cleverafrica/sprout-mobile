@@ -163,7 +163,14 @@ class HistoryCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SvgPicture.asset(
-                      AppSvg.send,
+                      transactionType == "BILLS_PAYMENT"
+                          ? AppSvg.bill
+                          : transactionType == "AIRTIME_VTU"
+                              ? AppSvg.airtime
+                              : transactionType == "CASH_OUT" ||
+                                      transactionType == "WALLET_TOP_UP"
+                                  ? AppSvg.swap
+                                  : AppSvg.send,
                       color: incoming! ? AppColors.mainGreen : AppColors.red,
                       height: 18,
                       width: 18,
@@ -392,7 +399,9 @@ class BalanceCard extends StatelessWidget {
       required this.iconVisible,
       required this.copyVisible,
       required this.buttonVisible,
-      required this.onTap})
+      required this.showAmount,
+      required this.onTap,
+      required this.setVisibility})
       : super(key: key);
 
   final bool isDarkMode;
@@ -410,7 +419,9 @@ class BalanceCard extends StatelessWidget {
   final bool bankVisible;
   final bool copyVisible;
   final bool buttonVisible;
+  final bool showAmount;
   final VoidCallback onTap;
+  final VoidCallback setVisibility;
 
   @override
   Widget build(BuildContext context) {
@@ -468,70 +479,94 @@ class BalanceCard extends StatelessWidget {
                   children: [
                     Container(
                       height: 60,
-                      child: Row(
-                        children: [
-                          Text(
-                            symbol,
-                            style: TextStyle(
-                                fontFamily: "Mont",
-                                fontSize: 14.sp,
-                                color: isDarkMode
-                                    ? AppColors.white
-                                    : AppColors.black,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          Text(
-                            naira,
-                            style: TextStyle(
-                                fontFamily: "DMSans",
-                                fontSize: 26.sp,
-                                color: isDarkMode
-                                    ? AppColors.white
-                                    : AppColors.black,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          Text(
-                            ".",
-                            style: TextStyle(
-                                fontFamily: "DMSans",
-                                fontSize: 26.sp,
-                                color: isDarkMode
-                                    ? AppColors.white
-                                    : AppColors.black,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 5),
-                            child: Text(
-                              kobo,
-                              style: TextStyle(
-                                  fontFamily: "DMSans",
-                                  fontSize: 16.sp,
-                                  color: isDarkMode
-                                      ? AppColors.white
-                                      : AppColors.black,
-                                  fontWeight: FontWeight.w500),
+                      child: showAmount
+                          ? Row(
+                              children: [
+                                Text(
+                                  symbol,
+                                  style: TextStyle(
+                                      fontFamily: "Mont",
+                                      fontSize: 14.sp,
+                                      color: isDarkMode
+                                          ? AppColors.white
+                                          : AppColors.black,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                Text(
+                                  naira,
+                                  style: TextStyle(
+                                      fontFamily: "DMSans",
+                                      fontSize: 26.sp,
+                                      color: isDarkMode
+                                          ? AppColors.white
+                                          : AppColors.black,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                kobo != ""
+                                    ? Text(
+                                        ".",
+                                        style: TextStyle(
+                                            fontFamily: "DMSans",
+                                            fontSize: 26.sp,
+                                            color: isDarkMode
+                                                ? AppColors.white
+                                                : AppColors.black,
+                                            fontWeight: FontWeight.w700),
+                                      )
+                                    : Text(""),
+                                Container(
+                                  margin: EdgeInsets.only(top: 5),
+                                  child: Text(
+                                    kobo,
+                                    style: TextStyle(
+                                        fontFamily: "DMSans",
+                                        fontSize: 16.sp,
+                                        color: isDarkMode
+                                            ? AppColors.white
+                                            : AppColors.black,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                )
+                              ],
+                            )
+                          : Row(
+                              children: [
+                                Text(
+                                  "******",
+                                  style: TextStyle(
+                                      fontFamily: "DMSans",
+                                      fontSize: 26.sp,
+                                      color: isDarkMode
+                                          ? AppColors.white
+                                          : AppColors.black,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                              ],
                             ),
-                          )
-                        ],
-                      ),
                     ),
                     addHorizontalSpace(24.w),
-                    Container(
-                      height: 36.h,
-                      width: 36.w,
-                      alignment: Alignment.topRight,
-                      decoration: BoxDecoration(
-                          color: isDarkMode ? AppColors.black : AppColors.white,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(0.0),
-                          child: Icon(CommunityMaterialIcons.eye_off_outline,
-                              size: 18,
-                              color: isDarkMode
-                                  ? AppColors.white
-                                  : AppColors.black),
+                    InkWell(
+                      onTap: setVisibility,
+                      child: Container(
+                        height: 36.h,
+                        width: 36.w,
+                        alignment: Alignment.topRight,
+                        decoration: BoxDecoration(
+                            color:
+                                isDarkMode ? AppColors.black : AppColors.white,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(0.0),
+                            child: Icon(
+                                showAmount
+                                    ? CommunityMaterialIcons.eye_off_outline
+                                    : CommunityMaterialIcons.eye_outline,
+                                size: 18,
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.black),
+                          ),
                         ),
                       ),
                     )

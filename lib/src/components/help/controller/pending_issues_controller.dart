@@ -13,6 +13,8 @@ import 'package:sprout_mobile/src/utils/app_colors.dart';
 
 class PendingIssuesController extends GetxController {
   TextEditingController descriptionController = new TextEditingController();
+  Issues? args;
+  Rxn issue = Rxn<Issues>();
   File? file;
   RxList<NamedFile> files = <NamedFile>[].obs;
   RxString fileError = "".obs;
@@ -20,6 +22,10 @@ class PendingIssuesController extends GetxController {
 
   @override
   void onInit() {
+    args = Get.arguments;
+    issue.value = args;
+    setDescription(issue.value);
+    addFiles(issue.value);
     super.onInit();
   }
 

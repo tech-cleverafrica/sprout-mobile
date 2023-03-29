@@ -22,7 +22,6 @@ class SignInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     signInController = Get.put(SignInController());
-    final theme = Theme.of(context);
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
       child: Scaffold(
@@ -42,15 +41,18 @@ class SignInScreen extends StatelessWidget {
                 height: 24.h,
               ),
               Center(
-                child: Text(
-                  "Welcome Back, Mubarak",
-                  style: TextStyle(
-                      fontFamily: "DMSans",
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w400,
-                      color:
-                          isDarkMode ? AppColors.white : AppColors.boxesColor),
-                ),
+                child: Obx((() => Text(
+                      signInController.fullname.value != ""
+                          ? "Welcome Back, " + signInController.fullname.value
+                          : "Welcome Back",
+                      style: TextStyle(
+                          fontFamily: "DMSans",
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.w400,
+                          color: isDarkMode
+                              ? AppColors.white
+                              : AppColors.boxesColor),
+                    ))),
               ),
               SizedBox(
                 height: 24.h,
@@ -72,44 +74,32 @@ class SignInScreen extends StatelessWidget {
                     : AppColors.grey,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Row(
-                    children: [
-                      Checkbox(value: false, onChanged: (value) {}),
-                      Text(
-                        "Remember Me",
-                        style: TextStyle(
-                            fontFamily: "DMSans",
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w700,
-                            color: isDarkMode
-                                ? AppColors.greyText
-                                : AppColors.inputLabelColor),
-                      )
-                    ],
-                  ),
                   InkWell(
                     onTap: () => push(
                         page: EmailConfirmation(
                       process: "reset",
                     )),
-                    child: Text(
-                      'Forgot Password?',
-                      style: TextStyle(
-                          fontFamily: "DMSans",
-                          fontSize: 12.sp,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.w700,
-                          color: isDarkMode
-                              ? AppColors.mainGreen
-                              : AppColors.primaryColor),
+                    child: Container(
+                      padding: EdgeInsets.only(left: 20, bottom: 20),
+                      child: Text(
+                        'Forgot Password?',
+                        style: TextStyle(
+                            fontFamily: "DMSans",
+                            fontSize: 12.sp,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w700,
+                            color: isDarkMode
+                                ? AppColors.mainGreen
+                                : AppColors.primaryColor),
+                      ),
                     ),
                   ),
                 ],
               ),
               SizedBox(
-                height: 32.h,
+                height: 12.h,
               ),
               CustomButton(
                 title: "Login",
@@ -118,7 +108,7 @@ class SignInScreen extends StatelessWidget {
                 },
               ),
               SizedBox(
-                height: 19.h,
+                height: 9.h,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -132,21 +122,24 @@ class SignInScreen extends StatelessWidget {
                         color: isDarkMode ? AppColors.white : AppColors.black),
                   ),
                   InkWell(
-                    onTap: () {
-                      Get.to(SignUpStart());
-                    },
-                    child: Text(
-                      "Create Account",
-                      style: TextStyle(
-                          fontFamily: "DMSans",
-                          fontSize: 12.sp,
-                          decoration: TextDecoration.underline,
-                          fontWeight: FontWeight.w700,
-                          color: isDarkMode
-                              ? AppColors.mainGreen
-                              : AppColors.primaryColor),
-                    ),
-                  ),
+                      onTap: () {
+                        Get.to(SignUpStart());
+                      },
+                      child: Container(
+                        padding:
+                            EdgeInsets.only(right: 20, bottom: 20, top: 20),
+                        child: Text(
+                          "Create Account",
+                          style: TextStyle(
+                              fontFamily: "DMSans",
+                              fontSize: 12.sp,
+                              decoration: TextDecoration.underline,
+                              fontWeight: FontWeight.w700,
+                              color: isDarkMode
+                                  ? AppColors.mainGreen
+                                  : AppColors.primaryColor),
+                        ),
+                      )),
                 ],
               ),
               SizedBox(

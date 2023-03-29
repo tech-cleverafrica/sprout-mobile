@@ -1,10 +1,12 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/components/authentication/model/request_model.dart';
 import 'package:sprout_mobile/src/components/authentication/model/response_model.dart';
 import 'package:sprout_mobile/src/repository/preference_repository.dart';
@@ -23,12 +25,14 @@ import '../../home/view/bottom_nav.dart';
 import '../service/auth_service.dart';
 
 class SignInController extends GetxController {
+  final storage = GetStorage();
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
 
   RxBool isFingerPrintEnabled = false.obs;
   DBProvider sharePreference = DBProvider();
   // late AccountBloc accountBloc;
+  RxString fullname = "".obs;
   SignInRequestModel signInRequestModel =
       SignInRequestModel.login(username: "", password: "", agentDeviceId: '');
   bool isFaceId = false;
@@ -46,6 +50,7 @@ class SignInController extends GetxController {
         await preferenceRepository.getStringPref("storedMail");
     _checkBiometricType();
     initPlatformState();
+    fullname.value = StringUtils.capitalize(storage.read("firstname") ?? "");
     super.onInit();
   }
 

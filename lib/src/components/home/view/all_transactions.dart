@@ -73,7 +73,7 @@ class AlltransactionScreen extends StatelessWidget {
                         children: [
                           Container(
                             height: 35,
-                            width: 130,
+                            width: 110,
                             alignment: Alignment.center,
                             child: FilterPopup(
                                 title: "All Transactions",
@@ -107,7 +107,7 @@ class AlltransactionScreen extends StatelessWidget {
                           ),
                           Container(
                             height: 35,
-                            width: 120,
+                            width: 100,
                             child: FilterPopup(
                                 title: trxCtrl.date,
                                 altColor: isDarkMode
@@ -136,7 +136,7 @@ class AlltransactionScreen extends StatelessWidget {
                           ),
                           Container(
                             height: 35,
-                            width: 110,
+                            width: 100,
                             alignment: Alignment.center,
                             child: FilterPopup(
                                 title: "Successful",

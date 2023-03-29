@@ -27,6 +27,8 @@ class ComplaintTab extends StatelessWidget {
     return GestureDetector(
       onTap: () => setIndex(index),
       child: Container(
+        padding: EdgeInsets.only(bottom: 10),
+        decoration: BoxDecoration(color: AppColors.transparent),
         child: Column(
           children: [
             withBadge

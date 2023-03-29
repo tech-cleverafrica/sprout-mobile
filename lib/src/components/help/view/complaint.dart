@@ -97,7 +97,6 @@ class ComplaintScreen extends StatelessWidget {
                             ),
                           ],
                         ))),
-                    addVerticalSpace(10.h),
                     Obx((() => helpController.currentIndex.value == 0
                         ? helpController.categoriesLoading.value
                             ? Container(
@@ -244,19 +243,20 @@ class ComplaintScreen extends StatelessWidget {
                                                 issue: helpController
                                                     .pendingIssues[index],
                                                 onTap: (issue) => {
-                                                      Get.to(() =>
-                                                          PendingIssueScreen(
-                                                            issue: issue,
-                                                            refreshIssue: () =>
-                                                                {
-                                                              helpController
-                                                                  .getPendingIssues(),
-                                                              helpController
-                                                                  .getIssues(),
-                                                              helpController
-                                                                  .getOverview()
-                                                            },
-                                                          ))
+                                                      Get.to(
+                                                          () =>
+                                                              PendingIssueScreen(
+                                                                refreshIssue:
+                                                                    () => {
+                                                                  helpController
+                                                                      .getPendingIssues(),
+                                                                  helpController
+                                                                      .getIssues(),
+                                                                  helpController
+                                                                      .getOverview()
+                                                                },
+                                                              ),
+                                                          arguments: issue)
                                                     })))
                         : SizedBox())),
                     Obx((() => !helpController.pendingIssuesLoading.value &&
