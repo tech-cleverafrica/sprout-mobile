@@ -101,21 +101,38 @@ class SendMoneyController extends GetxController {
         DateTime.now().hour.toString() +
         DateTime.now().minute.toString() +
         DateTime.now().second.toString();
-    return {
-      "accountNumber": accountNumberController.text,
-      "amount": amountController.text,
-      "bankCode": selectedBankCode.value,
-      "beneficiaryBankName": beneficiaryBank.value,
-      "beneficiaryName": isNewTransfer.value
-          ? newBeneficiaryName.value
-          : beneficiaryName.value,
-      "currency": "NGN",
-      "narration": purposeController.text,
-      "senderName": storage.read("firstname") + " " + storage.read("lastname"),
-      "transactionId": "CLV$id$suffix".toUpperCase(),
-      "transactionPin": pin,
-      "userId": storage.read("userId")
-    };
+    return isNewTransfer.value
+        ? {
+            "accountNumber": accountNumberController.text,
+            "amount": amountController.text,
+            "bankCode": selectedBankCode.value,
+            "beneficiaryBankName": beneficiaryBank.value,
+            "beneficiaryName": isNewTransfer.value
+                ? newBeneficiaryName.value
+                : beneficiaryName.value,
+            "currency": "NGN",
+            "narration": purposeController.text,
+            "senderName":
+                storage.read("firstname") + " " + storage.read("lastname"),
+            "transactionId": "CLV$id$suffix".toUpperCase(),
+            "transactionPin": pin,
+            "userId": storage.read("userId")
+          }
+        : {
+            "accountNumber": accountNumberController.text,
+            "amount": amountController.text,
+            "beneficiaryBankName": beneficiaryBank.value,
+            "beneficiaryName": isNewTransfer.value
+                ? newBeneficiaryName.value
+                : beneficiaryName.value,
+            "currency": "NGN",
+            "narration": purposeController.text,
+            "senderName":
+                storage.read("firstname") + " " + storage.read("lastname"),
+            "transactionId": "CLV$id$suffix".toUpperCase(),
+            "transactionPin": pin,
+            "userId": storage.read("userId")
+          };
   }
 
   Future<dynamic> makeTransafer(pin) async {
@@ -240,13 +257,13 @@ class SendMoneyController extends GetxController {
   loadBeneficiary() async {
     isBeneficiaryLoading.value = true;
     AppResponse<List<Beneficiary>> beneficiaryResponse =
-        await locator.get<SendMoneyService>().getBeneficiary();
+        await locator.get<SendMoneyService>().getBeneficiary("Please wait");
     isBeneficiaryLoading.value = false;
     if (beneficiaryResponse.status) {
       Beneficiary none = Beneficiary(
           id: "00",
           userID: "",
-          nickname: "",
+          nickname: "New Beneficiary",
           beneficiaryBank: "New Beneficiary",
           beneficiaryName: "None",
           accountNumber: "");
@@ -288,7 +305,8 @@ class SendMoneyController extends GetxController {
                 i.beneficiaryName!
                     .toLowerCase()
                     .contains(value.toLowerCase()) ||
-                i.nickname!.toLowerCase().contains(value.toLowerCase()))
+                i.nickname!.toLowerCase().contains(value.toLowerCase()) ||
+                i.accountNumber!.contains(value.toLowerCase()))
             .toList();
   }
 

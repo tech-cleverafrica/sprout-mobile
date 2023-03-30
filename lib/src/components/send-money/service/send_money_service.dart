@@ -7,10 +7,12 @@ import 'package:sprout_mobile/src/components/send-money/repository/send_money_re
 import '../../../public/widgets/custom_loader.dart';
 
 class SendMoneyService {
-  Future<AppResponse<List<Beneficiary>>> getBeneficiary() async {
+  Future<AppResponse<List<Beneficiary>>> getBeneficiary(
+      String loadingMessage) async {
+    CustomLoader.show(message: loadingMessage);
     Response response =
         await locator<SendMoneyRepositoryImpl>().getBeneficiaries();
-
+    CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
     if (statusCode >= 200 && statusCode <= 300) {
