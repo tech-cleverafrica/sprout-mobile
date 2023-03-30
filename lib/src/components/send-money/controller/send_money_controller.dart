@@ -279,12 +279,26 @@ class SendMoneyController extends GetxController {
     if (bankresponse.status) {
       print(bankresponse.data["data"]);
       var banks = bankresponse.data["data"];
-      banks.forEach((final String key, final value) {
-        bankList.add(value);
-        baseBankList.add(value);
-        bankCode.add(key);
-        print(bankList);
+      List<dynamic> _banks = [];
+      List<dynamic> _bankCodes = [];
+      List<dynamic> __banks = [];
+      List<dynamic> __bankCodes = [];
+      banks.forEach((i, j) {
+        _bankCodes.add(i);
+        _banks.add(j);
       });
+
+      _banks.forEach((e) {
+        __banks.add(e);
+      });
+      __banks.sort();
+      __banks.forEach((e) {
+        __bankCodes.add(_bankCodes[_banks.indexOf(e)]);
+      });
+      bankList.addAll(__banks);
+      baseBankList.addAll(__banks);
+      bankCode.addAll(__bankCodes);
+      print(bankList);
     }
   }
 
