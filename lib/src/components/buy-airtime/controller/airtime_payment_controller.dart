@@ -2,16 +2,12 @@ import 'package:get/get.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/buy-airtime/controller/airtime_controller.dart';
-import 'package:sprout_mobile/src/components/buy-airtime/controller/airtime_packages_controller.dart';
 import 'package:sprout_mobile/src/components/home/model/transactions_model.dart';
 import 'package:sprout_mobile/src/components/pay-bills/service/pay_bills_service.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
 
 class AirtimePaymentController extends GetxController {
   final AirtimeController airtimeController = Get.put(AirtimeController());
-  final AirtimePackagesController airtimePackagesController =
-      Get.put(AirtimePackagesController());
-
   // arguments
   var args;
   var customer = Rxn<dynamic>();
@@ -54,18 +50,17 @@ class AirtimePaymentController extends GetxController {
   buildRequestModel(String transactionPin) {
     return {
       "transactionPin": transactionPin,
-      "phoneNumber": airtimePackagesController.phoneNumberController.text,
-      "packageSlug": airtimePackagesController.package.value!.slug,
-      "biller": airtimePackagesController.biller.value!.slug,
-      "amount": airtimePackagesController.amountController.value!.text
-          .split(",")
-          .join(),
-      "subscriberPhone": airtimePackagesController.phoneNumberController.text,
+      "phoneNumber": airtimeController.phoneNumberController.text,
+      "packageSlug": airtimeController.package.value!.slug,
+      "biller": airtimeController.biller.value!.slug,
+      "amount":
+          airtimeController.amountController.value!.text.split(",").join(),
+      "subscriberPhone": airtimeController.phoneNumberController.text,
       "customerName": customer.value != true
           ? customer.value["customer"]['customerName']
           : "",
       "beneficiaryName": customer.value == true
-          ? airtimePackagesController.biller.value!.slug
+          ? airtimeController.biller.value!.slug
           : customer.value["customer"]['customerName']
     };
   }
