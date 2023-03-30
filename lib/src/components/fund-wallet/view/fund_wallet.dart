@@ -55,7 +55,7 @@ class FundWalletScreen extends StatelessWidget {
               ),
               FundingCard(
                 isDarkMode: isDarkMode,
-                title: "Transfer from Bank",
+                title: "Transfer from Bank Account",
                 text: "Fund your wallet through bank transfer",
                 onTap: () => fundFromBank(
                     context,

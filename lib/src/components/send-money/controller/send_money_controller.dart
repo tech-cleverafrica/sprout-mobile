@@ -220,17 +220,20 @@ class SendMoneyController extends GetxController {
   }
 
   validateBank() async {
-    isValidating.value = true;
-    AppResponse response = await locator.get<SendMoneyService>().validateBank(
-        buildValidationModel(accountNumberController.text.trim()));
-    canResolve.value = false;
-    isValidating.value = false;
-    if (response.status) {
-      newBeneficiaryName.value =
-          response.data['data']['account_name'].toString().trim();
-      showBeneficiary.value = true;
-    } else {
-      CustomToastNotification.show(response.message, type: ToastType.error);
+    if (beneficiaryBank.value.isNotEmpty &&
+        accountNumberController.value.text.length == 10) {
+      isValidating.value = true;
+      AppResponse response = await locator.get<SendMoneyService>().validateBank(
+          buildValidationModel(accountNumberController.text.trim()));
+      canResolve.value = false;
+      isValidating.value = false;
+      if (response.status) {
+        newBeneficiaryName.value =
+            response.data['data']['account_name'].toString().trim();
+        showBeneficiary.value = true;
+      } else {
+        CustomToastNotification.show(response.message, type: ToastType.error);
+      }
     }
   }
 
@@ -250,6 +253,7 @@ class SendMoneyController extends GetxController {
       beneficiary.assignAll(beneficiaryResponse.data!);
       beneficiary.insert(0, none);
       baseBeneficiary.assignAll(beneficiary);
+      defaultBeneficiary(beneficiary[0]);
     }
   }
 
@@ -286,6 +290,19 @@ class SendMoneyController extends GetxController {
                     .contains(value.toLowerCase()) ||
                 i.nickname!.toLowerCase().contains(value.toLowerCase()))
             .toList();
+  }
+
+  defaultBeneficiary(Beneficiary beneficiary) {
+    showSaver.value = true;
+    isNewTransfer.value = true;
+    beneficiaryAccountNumber.value = "";
+    beneficiaryName.value = "New Beneficiary";
+    beneficiaryBank.value = "";
+    beneficiaryId.value = beneficiary.id!;
+    canResolve.value = true;
+    accountNumberController.clear();
+    showBeneficiary.value = false;
+    newBeneficiaryName.value = "";
   }
 
   showBankList(context, isDarkMode) {
@@ -357,14 +374,15 @@ class SendMoneyController extends GetxController {
                               child: GestureDetector(
                                 onTap: () {
                                   pop();
+                                  print(bankList[index]);
                                   beneficiaryBank.value = bankList[index];
                                   selectedBankCode.value = bankCode[
                                       bankList.indexOf(beneficiaryBank.value)];
                                   canResolve.value = true;
-                                  accountNumberController.clear();
                                   showBeneficiary.value = false;
                                   newBeneficiaryName.value = "";
                                   bankList = baseBankList;
+                                  validateBank();
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -491,17 +509,7 @@ class SendMoneyController extends GetxController {
                                   pop();
                                   showFields.value = true;
                                   if (beneficiary[index].id == "00") {
-                                    showSaver.value = true;
-                                    isNewTransfer.value = true;
-                                    beneficiaryAccountNumber.value = "";
-                                    beneficiaryName.value = "New Beneficiary";
-                                    beneficiaryBank.value = "";
-                                    beneficiaryId.value =
-                                        beneficiary[index].id!;
-                                    canResolve.value = true;
-                                    accountNumberController.clear();
-                                    showBeneficiary.value = false;
-                                    newBeneficiaryName.value = "";
+                                    defaultBeneficiary(beneficiary[index]);
                                   } else {
                                     showSaver.value = false;
                                     isNewTransfer.value = false;
