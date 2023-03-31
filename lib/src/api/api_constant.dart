@@ -38,6 +38,12 @@ const String makeTransferUrl = "transfer/api/v1/disburse";
 
 //invoice
 const String getInvoicesUrl = "invoice/api/v1/invoice/invoices";
+const String updatePaymentStatusUrl = "invoice/invoices/paymentstatus/";
+const String markAsPaidUrl = "invoice/invoices/paid/";
+const String sendInvoiceUrl = "invoice/invoices/send";
+const String invoiceCustomersUrl = "invoice/api/v1/invoice/customers";
+const String createCustomerUrl = "invoice/customers/create";
+const String updateCustomerUrl = "invoice/customers/update/";
 
 apiResponse(String? message, [String? responseCode]) {
   return {

@@ -17,4 +17,24 @@ class InvoiceRepositoryImpl implements InvoiceRepository {
       return api.handleError(e);
     }
   }
+
+  @override
+  getInvoice(String invoiceId) async {
+    try {
+      return await api.dio.get(
+        getInvoicesUrl + "/serial/" + invoiceId,
+      );
+    } on DioError catch (e) {
+      return api.handleError(e);
+    }
+  }
+
+  @override
+  getCustomers() async {
+    try {
+      return await api.dio.get(invoiceCustomersUrl);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    }
+  }
 }

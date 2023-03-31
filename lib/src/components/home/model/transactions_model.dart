@@ -72,7 +72,7 @@ class Transactions {
   String? beneficiaryBankName;
   String? sessionID;
   String? status;
-  String? agentCut;
+  var agentCut;
   String? bouquetCode;
   String? smartCardNumber;
   String? bouquetName;

@@ -25,9 +25,9 @@ class AppController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    //setLoginStatus(false);
-    // showAutoBiometricsOnLoginPage(true);
-    //  startTimer();
+    setLoginStatus(false);
+    showAutoBiometricsOnLoginPage(true);
+    startTimer();
     super.onInit();
   }
 
@@ -43,31 +43,32 @@ class AppController extends GetxController {
     }
   }
 
-  // void startTimer() async {
-  //   checkTimerLogic();
-  //   bool isLoggedIn = await preferenceRepository.getBooleanPref(IS_LOGGED_IN);
-  //   String? expiresIn =
-  //       await repository.getInSharedPreference(tokenTimestampKey);
-  //   DateTime tokenExpiryTime = dateUtil.customDateTimeParser(expiresIn!);
-  //   DateTime tokenExpiryTimeMinusOneMinute =
-  //       tokenExpiryTime.subtract(Duration(minutes: 1));
-  //   debugPrint("$tokenExpiryTime");
-  //   debugPrint("$tokenExpiryTimeMinusOneMinute");
-  //   if (isLoggedIn && DateTime.now().isAfter(tokenExpiryTimeMinusOneMinute)) {
-  //     String? accessToken =
-  //         await repository.getInSharedPreference(accessTokenKey);
-  //     apiProvider.refreshToken(accessToken!).then((HTTPResponseModel value) {
-  //       repository.storeInSharedPreference(
-  //           accessTokenKey, value.data["access_token"]);
-  //       repository.storeInSharedPreference(
-  //           tokenTimestampKey, value.data["expires_in"]);
-  //     });
-  //   } else {
-  //     checkTimerLogic();
-  //   }
+  void startTimer() async {
+    checkTimerLogic();
+    bool isLoggedIn = await preferenceRepository.getBooleanPref(IS_LOGGED_IN);
+    String? expiresIn =
+        await repository.getInSharedPreference(tokenTimestampKey);
+    DateTime tokenExpiryTime = dateUtil.customDateTimeParser(expiresIn!);
+    DateTime tokenExpiryTimeMinusOneMinute =
+        tokenExpiryTime.subtract(Duration(minutes: 1));
+    debugPrint("$tokenExpiryTime");
+    debugPrint("$tokenExpiryTimeMinusOneMinute");
+    if (isLoggedIn && DateTime.now().isAfter(tokenExpiryTimeMinusOneMinute)) {
+      String? accessToken =
+          await repository.getInSharedPreference(accessTokenKey);
+      //refresh token
+      // apiProvider.refreshToken(accessToken!).then((HTTPResponseModel value) {
+      //   repository.storeInSharedPreference(
+      //       accessTokenKey, value.data["access_token"]);
+      //   repository.storeInSharedPreference(
+      //       tokenTimestampKey, value.data["expires_in"]);
+      // });
+    } else {
+      checkTimerLogic();
+    }
 
-  //   _timer = Timer(Duration(seconds: 300), logOut);
-  // }
+    _timer = Timer(Duration(seconds: 300), logOut);
+  }
 
   logOut() async {
     bool isLoggedIn = await preferenceRepository.getBooleanPref(IS_LOGGED_IN);
