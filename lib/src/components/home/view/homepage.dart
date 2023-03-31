@@ -382,7 +382,7 @@ class HomePage extends StatelessWidget {
                               Padding(
                                 padding:
                                     EdgeInsets.only(left: 8, right: 8, top: 8),
-                                child: Text("Spent",
+                                child: Text("Received",
                                     style: TextStyle(
                                         color: isDarkMode
                                             ? AppColors.inputLabelColor
@@ -392,11 +392,12 @@ class HomePage extends StatelessWidget {
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.42,
                                 child: HomeChart(
-                                  color: AppColors.primaryColor,
+                                  color: AppColors.mainGreen,
                                   graph: homeController.inflowGraph.value,
                                   maxY: max(
                                       homeController.inflowGraph.value["maxY"],
-                                      homeController.inflowGraph.value["maxY"]),
+                                      homeController
+                                          .outflowGraph.value["maxY"]),
                                 ),
                               ),
                             ],
@@ -415,7 +416,7 @@ class HomePage extends StatelessWidget {
                                 padding:
                                     EdgeInsets.only(left: 8, right: 8, top: 8),
                                 child: Text(
-                                  "Received",
+                                  "Spent",
                                   style: TextStyle(
                                       color: isDarkMode
                                           ? AppColors.inputLabelColor
@@ -426,11 +427,12 @@ class HomePage extends StatelessWidget {
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.42,
                                 child: HomeChart(
-                                  color: AppColors.mainGreen,
+                                  color: AppColors.primaryColor,
                                   graph: homeController.outflowGraph.value,
                                   maxY: max(
                                       homeController.inflowGraph.value["maxY"],
-                                      homeController.inflowGraph.value["maxY"]),
+                                      homeController
+                                          .outflowGraph.value["maxY"]),
                                 ),
                               ),
                             ],
