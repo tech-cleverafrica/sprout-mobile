@@ -1,11 +1,18 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
+import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 
 class HomeChart extends StatefulWidget {
-  const HomeChart({super.key, required this.color});
+  const HomeChart(
+      {super.key,
+      required this.color,
+      required this.graph,
+      required this.maxY});
 
   final Color color;
+  final dynamic graph;
+  final double maxY;
 
   @override
   State<HomeChart> createState() => _HomeChartState();
@@ -44,28 +51,28 @@ class _HomeChartState extends State<HomeChart> {
     Widget text;
     switch (value.toInt()) {
       case 1:
-        text = const Text('M', style: style);
+        text = Text(widget.graph['dates'][0], style: style);
         break;
       case 2:
-        text = const Text('T', style: style);
+        text = Text(widget.graph['dates'][1], style: style);
         break;
       case 3:
-        text = const Text('W', style: style);
+        text = Text(widget.graph['dates'][2], style: style);
         break;
       case 4:
-        text = const Text('T', style: style);
+        text = Text(widget.graph['dates'][3], style: style);
         break;
       case 5:
-        text = const Text('F', style: style);
+        text = Text(widget.graph['dates'][4], style: style);
         break;
       case 6:
-        text = const Text('S', style: style);
+        text = Text(widget.graph['dates'][5], style: style);
         break;
       case 7:
-        text = const Text('S', style: style);
+        text = Text(widget.graph['dates'][6], style: style);
         break;
       default:
-        text = const Text('', style: style);
+        text = Text('', style: style);
         break;
     }
 
@@ -80,22 +87,7 @@ class _HomeChartState extends State<HomeChart> {
       fontWeight: FontWeight.bold,
       fontSize: 8,
     );
-    String text;
-    switch (value.toInt()) {
-      case 1:
-        text = '*';
-        break;
-      case 3:
-        text = '*';
-        break;
-      case 5:
-        text = '*';
-        break;
-      default:
-        return Container();
-    }
-
-    return Text(text, style: style, textAlign: TextAlign.left);
+    return Text("*", style: style, textAlign: TextAlign.left);
   }
 
   LineChartData mainData() {
@@ -127,7 +119,7 @@ class _HomeChartState extends State<HomeChart> {
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            interval: 1,
+            interval: widget.graph['interval'],
             getTitlesWidget: leftTitleWidgets,
             reservedSize: 15,
           ),
@@ -138,20 +130,11 @@ class _HomeChartState extends State<HomeChart> {
       ),
       minX: 1,
       maxX: 7,
-      minY: 1,
-      maxY: 6,
+      minY: 0,
+      maxY: widget.maxY,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(1, 3),
-            FlSpot(2, 2),
-            FlSpot(3, 5),
-            FlSpot(4, 3.1),
-            FlSpot(5, 4),
-            FlSpot(6, 3),
-            FlSpot(7, 4),
-            // FlSpot(12, 6),
-          ],
+          spots: widget.graph['spots'],
           isCurved: true,
           color: widget.color,
           barWidth: 2,

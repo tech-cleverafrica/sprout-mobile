@@ -47,9 +47,10 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Image(
                 height: 180.0.h,
                 width: 120.w,
-                image: AssetImage(isDarkMode
-                    ? "assets/images/logo-light.png"
-                    : "assets/images/logo-dark.png"),
+                image: AssetImage("assets/images/sprout-by-clever.png"),
+                // image: AssetImage(isDarkMode
+                //     ? "assets/images/logo-light.png"
+                //     : "assets/images/logo-dark.png"),
               ),
             ),
           ],

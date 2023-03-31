@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -357,34 +358,90 @@ class HomePage extends StatelessWidget {
         addVerticalSpace(24.h),
         Obx((() => getTransactions(theme, isDarkMode))),
         addVerticalSpace(10.h),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: SizedBox(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: isDarkMode ? Color(0xFF161618) : AppColors.greyBg,
-                  borderRadius: BorderRadius.circular(10)),
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.42,
-                      child: HomeChart(
-                        color: AppColors.primaryColor,
-                      ),
+        Obx((() => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: SizedBox(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: isDarkMode ? Color(0xFF161618) : AppColors.greyBg,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              color: isDarkMode
+                                  ? AppColors.black
+                                  : AppColors.white,
+                              borderRadius: BorderRadius.circular(10.0)),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 8),
+                                child: Text("Spent",
+                                    style: TextStyle(
+                                        color: isDarkMode
+                                            ? AppColors.inputLabelColor
+                                            : AppColors.black,
+                                        fontWeight: FontWeight.w600)),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.42,
+                                child: HomeChart(
+                                  color: AppColors.primaryColor,
+                                  graph: homeController.inflowGraph.value,
+                                  maxY: max(
+                                      homeController.inflowGraph.value["maxY"],
+                                      homeController.inflowGraph.value["maxY"]),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: isDarkMode
+                                  ? AppColors.black
+                                  : AppColors.white,
+                              borderRadius: BorderRadius.circular(10.0)),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(left: 8, right: 8, top: 8),
+                                child: Text(
+                                  "Received",
+                                  style: TextStyle(
+                                      color: isDarkMode
+                                          ? AppColors.inputLabelColor
+                                          : AppColors.black,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.42,
+                                child: HomeChart(
+                                  color: AppColors.mainGreen,
+                                  graph: homeController.outflowGraph.value,
+                                  maxY: max(
+                                      homeController.inflowGraph.value["maxY"],
+                                      homeController.inflowGraph.value["maxY"]),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.42,
-                      child: HomeChart(color: AppColors.mainGreen),
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-        ),
+            ))),
       ],
     );
   }

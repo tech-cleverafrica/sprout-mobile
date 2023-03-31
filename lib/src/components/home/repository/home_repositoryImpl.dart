@@ -61,4 +61,13 @@ class HomeRepositoryImpl implements HomeRepository {
       return api.handleError(e);
     }
   }
+
+  @override
+  getDashboardGraph() async {
+    try {
+      return await api.dio.get(dashboardGraphUrl);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    }
+  }
 }

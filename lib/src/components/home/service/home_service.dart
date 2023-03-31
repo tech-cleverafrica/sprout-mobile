@@ -83,4 +83,15 @@ class HomeService {
     }
     return AppResponse(false, statusCode, {});
   }
+
+  Future<AppResponse<dynamic>> getDashboardGraph() async {
+    Response response = await locator<HomeRepositoryImpl>().getDashboardGraph();
+    int statusCode = response.statusCode ?? 000;
+    Map<String, dynamic> responseBody = response.data;
+    if (statusCode >= 200 && statusCode <= 300) {
+      print("vvv$responseBody");
+      return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
+    }
+    return AppResponse(false, statusCode, {});
+  }
 }
