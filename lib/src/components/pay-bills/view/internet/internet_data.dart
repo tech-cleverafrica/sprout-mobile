@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:sprout_mobile/src/components/pay-bills/view/cable/cable_tv.dart';
+import 'package:sprout_mobile/src/components/pay-bills/controller/billers_controller.dart';
 import 'package:sprout_mobile/src/components/pay-bills/view/internet/select_bundle.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
-import 'package:sprout_mobile/src/utils/app_svgs.dart';
+import 'package:sprout_mobile/src/utils/app_images.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
+import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 import '../../../../public/widgets/custom_text_form_field.dart';
 import '../../../../utils/app_colors.dart';
-import '../../../../utils/app_images.dart';
 
+// ignore: must_be_immutable
 class InternetDataScreen extends StatelessWidget {
-  const InternetDataScreen({super.key});
+  InternetDataScreen({super.key});
+
+  late BillersController billersController;
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
+    billersController = Get.put(BillersController());
     return SafeArea(
         child: Scaffold(
       body: Padding(
@@ -36,43 +39,55 @@ class InternetDataScreen extends StatelessWidget {
                 fillColor: isDarkMode
                     ? AppColors.inputBackgroundColor
                     : AppColors.grey,
+                onChanged: (value) => billersController.filterBillers(value),
               ),
-              addVerticalSpace(35.h),
-              InternetBillsCard(
-                title: "Airtel Bundle",
-                subTitle: "Internet Data",
-                image: AppSvg.airtel,
-                onTap: () {
-                  Get.to(() => SelectBundleScreen());
-                },
-              ),
-              addVerticalSpace(10.h),
-              InternetBillsCard(
-                title: "Mtn Bundle",
-                subTitle: "Internet Data",
-                image: AppSvg.mtn,
-                onTap: () {
-                  Get.to(() => SelectBundleScreen());
-                },
-              ),
-              addVerticalSpace(10.h),
-              InternetBillsCard(
-                title: "9Mobile Bundle",
-                subTitle: "Internet Data",
-                image: AppSvg.nmobile,
-                onTap: () {
-                  Get.to(() => SelectBundleScreen());
-                },
-              ),
-              addVerticalSpace(10.h),
-              InternetBillsCard(
-                title: "Glo Bundle",
-                subTitle: "Internet Data",
-                image: AppSvg.glo,
-                onTap: () {
-                  Get.to(() => SelectBundleScreen());
-                },
-              ),
+              Obx((() => billersController.loading.value
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 0.w),
+                      child: buildSlimShimmer(4),
+                    )
+                  : ListView.builder(
+                      itemCount: billersController.billers.length,
+                      shrinkWrap: true,
+                      physics: BouncingScrollPhysics(),
+                      itemBuilder: (context, index) => Column(
+                        children: [
+                          addVerticalSpace(30.h),
+                          InternetBillsCard(
+                            title: billersController.billers[index].name,
+                            subTitle: "Internet Data",
+                            image: billersController.billers[index].slug ==
+                                    "MTN_NIGERIA"
+                                ? AppImages.mtn
+                                : billersController.billers[index].slug ==
+                                        "AIRTEL_NIGERIA"
+                                    ? AppImages.airtel
+                                    : billersController.billers[index].slug ==
+                                            "GLO_NIGERIA"
+                                        ? AppImages.glo
+                                        : billersController
+                                                    .billers[index].slug ==
+                                                "9MOBILE_NIGERIA"
+                                            ? AppImages.nine_mobile
+                                            : billersController
+                                                        .billers[index].slug ==
+                                                    "SMILE"
+                                                ? AppImages.smile
+                                                : billersController
+                                                            .billers[index]
+                                                            .slug ==
+                                                        "IPNX"
+                                                    ? AppImages.ipnx
+                                                    : AppImages.logo_icon,
+                            onTap: () {
+                              push(
+                                  page: SelectBundleScreen(),
+                                  arguments: billersController.billers[index]);
+                            },
+                          ),
+                        ],
+                      ),
+                    ))),
             ],
           ),
         ),
@@ -96,52 +111,54 @@ class InternetBillsCard extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  SvgPicture.asset(
-                    image!,
-                    height: 40,
-                    width: 40,
-                  ),
-                  addHorizontalSpace(5.w),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title!,
-                        style: TextStyle(
-                            fontFamily: "DMSans",
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14.sp,
-                            color:
-                                isDarkMode ? AppColors.white : AppColors.black),
-                      ),
-                      Text(
-                        subTitle!,
-                        style: TextStyle(
-                            fontFamily: "DMSans",
-                            fontWeight: FontWeight.w400,
-                            fontSize: 11.sp,
-                            color: isDarkMode
-                                ? AppColors.greyText
-                                : AppColors.greyText),
-                      )
-                    ],
-                  )
-                ],
-              ),
-              IconButton(
-                  onPressed: onTap,
-                  icon: Icon(
-                    Icons.arrow_forward,
-                    color: isDarkMode
-                        ? AppColors.inputLabelColor
-                        : AppColors.inputLabelColor,
-                  ))
-            ],
+          InkWell(
+            onTap: onTap,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Image.asset(
+                      image!,
+                      height: 30,
+                      width: 30,
+                    ),
+                    addHorizontalSpace(10.w),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title!,
+                          style: TextStyle(
+                              fontFamily: "DMSans",
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14.sp,
+                              color: isDarkMode
+                                  ? AppColors.white
+                                  : AppColors.black),
+                        ),
+                        Text(
+                          subTitle!,
+                          style: TextStyle(
+                              fontFamily: "DMSans",
+                              fontWeight: FontWeight.w400,
+                              fontSize: 11.sp,
+                              color: isDarkMode
+                                  ? AppColors.greyText
+                                  : AppColors.greyText),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+                Icon(
+                  Icons.arrow_forward,
+                  color: isDarkMode
+                      ? AppColors.inputLabelColor
+                      : AppColors.inputLabelColor,
+                )
+              ],
+            ),
           ),
           Divider()
         ],

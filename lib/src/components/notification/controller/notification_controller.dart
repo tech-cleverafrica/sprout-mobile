@@ -32,8 +32,10 @@ class NotificationController extends GetxController {
   Future<void> getNotifications() async {
     String notificationsString =
         await preferenceRepository.getStringPref(NOTIFICATIONS);
-    notifications = jsonDecode(notificationsString);
-    size = jsonDecode(notificationsString)?.length;
+    notifications =
+        notificationsString != "" ? jsonDecode(notificationsString) : [];
+    size =
+        notificationsString != "" ? jsonDecode(notificationsString)?.length : 0;
   }
 
   Future updateNotification(int index) async {

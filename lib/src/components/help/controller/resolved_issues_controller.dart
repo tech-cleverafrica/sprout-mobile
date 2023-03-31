@@ -42,10 +42,12 @@ class ResolvedIssuesController extends GetxController {
 
   void addFiles(Issues issue) {
     files.clear();
-    issue.supportingFiles.forEach(
-      (e) =>
-          files.add(NamedFile.fromJson({"name": e.split("/").last, "file": e})),
-    );
+    if (issue.supportingFiles != null) {
+      issue.supportingFiles.forEach(
+        (e) => files
+            .add(NamedFile.fromJson({"name": e.split("/").last, "file": e})),
+      );
+    }
   }
 
   processFile(File file) {

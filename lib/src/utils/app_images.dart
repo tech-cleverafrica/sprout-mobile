@@ -38,4 +38,23 @@ class AppImages {
   static const String file_upload = path + "file-upload.png";
   static const String gallery_dark = path + "gallery-dark.png";
   static const String gallery = path + "gallery.png";
+  static const String whiteCheck = path + "white-check.png";
+  static const String filter = path + "filter.png";
+  static const String download = path + "download.png";
+  static const String logo_icon = path + "logo-icon.png";
+  static const String showmax = path + "showmax.png";
+  static const String bet9ja = path + "bet9ja.png";
+  static const String winners = path + "winners.png";
+  static const String westernlotto = path + "westernlotto.png";
+  static const String nairabet = path + "nairabet.png";
+  static const String betking = path + "betking.png";
+  static const String betway = path + "betway.png";
+  static const String livescorebet = path + "livescorebet.png";
+  static const String onexbet = path + "1xbet.png";
+  static const String merrybet = path + "merrybet.png";
+  static const String smile = path + "smile.png";
+  static const String ipnx = path + "ipnx.png";
+  static const String rateApp = path + "rate-app.png";
+  static const String account_light = path + "account-light.png";
+  static const String account_white = path + "account-white.png";
 }

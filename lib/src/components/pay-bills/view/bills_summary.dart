@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:sprout_mobile/src/components/pay-bills/controller/payment_controller.dart';
+import 'package:sprout_mobile/src/components/pay-bills/view/bills_payment_pin_confirmation.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 
-import '../../../public/screens/pin_confirmation.dart';
 import '../../../public/widgets/custom_button.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/helper_widgets.dart';
 
+// ignore: must_be_immutable
 class BillSummaryPage extends StatelessWidget {
-  const BillSummaryPage({super.key});
+  BillSummaryPage({super.key});
+
+  late PaymentController paymentController;
+  var oCcy = new NumberFormat("#,##0.00", "en_US");
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    paymentController = Get.put(PaymentController());
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -41,82 +48,180 @@ class BillSummaryPage extends StatelessWidget {
                             style: titleStyle(),
                           ),
                           Text(
-                            "N21,000",
+                            "₦ " +
+                                paymentController.packagesController
+                                    .amountController.value!.text,
                             style: detailStyle(isDarkMode),
                           )
                         ],
                       ),
-                      addVerticalSpace(20.h),
+                      addVerticalSpace(25.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Transaction charge:",
+                            paymentController.billersController.group ==
+                                    "AIRTIME_AND_DATA"
+                                ? "Bundle:"
+                                : "Package:",
                             style: titleStyle(),
                           ),
                           Text(
-                            "N53.4",
+                            paymentController
+                                    .packagesController.package.value!.name ??
+                                "",
                             style: detailStyle(isDarkMode),
                           )
                         ],
                       ),
-                      addVerticalSpace(20.h),
+                      addVerticalSpace(25.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Package",
+                            paymentController.billersController.group ==
+                                        'DISCO' ||
+                                    paymentController.billersController.group ==
+                                        'ELECTRIC_DISCO'
+                                ? 'Meter Number:'
+                                : paymentController.billersController.group ==
+                                            'PAID_TV' ||
+                                        paymentController
+                                                .billersController.group ==
+                                            'PAY_TV'
+                                    ? 'Smartcard Number:'
+                                    : paymentController
+                                                .billersController.group ==
+                                            'AIRTIME_AND_DATA'
+                                        ? 'Phone Number:'
+                                        : paymentController
+                                                    .billersController.group ==
+                                                'BETTING_AND_LOTTERY'
+                                            ? 'User ID:'
+                                            : paymentController
+                                                        .billersController
+                                                        .group ==
+                                                    'TRANSPORT_AND_TOLL_PAYMENT'
+                                                ? 'Card Number:'
+                                                : "Phone Number:",
                             style: titleStyle(),
                           ),
                           Text(
-                            "GOTV/COMPACT/MONT",
+                            paymentController
+                                .packagesController.digitController.text,
                             style: detailStyle(isDarkMode),
                           )
                         ],
                       ),
-                      addVerticalSpace(20.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Smartcard Numbre",
-                            style: titleStyle(),
-                          ),
-                          Text(
-                            "00897857485968958",
-                            style: detailStyle(isDarkMode),
-                          )
-                        ],
-                      ),
-                      addVerticalSpace(20.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Customer name:",
-                            style: titleStyle(),
-                          ),
-                          Text(
-                            "John Doe",
-                            style: detailStyle(isDarkMode),
-                          )
-                        ],
-                      ),
+                      paymentController.packagesController.phoneNumberController
+                              .text.isNotEmpty
+                          ? Column(
+                              children: [
+                                addVerticalSpace(25.h),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Phone Number:",
+                                      style: titleStyle(),
+                                    ),
+                                    Text(
+                                      paymentController.packagesController
+                                          .phoneNumberController.text,
+                                      style: detailStyle(isDarkMode),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            )
+                          : SizedBox(),
+                      paymentController.packagesController
+                                  .beneficiaryNameController.text.isNotEmpty ||
+                              (paymentController.customer.value != true &&
+                                  paymentController.customer.value["customer"]
+                                          ['customerName'] !=
+                                      null)
+                          ? Column(
+                              children: [
+                                addVerticalSpace(25.h),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Customer Name:",
+                                      style: titleStyle(),
+                                    ),
+                                    Text(
+                                      paymentController.customer.value != true
+                                          ? paymentController.customer
+                                              .value["customer"]['customerName']
+                                          : paymentController.packagesController
+                                              .beneficiaryNameController.text,
+                                      style: detailStyle(isDarkMode),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            )
+                          : SizedBox(),
+                      paymentController.billersController.group ==
+                                  "BETTING_AND_LOTTERY" ||
+                              paymentController.packagesController.package
+                                          .value!.slug ==
+                                      "IPNX" &&
+                                  (paymentController.customer.value != true &&
+                                      paymentController.customer.value["fee"] !=
+                                          null)
+                          ? Column(
+                              children: [
+                                addVerticalSpace(25.h),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Fee:",
+                                      style: titleStyle(),
+                                    ),
+                                    Text(
+                                      "₦ " +
+                                          oCcy
+                                              .format(double.parse(
+                                                  paymentController
+                                                      .customer.value["fee"]
+                                                      .toString()))
+                                              .toString(),
+                                      style: detailStyle(isDarkMode),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            )
+                          : SizedBox()
                     ],
                   ),
                 ),
               ),
+              addVerticalSpace(16.h),
+              Text(
+                  "Please ensure the details entered are correct before proceeding with this transfer as Clever Digital Ltd will not be responsible for recall of funds transferred in error. Thank You.",
+                  style: TextStyle(
+                    fontFamily: "DMSans",
+                    color: isDarkMode
+                        ? AppColors.mainGreen
+                        : AppColors.primaryColor,
+                  )),
               addVerticalSpace(36.h),
               Row(
                 children: [
                   Container(
                     width: 246.w,
                     child: CustomButton(
-                        title: "Send Money",
+                        title: "Authorize Payment",
                         onTap: () {
-                          Get.to(() => PinPage(
-                                process: "bills",
-                              ));
+                          Get.to(() => BillsPaymentPinPage());
                         }),
                   ),
                   addHorizontalSpace(8.w),
@@ -147,7 +252,7 @@ class BillSummaryPage extends StatelessWidget {
 
   TextStyle titleStyle() {
     return TextStyle(
-        fontFamily: "DMSans",
+        fontFamily: "Mont",
         fontSize: 12.sp,
         fontWeight: FontWeight.w400,
         color: AppColors.inputLabelColor);
@@ -155,9 +260,9 @@ class BillSummaryPage extends StatelessWidget {
 
   TextStyle detailStyle(isDark) {
     return TextStyle(
-        fontFamily: "DMSans",
-        fontSize: 14.sp,
-        fontWeight: FontWeight.w500,
+        fontFamily: "Mont",
+        fontSize: 12.sp,
+        fontWeight: FontWeight.w600,
         color: isDark ? AppColors.white : Color(0xFF0D0D0D));
   }
 }

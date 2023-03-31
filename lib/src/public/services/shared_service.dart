@@ -1,12 +1,16 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
+import 'package:share/share.dart';
 
 import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/public/model/file_model.dart';
 import 'package:sprout_mobile/src/public/repository/shared_repositoryimpl.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
+import 'package:http/http.dart' as http;
 
 class SharedService {
   Future<AppResponse<dynamic>> uploadAndCommit(
@@ -58,5 +62,23 @@ class SharedService {
         : "";
     String minRes = mod > 1 ? min + "mins" : min + "min";
     return mod > 0 ? hrRes + minRes : hrRes;
+  }
+
+  Future<File> getFile(http.Response data, String name) async {
+    Directory tempDir = await getTemporaryDirectory();
+    String tempPath = tempDir.path;
+    File file = new File('$tempPath/$name.csv');
+    var res = await file.writeAsBytes(data.bodyBytes);
+    return res;
+  }
+
+  Future openFile(File file) async {
+    final url = file.path;
+    await OpenFile.open(url);
+  }
+
+  Future shareFile(File file) async {
+    final url = file.path;
+    await Share.shareFiles([url]);
   }
 }

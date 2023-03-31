@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:basic_utils/basic_utils.dart';
@@ -8,10 +7,12 @@ import 'package:sprout_mobile/src/components/authentication/controller/sign_in_c
 import 'package:sprout_mobile/src/components/home/model/transactions_model.dart';
 import 'package:sprout_mobile/src/components/home/model/wallet_model.dart';
 import 'package:sprout_mobile/src/components/home/service/home_service.dart';
+import 'package:sprout_mobile/src/utils/app_formatter.dart';
 
 class HomeController extends GetxController {
   final storage = GetStorage();
   RxBool isInvoice = false.obs;
+  final AppFormatter formatter = Get.put(AppFormatter());
 
   //information
   String fullname = "";
@@ -19,15 +20,18 @@ class HomeController extends GetxController {
   String accountNumber = "";
   String providusAccountNumber = "";
   String wemaAccountNumber = "";
-  String accountNumberToUse = "";
-  String bankToUse = "";
-  late double walletBalance = 0.0;
+  RxString accountNumberToUse = "".obs;
+  RxString bankToUse = "".obs;
+  RxDouble walletBalance = 0.0.obs;
 
   RxList<TransactionsResponse> transactionsResponse =
       <TransactionsResponse>[].obs;
   RxList<Transactions> transactions = <Transactions>[].obs;
   Rx<List<Transactions>> searchableTransactions = Rx<List<Transactions>>([]);
   RxBool isTransactionLoading = false.obs;
+  RxBool isApproved = false.obs;
+  RxBool inReview = false.obs;
+  RxBool showAmount = true.obs;
 
   SignInController signInController = Get.put(SignInController());
 
@@ -46,10 +50,14 @@ class HomeController extends GetxController {
     accountNumber = storage.read("accountNumber");
     providusAccountNumber = storage.read("providusAccount");
     wemaAccountNumber = storage.read("wemaAccount");
-    bankToUse = providusAccountNumber.isEmpty ? "Wema Bank" : "Providus Bank";
-    accountNumberToUse = providusAccountNumber.isEmpty
+    bankToUse.value =
+        providusAccountNumber.isEmpty ? "Wema Bank" : "Providus Bank";
+    accountNumberToUse.value = providusAccountNumber.isEmpty
         ? wemaAccountNumber
         : providusAccountNumber;
+    String approvalStatus = storage.read("approvalStatus");
+    isApproved.value = approvalStatus == "APPROVED" ? true : false;
+    inReview.value = approvalStatus == "IN_REVIEW" ? true : false;
     super.onInit();
   }
 
@@ -57,15 +65,15 @@ class HomeController extends GetxController {
     AppResponse response = await locator.get<HomeService>().getWallet();
     if (response.status) {
       Wallet wallet = Wallet.fromJson(response.data);
-      walletBalance = wallet.data!.balance!;
-      storage.write("userBalance", walletBalance);
+      walletBalance.value = wallet.data!.balance!;
+      storage.write("userBalance", walletBalance.value);
     }
   }
 
   loadTransactions() async {
     isTransactionLoading.value = true;
     AppResponse<List<Transactions>> transactionsResponse =
-        await locator.get<HomeService>().getTransaction();
+        await locator.get<HomeService>().getTransactions();
     isTransactionLoading.value = false;
 
     if (transactionsResponse.status) {
@@ -83,24 +91,6 @@ class HomeController extends GetxController {
       rethrow;
     }
   }
-
-  void onSearch(String query) {
-    List<Transactions> result = [];
-    debugPrint(query);
-    if (query.isEmpty) {
-      result = searchableTransactions.value;
-    } else if (query.length % 2 == 0) {
-      result = transactions
-          .where((Transactions transactions) =>
-              transactions.type!.toLowerCase().contains(query))
-          .toList();
-    }
-    print("got here!!!!");
-    print(result);
-    searchableTransactions.value = result;
-  }
-
-  void toggleDisplay() => isInvoice.value = isInvoice.value ? false : true;
 
   @override
   void onClose() {

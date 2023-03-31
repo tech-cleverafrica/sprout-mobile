@@ -49,4 +49,15 @@ class SendMoneyRepositoryImpl implements SendMoneyRepository {
       e.printError();
     }
   }
+
+  @override
+  addBeneficiary(requestBody) async {
+    try {
+      return await api.dio.post(addBeneficiaryUrl, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
 }

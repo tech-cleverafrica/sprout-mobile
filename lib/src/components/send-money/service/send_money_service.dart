@@ -37,13 +37,10 @@ class SendMoneyService {
   }
 
   Future<AppResponse<dynamic>> validateBank(
-      Map<String, dynamic> requestBody, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+      Map<String, dynamic> requestBody) async {
     Response response =
         await locator<SendMoneyRepositoryImpl>().validateBank(requestBody);
-    CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
-
     Map<String, dynamic> responseBody = response.data;
     if (response.data["status"]) {
       print(":::::::::$responseBody");
@@ -60,6 +57,19 @@ class SendMoneyService {
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
 
+    Map<String, dynamic> responseBody = response.data;
+    if (response.data["status"]) {
+      print(":::::::::$responseBody");
+      return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
+    }
+    return AppResponse(false, statusCode, responseBody);
+  }
+
+  Future<AppResponse<dynamic>> addBeneficiary(
+      Map<String, dynamic> requestBody) async {
+    Response response =
+        await locator<SendMoneyRepositoryImpl>().addBeneficiary(requestBody);
+    int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
     if (response.data["status"]) {
       print(":::::::::$responseBody");

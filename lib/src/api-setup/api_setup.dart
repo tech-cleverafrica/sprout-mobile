@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sprout_mobile/src/api/api.dart';
 import 'package:sprout_mobile/src/components/authentication/repository/auth_repositoryimpl.dart';
+import 'package:sprout_mobile/src/components/borow/repository/borrow_repositoryimpl.dart';
+import 'package:sprout_mobile/src/components/borow/service/borrow_service.dart';
 import 'package:sprout_mobile/src/components/complete-account-setup/repository/complete_account_setup_repositoryimpl.dart';
 import 'package:sprout_mobile/src/components/complete-account-setup/service/complete_account_setup_service.dart';
 import 'package:sprout_mobile/src/components/help/repository/help_repositoryimpl.dart';
@@ -11,11 +13,15 @@ import 'package:sprout_mobile/src/components/home/repository/home_repositoryImpl
 import 'package:sprout_mobile/src/components/home/service/home_service.dart';
 import 'package:sprout_mobile/src/components/invoice/repository/invoice_repositoryImpl.dart';
 import 'package:sprout_mobile/src/components/invoice/service/invoice_service.dart';
+import 'package:sprout_mobile/src/components/pay-bills/repository/pay_bills_repositoryimpl.dart';
+import 'package:sprout_mobile/src/components/pay-bills/service/pay_bills_service.dart';
 import 'package:sprout_mobile/src/components/send-money/repository/send_money_repository.dart';
 import 'package:sprout_mobile/src/components/send-money/service/send_money_service.dart';
 import 'package:sprout_mobile/src/components/profile/repository/profile_repositoryimpl.dart';
 import 'package:sprout_mobile/src/components/profile/service/profile_service.dart';
 import 'package:sprout_mobile/src/public/repository/shared_repositoryimpl.dart';
+import 'package:sprout_mobile/src/public/services/date_service.dart';
+import 'package:sprout_mobile/src/public/services/pdf_service.dart';
 import 'package:sprout_mobile/src/public/services/shared_service.dart';
 
 import '../components/authentication/service/auth_service.dart';
@@ -55,4 +61,15 @@ Future<void> registerApiInstance() async {
   locator.registerLazySingleton<InvoiceRepositoryImpl>(
       () => InvoiceRepositoryImpl());
   locator.registerLazySingleton<InvoiceService>(() => InvoiceService());
+
+  locator.registerLazySingleton<BorrowRepositoryImpl>(
+      () => BorrowRepositoryImpl());
+  locator.registerLazySingleton<BorrowService>(() => BorrowService());
+
+  locator.registerLazySingleton<DateService>(() => DateService());
+  locator.registerLazySingleton<PdfService>(() => PdfService());
+
+  locator.registerLazySingleton<PayBillsRepositoryImpl>(
+      () => PayBillsRepositoryImpl());
+  locator.registerLazySingleton<PayBillsService>(() => PayBillsService());
 }

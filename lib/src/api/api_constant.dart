@@ -13,6 +13,7 @@ const String requestVerificationUrl = "user-management/api/v1/users/";
 const String uploadUrl = "user-management/api/v1/users/upload";
 const String changePinUrl = "user-management/api/v1/users/pin/change";
 const String createPinUrl = "user-management/api/v1/users/pin";
+const String uploadProfilePictureUrl = "user-management/api/v1/users/";
 
 //issue
 const String issueCategoriesUrl = "resolution/api/v1/categories";
@@ -26,6 +27,7 @@ const String submitDispenseErrorIssueUrl = "resolution/api/v1/issues/error";
 
 //transactions
 const String transactionsUrl = "transaction/api/v1/transactions/me";
+const String transactionReportsUrl = "transaction/api/v1/transactions/report";
 
 //wallet
 const String walletUrl = "wallet/api/v1/wallets/me";
@@ -35,6 +37,7 @@ const String beneficiaryUrl = "transfer/api/v1/beneficiary";
 const String banksUrl = "transfer/api/v1/banks";
 const String validateBankUrl = "transfer/api/v1/resolve/account";
 const String makeTransferUrl = "transfer/api/v1/disburse";
+const String addBeneficiaryUrl = "transfer/api/v1/beneficiary/add";
 
 //invoice
 const String getInvoicesUrl = "invoice/api/v1/invoice/invoices";
@@ -44,6 +47,15 @@ const String sendInvoiceUrl = "invoice/invoices/send";
 const String invoiceCustomersUrl = "invoice/api/v1/invoice/customers";
 const String createCustomerUrl = "invoice/customers/create";
 const String updateCustomerUrl = "invoice/customers/update/";
+
+//cashout
+const String initiateCardlessPaymentUrl =
+    "cashout/api/v1/netpos/mobile-initiate";
+const String saveCardlessPaymentUrl = "cashout/api/v1/netpos/mobile/save";
+
+//pay bills
+const String billsUrl = "bills/api/v2/";
+const String billerGroupsUrl = "bills/api/v2/biller-group";
 
 apiResponse(String? message, [String? responseCode]) {
   return {

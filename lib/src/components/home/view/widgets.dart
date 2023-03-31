@@ -1,19 +1,31 @@
+import 'dart:io';
+
 import 'package:badges/badges.dart' as badges;
+import 'package:clipboard/clipboard.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:sprout_mobile/src/components/help/view/complaint.dart';
 import 'package:sprout_mobile/src/components/notification/view/notification.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
 
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_svgs.dart';
 import '../../../utils/helper_widgets.dart';
-import '../../borow/borrow.dart';
-import '../../buy-airtime/view/buy-airtime.dart';
+import '../../borow/view/borrow.dart';
+import '../../buy-airtime/view/buy_airtime.dart';
 import '../../pay-bills/view/pay_bills.dart';
 import '../../send-money/view/send_money.dart';
+
+var oCcy = new NumberFormat("#,##0.00", "en_US");
+
+DateTime localDate(String date) {
+  return DateTime.parse(date).toLocal();
+}
 
 getHomeHeader(bool isDarkMode, abbreviation, int size) {
   return Padding(
@@ -92,18 +104,24 @@ class HistoryCard extends StatelessWidget {
     required this.isDarkMode,
     required this.transactionType,
     this.transactionAmount,
-    this.transactionRef,
-    this.transactionId,
     this.createdAt,
+    this.balance,
+    this.tfFee,
+    this.commission,
+    this.incoming,
+    this.narration,
   }) : super(key: key);
 
   final ThemeData theme;
   final bool isDarkMode;
   final String transactionType;
   final num? transactionAmount;
-  final String? transactionRef;
   final String? createdAt;
-  final String? transactionId;
+  final num? balance;
+  final num? tfFee;
+  final commission;
+  final bool? incoming;
+  final String? narration;
 
   @override
   Widget build(BuildContext context) {
@@ -111,13 +129,12 @@ class HistoryCard extends StatelessWidget {
     switch (transactionType) {
       case "FUNDS_TRANSFER":
         tType = "Funds Transfer";
-
         break;
       case "BILLS_PAYMENT":
         tType = "Bills";
         break;
       case "CASH_OUT":
-        tType = "Cash Withdrawal";
+        tType = "POS Withdrawal";
         break;
       case "WALLET_TOP_UP":
         tType = "Wallet Top Up";
@@ -146,8 +163,15 @@ class HistoryCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SvgPicture.asset(
-                      AppSvg.send,
-                      color: AppColors.mainGreen,
+                      transactionType == "BILLS_PAYMENT"
+                          ? AppSvg.bill
+                          : transactionType == "AIRTIME_VTU"
+                              ? AppSvg.airtime
+                              : transactionType == "CASH_OUT" ||
+                                      transactionType == "WALLET_TOP_UP"
+                                  ? AppSvg.swap
+                                  : AppSvg.send,
+                      color: incoming! ? AppColors.mainGreen : AppColors.red,
                       height: 18,
                       width: 18,
                     ),
@@ -158,8 +182,8 @@ class HistoryCard extends StatelessWidget {
                         Text(
                           tType,
                           style: TextStyle(
-                              fontFamily: "DMSans",
-                              fontSize: 12.sp,
+                              fontFamily: "Mont",
+                              fontSize: 10.sp,
                               color: isDarkMode
                                   ? AppColors.white
                                   : AppColors.black,
@@ -167,43 +191,26 @@ class HistoryCard extends StatelessWidget {
                         ),
                         addVerticalSpace(5.h),
                         Container(
-                          width: MediaQuery.of(context).size.width * .6,
+                          width: MediaQuery.of(context).size.width * .5,
                           child: Text(
-                            transactionRef!,
+                            DateFormat('h:mma\t.\tdd-MM-yyyy')
+                                .format(localDate(createdAt!)),
                             style: TextStyle(
-                                fontFamily: "DMSans",
-                                fontSize: 10.sp,
-                                color: isDarkMode
-                                    ? AppColors.inputLabelColor
-                                    : AppColors.black,
+                                fontFamily: "Mont",
+                                fontSize: 9.sp,
+                                color: AppColors.inputLabelColor,
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
-                        addVerticalSpace(5.h),
+                        addVerticalSpace(10.h),
                         Container(
-                          width: MediaQuery.of(context).size.width * .6,
+                          width: MediaQuery.of(context).size.width * .5,
                           child: Text(
-                            transactionId!,
+                            narration?.split("_").join(" ") ?? "",
                             style: TextStyle(
-                                fontFamily: "DMSans",
-                                fontSize: 10.sp,
-                                color: isDarkMode
-                                    ? AppColors.inputLabelColor
-                                    : AppColors.black,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                        addVerticalSpace(5.h),
-                        Container(
-                          width: MediaQuery.of(context).size.width * .6,
-                          child: Text(
-                            createdAt!,
-                            style: TextStyle(
-                                fontFamily: "DMSans",
-                                fontSize: 10.sp,
-                                color: isDarkMode
-                                    ? AppColors.inputLabelColor
-                                    : AppColors.black,
+                                fontFamily: "Mont",
+                                fontSize: 9.sp,
+                                color: AppColors.greyText,
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
@@ -211,20 +218,62 @@ class HistoryCard extends StatelessWidget {
                     )
                   ],
                 ),
-                Text(
-                  transactionAmount.toString(),
-                  style: TextStyle(
-                      fontFamily: "DMSans",
-                      color: AppColors.mainGreen,
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.w500),
-                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      "₦ " +
+                          (transactionAmount != null
+                              ? oCcy
+                                  .format(double.parse(
+                                      transactionAmount!.toStringAsFixed(2)))
+                                  .toString()
+                              : "0.00"),
+                      style: TextStyle(
+                          fontFamily: "Mont",
+                          fontSize: 9.sp,
+                          color:
+                              incoming! ? AppColors.mainGreen : AppColors.red,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    addVerticalSpace(5.h),
+                    Text(
+                      "Fee: ₦ " +
+                          (tfFee != null
+                              ? oCcy
+                                  .format(
+                                      double.parse(tfFee!.toStringAsFixed(2)))
+                                  .toString()
+                              : "0.00"),
+                      style: TextStyle(
+                          fontFamily: "Mont",
+                          fontSize: 9.sp,
+                          color: AppColors.inputLabelColor,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    addVerticalSpace(5.h),
+                    Text(
+                      "Balance: ₦ " +
+                          (balance != null
+                              ? oCcy
+                                  .format(
+                                      double.parse(balance!.toStringAsFixed(2)))
+                                  .toString()
+                              : "0.00"),
+                      style: TextStyle(
+                          fontFamily: "Mont",
+                          fontSize: 9.sp,
+                          color: AppColors.inputLabelColor,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                )
               ],
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.only(left: 20),
               child: Divider(
-                thickness: 1,
+                thickness: .4,
               ),
             )
           ],
@@ -281,6 +330,7 @@ getItems(isDark) {
   );
 }
 
+// ignore: camel_case_types
 class itemOptions extends StatelessWidget {
   itemOptions(
       {Key? key,
@@ -348,7 +398,10 @@ class BalanceCard extends StatelessWidget {
       required this.bankVisible,
       required this.iconVisible,
       required this.copyVisible,
-      required this.buttonVisible})
+      required this.buttonVisible,
+      required this.showAmount,
+      required this.onTap,
+      required this.setVisibility})
       : super(key: key);
 
   final bool isDarkMode;
@@ -366,6 +419,9 @@ class BalanceCard extends StatelessWidget {
   final bool bankVisible;
   final bool copyVisible;
   final bool buttonVisible;
+  final bool showAmount;
+  final VoidCallback onTap;
+  final VoidCallback setVisibility;
 
   @override
   Widget build(BuildContext context) {
@@ -423,70 +479,94 @@ class BalanceCard extends StatelessWidget {
                   children: [
                     Container(
                       height: 60,
-                      child: Row(
-                        children: [
-                          Text(
-                            symbol,
-                            style: TextStyle(
-                                fontFamily: "DMSans",
-                                fontSize: 14.sp,
-                                color: isDarkMode
-                                    ? AppColors.white
-                                    : AppColors.black,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          Text(
-                            naira,
-                            style: TextStyle(
-                                fontFamily: "DMSans",
-                                fontSize: 26.sp,
-                                color: isDarkMode
-                                    ? AppColors.white
-                                    : AppColors.black,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          Text(
-                            ".",
-                            style: TextStyle(
-                                fontFamily: "DMSans",
-                                fontSize: 26.sp,
-                                color: isDarkMode
-                                    ? AppColors.white
-                                    : AppColors.black,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 5),
-                            child: Text(
-                              kobo,
-                              style: TextStyle(
-                                  fontFamily: "DMSans",
-                                  fontSize: 16.sp,
-                                  color: isDarkMode
-                                      ? AppColors.white
-                                      : AppColors.black,
-                                  fontWeight: FontWeight.w500),
+                      child: showAmount
+                          ? Row(
+                              children: [
+                                Text(
+                                  symbol,
+                                  style: TextStyle(
+                                      fontFamily: "Mont",
+                                      fontSize: 14.sp,
+                                      color: isDarkMode
+                                          ? AppColors.white
+                                          : AppColors.black,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                Text(
+                                  naira,
+                                  style: TextStyle(
+                                      fontFamily: "DMSans",
+                                      fontSize: 26.sp,
+                                      color: isDarkMode
+                                          ? AppColors.white
+                                          : AppColors.black,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                kobo != ""
+                                    ? Text(
+                                        ".",
+                                        style: TextStyle(
+                                            fontFamily: "DMSans",
+                                            fontSize: 26.sp,
+                                            color: isDarkMode
+                                                ? AppColors.white
+                                                : AppColors.black,
+                                            fontWeight: FontWeight.w700),
+                                      )
+                                    : Text(""),
+                                Container(
+                                  margin: EdgeInsets.only(top: 5),
+                                  child: Text(
+                                    kobo,
+                                    style: TextStyle(
+                                        fontFamily: "DMSans",
+                                        fontSize: 16.sp,
+                                        color: isDarkMode
+                                            ? AppColors.white
+                                            : AppColors.black,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                )
+                              ],
+                            )
+                          : Row(
+                              children: [
+                                Text(
+                                  "******",
+                                  style: TextStyle(
+                                      fontFamily: "DMSans",
+                                      fontSize: 26.sp,
+                                      color: isDarkMode
+                                          ? AppColors.white
+                                          : AppColors.black,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                              ],
                             ),
-                          )
-                        ],
-                      ),
                     ),
                     addHorizontalSpace(24.w),
-                    Container(
-                      height: 36.h,
-                      width: 36.w,
-                      alignment: Alignment.topRight,
-                      decoration: BoxDecoration(
-                          color: isDarkMode ? AppColors.black : AppColors.white,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(0.0),
-                          child: Icon(CommunityMaterialIcons.eye_off_outline,
-                              size: 18,
-                              color: isDarkMode
-                                  ? AppColors.white
-                                  : AppColors.black),
+                    InkWell(
+                      onTap: setVisibility,
+                      child: Container(
+                        height: 36.h,
+                        width: 36.w,
+                        alignment: Alignment.topRight,
+                        decoration: BoxDecoration(
+                            color:
+                                isDarkMode ? AppColors.black : AppColors.white,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(0.0),
+                            child: Icon(
+                                showAmount
+                                    ? CommunityMaterialIcons.eye_off_outline
+                                    : CommunityMaterialIcons.eye_outline,
+                                size: 18,
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.black),
+                          ),
                         ),
                       ),
                     )
@@ -498,37 +578,39 @@ class BalanceCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Visibility(
-                  visible: buttonVisible,
-                  child: Container(
-                    width: 122.w,
-                    height: 32.h,
-                    decoration: BoxDecoration(
-                        color: buttonColor,
-                        borderRadius: BorderRadius.circular(5)),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Visibility(
-                            visible: iconVisible,
-                            child: Icon(
-                              Icons.add,
-                              color: AppColors.white,
-                              size: 18,
-                            ),
-                          ),
-                          addHorizontalSpace(5.w),
-                          Text(
-                            buttontext,
-                            style: TextStyle(
-                                fontFamily: "DMSans",
-                                color: AppColors.white,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w700),
-                          )
-                        ]),
-                  ),
-                ),
+                InkWell(
+                    onTap: onTap,
+                    child: Visibility(
+                      visible: buttonVisible,
+                      child: Container(
+                        width: 122.w,
+                        height: 32.h,
+                        decoration: BoxDecoration(
+                            color: buttonColor,
+                            borderRadius: BorderRadius.circular(5)),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Visibility(
+                                visible: iconVisible,
+                                child: Icon(
+                                  Icons.add,
+                                  color: AppColors.white,
+                                  size: 18,
+                                ),
+                              ),
+                              addHorizontalSpace(5.w),
+                              Text(
+                                buttontext,
+                                style: TextStyle(
+                                    fontFamily: "DMSans",
+                                    color: AppColors.white,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w700),
+                              )
+                            ]),
+                      ),
+                    )),
                 Visibility(
                   visible: bankVisible,
                   child: Column(
@@ -556,15 +638,33 @@ class BalanceCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Visibility(
-                  visible: copyVisible,
-                  child: SvgPicture.asset(
-                    AppSvg.copy,
-                    height: 20,
-                  ),
-                )
+                GestureDetector(
+                    onTap: () => Platform.isIOS
+                        ? Clipboard.setData(ClipboardData(text: accountNumber))
+                            .then((value) => {
+                                  CustomToastNotification.show(
+                                      "Account number has been copied successfully",
+                                      type: ToastType.success),
+                                })
+                        : FlutterClipboard.copy(accountNumber).then((value) => {
+                              CustomToastNotification.show(
+                                  "Account number has been copied successfully",
+                                  type: ToastType.success),
+                            }),
+                    child: Container(
+                      color: Colors.transparent,
+                      alignment: Alignment.center,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              AppSvg.copy,
+                              height: 16,
+                            ),
+                          ]),
+                    )),
               ],
-            )
+            ),
           ],
         ),
       ),

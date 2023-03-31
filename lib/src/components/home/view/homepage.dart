@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/complete-account-setup/view/document_upload.dart';
+import 'package:sprout_mobile/src/components/fund-wallet/view/fund_wallet.dart';
 import 'package:sprout_mobile/src/components/home/view/all_transactions.dart';
 import 'package:sprout_mobile/src/components/home/view/home_chart.dart';
+import 'package:sprout_mobile/src/components/home/view/transaction_details.dart';
 import 'package:sprout_mobile/src/components/home/view/widgets.dart';
 import 'package:sprout_mobile/src/components/notification/controller/notification_controller.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
+import 'package:sprout_mobile/src/utils/global_function.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
 import '../controller/home_controller.dart';
@@ -84,23 +87,30 @@ class HomePage extends StatelessWidget {
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             children: [
-              BalanceCard(
-                isDarkMode: isDarkMode,
-                flag: AppSvg.nigeria,
-                currency: "Naira",
-                title: "Available Balance",
-                symbol: "N",
-                naira: homeController.walletBalance.toString(),
-                kobo: "",
-                bank: homeController.bankToUse,
-                accountNumber: homeController.accountNumberToUse,
-                buttontext: "Fund Account",
-                buttonColor: AppColors.primaryColor,
-                copyVisible: true,
-                iconVisible: true,
-                bankVisible: true,
-                buttonVisible: true,
-              ),
+              Obx((() => BalanceCard(
+                    isDarkMode: isDarkMode,
+                    flag: AppSvg.nigeria,
+                    currency: "Naira",
+                    title: "Available Balance",
+                    symbol: currencySymbol,
+                    naira: homeController.formatter
+                        .formatAsMoney(homeController.walletBalance.value),
+                    kobo: "",
+                    bank: homeController.bankToUse.value,
+                    accountNumber: homeController.accountNumberToUse.value,
+                    buttontext: "Fund Account",
+                    buttonColor: AppColors.primaryColor,
+                    copyVisible: true,
+                    iconVisible: true,
+                    bankVisible: true,
+                    buttonVisible: true,
+                    showAmount: homeController.showAmount.value,
+                    onTap: () => push(page: FundWalletScreen()),
+                    setVisibility: () => {
+                      homeController.showAmount.value =
+                          !homeController.showAmount.value
+                    },
+                  ))),
               addHorizontalSpace(10.w),
               BalanceCard(
                 isDarkMode: isDarkMode,
@@ -118,25 +128,33 @@ class HomePage extends StatelessWidget {
                 iconVisible: false,
                 bankVisible: false,
                 buttonVisible: true,
+                showAmount: homeController.showAmount.value,
+                onTap: () => {},
+                setVisibility: () => {
+                  homeController.showAmount.value =
+                      !homeController.showAmount.value
+                },
               ),
-              addHorizontalSpace(10.w),
-              BalanceCard(
-                isDarkMode: isDarkMode,
-                flag: AppSvg.usa,
-                currency: "USD",
-                title: "Account Balance",
-                symbol: 'N',
-                naira: "19,260",
-                kobo: "00",
-                bank: "Providus Bank",
-                accountNumber: "0087642335",
-                buttontext: "Details",
-                buttonColor: AppColors.black,
-                copyVisible: false,
-                iconVisible: false,
-                bankVisible: false,
-                buttonVisible: false,
-              )
+              // addHorizontalSpace(10.w),
+              // BalanceCard(
+              //   isDarkMode: isDarkMode,
+              //   flag: AppSvg.usa,
+              //   currency: "USD",
+              //   title: "Account Balance",
+              //   symbol: 'N',
+              //   naira: "19,260",
+              //   kobo: "00",
+              //   bank: "Providus Bank",
+              //   accountNumber: "0087642335",
+              //   buttontext: "Details",
+              //   buttonColor: AppColors.black,
+              //   copyVisible: false,
+              //   iconVisible: false,
+              //   bankVisible: false,
+              //   buttonVisible: false,
+              // showAmount: homeController.showAmount.value,
+              //   onTap: () => {},
+              // )
             ],
           ),
         ),
@@ -145,136 +163,158 @@ class HomePage extends StatelessWidget {
         SizedBox(
           height: 16.h,
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: SizedBox(
-            height: 160.h,
-            child: Container(
-              decoration: BoxDecoration(
-                  color: isDarkMode ? Color(0xFF161618) : AppColors.greyBg,
-                  borderRadius: BorderRadius.circular(10)),
-              child: Padding(
-                padding: const EdgeInsets.all(11.0),
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.symmetric(horizontal: 0),
-                  children: [
-                    Container(
-                      width: 282.w,
-                      height: 122.h,
-                      decoration: BoxDecoration(
-                          color: AppColors.primaryColor,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Complete Account Setup",
-                              style: TextStyle(
-                                  fontFamily: "DMSans",
-                                  fontSize: 12.sp,
-                                  color: AppColors.white,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            addVerticalSpace(39.h),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(),
-                                Container(
-                                  height: 37.h,
-                                  width: 127.w,
+        Obx((() => !homeController.isApproved.value
+            ? Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: SizedBox(
+                  height: 160.h,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color:
+                            isDarkMode ? Color(0xFF161618) : AppColors.greyBg,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(11.0),
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        padding: EdgeInsets.symmetric(horizontal: 0),
+                        children: [
+                          homeController.isApproved.value
+                              ? SizedBox()
+                              : Container(
+                                  width: 282.w,
+                                  height: 122.h,
                                   decoration: BoxDecoration(
-                                      color: isDarkMode
-                                          ? AppColors.black
-                                          : AppColors.white,
-                                      borderRadius: BorderRadius.circular(5)),
-                                  child: Center(
-                                      child: GestureDetector(
-                                    onTap: () => Get.to(() => DocumentUpload()),
-                                    child: Text(
-                                      "Complete",
-                                      style: TextStyle(
-                                          fontFamily: "DMSans",
-                                          fontSize: 13.sp,
-                                          color: isDarkMode
-                                              ? AppColors.white
-                                              : AppColors.black,
-                                          fontWeight: FontWeight.w400),
+                                      color: AppColors.primaryColor,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Complete Account Setup",
+                                          style: TextStyle(
+                                              fontFamily: "DMSans",
+                                              fontSize: 12.sp,
+                                              color: AppColors.white,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        addVerticalSpace(39.h),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(),
+                                            Container(
+                                              height: 37.h,
+                                              width: 127.w,
+                                              decoration: BoxDecoration(
+                                                  color: isDarkMode
+                                                      ? AppColors.black
+                                                      : AppColors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(5)),
+                                              child: Center(
+                                                  child: GestureDetector(
+                                                onTap: () => {
+                                                  homeController.inReview.value
+                                                      ? {}
+                                                      : Get.to(() =>
+                                                          DocumentUpload())
+                                                },
+                                                child: Text(
+                                                  "Complete",
+                                                  style: TextStyle(
+                                                      fontFamily: "DMSans",
+                                                      fontSize: 13.sp,
+                                                      color: isDarkMode
+                                                          ? AppColors.white
+                                                          : AppColors.black,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                ),
+                                              )),
+                                            ),
+                                          ],
+                                        )
+                                      ],
                                     ),
-                                  )),
+                                  ),
                                 ),
-                              ],
-                            )
-                          ],
-                        ),
+                          homeController.isApproved.value
+                              ? SizedBox()
+                              : addHorizontalSpace(10.w),
+                          Container(
+                            width: homeController.isApproved.value
+                                ? MediaQuery.of(context).size.width * .825
+                                : 282.w,
+                            height: 122.h,
+                            decoration: BoxDecoration(
+                                color: AppColors.primaryColor,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Advert will be placed here",
+                                    style: TextStyle(
+                                        fontFamily: "DMSans",
+                                        fontSize: 12.sp,
+                                        color: AppColors.white,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  addVerticalSpace(39.h),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(),
+                                      Container(
+                                        height: 37.h,
+                                        width: 127.w,
+                                        decoration: BoxDecoration(
+                                            color: isDarkMode
+                                                ? AppColors.black
+                                                : AppColors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        alignment: Alignment.topRight,
+                                        child: Center(
+                                            child: GestureDetector(
+                                          onTap: () => {},
+                                          child: Text(
+                                            "Advert button",
+                                            style: TextStyle(
+                                                fontFamily: "DMSans",
+                                                fontSize: 13.sp,
+                                                color: isDarkMode
+                                                    ? AppColors.white
+                                                    : AppColors.black,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                        )),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ),
-                    addHorizontalSpace(10.w),
-                    Container(
-                      width: 282.w,
-                      height: 122.h,
-                      decoration: BoxDecoration(
-                          color: AppColors.primaryColor,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Complete Account Setup",
-                              style: TextStyle(
-                                  fontFamily: "DMSans",
-                                  fontSize: 12.sp,
-                                  color: AppColors.white,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            addVerticalSpace(39.h),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(),
-                                Container(
-                                  height: 37.h,
-                                  width: 127.w,
-                                  decoration: BoxDecoration(
-                                      color: isDarkMode
-                                          ? AppColors.black
-                                          : AppColors.white,
-                                      borderRadius: BorderRadius.circular(10)),
-                                  alignment: Alignment.topRight,
-                                  child: Center(
-                                      child: GestureDetector(
-                                    onTap: () => Get.to(() => DocumentUpload()),
-                                    child: Text(
-                                      "Complete",
-                                      style: TextStyle(
-                                          fontFamily: "DMSans",
-                                          fontSize: 13.sp,
-                                          color: isDarkMode
-                                              ? AppColors.white
-                                              : AppColors.black,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  )),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ),
-        ),
+              )
+            : SizedBox())),
         addVerticalSpace(20.h),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -294,8 +334,9 @@ class HomePage extends StatelessWidget {
               InkWell(
                 onTap: () {
                   push(
-                      page: AlltransactionScreen(),
-                      arguments: homeController.transactions);
+                    page: AlltransactionScreen(),
+                    // arguments: homeController.transactions
+                  );
                 },
                 child: Text(
                   "See All",
@@ -425,21 +466,44 @@ class HomePage extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: ListView.builder(
-            itemCount: homeController.transactions.value.length > 5
-                ? 5
-                : homeController.transactions.length,
+            itemCount: homeController.transactions.length,
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: ((context, index) {
-              return HistoryCard(
-                theme: theme,
-                isDarkMode: isDarkMode,
-                transactionType: homeController.transactions.value[index].type!,
-                transactionAmount:
-                    homeController.transactions.value[index].transactionAmount!,
-                transactionRef: homeController.transactions.value[index].ref,
-                transactionId: homeController.transactions.value[index].id,
-                createdAt: homeController.transactions.value[index].createdAt,
+              return InkWell(
+                onTap: () => push(
+                    page: TransactionDetailsScreen(),
+                    arguments: homeController.transactions[index]),
+                child: HistoryCard(
+                  theme: theme,
+                  isDarkMode: isDarkMode,
+                  transactionType: homeController.transactions[index].type!,
+                  transactionAmount:
+                      homeController.transactions[index].transactionAmount!,
+                  createdAt: homeController.transactions[index].createdAt,
+                  balance: homeController.transactions[index].postBalance,
+                  tfFee: homeController.transactions[index].transactionFee,
+                  commission: homeController.transactions[index].agentCut,
+                  incoming:
+                      homeController.transactions[index].type == "CASH_OUT" ||
+                          homeController.transactions[index].type ==
+                              "WALLET_TOP_UP",
+                  narration: homeController.transactions[index].type ==
+                              "DEPOSIT" ||
+                          homeController.transactions[index].type ==
+                              "FUNDS_TRANSFER" ||
+                          homeController.transactions[index].type ==
+                              "WALLET_TOP_UP"
+                      ? homeController.transactions[index].narration
+                      : homeController.transactions[index].type ==
+                              "BILLS_PAYMENT"
+                          ? homeController.transactions[index].billerPackage
+                          : homeController.transactions[index].type ==
+                                  "AIRTIME_VTU"
+                              ? homeController.transactions[index].billerPackage
+                              : homeController
+                                  .transactions[index].transactionID,
+                ),
               );
             })),
       );

@@ -1,30 +1,46 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:sprout_mobile/src/public/widgets/custom_dropdown_button_field.dart';
+import 'package:sprout_mobile/src/components/borow/controller/nfc_controller.dart';
+import 'package:sprout_mobile/src/components/borow/view/widgets.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 
-import '../../public/widgets/custom_button.dart';
-import '../../utils/app_colors.dart';
-import '../../utils/app_formatter.dart';
+import '../../../utils/app_colors.dart';
 
-class AmountScreen extends StatelessWidget {
-  AmountScreen({super.key});
-  final AppFormatter formatter = Get.put(AppFormatter());
-  late MoneyMaskedTextController amountController =
-      new MoneyMaskedTextController();
-  String? cardType;
+// ignore: must_be_immutable
+class NfcAmountScreen extends StatelessWidget {
+  NfcAmountScreen({super.key});
+
+  late NfcController nfcController;
+  static const platform = const MethodChannel('flutter.native/helper');
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    amountController = formatter.getMoneyController();
+    nfcController = Get.put(NfcController());
+
     return SafeArea(
       child: Scaffold(
+        bottomNavigationBar: Padding(
+            padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
+            child: DecisionButton(
+              isDarkMode: isDarkMode,
+              buttonText: "Continue",
+              onTap: () {
+                nfcController.validate().then((value) => {
+                      if (value != null)
+                        {
+                          startNetPOS(context, nfcController.amountToSend,
+                              nfcController.bankTID, value["remark"]),
+                        }
+                    });
+              },
+            )),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
           child: SingleChildScrollView(
@@ -32,18 +48,19 @@ class AmountScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 getHeader(isDarkMode),
-                addVerticalSpace(50.h),
+                addVerticalSpace(90.h),
                 Text(
                   "Enter Amount",
                   style: TextStyle(
                       fontFamily: "DMSans",
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
-                      color: isDarkMode ? AppColors.greyText : AppColors.grey),
+                      color:
+                          isDarkMode ? AppColors.greyText : AppColors.greyText),
                 ),
                 Container(
                   child: TextFormField(
-                    controller: amountController,
+                    controller: nfcController.amountController,
                     enabled: true,
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -59,7 +76,9 @@ class AmountScreen extends StatelessWidget {
                         //prefixText: "NGN",
                         prefix: Padding(
                           padding: const EdgeInsets.only(bottom: 20.0),
-                          child: Text("NGN"),
+                          child: Text(
+                            "NGN",
+                          ),
                         ),
                         prefixStyle: TextStyle(
                           fontSize: 20.sp,
@@ -72,31 +91,33 @@ class AmountScreen extends StatelessWidget {
                         )),
                   ),
                 ),
-                addVerticalSpace(30.h),
-                Text("Select Card Type"),
-                CustomDropdownButtonFormField(
-                  //  label: "Select Card Type",
-                  onSaved: (value) {
-                    cardType = value;
-                  },
-                  fillColor: isDarkMode
-                      ? AppColors.inputBackgroundColor
-                      : AppColors.grey,
-                  items: ["Visa", "MasterCard", "Verve"],
-                ),
-                addVerticalSpace(83.h),
-                DecisionButton(
-                  isDarkMode: isDarkMode,
-                  buttonText: "Continue",
-                  onTap: () {
-                    // Get.to(() => TransactionDetailsScreen());
-                  },
-                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  void startNetPOS(BuildContext context, String amountToSend, String bankTID,
+      String remark) async {
+    nfcController = Get.put(NfcController());
+    try {
+      final String result = await platform.invokeMethod("virtualPOS",
+          {"amount": amountToSend, "terminalId": bankTID, "remark": remark});
+      nfcController.validateNext(result);
+    } on PlatformException catch (e) {
+      submitCallback(context, e.code, e.message ?? "");
+    }
+  }
+
+  void submitCallback(BuildContext context, String title, String message) {
+    Future.delayed(
+        Duration(microseconds: 500),
+        () => showDialog(
+              context: (context),
+              builder: (BuildContext context) =>
+                  CardlessFeedback(title: title, message: message),
+            ));
   }
 }

@@ -18,9 +18,7 @@ import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 
 // ignore: must_be_immutable
 class PendingIssueScreen extends StatelessWidget {
-  PendingIssueScreen(
-      {super.key, required this.issue, required this.refreshIssue});
-  final Issues issue;
+  PendingIssueScreen({super.key, required this.refreshIssue});
   final VoidCallback refreshIssue;
 
   late HelpController helpController;
@@ -31,8 +29,6 @@ class PendingIssueScreen extends StatelessWidget {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     helpController = Get.put(HelpController());
     pendingIssuesController = Get.put(PendingIssuesController());
-    pendingIssuesController.setDescription(issue);
-    pendingIssuesController.addFiles(issue);
     return SafeArea(
       child: Scaffold(
           bottomNavigationBar: Padding(
@@ -41,163 +37,290 @@ class PendingIssueScreen extends StatelessWidget {
               isDarkMode: isDarkMode,
               buttonText: "Update",
               onTap: () {
-                pendingIssuesController.validate(issue).then((value) => {
-                      if (value != null)
-                        {
-                          refreshIssue(),
-                          submitCallback(issue, context),
-                        }
-                    });
+                pendingIssuesController
+                    .validate(pendingIssuesController.issue.value)
+                    .then((value) => {
+                          if (value != null)
+                            {
+                              refreshIssue(),
+                              submitCallback(
+                                  pendingIssuesController.issue.value, context),
+                            }
+                        });
               },
             ),
           ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-            child: SingleChildScrollView(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                getHeader(isDarkMode, hideHelp: true),
-                addVerticalSpace(30.h),
-                IssueHeading(
-                    title: "Case ID: ",
-                    subtitle: issue.caseId ?? "",
-                    offset: 0.7),
-                SizedBox(height: 10),
-                IssueHeading(
-                    title: "Issue Category: ",
-                    subtitle: issue.issueCategory!.split("_").join(" "),
-                    offset: 0.6),
-                SizedBox(height: 10),
-                IssueHeading(
-                    title: "Issue Subcategory: ",
-                    subtitle: issue.issueSubCategory!.split("_").join(" "),
-                    offset: 0.5),
-                SizedBox(height: 10),
-                issue.issueSubCategory == 'DISPENSE_ERROR'
-                    ? Column(
-                        children: [
-                          IssueHeading(
-                              title: "Transaction Date: ",
-                              subtitle: issue.transactionDate != null
-                                  ? DateFormat('dd-MM-yyyy').format(
-                                      helpController.localDate(
-                                          issue.transactionDate ?? ""))
-                                  : '-',
-                              offset: 0.5),
-                          SizedBox(height: 10),
-                          IssueHeading(
-                              title: "Transaction Amount: ",
-                              subtitle: "₦ " +
-                                  helpController.oCcy.format(int.parse(
-                                      (issue.transactionAmount != null
-                                              ? issue.transactionAmount!
-                                                  .toStringAsFixed(2)
-                                              : "0.00")
-                                          .split(".")[0])),
-                              offset: 0.5),
-                          SizedBox(height: 10),
-                          IssueHeading(
-                              title: "Card PAN: ",
-                              subtitle: issue.pan ?? "",
-                              offset: 0.5),
-                          SizedBox(height: 10),
-                          IssueHeading(
-                              title: "Name on Card: ",
-                              subtitle: issue.cardName ?? "",
-                              offset: 0.5),
-                          SizedBox(height: 10),
-                          IssueHeading(
-                              title: "Cardholder phone no.: ",
-                              subtitle: issue.cardHolderPhoneNumber ?? "",
-                              offset: 0.4),
-                          SizedBox(height: 10),
-                          IssueHeading(
-                              title: "RRN: ",
-                              subtitle: issue.rrn ?? "",
-                              offset: 0.5),
-                          SizedBox(height: 10),
-                        ],
-                      )
-                    : SizedBox(),
-                IssueHeading(
-                    title: "Status: ",
-                    subtitle: issue.status!.split("_").join(" "),
-                    offset: 0.7),
-                SizedBox(height: 10),
-                IssueHeading(
-                    title: "Creation Date: ",
-                    subtitle: issue.creationDate != null
-                        ? DateFormat('dd-MM-yyyy \thh:mm:ssa').format(
-                            helpController.localDate(issue.creationDate ?? ""))
-                        : '-',
-                    offset: 0.6),
-                SizedBox(height: 10),
-                IssueHeading(
-                    title: "Resolution Deadline: ",
-                    subtitle: issue.resolutionDeadline != null
-                        ? DateFormat('dd-MM-yyyy \thh:mm:ssa').format(
-                            helpController
-                                .localDate(issue.resolutionDeadline ?? ""))
-                        : '-',
-                    offset: 0.5),
-                SizedBox(height: 10),
-                IssueHeading(
-                    title: "Created By: ",
-                    subtitle: issue.createdBy ?? "",
-                    offset: 0.6),
-                SizedBox(height: 30),
-                Container(
-                  width: double.infinity,
-                  child: Text(
-                    "Your Issue:",
-                    style: TextStyle(
-                      color: isDarkMode
-                          ? AppColors.white
-                          : Color.fromRGBO(29, 30, 31, 1),
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
+          body: Obx((() => Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                child: SingleChildScrollView(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    getHeader(isDarkMode, hideHelp: true),
+                    addVerticalSpace(30.h),
+                    IssueHeading(
+                        title: "Case ID: ",
+                        subtitle:
+                            pendingIssuesController.issue.value?.caseId ?? "",
+                        offset: 0.7),
+                    SizedBox(height: 10),
+                    IssueHeading(
+                        title: "Issue Category: ",
+                        subtitle: pendingIssuesController
+                            .issue.value.issueCategory!
+                            .split("_")
+                            .join(" "),
+                        offset: 0.6),
+                    SizedBox(height: 10),
+                    IssueHeading(
+                        title: "Issue Subcategory: ",
+                        subtitle: pendingIssuesController
+                            .issue.value.issueSubCategory!
+                            .split("_")
+                            .join(" "),
+                        offset: 0.5),
+                    SizedBox(height: 10),
+                    pendingIssuesController.issue.value.issueSubCategory ==
+                            'DISPENSE_ERROR'
+                        ? Column(
+                            children: [
+                              IssueHeading(
+                                  title: "Transaction Date: ",
+                                  subtitle: pendingIssuesController
+                                              .issue.value.transactionDate !=
+                                          null
+                                      ? DateFormat('dd-MM-yyyy').format(
+                                          helpController.localDate(
+                                              pendingIssuesController.issue
+                                                      .value.transactionDate ??
+                                                  ""))
+                                      : '-',
+                                  offset: 0.5),
+                              SizedBox(height: 10),
+                              IssueHeading(
+                                  title: "Transaction Amount: ",
+                                  subtitle: "₦ " +
+                                      helpController.oCcy.format(int.parse(
+                                          (pendingIssuesController.issue.value
+                                                          .transactionAmount !=
+                                                      null
+                                                  ? pendingIssuesController
+                                                      .issue
+                                                      .value
+                                                      .transactionAmount!
+                                                      .toStringAsFixed(2)
+                                                  : "0.00")
+                                              .split(".")[0])),
+                                  offset: 0.5),
+                              SizedBox(height: 10),
+                              IssueHeading(
+                                  title: "Card PAN: ",
+                                  subtitle:
+                                      pendingIssuesController.issue.value.pan ??
+                                          "",
+                                  offset: 0.5),
+                              SizedBox(height: 10),
+                              IssueHeading(
+                                  title: "Name on Card: ",
+                                  subtitle: pendingIssuesController
+                                          .issue.value.cardName ??
+                                      "",
+                                  offset: 0.5),
+                              SizedBox(height: 10),
+                              IssueHeading(
+                                  title: "Cardholder phone no.: ",
+                                  subtitle: pendingIssuesController
+                                          .issue.value.cardHolderPhoneNumber ??
+                                      "",
+                                  offset: 0.4),
+                              SizedBox(height: 10),
+                              IssueHeading(
+                                  title: "RRN: ",
+                                  subtitle:
+                                      pendingIssuesController.issue.value.rrn ??
+                                          "",
+                                  offset: 0.5),
+                              SizedBox(height: 10),
+                            ],
+                          )
+                        : SizedBox(),
+                    IssueHeading(
+                        title: "Status: ",
+                        subtitle: pendingIssuesController.issue.value.status!
+                            .split("_")
+                            .join(" "),
+                        offset: 0.7),
+                    SizedBox(height: 10),
+                    IssueHeading(
+                        title: "Creation Date: ",
+                        subtitle: pendingIssuesController
+                                    .issue.value.creationDate !=
+                                null
+                            ? DateFormat('dd-MM-yyyy \thh:mm:ssa').format(
+                                helpController.localDate(pendingIssuesController
+                                        .issue.value.creationDate ??
+                                    ""))
+                            : '-',
+                        offset: 0.6),
+                    SizedBox(height: 10),
+                    IssueHeading(
+                        title: "Resolution Deadline: ",
+                        subtitle: pendingIssuesController
+                                    .issue.value.resolutionDeadline !=
+                                null
+                            ? DateFormat('dd-MM-yyyy \thh:mm:ssa').format(
+                                helpController.localDate(pendingIssuesController
+                                        .issue.value.resolutionDeadline ??
+                                    ""))
+                            : '-',
+                        offset: 0.5),
+                    SizedBox(height: 10),
+                    IssueHeading(
+                        title: "Created By: ",
+                        subtitle:
+                            pendingIssuesController.issue.value.createdBy ?? "",
+                        offset: 0.6),
+                    SizedBox(height: 30),
+                    Container(
+                      width: double.infinity,
+                      child: Text(
+                        "Your Issue:",
+                        style: TextStyle(
+                          color: isDarkMode
+                              ? AppColors.white
+                              : Color.fromRGBO(29, 30, 31, 1),
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                SizedBox(height: 5),
-                CustomMultilineTextFormField(
-                  controller: pendingIssuesController.descriptionController,
-                  maxLines: 4,
-                  maxLength: 500,
-                  maxLengthEnforced: true,
-                  label: null,
-                  hintText: "Enter issue description",
-                  required: true,
-                  validator: (value) {
-                    if (value!.length == 0)
-                      return "Issue description cannot be empty";
-                    else if (value.length < 20)
-                      return "Issue description is too short";
-                    return null;
-                  },
-                  fillColor: isDarkMode
-                      ? AppColors.inputBackgroundColor
-                      : AppColors.grey,
-                ),
-                SizedBox(height: 10),
-                Obx((() => pendingIssuesController.files.length > 0
-                    ? ListView.builder(
-                        itemCount: pendingIssuesController.files.length,
-                        physics: BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) => Container(
-                          margin: EdgeInsets.only(bottom: 8),
+                    SizedBox(height: 5),
+                    CustomMultilineTextFormField(
+                      controller: pendingIssuesController.descriptionController,
+                      maxLines: 4,
+                      maxLength: 500,
+                      maxLengthEnforced: true,
+                      label: null,
+                      hintText: "Enter issue description",
+                      required: true,
+                      validator: (value) {
+                        if (value!.length == 0)
+                          return "Issue description cannot be empty";
+                        else if (value.length < 20)
+                          return "Issue description is too short";
+                        return null;
+                      },
+                      fillColor: isDarkMode
+                          ? AppColors.inputBackgroundColor
+                          : AppColors.grey,
+                    ),
+                    SizedBox(height: 10),
+                    Obx((() => pendingIssuesController.files.length > 0
+                        ? ListView.builder(
+                            itemCount: pendingIssuesController.files.length,
+                            physics: BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) => Container(
+                              margin: EdgeInsets.only(bottom: 8),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.6,
+                                    child: Text(
+                                      pendingIssuesController
+                                              .files[index].name ??
+                                          "",
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: isDarkMode
+                                            ? AppColors.white
+                                            : AppColors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () => pendingIssuesController
+                                        .removeFile(index),
+                                    behavior: HitTestBehavior.opaque,
+                                    child: Container(
+                                      height: 20,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.2,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.transparent,
+                                        borderRadius: BorderRadius.circular(2),
+                                      ),
+                                      child: Text(
+                                        "Remove file",
+                                        style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          color: AppColors.red,
+                                          fontSize: 10.sp,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        : SizedBox())),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () async => Platform.isIOS
+                              ? await FilePicker.platform
+                                  .pickFiles(
+                                    type: FileType.media,
+                                  )
+                                  .then((value) => {
+                                        if (value != null)
+                                          {
+                                            pendingIssuesController.processFile(
+                                                File(value.files.single.path ??
+                                                    "")),
+                                          }
+                                      })
+                              : await FilePicker.platform.pickFiles(
+                                  type: FileType.custom,
+                                  allowedExtensions: [
+                                      'jpg',
+                                      'pdf',
+                                      'jpeg',
+                                      'png',
+                                    ]).then((value) => {
+                                    if (value != null)
+                                      {
+                                        pendingIssuesController.processFile(
+                                            File(
+                                                value.files.single.path ?? "")),
+                                      }
+                                  }),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                width: MediaQuery.of(context).size.width * 0.6,
+                                height: 24,
+                                color: Colors.transparent,
+                                child: Image.asset(isDarkMode
+                                    ? AppImages.upload_dark
+                                    : AppImages.upload),
+                              ),
+                              SizedBox(width: 7),
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.42,
                                 child: Text(
-                                  pendingIssuesController.files[index].name ??
-                                      "",
+                                  "Attach receipt or evidence",
                                   style: TextStyle(
-                                    fontSize: 12.sp,
+                                    fontSize: 10.sp,
                                     fontWeight: FontWeight.w500,
                                     color: isDarkMode
                                         ? AppColors.white
@@ -205,148 +328,71 @@ class PendingIssueScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: () =>
-                                    pendingIssuesController.removeFile(index),
-                                behavior: HitTestBehavior.opaque,
-                                child: Container(
-                                  height: 20,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.2,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.transparent,
-                                    borderRadius: BorderRadius.circular(2),
-                                  ),
-                                  child: Text(
-                                    "Remove file",
-                                    style: TextStyle(
-                                      fontStyle: FontStyle.italic,
-                                      color: AppColors.red,
-                                      fontSize: 10.sp,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              )
                             ],
                           ),
                         ),
-                      )
-                    : SizedBox())),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () async => Platform.isIOS
-                          ? await FilePicker.platform
-                              .pickFiles(
-                                type: FileType.media,
-                              )
-                              .then((value) => {
-                                    if (value != null)
-                                      {
-                                        pendingIssuesController.processFile(
-                                            File(
-                                                value.files.single.path ?? "")),
-                                      }
-                                  })
-                          : await FilePicker.platform.pickFiles(
-                              type: FileType.custom,
-                              allowedExtensions: [
-                                  'jpg',
-                                  'pdf',
-                                  'jpeg',
-                                  'png',
-                                ]).then((value) => {
-                                if (value != null)
-                                  {
-                                    pendingIssuesController.processFile(
-                                        File(value.files.single.path ?? "")),
-                                  }
-                              }),
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 24,
-                            color: Colors.transparent,
-                            child: Image.asset(isDarkMode
-                                ? AppImages.upload_dark
-                                : AppImages.upload),
-                          ),
-                          SizedBox(width: 7),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.42,
+                      ],
+                    ),
+                    pendingIssuesController.fileError.value != ""
+                        ? SizedBox(
+                            height: 10,
+                          )
+                        : SizedBox(),
+                    pendingIssuesController.fileError.value != ""
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                pendingIssuesController.fileError.value,
+                                style: TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  color: AppColors.red,
+                                  fontSize: 12.sp,
+                                ),
+                              ),
+                            ],
+                          )
+                        : SizedBox(),
+                    SizedBox(height: 30),
+                    pendingIssuesController.issue.value.cleverResponse!.length >
+                            0
+                        ? Container(
+                            width: double.infinity,
                             child: Text(
-                              "Attach receipt or evidence",
+                              "Sprout:",
                               style: TextStyle(
-                                fontSize: 10.sp,
-                                fontWeight: FontWeight.w500,
                                 color: isDarkMode
                                     ? AppColors.white
-                                    : AppColors.black,
+                                    : Color.fromRGBO(29, 30, 31, 1),
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
+                          )
+                        : SizedBox(),
+                    pendingIssuesController.issue.value.cleverResponse!.length >
+                            0
+                        ? SizedBox(height: 5)
+                        : SizedBox(),
+                    pendingIssuesController.issue.value.cleverResponse!.length >
+                            0
+                        ? ListView.builder(
+                            itemCount: pendingIssuesController
+                                .issue.value.cleverResponse!.length,
+                            shrinkWrap: true,
+                            physics: BouncingScrollPhysics(),
+                            itemBuilder: (context, index) => CleverComment(
+                                cleverResponse: pendingIssuesController
+                                    .issue
+                                    .value
+                                    .cleverResponse![index]['cleverResponse'],
+                                cleverResponseTime: pendingIssuesController
+                                        .issue.value.cleverResponse![index]
+                                    ['cleverResponseTime']))
+                        : SizedBox(),
                   ],
-                ),
-                pendingIssuesController.fileError.value != ""
-                    ? SizedBox(
-                        height: 10,
-                      )
-                    : SizedBox(),
-                pendingIssuesController.fileError.value != ""
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            pendingIssuesController.fileError.value,
-                            style: TextStyle(
-                              fontStyle: FontStyle.italic,
-                              color: AppColors.red,
-                              fontSize: 12.sp,
-                            ),
-                          ),
-                        ],
-                      )
-                    : SizedBox(),
-                SizedBox(height: 30),
-                issue.cleverResponse!.length > 0
-                    ? Container(
-                        width: double.infinity,
-                        child: Text(
-                          "Sprout:",
-                          style: TextStyle(
-                            color: isDarkMode
-                                ? AppColors.white
-                                : Color.fromRGBO(29, 30, 31, 1),
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      )
-                    : SizedBox(),
-                issue.cleverResponse!.length > 0
-                    ? SizedBox(height: 5)
-                    : SizedBox(),
-                issue.cleverResponse!.length > 0
-                    ? ListView.builder(
-                        itemCount: issue.cleverResponse!.length,
-                        shrinkWrap: true,
-                        physics: BouncingScrollPhysics(),
-                        itemBuilder: (context, index) => CleverComment(
-                            cleverResponse: issue.cleverResponse![index]
-                                ['cleverResponse'],
-                            cleverResponseTime: issue.cleverResponse![index]
-                                ['cleverResponseTime']))
-                    : SizedBox(),
-              ],
-            )),
-          )),
+                )),
+              )))),
     );
   }
 

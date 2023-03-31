@@ -111,9 +111,7 @@ class Api {
               requestOptions: RequestOptions(path: ''));
         } else if (e.response?.data.runtimeType == String ||
             (e.error.toString().contains("401") &&
-                e.response
-                    .toString()
-                    .contains("Incorrect username/password"))) {
+                e.response.toString().contains("Incorrect username"))) {
           response = Response(
               data: apiResponse(e.response?.data?["message"],
                   e.response?.data?["responseCode"]),
@@ -131,11 +129,19 @@ class Api {
               requestOptions: RequestOptions(path: ''));
         } else {
           debugPrint("came in here");
-          response = Response(
-              data: apiResponse(e.response?.data?["message"],
-                  e.response?.data?["responseCode"]),
-              statusCode: e.response?.statusCode ?? 000,
-              requestOptions: RequestOptions(path: ''));
+          if (e.response?.data?["data"].runtimeType == String) {
+            response = Response(
+                data: apiResponse(e.response?.data?["data"],
+                    e.response?.data?["responseCode"]),
+                statusCode: e.response?.statusCode ?? 000,
+                requestOptions: RequestOptions(path: ''));
+          } else {
+            response = Response(
+                data: apiResponse(e.response?.data?["message"],
+                    e.response?.data?["responseCode"]),
+                statusCode: e.response?.statusCode ?? 000,
+                requestOptions: RequestOptions(path: ''));
+          }
         }
     }
     return response;

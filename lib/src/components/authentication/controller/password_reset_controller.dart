@@ -68,7 +68,6 @@ class PasswordResetController extends GetxController {
         .get<AuthService>()
         .confirmEmail(request, "Verifying email");
     if (response.status) {
-      print(response.message);
       push(page: PasswordReset());
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
@@ -80,7 +79,6 @@ class PasswordResetController extends GetxController {
         .get<AuthService>()
         .resetPassword(request, "Resetting password");
     if (response.status) {
-      print(response.message);
       CustomToastNotification.show("Password reset successful, kindly login",
           type: ToastType.success);
       push(page: SignInScreen());

@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:sprout_mobile/src/components/pay-bills/view/cable/select_package.dart';
+import 'package:sprout_mobile/src/components/pay-bills/controller/billers_controller.dart';
+import 'package:sprout_mobile/src/components/pay-bills/view/cable/select_cable_tv_package.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
+import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 import '../../../../public/widgets/custom_text_form_field.dart';
 import '../../../../utils/app_colors.dart';
 
-class CabletvScreen extends StatelessWidget {
-  const CabletvScreen({super.key});
+// ignore: must_be_immutable
+class CableTvScreen extends StatelessWidget {
+  CableTvScreen({super.key});
+
+  late BillersController billersController;
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    billersController = Get.put(BillersController());
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -32,30 +38,49 @@ class CabletvScreen extends StatelessWidget {
                 fillColor: isDarkMode
                     ? AppColors.inputBackgroundColor
                     : AppColors.grey,
+                onChanged: (value) => billersController.filterBillers(value),
               ),
-              addVerticalSpace(30.h),
-              BillsCard(
-                title: "GOTV",
-                subTitle: "Tv Subscription",
-                image: AppImages.gotv,
-                onTap: () {
-                  Get.to(() => SelectPackageScreen());
-                },
-              ),
-              addVerticalSpace(10.h),
-              BillsCard(
-                title: "DSTV",
-                subTitle: "Tv Subscription",
-                image: AppImages.dstv,
-                onTap: () {},
-              ),
-              addVerticalSpace(10.h),
-              BillsCard(
-                title: "STARTIMES",
-                subTitle: "Tv Subscription",
-                image: AppImages.startime,
-                onTap: () {},
-              )
+              Obx((() => billersController.loading.value
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 0.w),
+                      child: buildSlimShimmer(4),
+                    )
+                  : Expanded(
+                      child: ListView.builder(
+                        itemCount: billersController.billers.length,
+                        shrinkWrap: true,
+                        physics: BouncingScrollPhysics(),
+                        itemBuilder: (context, index) => Column(
+                          children: [
+                            addVerticalSpace(30.h),
+                            BillsCard(
+                              title: billersController.billers[index].name,
+                              subTitle: "Tv Subscription",
+                              image: billersController.billers[index].slug ==
+                                      "DSTV"
+                                  ? AppImages.dstv
+                                  : billersController.billers[index].slug ==
+                                          "GOTV"
+                                      ? AppImages.gotv
+                                      : billersController.billers[index].slug ==
+                                              "STARTIMES"
+                                          ? AppImages.startime
+                                          : billersController
+                                                      .billers[index].slug ==
+                                                  "SHOWMAX"
+                                              ? AppImages.showmax
+                                              : AppImages.logo_icon,
+                              onTap: () {
+                                push(
+                                    page: SelectCableTvPackageScreen(),
+                                    arguments:
+                                        billersController.billers[index]);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ))),
             ],
           ),
         ),
@@ -78,52 +103,54 @@ class BillsCard extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Image.asset(
-                    image!,
-                    height: 40,
-                    width: 40,
-                  ),
-                  addHorizontalSpace(5.w),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title!,
-                        style: TextStyle(
-                            fontFamily: "DMSans",
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14.sp,
-                            color:
-                                isDarkMode ? AppColors.white : AppColors.black),
-                      ),
-                      Text(
-                        subTitle!,
-                        style: TextStyle(
-                            fontFamily: "DMSans",
-                            fontWeight: FontWeight.w400,
-                            fontSize: 11.sp,
-                            color: isDarkMode
-                                ? AppColors.greyText
-                                : AppColors.greyText),
-                      )
-                    ],
-                  )
-                ],
-              ),
-              IconButton(
-                  onPressed: onTap,
-                  icon: Icon(
-                    Icons.arrow_forward,
-                    color: isDarkMode
-                        ? AppColors.inputLabelColor
-                        : AppColors.inputLabelColor,
-                  ))
-            ],
+          InkWell(
+            onTap: onTap,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Image.asset(
+                      image!,
+                      height: 30,
+                      width: 30,
+                    ),
+                    addHorizontalSpace(10.w),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title!,
+                          style: TextStyle(
+                              fontFamily: "DMSans",
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14.sp,
+                              color: isDarkMode
+                                  ? AppColors.white
+                                  : AppColors.black),
+                        ),
+                        Text(
+                          subTitle!,
+                          style: TextStyle(
+                              fontFamily: "DMSans",
+                              fontWeight: FontWeight.w400,
+                              fontSize: 11.sp,
+                              color: isDarkMode
+                                  ? AppColors.greyText
+                                  : AppColors.greyText),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+                Icon(
+                  Icons.arrow_forward,
+                  color: isDarkMode
+                      ? AppColors.inputLabelColor
+                      : AppColors.inputLabelColor,
+                )
+              ],
+            ),
           ),
           Divider()
         ],

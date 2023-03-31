@@ -1,11 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/send-money/controller/send_money_controller.dart';
-import 'package:sprout_mobile/src/public/screens/successful_transaction.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 
 import '../../utils/app_images.dart';
@@ -54,7 +51,6 @@ class _PinPageState extends State<PinPage> {
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     sendMoneyController = Get.put(SendMoneyController());
-
     return SafeArea(
       child: Scaffold(
           bottomNavigationBar: Container(
