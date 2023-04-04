@@ -75,7 +75,9 @@ class AppController extends GetxController {
       Get.offAll(SignInScreen());
       setLoginStatus(false);
       showAutoBiometricsOnLoginPage(false);
-      CustomToastNotification.show("Idle Timeout", type: ToastType.error);
+      CustomToastNotification.show(
+          "Looks like you have been away for too login. Please login to continue.",
+          type: ToastType.error);
     }
   }
 

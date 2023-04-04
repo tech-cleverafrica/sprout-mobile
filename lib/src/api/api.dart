@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -98,8 +99,10 @@ class Api {
         if (e.response?.data.runtimeType == String ||
             e.error.toString().contains("404")) {
           response = Response(
-              data: apiResponse(e.response?.data?["message"] ??
-                  "An error occurred, please try again"),
+              data: apiResponse(e.response?.data == ""
+                  ? "An error occurred, please try again"
+                  : jsonDecode(e.response?.data)["message"] ??
+                      "An error occurred, please try again"),
               statusCode: 000,
               requestOptions: RequestOptions(path: ''));
         } else if (e.response?.data.runtimeType == String ||
@@ -119,6 +122,11 @@ class Api {
               requestOptions: RequestOptions(path: ''));
         } else if (e.response?.data.runtimeType == String ||
             e.error.toString().contains("401")) {
+          response = Response(
+              data: apiResponse(e.response?.data?["message"],
+                  e.response?.data?["responseCode"]),
+              statusCode: e.response?.statusCode ?? 000,
+              requestOptions: RequestOptions(path: ''));
           logout(code: 401);
         } else if (e.response?.data.runtimeType == String ||
             e.error.toString().contains("422")) {
@@ -149,7 +157,9 @@ class Api {
 
   logout({code}) async {
     bool canLogin = await preferenceRepository.getBooleanPref(IS_LOGGED_IN);
-    if (code == 401 && canLogin) {}
+    if (code == 401 && canLogin) {
+      print("REFRESH TOKEN");
+    }
   }
 
   void setExtraHeader(Map<String, dynamic> newHeaders) {

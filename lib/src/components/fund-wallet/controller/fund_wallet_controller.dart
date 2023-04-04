@@ -42,7 +42,7 @@ class FundWalletController extends GetxController {
   @override
   void onInit() async {
     getWallet();
-    // getCards();
+    getCards();
     fullname = StringUtils.capitalize(storage.read("firstname"));
     accountNumber = storage.read("accountNumber");
     providusAccountNumber = storage.read("providusAccount");
