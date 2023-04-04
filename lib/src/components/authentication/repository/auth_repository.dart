@@ -4,4 +4,5 @@ class AuthRepository {
   resetPassword(Map<String, dynamic> requestBody) async {}
   createUser(Map<String, dynamic> requestBody) async {}
   getUserDetails() async {}
+  refreshToken(Map<String, dynamic> requestBody) async {}
 }

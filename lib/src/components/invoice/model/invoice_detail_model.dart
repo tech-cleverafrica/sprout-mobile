@@ -1,36 +1,4 @@
-class InvoiceRespose {
-  bool? status;
-  String? responseCode;
-  String? message;
-  List<Invoice>? data;
-
-  InvoiceRespose({this.status, this.responseCode, this.message, this.data});
-
-  InvoiceRespose.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    responseCode = json['responseCode'];
-    message = json['message'];
-    if (json['data'] != null) {
-      data = <Invoice>[];
-      json['data'].forEach((v) {
-        data!.add(new Invoice.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['responseCode'] = this.responseCode;
-    data['message'] = this.message;
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class Invoice {
+class InvoiceDetail {
   String? id;
   String? invoiceNo;
   String? userID;
@@ -45,8 +13,8 @@ class Invoice {
   num? tax;
   num? discount;
   num? subTotal;
-  double? total;
-  num? partialPaidAmount;
+  num? total;
+  int? partialPaidAmount;
   List<PaymentHistory>? paymentHistory;
   String? paymentStatus;
   String? invoicePDFUrl;
@@ -55,7 +23,7 @@ class Invoice {
   String? updatedAt;
   bool? expired;
 
-  Invoice(
+  InvoiceDetail(
       {this.id,
       this.invoiceNo,
       this.userID,
@@ -80,7 +48,7 @@ class Invoice {
       this.updatedAt,
       this.expired});
 
-  Invoice.fromJson(Map<String, dynamic> json) {
+  InvoiceDetail.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     invoiceNo = json['invoiceNo'];
     userID = json['userID'];
@@ -156,13 +124,6 @@ class Invoice {
     data['updatedAt'] = this.updatedAt;
     data['expired'] = this.expired;
     return data;
-  }
-
-  static getList(List<dynamic>? json) {
-    List<Map<String, dynamic>> invoice =
-        List<Map<String, dynamic>>.from(json ?? []);
-    return List.generate(
-        invoice.length, (index) => Invoice.fromJson(invoice[index]));
   }
 }
 
@@ -310,8 +271,8 @@ class InvoiceContent {
 }
 
 class PaymentHistory {
-  int? date;
-  int? amount;
+  num? date;
+  num? amount;
 
   PaymentHistory({this.date, this.amount});
 

@@ -61,4 +61,15 @@ class AuthRepositoryImpl implements AuthRepository {
       e.printError();
     }
   }
+
+  @override
+  refreshToken(requestBody) async {
+    try {
+      return await api.dio.post(refreshTokenUrl, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
 }

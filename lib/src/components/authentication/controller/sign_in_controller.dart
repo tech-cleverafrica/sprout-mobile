@@ -193,6 +193,7 @@ class SignInController extends GetxController {
     if (response.status) {
       saveLoginDetailsToSharePref(model);
       preferenceRepository.setStringPref("storedMail", model['username']);
+      setLoginStatus(true);
       getUserInfo();
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);

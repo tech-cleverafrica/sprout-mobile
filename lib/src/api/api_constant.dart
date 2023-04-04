@@ -5,6 +5,7 @@ const String resetPasswordUrl = "auth/api/v1/mobile/reset-password";
 const String sendOtpdUrl = "auth/api/v1/otp";
 const String changePasswordUrl = "auth/api/v1/mobile/password";
 const String logoutUrl = "auth/api/v1/logout";
+const String refreshTokenUrl = "auth/api/v1/mobile/token/refresh";
 
 //user
 const String userDetailsUrl = "user-management/api/v1/users/me";
@@ -40,6 +41,12 @@ const String addBeneficiaryUrl = "transfer/api/v1/beneficiary/add";
 
 //invoice
 const String getInvoicesUrl = "invoice/api/v1/invoice/invoices";
+const String updatePaymentStatusUrl = "invoice/invoices/paymentstatus/";
+const String markAsPaidUrl = "invoice/invoices/paid/";
+const String sendInvoiceUrl = "invoice/invoices/send";
+const String invoiceCustomersUrl = "invoice/api/v1/invoice/customers";
+const String createCustomerUrl = "invoice/api/v1/invoice/customers/create";
+const String updateCustomerUrl = "invoice/api/v1/invoice//customers/update/";
 
 //cashout
 const String initiateCardlessPaymentUrl =
