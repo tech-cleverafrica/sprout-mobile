@@ -69,7 +69,7 @@ class SignInController extends GetxController {
       if (username != null && password != null) {
         debugPrint(username);
         debugPrint(password);
-        // signIn(buildRequestModel(username, password));
+        signIn(buildRequestModel(username, password));
       } else {
         CustomToastNotification.show(
             "Please sign in with password at least  once",
@@ -153,6 +153,8 @@ class SignInController extends GetxController {
   Future _checkBiometricType() async {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       List isAuthenticated = await checkAvailableBiometrics(Get.context!);
+      print("WAHALA 2222");
+      print(isAuthenticated);
       isFaceId = await isAuthenticated[0];
     });
   }

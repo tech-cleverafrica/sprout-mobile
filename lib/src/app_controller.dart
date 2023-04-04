@@ -46,6 +46,7 @@ class AppController extends GetxController {
   }
 
   void startTimer() async {
+    print("STARTED");
     checkTimerLogic();
     bool isLoggedIn = await preferenceRepository.getBooleanPref(IS_LOGGED_IN);
     // String? expiresTime = await repository.getInSharedPreference(expiresIn);
