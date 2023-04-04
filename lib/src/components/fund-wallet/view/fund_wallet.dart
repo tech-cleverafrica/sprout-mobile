@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sprout_mobile/src/components/fund-wallet/controller/fund_wallet_controller.dart';
 import 'package:sprout_mobile/src/components/fund-wallet/view/widget.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
@@ -69,7 +70,8 @@ class FundWalletScreen extends StatelessWidget {
                 title: "Transfer from Card",
                 text: "Fund your wallet through debit card",
                 onTap: () =>
-                    fundWalletController.handlePaymentInitialization(context),
+                    // fundWalletController.handlePaymentInitialization(context),
+                    fundFromCard(context),
               ),
             ],
           ),
@@ -87,7 +89,7 @@ void fundFromBank(BuildContext context, String accountNumberToUse,
       barrierDismissible: true,
       builder: ((context) {
         return Dialog(
-          backgroundColor: isDarkMode ? AppColors.blackBg : AppColors.white,
+          backgroundColor: isDarkMode ? AppColors.greyDot : AppColors.white,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           child: Container(
@@ -97,7 +99,7 @@ void fundFromBank(BuildContext context, String accountNumberToUse,
             padding: EdgeInsets.symmetric(vertical: 12),
             margin: EdgeInsets.symmetric(horizontal: 25),
             decoration: BoxDecoration(
-              color: Theme.of(context).scaffoldBackgroundColor,
+              color: isDarkMode ? AppColors.greyDot : AppColors.white,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
@@ -203,5 +205,102 @@ void fundFromBank(BuildContext context, String accountNumberToUse,
                 ]),
           ),
         );
+      }));
+}
+
+void fundFromCard(BuildContext context) {
+  final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+  final fundWalletController = Get.put(FundWalletController());
+  showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: ((context) {
+        return SafeArea(
+            child: Scaffold(
+          body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+              child: SingleChildScrollView(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  getPopupHeader(isDarkMode),
+                  addVerticalSpace(35.h),
+                  Text(
+                    "Transfer From Card",
+                    style: TextStyle(
+                      color: isDarkMode ? AppColors.white : AppColors.black,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      height: 1.5,
+                    ),
+                  ),
+                  addVerticalSpace(10.h),
+                  Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CustomTextFormField(
+                          controller: fundWalletController.amountController,
+                          label: "Amount",
+                          required: true,
+                          textInputType: TextInputType.phone,
+                          textInputAction: TextInputAction.next,
+                          fillColor: isDarkMode
+                              ? AppColors.inputBackgroundColor
+                              : AppColors.grey,
+                          validator: (value) {
+                            if (value!.length == 0)
+                              return "Amount is required";
+                            else if (double.parse(value.split(",").join("")) ==
+                                0) {
+                              return "Invalid amount";
+                            } else if (double.parse(value.split(",").join("")) <
+                                10) {
+                              return "Amount too small";
+                            } else if (double.parse(value.split(",").join("")) >
+                                450000) {
+                              return "Maximum amount is 450,000";
+                            }
+                            return null;
+                          },
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            fundWalletController.showCardList(
+                                context, isDarkMode);
+                          },
+                          child: CustomTextFormField(
+                              controller: fundWalletController.cardController,
+                              label: "Select Card",
+                              hintText:
+                                  fundWalletController.cardController.text == ""
+                                      ? "Select Card"
+                                      : fundWalletController
+                                          .cardController.text,
+                              required: true,
+                              enabled: false,
+                              fillColor: isDarkMode
+                                  ? AppColors.inputBackgroundColor
+                                  : AppColors.grey,
+                              hintTextStyle:
+                                  fundWalletController.cardController.text == ""
+                                      ? null
+                                      : TextStyle(
+                                          color: isDarkMode
+                                              ? AppColors.white
+                                              : AppColors.black,
+                                          fontWeight: FontWeight.w600)),
+                        ),
+                        SizedBox(height: 5),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(width: 40),
+                            ]),
+                      ]),
+                ],
+              ))),
+        ));
       }));
 }

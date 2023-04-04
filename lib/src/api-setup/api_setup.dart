@@ -7,6 +7,8 @@ import 'package:sprout_mobile/src/components/borow/repository/borrow_repositoryi
 import 'package:sprout_mobile/src/components/borow/service/borrow_service.dart';
 import 'package:sprout_mobile/src/components/complete-account-setup/repository/complete_account_setup_repositoryimpl.dart';
 import 'package:sprout_mobile/src/components/complete-account-setup/service/complete_account_setup_service.dart';
+import 'package:sprout_mobile/src/components/fund-wallet/repository/fund_wallet_repositoryImpl.dart';
+import 'package:sprout_mobile/src/components/fund-wallet/service/fund_wallet_service.dart';
 import 'package:sprout_mobile/src/components/help/repository/help_repositoryimpl.dart';
 import 'package:sprout_mobile/src/components/help/service/help_service.dart';
 import 'package:sprout_mobile/src/components/home/repository/home_repositoryImpl.dart';
@@ -72,4 +74,8 @@ Future<void> registerApiInstance() async {
   locator.registerLazySingleton<PayBillsRepositoryImpl>(
       () => PayBillsRepositoryImpl());
   locator.registerLazySingleton<PayBillsService>(() => PayBillsService());
+
+  locator.registerLazySingleton<FundWalletRepositoryImpl>(
+      () => FundWalletRepositoryImpl());
+  locator.registerLazySingleton<FundWalletService>(() => FundWalletService());
 }

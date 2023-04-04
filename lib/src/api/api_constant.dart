@@ -14,6 +14,7 @@ const String uploadUrl = "user-management/api/v1/users/upload";
 const String changePinUrl = "user-management/api/v1/users/pin/change";
 const String createPinUrl = "user-management/api/v1/users/pin";
 const String uploadProfilePictureUrl = "user-management/api/v1/users/";
+const String walletUrl = "user-management/api/v1/users/wallet-balance";
 
 //issue
 const String issueCategoriesUrl = "resolution/api/v1/categories";
@@ -29,9 +30,6 @@ const String submitDispenseErrorIssueUrl = "resolution/api/v1/issues/error";
 const String transactionsUrl = "transaction/api/v1/transactions/me";
 const String transactionReportsUrl = "transaction/api/v1/transactions/report";
 const String dashboardGraphUrl = "transaction/api/v1/agentweb/dashboard_graph";
-
-//wallet
-const String walletUrl = "wallet/api/v1/wallets/me";
 
 //sendMoney
 const String beneficiaryUrl = "transfer/api/v1/beneficiary";
@@ -51,6 +49,9 @@ const String saveCardlessPaymentUrl = "cashout/api/v1/netpos/mobile/save";
 //pay bills
 const String billsUrl = "bills/api/v2/";
 const String billerGroupsUrl = "bills/api/v2/biller-group";
+
+//savings
+const String cardsUrl = "target-savings/api/v1/card?status=enabled";
 
 apiResponse(String? message, [String? responseCode]) {
   return {

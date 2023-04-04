@@ -1,0 +1,3 @@
+class FundWalletRepository {
+  getCards() async {}
+}

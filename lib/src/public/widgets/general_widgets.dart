@@ -121,6 +121,32 @@ getHeader(bool isDarkMode,
   );
 }
 
+getPopupHeader(bool isDarkMode,
+    {hideHelp = false, hideNotification = false, int size = 0}) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            InkWell(
+                onTap: () => pop(),
+                child: Container(
+                    padding: EdgeInsets.only(right: 5, bottom: 5),
+                    child: Icon(
+                      Icons.close,
+                      color: isDarkMode
+                          ? AppColors.greyBg
+                          : AppColors.primaryColor,
+                    ))),
+          ],
+        ),
+      ],
+    ),
+  );
+}
+
 class PINNumber extends StatelessWidget {
   final TextEditingController? textEditingController;
   final OutlineInputBorder? outlineInputBorder;
