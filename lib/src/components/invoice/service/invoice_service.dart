@@ -4,6 +4,7 @@ import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/invoice/model/invoice_customer_model.dart';
 import 'package:sprout_mobile/src/components/invoice/model/invoice_model.dart';
 import 'package:sprout_mobile/src/components/invoice/repository/invoice_repositoryImpl.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
 
 import '../model/invoice_detail_model.dart';
 
@@ -48,5 +49,39 @@ class InvoiceService {
     }
 
     return AppResponse(false, statusCode, {});
+  }
+
+  Future<AppResponse<dynamic>> addCustomer(
+      Map<String, dynamic> requestBody, String loadingMessage) async {
+    CustomLoader.show(message: loadingMessage);
+    Response response =
+        await locator<InvoiceRepositoryImpl>().addCustomer(requestBody);
+    print(response);
+    CustomLoader.dismiss();
+    int statusCode = response.statusCode ?? 000;
+
+    Map<String, dynamic> responseBody = response.data;
+    if (response.data["status"]) {
+      print(":::::::::$responseBody");
+      return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
+    }
+    return AppResponse(false, statusCode, responseBody);
+  }
+
+  Future<AppResponse<dynamic>> updateCustomer(Map<String, dynamic> requestBody,
+      String loadingMessage, String id) async {
+    CustomLoader.show(message: loadingMessage);
+    Response response =
+        await locator<InvoiceRepositoryImpl>().updateCustomer(requestBody, id);
+    print(response);
+    CustomLoader.dismiss();
+    int statusCode = response.statusCode ?? 000;
+
+    Map<String, dynamic> responseBody = response.data;
+    if (response.data["status"]) {
+      print(":::::::::$responseBody");
+      return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
+    }
+    return AppResponse(false, statusCode, responseBody);
   }
 }

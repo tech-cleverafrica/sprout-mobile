@@ -1,8 +1,13 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sprout_mobile/src/components/home/view/widgets.dart';
 import 'package:sprout_mobile/src/components/invoice/controller/invoice_controller.dart';
+import 'package:sprout_mobile/src/components/invoice/view/create_customer.dart';
 import 'package:sprout_mobile/src/components/invoice/view/create_invoice.dart';
 import 'package:sprout_mobile/src/components/invoice/view/invoice_details.dart';
 import 'package:sprout_mobile/src/components/invoice/view/widgets/invoice_widgets.dart';
@@ -17,10 +22,65 @@ import '../../../public/widgets/custom_text_form_field.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/helper_widgets.dart';
 
-class AllInvoiceScreen extends StatelessWidget {
+class AllInvoiceScreen extends StatefulWidget {
   AllInvoiceScreen({super.key});
 
+  @override
+  State<AllInvoiceScreen> createState() => _AllInvoiceScreenState();
+}
+
+class _AllInvoiceScreenState extends State<AllInvoiceScreen> {
   late InvoiceController invoiceIncontroller;
+
+  // Track the progress of a downloaded file here.
+  double progress = 0;
+
+  // Track if the PDF was downloaded here.
+  bool didDownloadPDF = false;
+
+  // Show the progress status to the user.
+  String progressString = 'File has not been downloaded yet.';
+
+  // This method uses Dio to download a file from the given URL
+  Future download(Dio dio, String url, String savePath) async {
+    try {
+      var response = await dio.get(
+        url,
+        onReceiveProgress: updateProgress,
+        options: Options(
+            responseType: ResponseType.bytes,
+            followRedirects: false,
+            validateStatus: (status) {
+              return status! < 500;
+            }),
+      );
+      var file = File(savePath).openSync(mode: FileMode.write);
+      file.writeFromSync(response.data);
+      await file.close();
+
+      // Here, you're catching an error and printing it. For production
+      // apps, you should display the warning to the user and give them a
+      // way to restart the download.
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  // You can update the download progress here so that the user is
+  void updateProgress(done, total) {
+    progress = done / total;
+    setState(() {
+      if (progress >= 1) {
+        progressString =
+            '✅ File has finished downloading. Try opening the file.';
+        didDownloadPDF = true;
+      } else {
+        progressString = 'Download progress: ' +
+            (progress * 100).toStringAsFixed(0) +
+            '% done.';
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,17 +123,16 @@ class AllInvoiceScreen extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 20, left: 50, right: 50),
           child: Obx(
             () => CustomButton(
-              title: invoiceIncontroller.isInvoiceDisplay.value
-                  ? "Create Invoice"
-                  : "Create Customer",
-              prefixIcon: Icon(
-                Icons.add,
-                color: AppColors.white,
-              ),
-              onTap: () {
-                Get.to(() => CreateInvoice());
-              },
-            ),
+                title: invoiceIncontroller.isInvoiceDisplay.value
+                    ? "Create Invoice"
+                    : "Create Customer",
+                prefixIcon: Icon(
+                  Icons.add,
+                  color: AppColors.white,
+                ),
+                onTap: () => invoiceIncontroller.isInvoiceDisplay.value
+                    ? push(page: CreateInvoice())
+                    : push(page: CreateCustomer())),
           ),
         ),
       ),
@@ -187,20 +246,35 @@ class AllInvoiceScreen extends StatelessWidget {
                       SizedBox(
                         height: 10.h,
                       ),
-                      Container(
-                        width: 100.w,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: AppColors.primaryColor),
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 5, bottom: 5),
-                            child: Text(
-                              "Edit Customer",
-                              style: TextStyle(
-                                  fontFamily: "DMSans",
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.white),
+                      GestureDetector(
+                        onTap: () => invoiceIncontroller.showUpdateModal(
+                            context,
+                            isDarkMode,
+                            invoiceIncontroller
+                                .invoiceCustomer.value[index].id!,
+                            invoiceIncontroller
+                                .invoiceCustomer.value[index].fullName!,
+                            invoiceIncontroller
+                                .invoiceCustomer.value[index].phone!,
+                            invoiceIncontroller
+                                .invoiceCustomer.value[index].email!,
+                            invoiceIncontroller
+                                .invoiceCustomer.value[index].address!),
+                        child: Container(
+                          width: 100.w,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: AppColors.primaryColor),
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 5, bottom: 5),
+                              child: Text(
+                                "Edit Customer",
+                                style: TextStyle(
+                                    fontFamily: "DMSans",
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.white),
+                              ),
                             ),
                           ),
                         ),
@@ -246,7 +320,7 @@ class AllInvoiceScreen extends StatelessWidget {
       );
     } else {
       return ListView.builder(
-          itemCount: 5,
+          itemCount: invoiceIncontroller.invoice.value.length,
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
@@ -260,6 +334,114 @@ class AllInvoiceScreen extends StatelessWidget {
                   .invoice.value[index].businessInfo!.businessName,
               createdAt: invoiceIncontroller.invoice.value[index].createdAt,
               status: invoiceIncontroller.invoice.value[index].paymentStatus!,
+              onTapDownload: () {
+                showDialog(
+                    context: context,
+                    builder: ((context) {
+                      return Dialog(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                        backgroundColor: AppColors.white,
+                        child: Container(
+                          height: 160.h,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 20.w, horizontal: 20.h),
+                            child: Column(
+                              children: [
+                                SizedBox(height: 10.h),
+                                SizedBox(
+                                  height: 20.h,
+                                ),
+                                Text(
+                                  "Download invoice as pdf to your device",
+                                  style: TextStyle(
+                                      fontFamily: "DMSans",
+                                      color: AppColors.black),
+                                ),
+                                SizedBox(
+                                  height: 20.h,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: InkWell(
+                                        onTap: () {
+                                          pop();
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: AppColors.errorRed,
+                                                  width: 1),
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: Center(
+                                              child: Text(
+                                                "Cancel",
+                                                style: TextStyle(
+                                                    fontFamily: "Outfit",
+                                                    color: AppColors.errorRed,
+                                                    fontSize: 14.sp,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 15.w,
+                                    ),
+                                    Expanded(
+                                      child: InkWell(
+                                        onTap: () async {
+                                          var tempDir =
+                                              await getTemporaryDirectory();
+                                          download(
+                                              Dio(),
+                                              invoiceIncontroller.invoice
+                                                  .value[index].invoicePDFUrl!,
+                                              tempDir.path +
+                                                  invoiceIncontroller.invoice
+                                                      .value[index].id!);
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: AppColors.mainGreen,
+                                                  width: 1),
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: Center(
+                                              child: Text(
+                                                "Download",
+                                                style: TextStyle(
+                                                    fontFamily: "Outfit",
+                                                    color: AppColors.mainGreen,
+                                                    fontSize: 14.sp,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }));
+              },
             );
           });
     }

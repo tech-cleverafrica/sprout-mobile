@@ -37,4 +37,27 @@ class InvoiceRepositoryImpl implements InvoiceRepository {
       return api.handleError(e);
     }
   }
+
+  @override
+  addCustomer(Map<String, dynamic> requestBody) async {
+    try {
+      return await api.dio.post(createCustomerUrl, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
+
+  @override
+  updateCustomer(Map<String, dynamic> requestBody, String id) async {
+    try {
+      return await api.dio
+          .patch(updateCustomerUrl + "/" + id, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
 }

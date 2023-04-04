@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
 
@@ -13,6 +14,7 @@ class InvoiceCard extends StatelessWidget {
     required this.isDarkMode,
     required this.invoiceNo,
     this.invoiceTotalPrice,
+    required this.onTapDownload,
     this.to,
     this.from,
     this.createdAt,
@@ -27,7 +29,7 @@ class InvoiceCard extends StatelessWidget {
   final String? from;
   final String? createdAt;
   final String? status;
-
+  final VoidCallback onTapDownload;
   @override
   Widget build(BuildContext context) {
     String? sType;
@@ -176,6 +178,28 @@ class InvoiceCard extends StatelessWidget {
                     ],
                   ),
                 ],
+              ),
+              addVerticalSpace(10.h),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: InkWell(
+                  onTap: onTapDownload,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        border: Border.all(color: AppColors.primaryColor)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Center(
+                          child: Text(
+                        "Download Invoice",
+                        style: TextStyle(
+                            color: AppColors.primaryColor,
+                            fontFamily: "DMSans"),
+                      )),
+                    ),
+                  ),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),

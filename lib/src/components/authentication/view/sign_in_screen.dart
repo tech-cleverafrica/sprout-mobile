@@ -154,14 +154,19 @@ class SignInScreen extends StatelessWidget {
                   SizedBox(
                     height: 8.h,
                   ),
-                  Text('Use Fingerprint',
-                      style: TextStyle(
-                          fontFamily: "DMSans",
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w700,
-                          color: isDarkMode
-                              ? AppColors.greyText
-                              : AppColors.black))
+                  Obx(
+                    () => Text(
+                        signInController.isFingerPrintEnabled.value
+                            ? 'Use Fingerprint'
+                            : "",
+                        style: TextStyle(
+                            fontFamily: "DMSans",
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w700,
+                            color: isDarkMode
+                                ? AppColors.greyText
+                                : AppColors.black)),
+                  )
                 ],
               ))
             ],

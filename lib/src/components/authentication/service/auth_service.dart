@@ -30,7 +30,11 @@ class AuthService {
     Map<String, dynamic> responseBody = response.data;
     if (response.data["status"]) {
       String accessToken = responseBody["data"]["accessToken"];
+      int expireIn = responseBody["data"]["expires"];
+      String refreshToken = responseBody["data"]["refreshToken"];
       preferenceRepository.setStringPref(accessTokenKey, accessToken);
+      preferenceRepository.setIntPref(expiresIn, expireIn);
+      preferenceRepository.setStringPref(refreshToken, refreshToken);
       api.baseOptions.headers.addAll({"Authorization": "Bearer $accessToken"});
       return AppResponse<SignInResponseModel>(
           true,
@@ -112,6 +116,29 @@ class AuthService {
       return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
     }
     return AppResponse(false, statusCode, responseBody);
+  }
+
+  buildRefreshModel() {
+    return {"username": preferenceRepository.getStringPref(refreshToken)};
+  }
+
+  Future<AppResponse<dynamic>> refreshUserToken() async {
+    Response response = await locator
+        .get<AuthRepositoryImpl>()
+        .refreshToken(buildRefreshModel());
+    int statusCode = response.statusCode ?? 000;
+
+    Map<String, dynamic> responseBody = response.data;
+
+    if (response.data["status"]) {
+      print("TOKENNN${response.data["data"]["accessToken"]}");
+      print("TOKENNN${response.data["data"]["expires"]}");
+
+      preferenceRepository.setStringPref(
+          accessTokenKey, response.data["data"]["access_token"] ?? "");
+    }
+
+    return AppResponse(false, statusCode, responseBody, response.data["data"]);
   }
 
   Future<AppResponse<dynamic>> createUser(

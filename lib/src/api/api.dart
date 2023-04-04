@@ -119,7 +119,7 @@ class Api {
               requestOptions: RequestOptions(path: ''));
         } else if (e.response?.data.runtimeType == String ||
             e.error.toString().contains("401")) {
-          // logout(code: 401);
+          logout(code: 401);
         } else if (e.response?.data.runtimeType == String ||
             e.error.toString().contains("422")) {
           response = Response(

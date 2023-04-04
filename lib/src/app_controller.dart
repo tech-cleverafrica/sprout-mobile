@@ -10,10 +10,12 @@ import 'package:sprout_mobile/src/utils/app_date_utilities.dart';
 import 'package:sprout_mobile/src/utils/constants.dart';
 import 'package:sprout_mobile/src/utils/global_function.dart';
 
+import 'components/authentication/service/auth_service.dart';
+
 class AppController extends GetxController {
   AppDateUtil dateUtil = Get.put(AppDateUtil());
   Repository repository = Get.put(Repository());
-  // ApiProvider apiProvider = Get.put(ApiProvider());
+  AuthService authService = Get.put(AuthService());
   final messangerKey = GlobalKey<ScaffoldMessengerState>();
 
   AppController({Key? key});
@@ -46,27 +48,22 @@ class AppController extends GetxController {
   void startTimer() async {
     checkTimerLogic();
     bool isLoggedIn = await preferenceRepository.getBooleanPref(IS_LOGGED_IN);
-    String? expiresIn =
-        await repository.getInSharedPreference(tokenTimestampKey);
-    DateTime tokenExpiryTime = dateUtil.customDateTimeParser(expiresIn!);
-    DateTime tokenExpiryTimeMinusOneMinute =
-        tokenExpiryTime.subtract(Duration(minutes: 1));
-    debugPrint("$tokenExpiryTime");
-    debugPrint("$tokenExpiryTimeMinusOneMinute");
-    if (isLoggedIn && DateTime.now().isAfter(tokenExpiryTimeMinusOneMinute)) {
-      String? accessToken =
-          await repository.getInSharedPreference(accessTokenKey);
-      //refresh token
-      // apiProvider.refreshToken(accessToken!).then((HTTPResponseModel value) {
-      //   repository.storeInSharedPreference(
-      //       accessTokenKey, value.data["access_token"]);
-      //   repository.storeInSharedPreference(
-      //       tokenTimestampKey, value.data["expires_in"]);
-      // });
-    } else {
-      checkTimerLogic();
-    }
+    // String? expiresTime = await repository.getInSharedPreference(expiresIn);
+    // DateTime tokenExpiryTime = dateUtil.customDateTimeParser(expiresTime!);
+    // DateTime tokenExpiryTimeMinusOneMinute =
+    //     tokenExpiryTime.subtract(Duration(minutes: 1));
+    // debugPrint(" it will expire in$expiresIn");
+    // debugPrint("$tokenExpiryTime");
+    // debugPrint("$tokenExpiryTimeMinusOneMinute");
+    // if (isLoggedIn && DateTime.now().isAfter(tokenExpiryTimeMinusOneMinute)) {
+    //   String? accessToken =
+    //       await repository.getInSharedPreference(accessTokenKey);
+    //   authService.refreshUserToken();
+    // } else {
+    //   checkTimerLogic();
+    // }
 
+    // idleness logout after 5mins
     _timer = Timer(Duration(seconds: 300), logOut);
   }
 
@@ -75,7 +72,6 @@ class AppController extends GetxController {
     print(isLoggedIn);
     if (isLoggedIn) {
       Get.offAll(SignInScreen());
-
       setLoginStatus(false);
       showAutoBiometricsOnLoginPage(false);
       CustomToastNotification.show("Idle Timeout", type: ToastType.error);
