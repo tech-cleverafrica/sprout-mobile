@@ -67,7 +67,7 @@ class _OnboardingState extends State<Onboarding> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontFamily: "Mont",
-                                    fontSize: 24.sp,
+                                    fontSize: 20.sp,
                                     fontWeight: FontWeight.w900,
                                     color: isDarkMode
                                         ? AppColors.white
@@ -89,84 +89,6 @@ class _OnboardingState extends State<Onboarding> {
                                         : AppColors.black,
                                     fontWeight: FontWeight.w400)),
                           ),
-                          SizedBox(height: 64.h),
-                          isDarkMode
-                              ? Container(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: List.generate(
-                                      contents.length,
-                                      (index) => buildDarkDot(index, context),
-                                    ),
-                                  ),
-                                )
-                              : Container(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: List.generate(
-                                      contents.length,
-                                      (index) => buildLightDot(index, context),
-                                    ),
-                                  ),
-                                ),
-                          SizedBox(
-                            height: 16.h,
-                          ),
-                          Column(
-                            children: [
-                              InkWell(
-                                  onTap: () {
-                                    Get.to(() => SignUpStart());
-                                  },
-                                  child: Container(
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                        color: Color(0xFF3D02E6),
-                                        borderRadius: BorderRadius.circular(5)),
-                                    child: Center(
-                                      child: Text(
-                                        "Get Started",
-                                        style: TextStyle(
-                                            color: Color(0xFFF2f2f2),
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: 'DMSans',
-                                            fontSize: 15.sp),
-                                      ),
-                                    ),
-                                  )),
-                              SizedBox(
-                                height: 16.h,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Get.to(() => SignInScreen());
-                                },
-                                child: Container(
-                                  height: 48,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      border: Border.all(
-                                        width: 1.0,
-                                        color: isDarkMode
-                                            ? AppColors.white
-                                            : AppColors.black,
-                                      )),
-                                  child: Center(
-                                    child: Text(
-                                      "Login",
-                                      style: TextStyle(
-                                          fontFamily: 'DMSans',
-                                          color: isDarkMode
-                                              ? AppColors.white
-                                              : AppColors.black,
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 15.sp),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          )
                         ],
                       ),
                     );
@@ -192,7 +114,7 @@ class _OnboardingState extends State<Onboarding> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontFamily: "Mont",
-                                    fontSize: 24.sp,
+                                    fontSize: 20.sp,
                                     fontWeight: FontWeight.w900,
                                     color: isDarkMode
                                         ? AppColors.white
@@ -214,84 +136,6 @@ class _OnboardingState extends State<Onboarding> {
                                         : AppColors.black,
                                     fontWeight: FontWeight.w400)),
                           ),
-                          SizedBox(height: 64.h),
-                          isDarkMode
-                              ? Container(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: List.generate(
-                                      contents.length,
-                                      (index) => buildDarkDot(index, context),
-                                    ),
-                                  ),
-                                )
-                              : Container(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: List.generate(
-                                      contents.length,
-                                      (index) => buildLightDot(index, context),
-                                    ),
-                                  ),
-                                ),
-                          SizedBox(
-                            height: 16.h,
-                          ),
-                          Column(
-                            children: [
-                              InkWell(
-                                  onTap: () {
-                                    Get.to(() => SignUpStart());
-                                  },
-                                  child: Container(
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                        color: Color(0xFF3D02E6),
-                                        borderRadius: BorderRadius.circular(5)),
-                                    child: Center(
-                                      child: Text(
-                                        "Get Started",
-                                        style: TextStyle(
-                                            color: Color(0xFFF2f2f2),
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: 'DMSans',
-                                            fontSize: 15.sp),
-                                      ),
-                                    ),
-                                  )),
-                              SizedBox(
-                                height: 16.h,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Get.to(() => SignInScreen());
-                                },
-                                child: Container(
-                                  height: 48,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      border: Border.all(
-                                        width: 1.0,
-                                        color: isDarkMode
-                                            ? AppColors.white
-                                            : AppColors.black,
-                                      )),
-                                  child: Center(
-                                    child: Text(
-                                      "Login",
-                                      style: TextStyle(
-                                          fontFamily: 'DMSans',
-                                          color: isDarkMode
-                                              ? AppColors.white
-                                              : AppColors.black,
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 15.sp),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          )
                         ],
                       ),
                     );
@@ -317,7 +161,7 @@ class _OnboardingState extends State<Onboarding> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontFamily: "Mont",
-                                    fontSize: 24.sp,
+                                    fontSize: 20.sp,
                                     fontWeight: FontWeight.w900,
                                     color: isDarkMode
                                         ? AppColors.white
@@ -339,84 +183,6 @@ class _OnboardingState extends State<Onboarding> {
                                         : AppColors.black,
                                     fontWeight: FontWeight.w400)),
                           ),
-                          SizedBox(height: 64.h),
-                          isDarkMode
-                              ? Container(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: List.generate(
-                                      contents.length,
-                                      (index) => buildDarkDot(index, context),
-                                    ),
-                                  ),
-                                )
-                              : Container(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: List.generate(
-                                      contents.length,
-                                      (index) => buildLightDot(index, context),
-                                    ),
-                                  ),
-                                ),
-                          SizedBox(
-                            height: 16.h,
-                          ),
-                          Column(
-                            children: [
-                              InkWell(
-                                  onTap: () {
-                                    Get.to(() => SignUpStart());
-                                  },
-                                  child: Container(
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                        color: Color(0xFF3D02E6),
-                                        borderRadius: BorderRadius.circular(5)),
-                                    child: Center(
-                                      child: Text(
-                                        "Get Started",
-                                        style: TextStyle(
-                                            color: Color(0xFFF2f2f2),
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: 'DMSans',
-                                            fontSize: 15.sp),
-                                      ),
-                                    ),
-                                  )),
-                              SizedBox(
-                                height: 16.h,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Get.to(() => SignInScreen());
-                                },
-                                child: Container(
-                                  height: 48,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      border: Border.all(
-                                        width: 1.0,
-                                        color: isDarkMode
-                                            ? AppColors.white
-                                            : AppColors.black,
-                                      )),
-                                  child: Center(
-                                    child: Text(
-                                      "Login",
-                                      style: TextStyle(
-                                          fontFamily: 'DMSans',
-                                          color: isDarkMode
-                                              ? AppColors.white
-                                              : AppColors.black,
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 15.sp),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          )
                         ],
                       ),
                     );
@@ -443,7 +209,7 @@ class _OnboardingState extends State<Onboarding> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontFamily: "Mont",
-                                  fontSize: 24.sp,
+                                  fontSize: 20.sp,
                                   fontWeight: FontWeight.w900,
                                   color: isDarkMode
                                       ? AppColors.white
@@ -465,89 +231,91 @@ class _OnboardingState extends State<Onboarding> {
                                       : AppColors.black,
                                   fontWeight: FontWeight.w400)),
                         ),
-                        SizedBox(height: 64.h),
-                        isDarkMode
-                            ? Container(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: List.generate(
-                                    contents.length,
-                                    (index) => buildDarkDot(index, context),
-                                  ),
-                                ),
-                              )
-                            : Container(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: List.generate(
-                                    contents.length,
-                                    (index) => buildLightDot(index, context),
-                                  ),
-                                ),
-                              ),
-                        SizedBox(
-                          height: 20.h,
-                        ),
-                        Column(
-                          children: [
-                            InkWell(
-                                onTap: () {
-                                  Get.to(() => SignUpStart());
-                                },
-                                child: Container(
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                      color: Color(0xFF3D02E6),
-                                      borderRadius: BorderRadius.circular(5)),
-                                  child: Center(
-                                    child: Text(
-                                      "Get Started",
-                                      style: TextStyle(
-                                          color: Color(0xFFF2f2f2),
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: 'DMSans',
-                                          fontSize: 15.sp),
-                                    ),
-                                  ),
-                                )),
-                            SizedBox(
-                              height: 10.h,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Get.to(() => SignInScreen());
-                              },
-                              child: Container(
-                                height: 48,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    border: Border.all(
-                                      width: 1.0,
-                                      color: isDarkMode
-                                          ? AppColors.white
-                                          : AppColors.black,
-                                    )),
-                                child: Center(
-                                  child: Text(
-                                    "Login",
-                                    style: TextStyle(
-                                        fontFamily: 'DMSans',
-                                        color: isDarkMode
-                                            ? AppColors.white
-                                            : AppColors.black,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 15.sp),
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        )
                       ],
                     ),
                   );
                 },
               ),
+            ),
+            isDarkMode
+                ? Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                        contents.length,
+                        (index) => buildDarkDot(index, context),
+                      ),
+                    ),
+                  )
+                : Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                        contents.length,
+                        (index) => buildLightDot(index, context),
+                      ),
+                    ),
+                  ),
+            SizedBox(height: 64.h),
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 29),
+                child: Column(
+                  children: [
+                    InkWell(
+                        onTap: () {
+                          Get.to(() => SignUpStart());
+                        },
+                        child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                              color: Color(0xFF3D02E6),
+                              borderRadius: BorderRadius.circular(5)),
+                          child: Center(
+                            child: Text(
+                              "Get Started",
+                              style: TextStyle(
+                                  color: Color(0xFFF2f2f2),
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: 'DMSans',
+                                  fontSize: 15.sp),
+                            ),
+                          ),
+                        )),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Get.to(() => SignInScreen());
+                      },
+                      child: Container(
+                        height: 48,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                              width: 1.0,
+                              color: isDarkMode
+                                  ? AppColors.white
+                                  : AppColors.black,
+                            )),
+                        child: Center(
+                          child: Text(
+                            "Login",
+                            style: TextStyle(
+                                fontFamily: 'DMSans',
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.black,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 15.sp),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                )),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.08,
             ),
           ],
         ),
