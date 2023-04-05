@@ -44,14 +44,17 @@ class SignupPersonalScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      icon: Icon(
+                  InkWell(
+                    onTap: () => Get.back(),
+                    child: Container(
+                      decoration: BoxDecoration(color: AppColors.transparent),
+                      padding: EdgeInsets.only(right: 12, top: 6, bottom: 6),
+                      child: Icon(
                         Icons.arrow_back,
-                        size: 30,
-                      )),
+                        size: 26,
+                      ),
+                    ),
+                  ),
                   Image.asset(
                     AppImages.question,
                     height: 20,
@@ -83,6 +86,14 @@ class SignupPersonalScreen extends StatelessWidget {
                 fillColor: isDarkMode
                     ? AppColors.inputBackgroundColor
                     : AppColors.grey,
+                validator: (value) {
+                  if (value!.length == 0)
+                    return "First name is required";
+                  else if (value.length < 2)
+                    return "First name should contain at least 2 characters";
+                  return null;
+                },
+                textInputAction: TextInputAction.next,
               ),
               CustomTextFormField(
                 controller: signUpController.lastNameController,
@@ -91,20 +102,35 @@ class SignupPersonalScreen extends StatelessWidget {
                 fillColor: isDarkMode
                     ? AppColors.inputBackgroundColor
                     : AppColors.grey,
+                validator: (value) {
+                  if (value!.length == 0)
+                    return "Last name is required";
+                  else if (value.length < 2)
+                    return "Last name should contain at least 2 characters";
+                  return null;
+                },
+                textInputAction: TextInputAction.next,
               ),
               Row(
                 children: [
-                  Container(
-                    width: 100.w,
-                    child: CustomDropdownButtonFormField(
-                        fillColor: isDarkMode
-                            ? AppColors.inputBackgroundColor
-                            : AppColors.grey,
-                        label: "Gender",
-                        items: ["Male", "Female"],
-                        contentPadding: EdgeInsets.symmetric(
-                            horizontal: 12.0, vertical: 20.0),
-                        borderRadius: 14),
+                  GestureDetector(
+                    onTap: () {
+                      signUpController.showGenderList(context, isDarkMode);
+                    },
+                    child: Container(
+                      width: 100.w,
+                      child: CustomDropdownButtonFormField(
+                          controller: signUpController.genderController,
+                          enabled: false,
+                          fillColor: isDarkMode
+                              ? AppColors.inputBackgroundColor
+                              : AppColors.grey,
+                          label: "Gender",
+                          items: ["Male", "Female"],
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 12.0, vertical: 20.0),
+                          borderRadius: 14),
+                    ),
                   ),
                   addHorizontalSpace(20.w),
                   Expanded(
@@ -133,7 +159,7 @@ class SignupPersonalScreen extends StatelessWidget {
               Center(
                   child: Image.asset(
                 isDarkMode ? AppImages.sprout_dark : AppImages.sprout_light,
-                height: 40,
+                height: 24,
               )),
             ],
           ),

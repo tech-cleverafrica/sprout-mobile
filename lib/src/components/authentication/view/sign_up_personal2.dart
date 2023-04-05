@@ -42,14 +42,17 @@ class SignupPersonal2 extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    IconButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        icon: Icon(
+                    InkWell(
+                      onTap: () => Get.back(),
+                      child: Container(
+                        decoration: BoxDecoration(color: AppColors.transparent),
+                        padding: EdgeInsets.only(right: 12, top: 6, bottom: 6),
+                        child: Icon(
                           Icons.arrow_back,
-                          size: 30,
-                        )),
+                          size: 26,
+                        ),
+                      ),
+                    ),
                     Image.asset(
                       AppImages.question,
                       height: 20,

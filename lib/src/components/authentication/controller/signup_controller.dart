@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:sprout_mobile/src/api/api_constant.dart';
 import 'package:sprout_mobile/src/components/authentication/view/sign_up_create_login.dart';
 import 'package:sprout_mobile/src/components/authentication/view/sign_up_personal2.dart';
+import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../api-setup/api_setup.dart';
 import '../../../api/api_response.dart';
@@ -47,6 +51,8 @@ class SignUpController extends GetxController {
 
   RxString birthDate = "YYYY/    MM/     DAY".obs;
   DateTime? pickedStartDate;
+  RxInt currentIndex = 0.obs;
+  List<String> genders = ["Male", "Female"];
 
   @override
   void onInit() {
@@ -156,6 +162,136 @@ class SignUpController extends GetxController {
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }
+  }
+
+  showGenderList(context, isDarkMode) {
+    return showModalBottomSheet(
+        backgroundColor: AppColors.transparent,
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return FractionallySizedBox(
+            heightFactor: 0.4,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              child: Container(
+                  child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 17.h,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10.h, horizontal: 20.w),
+                            child: Text(
+                              "Select Gender",
+                              style: TextStyle(
+                                  fontFamily: "DMSans",
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: isDarkMode
+                                      ? AppColors.mainGreen
+                                      : AppColors.primaryColor),
+                            ),
+                          ),
+                        ]),
+                  ),
+                  Expanded(
+                      child: ListView.builder(
+                          itemCount: genders.length,
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: ((context, index) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.h, horizontal: 20.w),
+                              child: GestureDetector(
+                                onTap: () {
+                                  pop();
+                                  genderController.text = genders[index];
+                                  gender = genders[index];
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: isDarkMode
+                                          ? AppColors.inputBackgroundColor
+                                          : AppColors.grey,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 15.w, vertical: 16.h),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                genders[index],
+                                                style: TextStyle(
+                                                    fontFamily: "DMSans",
+                                                    fontSize: 12.sp,
+                                                    fontWeight: genderController
+                                                                    .text !=
+                                                                "" &&
+                                                            genderController
+                                                                    .text ==
+                                                                genders[index]
+                                                        ? FontWeight.w700
+                                                        : FontWeight.w600,
+                                                    color: isDarkMode
+                                                        ? AppColors.mainGreen
+                                                        : AppColors
+                                                            .primaryColor),
+                                              ),
+                                              Text(
+                                                genders[index],
+                                                style: TextStyle(
+                                                    fontFamily: "DMSans",
+                                                    fontSize: 10.sp,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: isDarkMode
+                                                        ? AppColors.white
+                                                        : AppColors.black),
+                                              )
+                                            ],
+                                          ),
+                                          genderController.text != "" &&
+                                                  genderController.text ==
+                                                      genders[index]
+                                              ? SvgPicture.asset(
+                                                  AppSvg.mark_green,
+                                                  height: 20,
+                                                  color: isDarkMode
+                                                      ? AppColors.mainGreen
+                                                      : AppColors.primaryColor,
+                                                )
+                                              : SizedBox()
+                                        ],
+                                      )),
+                                ),
+                              ),
+                            );
+                          })))
+                ],
+              )),
+            ),
+          );
+        });
   }
 
   @override
