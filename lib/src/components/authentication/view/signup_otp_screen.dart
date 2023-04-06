@@ -51,11 +51,11 @@ class SignupOtpScreen extends StatelessWidget {
                               text: "- " + signUpController.email,
                               style: TextStyle(
                                   fontFamily: "DMSans",
-                                  fontSize: 14.sp,
+                                  fontSize: 12.sp,
                                   color: isDarkMode
                                       ? AppColors.white
                                       : AppColors.black,
-                                  fontWeight: FontWeight.w500),
+                                  fontWeight: FontWeight.w600),
                             ),
                           ],
                         ),
