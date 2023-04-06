@@ -141,6 +141,23 @@ class AuthService {
     return AppResponse(false, statusCode, responseBody, response.data["data"]);
   }
 
+  Future<AppResponse<dynamic>> verifyEmail(
+      Map<String, dynamic> requestBody, String loadingMessage) async {
+    CustomLoader.show(message: loadingMessage);
+    Response response =
+        await locator<AuthRepositoryImpl>().verifyEmail(requestBody);
+    print(response);
+    CustomLoader.dismiss();
+    int statusCode = response.statusCode ?? 000;
+
+    Map<String, dynamic> responseBody = response.data;
+    if (response.data["status"]) {
+      print(":::::::::$responseBody");
+      return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
+    }
+    return AppResponse(false, statusCode, responseBody);
+  }
+
   Future<AppResponse<dynamic>> createUser(
       Map<String, dynamic> requestBody, String loadingMessage) async {
     CustomLoader.show(message: loadingMessage);

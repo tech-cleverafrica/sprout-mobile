@@ -5,9 +5,7 @@ import 'package:sprout_mobile/src/components/home/model/transactions_model.dart'
 import 'package:sprout_mobile/src/components/pay-bills/controller/billers_controller.dart';
 import 'package:sprout_mobile/src/components/pay-bills/controller/packages_controller.dart';
 import 'package:sprout_mobile/src/components/pay-bills/service/pay_bills_service.dart';
-import 'package:sprout_mobile/src/components/pay-bills/view/bills_payment_approval_page.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
-import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 class PaymentController extends GetxController {
   final BillersController billersController = Get.put(BillersController());

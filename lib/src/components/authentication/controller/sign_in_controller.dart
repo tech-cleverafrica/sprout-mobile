@@ -140,7 +140,10 @@ class SignInController extends GetxController {
     bool? isEnabled = await sharePreference
         .getBooleanStoredInSharedPreference(useBiometricAuth);
     isFingerPrintEnabled.value = isEnabled == null ? false : isEnabled;
-    autoBiometrics();
+    bool isLoggedIn = await preferenceRepository.getBooleanPref(IS_LOGGED_IN);
+    if (!isLoggedIn) {
+      autoBiometrics();
+    }
   }
 
   Future _initBiometricAuthentication() async {
@@ -206,7 +209,7 @@ class SignInController extends GetxController {
     AppResponse response = await locator.get<AuthService>().getUserDetails();
     if (response.status) {
       setLoginStatus(true);
-      push(page: BottomNav());
+      pushUntil(page: BottomNav());
       CustomToastNotification.show(response.message, type: ToastType.success);
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);

@@ -6,6 +6,7 @@ import 'package:sprout_mobile/src/components/authentication/controller/signup_co
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_password_field.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'package:email_validator/email_validator.dart';
 
 import '../../../public/widgets/custom_text_form_field.dart';
 import '../../../utils/app_colors.dart';
@@ -21,7 +22,6 @@ class SignUpCreateLogin extends StatefulWidget {
 
 class _SignUpCreateLoginState extends State<SignUpCreateLogin> {
   late SignUpController signUpController;
-  bool success = false;
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +90,11 @@ class _SignUpCreateLoginState extends State<SignUpCreateLogin> {
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
+                  hintText: "davejossy9@gmail.com",
+                  textInputAction: TextInputAction.next,
+                  validator: (value) => EmailValidator.validate(value ?? "")
+                      ? null
+                      : "Please enter a valid email",
                 ),
                 CustomTextFormField(
                   controller: signUpController.phoneController,
@@ -97,6 +102,15 @@ class _SignUpCreateLoginState extends State<SignUpCreateLogin> {
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
+                  hintText: "Enter Phone Number",
+                  validator: (value) {
+                    if (value!.length == 0)
+                      return "Phone Number is required";
+                    else if (value.length < 11)
+                      return "Phone Number must be 11 digits";
+                    return null;
+                  },
+                  textInputAction: TextInputAction.next,
                 ),
                 CustomTextFormPasswordField(
                   controller: signUpController.passwordController,
@@ -104,6 +118,8 @@ class _SignUpCreateLoginState extends State<SignUpCreateLogin> {
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
                   label: "Create password",
+                  hintText: "********",
+                  textInputAction: TextInputAction.next,
                 ),
                 addVerticalSpace(10.h),
                 FlutterPwValidator(
@@ -119,15 +135,11 @@ class _SignUpCreateLoginState extends State<SignUpCreateLogin> {
                   width: MediaQuery.of(context).size.width * .6,
                   height: 150,
                   onSuccess: () {
-                    setState(() {
-                      success = true;
-                    });
+                    signUpController.matched = true;
                     print("MATCHED");
                   },
                   onFail: () {
-                    setState(() {
-                      success = false;
-                    });
+                    signUpController.matched = false;
                     print("NOT MATCHED");
                   },
                 ),
@@ -138,6 +150,15 @@ class _SignUpCreateLoginState extends State<SignUpCreateLogin> {
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
                   label: "Confirm password",
+                  hintText: "********",
+                  validator: (value) {
+                    if (value!.length == 0)
+                      return "Confirm password is required";
+                    else if (value != signUpController.passwordController.text)
+                      return "Password does not match";
+                    return null;
+                  },
+                  textInputAction: TextInputAction.go,
                 ),
                 addVerticalSpace(48.h),
                 DecisionButton(

@@ -15,6 +15,7 @@ import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import 'package:sprout_mobile/src/utils/global_function.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 // ignore: must_be_immutable
 class FundWalletScreen extends StatelessWidget {
@@ -292,12 +293,24 @@ void fundFromCard(BuildContext context) {
                                               : AppColors.black,
                                           fontWeight: FontWeight.w600)),
                         ),
-                        SizedBox(height: 5),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(width: 40),
-                            ]),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.05,
+                        ),
+                        DecisionButton(
+                            isDarkMode: isDarkMode,
+                            buttonText: "Proceed",
+                            onTap: (() => {
+                                  fundWalletController
+                                      .validateFields()
+                                      .then((value) => {
+                                            if (value != null)
+                                              {
+                                                fundWalletController
+                                                    .handlePaymentInitialization(
+                                                        context)
+                                              }
+                                          })
+                                })),
                       ]),
                 ],
               ))),

@@ -84,6 +84,12 @@ class SignupPersonal2 extends StatelessWidget {
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
+                  validator: (value) {
+                    if (value!.length < 3)
+                      return "Business name should be at least 3 characters";
+                    return null;
+                  },
+                  textInputAction: TextInputAction.next,
                 ),
                 CustomTextFormField(
                   controller: signUpController.fullAddressController,
@@ -92,6 +98,14 @@ class SignupPersonal2 extends StatelessWidget {
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
+                  validator: (value) {
+                    if (value!.length == 0)
+                      return "Address is required";
+                    else if (value.length < 6)
+                      return "Address should be at least 6 characters";
+                    return null;
+                  },
+                  textInputAction: TextInputAction.next,
                 ),
                 Row(
                   children: [
@@ -103,26 +117,55 @@ class SignupPersonal2 extends StatelessWidget {
                               ? AppColors.inputBackgroundColor
                               : AppColors.grey,
                           label: "City",
+                          hintText: "Enter City",
+                          validator: (value) {
+                            if (value!.length == 0)
+                              return "City is required";
+                            else if (value.length < 2)
+                              return "City should be at least 2 characters";
+                            return null;
+                          },
+                          textInputAction: TextInputAction.next,
                         ),
                       ),
                     ),
                     addHorizontalSpace(10.w),
                     Expanded(
+                        child: GestureDetector(
+                      onTap: () {
+                        signUpController.showStateList(context, isDarkMode);
+                      },
+                      child: Container(
                         child: CustomTextFormField(
-                      controller: signUpController.stateController,
-                      label: "State",
-                      fillColor: isDarkMode
-                          ? AppColors.inputBackgroundColor
-                          : AppColors.grey,
-                    ))
+                          controller: signUpController.stateController,
+                          label: "State",
+                          enabled: false,
+                          fillColor: isDarkMode
+                              ? AppColors.inputBackgroundColor
+                              : AppColors.grey,
+                          hasSuffixIcon: true,
+                          hintText: "Select State",
+                          suffixIcon: Icon(
+                            Icons.arrow_drop_down,
+                            size: 16,
+                          ),
+                          validator: (value) {
+                            if (value!.length == 0) return "State is required";
+                            return null;
+                          },
+                          textInputAction: TextInputAction.next,
+                        ),
+                      ),
+                    )),
                   ],
                 ),
                 CustomTextFormField(
                   controller: signUpController.referralController,
-                  label: "Referral code",
+                  label: "Referral code (optional)",
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
+                  textInputAction: TextInputAction.go,
                 ),
                 addVerticalSpace(48.h),
                 DecisionButton(

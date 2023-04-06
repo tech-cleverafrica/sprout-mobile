@@ -17,4 +17,13 @@ class FundWalletRepositoryImpl implements FundWalletRepository {
       return api.handleError(e);
     }
   }
+
+  @override
+  fundWalletWithNewCard(Map<String, dynamic> requestBody) async {
+    try {
+      return await api.dio.post(fundWalletWithNewCardUrl, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    }
+  }
 }

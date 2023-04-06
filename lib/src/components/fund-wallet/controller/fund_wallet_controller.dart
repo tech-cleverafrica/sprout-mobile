@@ -12,9 +12,12 @@ import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/fund-wallet/service/fund_wallet_service.dart';
 import 'package:sprout_mobile/src/components/home/model/wallet_model.dart';
 import 'package:sprout_mobile/src/components/home/service/home_service.dart';
+import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_formatter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 class FundWalletController extends GetxController {
   final storage = GetStorage();
@@ -33,6 +36,8 @@ class FundWalletController extends GetxController {
   RxString accountNumberToUse = "".obs;
   RxString bankToUse = "".obs;
   late RxDouble walletBalance = 0.0.obs;
+
+  String transactionRef = "";
 
   @override
   void onReady() {
@@ -72,6 +77,60 @@ class FundWalletController extends GetxController {
       // walletBalance.value = wallet.data!.balance!;
       // storage.write("userBalance", walletBalance.value);
     }
+  }
+
+  Future<dynamic> validateFields() async {
+    if ((double.parse(amountController.text.split(",").join()) >= 10 &&
+        double.parse(amountController.text.split(",").join()) <= 450000)) {
+      var response = await fundWalletWithNewCard();
+      return response;
+    } else if (double.parse(amountController.text.split(",").join("")) == 0) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please enter a valid amount"),
+          backgroundColor: AppColors.errorRed));
+    } else if (double.parse(amountController.text.split(",").join("")) < 10) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Amount is too small"),
+          backgroundColor: AppColors.errorRed));
+    } else if (double.parse(amountController.text.split(",").join("")) >
+        450000) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Maximum amount is 450,000"),
+          backgroundColor: AppColors.errorRed));
+    } else {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please supply all required fields"),
+          backgroundColor: AppColors.errorRed));
+    }
+    return null;
+  }
+
+  Future<dynamic> fundWalletWithNewCard() async {
+    AppResponse response = await locator
+        .get<FundWalletService>()
+        .fundWalletWithNewCard(buildBeneficiaryModel(), "Please wait");
+    if (response.status) {
+      print(response.data);
+      return response.data;
+    } else {
+      CustomToastNotification.show(response.message, type: ToastType.error);
+    }
+    return null;
+  }
+
+  buildBeneficiaryModel() {
+    String id = storage.read("userId");
+    String suffix = DateTime.now().year.toString() +
+        DateTime.now().month.toString() +
+        DateTime.now().day.toString() +
+        DateTime.now().hour.toString() +
+        DateTime.now().minute.toString() +
+        DateTime.now().second.toString();
+    transactionRef = "CLV$id$suffix".toUpperCase();
+    return {
+      "amount": amountController.text.split(",").join(),
+      "txRef": "CLV$id$suffix".toUpperCase(),
+    };
   }
 
   @override
@@ -200,30 +259,41 @@ class FundWalletController extends GetxController {
   }
 
   handlePaymentInitialization(BuildContext context) async {
-    String id = storage.read("userId");
-    String suffix = DateTime.now().year.toString() +
-        DateTime.now().month.toString() +
-        DateTime.now().day.toString() +
-        DateTime.now().hour.toString() +
-        DateTime.now().minute.toString() +
-        DateTime.now().second.toString();
+    String firstname = StringUtils.capitalize(storage.read("firstname"));
+    String lastname = StringUtils.capitalize(storage.read("lastname"));
+    String phoneNumber = storage.read("phoneNumber");
+    String email = storage.read("email");
     final Customer customer = Customer(
-        name: "Flutterwave Developer",
-        phoneNumber: "1234566677777",
-        email: "customer@customer.com");
+        name: firstname + " " + lastname,
+        phoneNumber: phoneNumber,
+        email: email);
     final Flutterwave flutterwave = Flutterwave(
         context: context,
         publicKey: "FLWPUBK_TEST-c9c17e8e7f23ee3e840970bc2143326d-X",
         currency: "NGN",
-        redirectUrl: "add-your-redirect-url-here",
-        txRef: "CLV$id$suffix".toUpperCase(),
-        amount: "3000",
+        redirectUrl: "https://business.cleverafrica.com",
+        txRef: transactionRef,
+        amount: amountController.text.split(",").join(),
         customer: customer,
-        paymentOptions: "ussd, card, barter, payattitude",
-        customization: Customization(title: "My Payment"),
+        paymentOptions: "card",
+        // paymentOptions: "ussd, card, barter, payattitude",
+        customization: Customization(
+            title: "Fund Wallet",
+            logo:
+                "https://res.cloudinary.com/senjonnes/image/upload/v1680695198/Subtract_sjyu1o.png",
+            description: "Fund Wallet"),
         isTestMode: true);
     final ChargeResponse response = await flutterwave.charge();
     print("TEST OUTPUT");
     print(response.transactionId);
+    if (response.transactionId != null) {
+      CustomToastNotification.show("Your wallet has been funded successfully",
+          type: ToastType.success);
+      pushUntil(page: BottomNav());
+    } else {
+      pop();
+      amountController = new MoneyMaskedTextController(
+          initialValue: 0, decimalSeparator: ".", thousandSeparator: ",");
+    }
   }
 }

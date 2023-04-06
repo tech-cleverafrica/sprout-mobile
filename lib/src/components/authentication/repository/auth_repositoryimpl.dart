@@ -52,6 +52,17 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  verifyEmail(Map<String, dynamic> requestBody) async {
+    try {
+      return await api.dio.post(verifyEmailUrl, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
+
+  @override
   createUser(Map<String, dynamic> requestBody) async {
     try {
       return await api.dio.post(createUserUrl, data: requestBody);

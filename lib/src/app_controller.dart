@@ -76,7 +76,7 @@ class AppController extends GetxController {
       setLoginStatus(false);
       showAutoBiometricsOnLoginPage(false);
       CustomToastNotification.show(
-          "Looks like you have been away for too login. Please login to continue.",
+          "Looks like you have been away for too long. Please login to continue.",
           type: ToastType.error);
     }
   }

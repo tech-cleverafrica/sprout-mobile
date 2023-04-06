@@ -12,17 +12,19 @@ class CustomTextFormPasswordField extends StatefulWidget {
   final ValueChanged<String>? onChanged;
   final TextEditingController? controller;
   final FormFieldValidator<String>? validator;
+  final TextInputAction? textInputAction;
 
-  const CustomTextFormPasswordField(
-      {Key? key,
-      this.label,
-      this.hintText,
-      this.errorText,
-      required this.fillColor,
-      this.onChanged,
-      this.validator,
-      this.controller})
-      : super(key: key);
+  const CustomTextFormPasswordField({
+    Key? key,
+    this.label,
+    this.hintText,
+    this.errorText,
+    required this.fillColor,
+    this.onChanged,
+    this.validator,
+    this.controller,
+    this.textInputAction = TextInputAction.none,
+  }) : super(key: key);
 
   @override
   State<CustomTextFormPasswordField> createState() =>
@@ -45,6 +47,7 @@ class _CustomTextFormPasswordFieldState
       obscured: _obscureText,
       hasSuffixIcon: true,
       validator: widget.validator,
+      textInputAction: widget.textInputAction,
       suffixIcon: TextButton(
           onPressed: () => setState(() => _obscureText = !_obscureText),
           child: _obscureText

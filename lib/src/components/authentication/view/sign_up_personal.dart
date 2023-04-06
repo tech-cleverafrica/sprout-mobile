@@ -7,7 +7,6 @@ import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
-import '../../../public/widgets/custom_dropdown_button_field.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_images.dart';
 import '../../../utils/helper_widgets.dart';
@@ -89,8 +88,7 @@ class SignupPersonalScreen extends StatelessWidget {
                 validator: (value) {
                   if (value!.length == 0)
                     return "First name is required";
-                  else if (value.length < 2)
-                    return "First name should contain at least 2 characters";
+                  else if (value.length < 2) return "First name is too short";
                   return null;
                 },
                 textInputAction: TextInputAction.next,
@@ -105,8 +103,7 @@ class SignupPersonalScreen extends StatelessWidget {
                 validator: (value) {
                   if (value!.length == 0)
                     return "Last name is required";
-                  else if (value.length < 2)
-                    return "Last name should contain at least 2 characters";
+                  else if (value.length < 2) return "Last name is too short";
                   return null;
                 },
                 textInputAction: TextInputAction.next,
@@ -119,17 +116,22 @@ class SignupPersonalScreen extends StatelessWidget {
                     },
                     child: Container(
                       width: 100.w,
-                      child: CustomDropdownButtonFormField(
-                          controller: signUpController.genderController,
-                          enabled: false,
-                          fillColor: isDarkMode
-                              ? AppColors.inputBackgroundColor
-                              : AppColors.grey,
-                          label: "Gender",
-                          items: ["Male", "Female"],
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 12.0, vertical: 20.0),
-                          borderRadius: 14),
+                      child: CustomTextFormField(
+                        controller: signUpController.genderController,
+                        enabled: false,
+                        fillColor: isDarkMode
+                            ? AppColors.inputBackgroundColor
+                            : AppColors.grey,
+                        label: "Gender",
+                        hintText: "Select Gender",
+                        borderRadius: 14,
+                        hasSuffixIcon: true,
+                        suffixIcon: Icon(
+                          Icons.arrow_drop_down,
+                          size: 16,
+                        ),
+                        textInputAction: TextInputAction.next,
+                      ),
                     ),
                   ),
                   addHorizontalSpace(20.w),
@@ -145,6 +147,7 @@ class SignupPersonalScreen extends StatelessWidget {
                             fillColor: isDarkMode
                                 ? AppColors.inputBackgroundColor
                                 : AppColors.grey,
+                            textInputAction: TextInputAction.go,
                           )),
                     ),
                   ))

@@ -9,6 +9,7 @@ const String refreshTokenUrl = "auth/api/v1/mobile/token/refresh";
 
 //user
 const String userDetailsUrl = "user-management/api/v1/users/me";
+const String verifyEmailUrl = "user-management/api/v1/users/onboard/send-otp";
 const String createUserUrl = "user-management/api/v1/users/agent";
 const String requestVerificationUrl = "user-management/api/v1/users/";
 const String uploadUrl = "user-management/api/v1/users/upload";
@@ -58,7 +59,9 @@ const String billsUrl = "bills/api/v2/";
 const String billerGroupsUrl = "bills/api/v2/biller-group";
 
 //savings
-const String cardsUrl = "target-savings/api/v1/card?status=enabled";
+const String cardsUrl = "target-savings/api/v1/savings/card?status=enabled";
+const String fundWalletWithNewCardUrl =
+    "target-savings/api/v1/savings/initiate/direct-debit";
 
 apiResponse(String? message, [String? responseCode]) {
   return {
