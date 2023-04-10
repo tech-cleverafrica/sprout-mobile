@@ -29,17 +29,19 @@ class InvoiceController extends GetxController {
 
   RxList<InvoiceRespose> invoiceResponse = <InvoiceRespose>[].obs;
   RxList<Invoice> invoice = <Invoice>[].obs;
+  RxList<Invoice> baseInvoice = <Invoice>[].obs;
 
   RxList<InvoiceCustomerResponse> invoiceCustomerResponse =
       <InvoiceCustomerResponse>[].obs;
   RxList<InvoiceCustomer> invoiceCustomer = <InvoiceCustomer>[].obs;
+  RxList<InvoiceCustomer> baseInvoiceCustomer = <InvoiceCustomer>[].obs;
 
   InvoiceDetail? invoiceDetail;
   RxBool isInvoiceLoading = false.obs;
   RxBool isInvoiceCustomerLoading = false.obs;
   RxBool isSingleInvoiceLoading = false.obs;
-
   RxBool isInvoiceDisplay = true.obs;
+  RxBool showMain = false.obs;
 
   @override
   void onInit() {
@@ -56,7 +58,7 @@ class InvoiceController extends GetxController {
 
     if (invoiceResponse.status) {
       invoice.assignAll(invoiceResponse.data!);
-      //  debugPrint("the invoices are ::::::::::::::::::::$invoice");
+      debugPrint("the invoices are ::::::::::::::::::::$invoice");
     }
   }
 
@@ -123,6 +125,24 @@ class InvoiceController extends GetxController {
     } else {
       CustomToastNotification.show(appResponse.message, type: ToastType.error);
     }
+  }
+
+  filterInvoices(String value) {
+    invoice.value = value == ""
+        ? baseInvoice
+        : baseInvoice
+            .where(
+                (i) => i.invoiceNo!.toLowerCase().contains(value.toLowerCase()))
+            .toList();
+  }
+
+  filterCustomers(String value) {
+    invoiceCustomer.value = value == ""
+        ? baseInvoiceCustomer
+        : baseInvoiceCustomer
+            .where(
+                (i) => i.fullName!.toLowerCase().contains(value.toLowerCase()))
+            .toList();
   }
 
   showUpdateModal(context, isDarkMode, String id, String fullName, String phone,

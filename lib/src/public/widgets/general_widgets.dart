@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/help/view/complaint.dart';
 import 'package:sprout_mobile/src/components/home/controller/home_controller.dart';
 import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
+import 'package:sprout_mobile/src/components/invoice/view/invoice.dart';
 import 'package:sprout_mobile/src/components/notification/view/notification.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
@@ -14,7 +15,6 @@ import 'package:sprout_mobile/src/utils/nav_function.dart';
 import 'package:badges/badges.dart' as badges;
 
 import '../../components/home/view/homepage.dart';
-import '../../components/invoice/view/invoice.dart';
 import '../../components/profile/view/profile.dart';
 import '../../components/save/view/savings.dart';
 import '../../utils/app_colors.dart';

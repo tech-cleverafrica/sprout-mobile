@@ -57,7 +57,7 @@ class SuccessfulInvoice extends StatelessWidget {
                 )),
             addVerticalSpace(20.h),
             Container(
-                width: 150.w,
+                width: MediaQuery.of(context).size.width * 0.5,
                 child: Text(
                   "You have successfully created an invoice to tadainic Company",
                   textAlign: TextAlign.center,
@@ -86,7 +86,10 @@ class SuccessfulInvoice extends StatelessWidget {
               ],
             ),
             addVerticalSpace(20.h),
-            Image.asset(AppImages.sprout_dark),
+            Image.asset(
+              AppImages.sprout_dark,
+              height: 24.h,
+            ),
           ],
         ),
       ),
