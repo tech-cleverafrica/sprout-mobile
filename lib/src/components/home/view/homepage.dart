@@ -41,8 +41,10 @@ class HomePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                 addVerticalSpace(19.h),
-                getHomeHeader(isDarkMode, homeController.abbreviation,
-                    notificationController.size),
+                Obx((() => getHomeHeader(
+                    isDarkMode,
+                    homeController.abbreviation,
+                    notificationController.size.value))),
                 addVerticalSpace(16.h),
                 getHomeDisplay(isDarkMode, theme, context)
               ])),

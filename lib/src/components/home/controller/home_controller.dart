@@ -83,10 +83,17 @@ class HomeController extends GetxController {
     AppResponse<List<Transactions>> transactionsResponse =
         await locator.get<HomeService>().getTransactions();
     isTransactionLoading.value = false;
-
     if (transactionsResponse.status) {
       transactions.assignAll(transactionsResponse.data!);
       print(transactionsResponse);
+      print("transactionsResponse");
+      print("transactionsResponse1");
+      print("transactionsResponse2");
+      print("transactionsResponse3");
+      print("transactionsResponse4");
+      print("transactionsResponse5");
+      print("transactionsResponse6");
+      print("transactionsResponse7");
     }
   }
 

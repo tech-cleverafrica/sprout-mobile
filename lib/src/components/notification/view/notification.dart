@@ -32,7 +32,7 @@ class NotificationScreen extends StatelessWidget {
                 getHeader(isDarkMode, hideNotification: true),
                 addVerticalSpace(35.h),
                 ListView.builder(
-                    itemCount: notificationController.size,
+                    itemCount: notificationController.size.value,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: ((context, index) {
