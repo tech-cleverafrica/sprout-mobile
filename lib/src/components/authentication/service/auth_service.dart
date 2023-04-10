@@ -5,8 +5,12 @@ import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/authentication/model/response_model.dart';
 import 'package:sprout_mobile/src/components/authentication/model/user.dart';
+import 'package:sprout_mobile/src/components/authentication/view/sign_in_screen.dart';
+import 'package:sprout_mobile/src/components/profile/repository/profile_repositoryimpl.dart';
 import 'package:sprout_mobile/src/repository/preference_repository.dart';
 import 'package:sprout_mobile/src/utils/constants.dart';
+import 'package:sprout_mobile/src/utils/global_function.dart';
+import 'package:sprout_mobile/src/utils/nav_function.dart';
 import '../../../api-setup/api_setup.dart';
 import '../../../api/api.dart';
 import '../../../public/widgets/custom_loader.dart';
@@ -33,8 +37,8 @@ class AuthService {
       int expireIn = responseBody["data"]["expires"];
       String refreshToken = responseBody["data"]["refreshToken"];
       preferenceRepository.setStringPref(accessTokenKey, accessToken);
-      preferenceRepository.setIntPref(expiresIn, expireIn);
-      preferenceRepository.setStringPref(refreshToken, refreshToken);
+      preferenceRepository.setIntPref(expiresInKey, expireIn);
+      preferenceRepository.setStringPref(refreshTokenKey, refreshToken);
       api.baseOptions.headers.addAll({"Authorization": "Bearer $accessToken"});
       return AppResponse<SignInResponseModel>(
           true,
@@ -118,26 +122,25 @@ class AuthService {
     return AppResponse(false, statusCode, responseBody);
   }
 
-  buildRefreshModel() {
-    return {"username": preferenceRepository.getStringPref(refreshToken)};
-  }
-
   Future<AppResponse<dynamic>> refreshUserToken() async {
-    Response response = await locator
-        .get<AuthRepositoryImpl>()
-        .refreshToken(buildRefreshModel());
+    Response response = await locator.get<AuthRepositoryImpl>().refreshToken({
+      "refreshToken": await preferenceRepository.getStringPref(refreshTokenKey)
+    });
     int statusCode = response.statusCode ?? 000;
-
     Map<String, dynamic> responseBody = response.data;
-
     if (response.data["status"]) {
-      print("TOKENNN${response.data["data"]["accessToken"]}");
-      print("TOKENNN${response.data["data"]["expires"]}");
-
-      preferenceRepository.setStringPref(
-          accessTokenKey, response.data["data"]["access_token"] ?? "");
+      print(response.data["data"]);
+      String accessToken = responseBody["data"]["accessToken"];
+      int expireIn = responseBody["data"]["expires"];
+      String refreshToken = responseBody["data"]["refreshToken"];
+      preferenceRepository.setStringPref(accessTokenKey, accessToken);
+      preferenceRepository.setIntPref(expiresInKey, expireIn);
+      preferenceRepository.setStringPref(refreshTokenKey, refreshToken);
+      api.baseOptions.headers.addAll({"Authorization": "Bearer $accessToken"});
+      return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
+    } else if (statusCode == 999) {
+      logout({});
     }
-
     return AppResponse(false, statusCode, responseBody, response.data["data"]);
   }
 
@@ -172,6 +175,17 @@ class AuthService {
       print(":::::::::$responseBody");
       return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
     }
+    return AppResponse(false, statusCode, responseBody);
+  }
+
+  Future<AppResponse<dynamic>> logout(Map<String, dynamic> requestBody) async {
+    Response response =
+        await locator<ProfileRepositoryImpl>().logout(requestBody);
+    int statusCode = response.statusCode ?? 000;
+    Map<String, dynamic> responseBody = response.data;
+    setLoginStatus(false);
+    showAutoBiometricsOnLoginPage(false);
+    pushUntil(page: SignInScreen());
     return AppResponse(false, statusCode, responseBody);
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutterwave_standard/core/flutterwave.dart';
 import 'package:flutterwave_standard/models/requests/customer.dart';
 import 'package:flutterwave_standard/models/requests/customizations.dart';
 import 'package:flutterwave_standard/models/responses/charge_response.dart';
+import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:basic_utils/basic_utils.dart';
@@ -66,6 +67,11 @@ class FundWalletController extends GetxController {
       Wallet wallet = Wallet.fromJson(response.data);
       walletBalance.value = wallet.data!.balance!;
       storage.write("userBalance", walletBalance.value);
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator<AuthService>().refreshUserToken();
+      if (res.status) {
+        getWallet();
+      }
     }
   }
 

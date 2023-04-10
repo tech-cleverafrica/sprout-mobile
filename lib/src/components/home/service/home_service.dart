@@ -52,7 +52,6 @@ class HomeService {
       return AppResponse<List<Transactions>>(true, statusCode, responseBody,
           Transactions.getList(responseBody["data"]));
     }
-
     return AppResponse(false, statusCode, {});
   }
 

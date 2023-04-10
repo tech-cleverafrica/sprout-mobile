@@ -1,6 +1,7 @@
 class AppResponse<T> {
   late bool status;
   late String responseCode;
+  late int statusCode;
   late String message;
   var data;
 
@@ -8,6 +9,7 @@ class AppResponse<T> {
       [data]) {
     this.status = isSuccess ?? false;
     this.responseCode = response["responseCode"] ?? "100001";
+    this.statusCode = statusCode ?? 000;
     this.message = getResponseMessage(response, isSuccess);
     this.data = data ?? "";
   }

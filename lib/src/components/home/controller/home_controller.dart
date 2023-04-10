@@ -5,7 +5,7 @@ import 'package:basic_utils/basic_utils.dart';
 import 'package:intl/intl.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
-import 'package:sprout_mobile/src/components/authentication/controller/sign_in_controller.dart';
+import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
 import 'package:sprout_mobile/src/components/home/model/transactions_model.dart';
 import 'package:sprout_mobile/src/components/home/model/wallet_model.dart';
 import 'package:sprout_mobile/src/components/home/service/home_service.dart';
@@ -35,7 +35,6 @@ class HomeController extends GetxController {
   RxBool isApproved = false.obs;
   RxBool inReview = false.obs;
   RxBool showAmount = true.obs;
-  SignInController signInController = Get.put(SignInController());
 
   var inflowGraph = Rxn<dynamic>();
   var outflowGraph = Rxn<dynamic>();
@@ -86,14 +85,6 @@ class HomeController extends GetxController {
     if (transactionsResponse.status) {
       transactions.assignAll(transactionsResponse.data!);
       print(transactionsResponse);
-      print("transactionsResponse");
-      print("transactionsResponse1");
-      print("transactionsResponse2");
-      print("transactionsResponse3");
-      print("transactionsResponse4");
-      print("transactionsResponse5");
-      print("transactionsResponse6");
-      print("transactionsResponse7");
     }
   }
 
@@ -110,11 +101,15 @@ class HomeController extends GetxController {
     }
   }
 
+  getUserInfo() async {
+    await locator.get<AuthService>().getUserDetails();
+  }
+
   Future<void> refreshData() async {
     try {
       getWallet();
       loadTransactions();
-      signInController.getUserInfo();
+      getUserInfo();
       getDashboardGraph();
     } catch (err) {
       rethrow;

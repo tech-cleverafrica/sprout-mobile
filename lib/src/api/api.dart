@@ -125,7 +125,7 @@ class Api {
           response = Response(
               data: apiResponse(e.response?.data?["message"],
                   e.response?.data?["responseCode"]),
-              statusCode: e.response?.statusCode ?? 000,
+              statusCode: 999,
               requestOptions: RequestOptions(path: ''));
           logout(code: 401);
         } else if (e.response?.data.runtimeType == String ||
