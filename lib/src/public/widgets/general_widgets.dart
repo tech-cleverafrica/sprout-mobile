@@ -8,6 +8,7 @@ import 'package:sprout_mobile/src/components/help/view/complaint.dart';
 import 'package:sprout_mobile/src/components/home/controller/home_controller.dart';
 import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
 import 'package:sprout_mobile/src/components/invoice/view/invoice.dart';
+import 'package:sprout_mobile/src/components/notification/controller/notification_controller.dart';
 import 'package:sprout_mobile/src/components/notification/view/notification.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
@@ -21,9 +22,10 @@ import '../../utils/app_colors.dart';
 import '../../utils/helper_widgets.dart';
 
 late HomeController homeController = Get.put(HomeController());
+late NotificationController notificationController =
+    Get.put(NotificationController());
 
-getHeader(bool isDarkMode,
-    {hideHelp = false, hideNotification = false, int size = 0}) {
+getHeader(bool isDarkMode, {hideHelp = false, hideNotification = false}) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 0),
     child: Row(
@@ -87,7 +89,7 @@ getHeader(bool isDarkMode,
             !hideNotification
                 ? InkWell(
                     onTap: () => Get.to(() => NotificationScreen()),
-                    child: size == 0
+                    child: notificationController.size.value == 0
                         ? Icon(
                             Icons.notifications,
                             color:
@@ -105,7 +107,9 @@ getHeader(bool isDarkMode,
                                 height: 10, //badge size
                                 child: Center(
                                   //aligh badge content to center
-                                  child: Text(size.toString(),
+                                  child: Text(
+                                      notificationController.size.value
+                                          .toString(),
                                       style: TextStyle(
                                           color:
                                               Colors.white, //badge font color
