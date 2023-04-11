@@ -20,8 +20,6 @@ class CompleteAccountSetupController extends GetxController {
   String? identityCardUploadError;
   String? utilityBillUploadError;
   bool loading = false;
-  // RxBool uploadingIdentityCard = false.obs;
-  // RxBool uploadingUtilityBill = false.obs;
   bool isIDValid = false;
   bool isUtilityValid = false;
 
@@ -68,7 +66,7 @@ class CompleteAccountSetupController extends GetxController {
   requestVerification(Map<String, dynamic> model) async {
     AppResponse response = await locator
         .get<CompleteAccountSetupService>()
-        .requestVerification(model, "Please wait");
+        .requestVerification(model);
     if (response.status) {
       pushUntil(
           page: ApprovalScreen(
@@ -82,9 +80,8 @@ class CompleteAccountSetupController extends GetxController {
   }
 
   Future uploadAndCommit(File? image, String fileType) async {
-    AppResponse response = await locator
-        .get<SharedService>()
-        .uploadAndCommit(image, fileType, "Please wait");
+    AppResponse response =
+        await locator.get<SharedService>().uploadAndCommit(image, fileType);
     if (response.status) {
       if (fileType == "identityCard") {
         identityCardUrl = response.data["data"];

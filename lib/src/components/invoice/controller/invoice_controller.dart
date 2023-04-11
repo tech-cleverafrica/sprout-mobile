@@ -114,8 +114,7 @@ class InvoiceController extends GetxController {
   updateCustomer(String customerId) async {
     AppResponse appResponse = await locator
         .get<InvoiceService>()
-        .updateCustomer(
-            buildCustomerRequest(), "Updating customer info...", customerId);
+        .updateCustomer(buildCustomerRequest(), customerId);
     if (appResponse.status) {
       debugPrint(appResponse.message);
       CustomToastNotification.show(appResponse.message,

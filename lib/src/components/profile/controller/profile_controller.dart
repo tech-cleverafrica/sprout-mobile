@@ -62,8 +62,7 @@ class ProfileController extends GetxController {
   }
 
   logout() async {
-    AppResponse response =
-        await locator.get<ProfileService>().logout({}, "Please wait");
+    AppResponse response = await locator.get<ProfileService>().logout({});
     if (response.status) {
       setLoginStatus(false);
       showAutoBiometricsOnLoginPage(false);
@@ -77,7 +76,7 @@ class ProfileController extends GetxController {
     uploadingProfilePicture.value = true;
     AppResponse response = await locator
         .get<SharedService>()
-        .uploadAndCommit(profilePicture, "profilePicture", "Please wait");
+        .uploadAndCommit(profilePicture, "profilePicture");
     if (response.status) {
       uploadProfilePicture(response.data["data"]);
     } else {

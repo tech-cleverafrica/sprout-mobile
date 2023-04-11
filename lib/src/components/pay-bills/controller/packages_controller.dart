@@ -58,7 +58,7 @@ class PackagesController extends GetxController {
     String route = buildRoute();
     AppResponse<List<BillerPackage>> response = await locator
         .get<PayBillsService>()
-        .getPackages(buildRequestModel(), route, "Please wait");
+        .getPackages(buildRequestModel(), route);
     loading.value = false;
     if (response.status) {
       packages.assignAll(response.data!);
@@ -66,12 +66,10 @@ class PackagesController extends GetxController {
     }
   }
 
-  Future<dynamic> lookup(Map<String, dynamic> requestBody, String route,
-      String loadingMessage) async {
+  Future<dynamic> lookup(Map<String, dynamic> requestBody, String route) async {
     loading.value = true;
-    AppResponse response = await locator
-        .get<PayBillsService>()
-        .lookup(requestBody, route, loadingMessage);
+    AppResponse response =
+        await locator.get<PayBillsService>().lookup(requestBody, route);
     loading.value = false;
     if (response.status) {
       String x = amountController.value!.text.split(",").join();
@@ -99,8 +97,7 @@ class PackagesController extends GetxController {
         phoneNumberController.text.length == 11 &&
         digitController.text.isNotEmpty) {
       String route = getLookupRoute();
-      var response =
-          await lookup(buildLookupRequestModel(), route, "Please wait");
+      var response = await lookup(buildLookupRequestModel(), route);
       return response;
     } else if (amountController.value!.text.isEmpty ||
         double.parse(amountController.value!.text.split(",").join()) == 0) {
@@ -147,7 +144,7 @@ class PackagesController extends GetxController {
             biller.value!.slug == "SHOWMAX" &&
             beneficiaryNameController.text.isNotEmpty)) {
       if (biller.value!.slug == "SHOWMAX") {
-        CustomLoader.show(message: "Please wait");
+        CustomLoader.show();
         await Future.delayed(
             Duration(microseconds: 2000),
             () => {
@@ -156,8 +153,7 @@ class PackagesController extends GetxController {
         return true;
       } else {
         String route = getLookupRoute();
-        var response =
-            await lookup(buildLookupRequestModel(), route, "Please wait");
+        var response = await lookup(buildLookupRequestModel(), route);
         return response;
       }
     } else if (amountController.value!.text.isEmpty ||
@@ -202,7 +198,7 @@ class PackagesController extends GetxController {
             biller.value!.slug == "SPECTRANET" &&
             beneficiaryNameController.text.isNotEmpty)) {
       if (biller.value!.slug == "SPECTRANET") {
-        CustomLoader.show(message: "Please wait");
+        CustomLoader.show();
         await Future.delayed(
             Duration(microseconds: 2000),
             () => {
@@ -211,8 +207,7 @@ class PackagesController extends GetxController {
         return true;
       } else {
         String route = getLookupRoute();
-        var response =
-            await lookup(buildLookupRequestModel(), route, "Please wait");
+        var response = await lookup(buildLookupRequestModel(), route);
         return response;
       }
     } else if (amountController.value!.text.isEmpty ||
@@ -249,8 +244,7 @@ class PackagesController extends GetxController {
             200000 &&
         digitController.text.isNotEmpty) {
       String route = getLookupRoute();
-      var response =
-          await lookup(buildLookupRequestModel(), route, "Please wait");
+      var response = await lookup(buildLookupRequestModel(), route);
       return response;
     } else if (amountController.value!.text.isEmpty ||
         double.parse(amountController.value!.text.split(",").join()) == 0) {

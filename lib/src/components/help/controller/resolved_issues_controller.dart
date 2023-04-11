@@ -105,7 +105,7 @@ class ResolvedIssuesController extends GetxController {
 
   Future<Issues?> reopenIssue(Map<String, dynamic> model, String id) async {
     AppResponse<Issues> response =
-        await locator.get<HelpService>().reopenIssue(model, id, "Please wait");
+        await locator.get<HelpService>().reopenIssue(model, id);
     if (response.status) {
       final Issues issue = response.data;
       return issue;
@@ -116,9 +116,8 @@ class ResolvedIssuesController extends GetxController {
   }
 
   Future uploadAndCommit(File image, String fileType) async {
-    AppResponse response = await locator
-        .get<SharedService>()
-        .uploadAndCommit(image, fileType, "Please wait");
+    AppResponse response =
+        await locator.get<SharedService>().uploadAndCommit(image, fileType);
     if (response.status) {
       addFile(image, response.data["data"]);
       loading.value = false;

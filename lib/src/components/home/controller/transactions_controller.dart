@@ -65,7 +65,7 @@ class TransactionsController extends GetxController {
   downloadTransactionRecords() async {
     AppResponse response = await locator
         .get<HomeService>()
-        .downloadTransactionRecords(transactionFilters, "Downloading");
+        .downloadTransactionRecords(transactionFilters);
     if (response.status) {
       CustomToastNotification.show(response.message, type: ToastType.success);
     } else {

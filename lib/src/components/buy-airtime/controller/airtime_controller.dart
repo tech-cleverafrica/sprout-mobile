@@ -67,7 +67,7 @@ class AirtimeController extends GetxController {
     String route = "airtime/packages";
     AppResponse<List<BillerPackage>> response = await locator
         .get<PayBillsService>()
-        .getPackages(buildRequestModel(), route, "Please wait");
+        .getPackages(buildRequestModel(), route);
     if (response.status) {
       canShowPackages.value = true;
       packages.assignAll(response.data!);
@@ -75,12 +75,10 @@ class AirtimeController extends GetxController {
     }
   }
 
-  Future<dynamic> lookup(Map<String, dynamic> requestBody, String route,
-      String loadingMessage) async {
+  Future<dynamic> lookup(Map<String, dynamic> requestBody, String route) async {
     loading.value = true;
-    AppResponse response = await locator
-        .get<PayBillsService>()
-        .lookup(requestBody, route, loadingMessage);
+    AppResponse response =
+        await locator.get<PayBillsService>().lookup(requestBody, route);
     loading.value = false;
     if (response.status) {
       String x = amountController.value!.text.split(",").join();
@@ -107,8 +105,7 @@ class AirtimeController extends GetxController {
             100000 &&
         phoneNumberController.text.length == 11) {
       String route = "airtime/customer-lookup";
-      var response =
-          await lookup(buildLookupRequestModel(), route, "Please wait");
+      var response = await lookup(buildLookupRequestModel(), route);
       return response;
     } else if (amountController.value!.text.isEmpty ||
         double.parse(amountController.value!.text.split(",").join()) == 0) {

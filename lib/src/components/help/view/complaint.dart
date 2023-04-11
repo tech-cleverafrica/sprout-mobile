@@ -533,7 +533,7 @@ class ComplaintScreen extends StatelessWidget {
 
   void navigateNext(String category, IssuesSubCategory? dispenseSubCategory,
       BuildContext context) {
-    CustomLoader.show(message: "Please wait");
+    CustomLoader.show();
     Future.delayed(
       const Duration(seconds: 1),
       () => {

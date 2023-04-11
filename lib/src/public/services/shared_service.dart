@@ -14,8 +14,8 @@ import 'package:http/http.dart' as http;
 
 class SharedService {
   Future<AppResponse<dynamic>> uploadAndCommit(
-      File? file, String fileType, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+      File? file, String fileType) async {
+    CustomLoader.show();
     Response response =
         await locator<SharedRepositoryImpl>().uploadAndCommit(file, fileType);
     CustomLoader.dismiss();

@@ -52,8 +52,8 @@ class InvoiceService {
   }
 
   Future<AppResponse<dynamic>> addCustomer(
-      Map<String, dynamic> requestBody, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+      Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
     Response response =
         await locator<InvoiceRepositoryImpl>().addCustomer(requestBody);
     print(response);
@@ -68,9 +68,9 @@ class InvoiceService {
     return AppResponse(false, statusCode, responseBody);
   }
 
-  Future<AppResponse<dynamic>> updateCustomer(Map<String, dynamic> requestBody,
-      String loadingMessage, String id) async {
-    CustomLoader.show(message: loadingMessage);
+  Future<AppResponse<dynamic>> updateCustomer(
+      Map<String, dynamic> requestBody, String id) async {
+    CustomLoader.show();
     Response response =
         await locator<InvoiceRepositoryImpl>().updateCustomer(requestBody, id);
     print(response);

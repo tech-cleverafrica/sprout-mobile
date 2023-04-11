@@ -7,8 +7,8 @@ import '../repository/complete_account_setup_repositoryimpl.dart';
 
 class CompleteAccountSetupService {
   Future<AppResponse<dynamic>> requestVerification(
-      Map<String, dynamic> requestBody, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+      Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
     Response response = await locator<CompleteAccountSetupRepositoryImpl>()
         .requestVerification(requestBody);
     CustomLoader.dismiss();

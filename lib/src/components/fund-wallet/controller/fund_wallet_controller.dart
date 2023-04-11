@@ -114,7 +114,7 @@ class FundWalletController extends GetxController {
   Future<dynamic> fundWalletWithNewCard() async {
     AppResponse response = await locator
         .get<FundWalletService>()
-        .fundWalletWithNewCard(buildBeneficiaryModel(), "Please wait");
+        .fundWalletWithNewCard(buildBeneficiaryModel());
     if (response.status) {
       print(response.data);
       return response.data;

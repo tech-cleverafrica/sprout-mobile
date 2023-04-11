@@ -64,9 +64,8 @@ class PasswordResetController extends GetxController {
   }
 
   sendResetOtp(Map<String, dynamic> request) async {
-    AppResponse response = await locator
-        .get<AuthService>()
-        .confirmEmail(request, "Verifying email");
+    AppResponse response =
+        await locator.get<AuthService>().confirmEmail(request);
     if (response.status) {
       push(page: PasswordReset());
     } else {
@@ -75,9 +74,8 @@ class PasswordResetController extends GetxController {
   }
 
   resetPassword(Map<String, dynamic> request) async {
-    AppResponse response = await locator
-        .get<AuthService>()
-        .resetPassword(request, "Resetting password");
+    AppResponse response =
+        await locator.get<AuthService>().resetPassword(request);
     if (response.status) {
       CustomToastNotification.show("Password reset successful, kindly login",
           type: ToastType.success);
@@ -89,7 +87,6 @@ class PasswordResetController extends GetxController {
 
   @override
   void onClose() {
-    // TODO: implement onClose
     super.onClose();
   }
 }

@@ -56,8 +56,8 @@ class HomeService {
   }
 
   Future<AppResponse<dynamic>> downloadTransactionRecords(
-      String filters, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+      String filters) async {
+    CustomLoader.show();
     Response response =
         await locator<HomeRepositoryImpl>().downloadTransactionRecords(filters);
     CustomLoader.dismiss();

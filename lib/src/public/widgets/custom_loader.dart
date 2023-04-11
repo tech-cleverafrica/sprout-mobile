@@ -4,7 +4,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 
 class CustomLoader {
-  static show({String? message, bool dismissOnTap = false}) async {
+  static show({bool dismissOnTap = false}) async {
     // Dismiss previous loader if any
     if (EasyLoading.isShow) EasyLoading.dismiss();
     EasyLoading.show(dismissOnTap: dismissOnTap);

@@ -126,7 +126,7 @@ class NFCScreen extends StatelessWidget {
           true);
     } else {
       try {
-        CustomLoader.show(message: "Please wait");
+        CustomLoader.show();
         final result = await platform.invokeMethod("setUserData", {
           "terminalId": nfcController.bankTID,
           "businessName": nfcController.businessName,

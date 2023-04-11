@@ -27,8 +27,8 @@ class AuthService {
       get_accessor.Get.put(PreferenceRepository());
 
   Future<AppResponse<SignInResponseModel>> signIn(
-      Map<String, dynamic> requestBody, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+      Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
     Response response = await locator<AuthRepositoryImpl>().signin(requestBody);
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
@@ -89,8 +89,8 @@ class AuthService {
   }
 
   Future<AppResponse<dynamic>> confirmEmail(
-      Map<String, dynamic> requestBody, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+      Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
     Response response =
         await locator<AuthRepositoryImpl>().emailConfirmation(requestBody);
     print(response);
@@ -106,8 +106,8 @@ class AuthService {
   }
 
   Future<AppResponse<dynamic>> resetPassword(
-      Map<String, dynamic> requestBody, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+      Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
     Response response =
         await locator<AuthRepositoryImpl>().resetPassword(requestBody);
     print(response);
@@ -145,8 +145,8 @@ class AuthService {
   }
 
   Future<AppResponse<dynamic>> verifyEmail(
-      Map<String, dynamic> requestBody, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+      Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
     Response response =
         await locator<AuthRepositoryImpl>().verifyEmail(requestBody);
     print(response);
@@ -162,8 +162,8 @@ class AuthService {
   }
 
   Future<AppResponse<dynamic>> createUser(
-      Map<String, dynamic> requestBody, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+      Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
     Response response =
         await locator<AuthRepositoryImpl>().createUser(requestBody);
     print(response);

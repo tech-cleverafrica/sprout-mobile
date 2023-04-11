@@ -45,9 +45,8 @@ class CustomerController extends GetxController {
   }
 
   addCustomer() async {
-    AppResponse appResponse = await locator
-        .get<InvoiceService>()
-        .addCustomer(buildCustomerRequest(), "Adding customer...");
+    AppResponse appResponse =
+        await locator.get<InvoiceService>().addCustomer(buildCustomerRequest());
     if (appResponse.status) {
       debugPrint(appResponse.message);
       CustomToastNotification.show(appResponse.message,

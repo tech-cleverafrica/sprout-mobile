@@ -48,10 +48,8 @@ class PayBillsService {
   }
 
   Future<AppResponse<List<BillerPackage>>> getPackages(
-      Map<String, dynamic> requestBody,
-      String route,
-      String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+      Map<String, dynamic> requestBody, String route) async {
+    CustomLoader.show();
     Response response =
         await locator<PayBillsRepositoryImpl>().getPackages(requestBody, route);
     CustomLoader.dismiss();
@@ -65,9 +63,9 @@ class PayBillsService {
     return AppResponse(false, statusCode, responseBody);
   }
 
-  Future<AppResponse<dynamic>> lookup(Map<String, dynamic> requestBody,
-      String route, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+  Future<AppResponse<dynamic>> lookup(
+      Map<String, dynamic> requestBody, String route) async {
+    CustomLoader.show();
     Response response =
         await locator<PayBillsRepositoryImpl>().lookup(requestBody, route);
     CustomLoader.dismiss();
@@ -80,9 +78,9 @@ class PayBillsService {
     return AppResponse(false, statusCode, responseBody);
   }
 
-  Future<AppResponse<dynamic>> makePayment(Map<String, dynamic> requestBody,
-      String route, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+  Future<AppResponse<dynamic>> makePayment(
+      Map<String, dynamic> requestBody, String route) async {
+    CustomLoader.show();
     Response response =
         await locator<PayBillsRepositoryImpl>().makePayment(requestBody, route);
     CustomLoader.dismiss();

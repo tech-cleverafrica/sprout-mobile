@@ -7,9 +7,8 @@ import 'package:sprout_mobile/src/components/send-money/repository/send_money_re
 import '../../../public/widgets/custom_loader.dart';
 
 class SendMoneyService {
-  Future<AppResponse<List<Beneficiary>>> getBeneficiary(
-      String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+  Future<AppResponse<List<Beneficiary>>> getBeneficiary() async {
+    CustomLoader.show();
     Response response =
         await locator<SendMoneyRepositoryImpl>().getBeneficiaries();
     CustomLoader.dismiss();
@@ -52,8 +51,8 @@ class SendMoneyService {
   }
 
   Future<AppResponse<dynamic>> makeTransfer(
-      Map<String, dynamic> requestBody, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+      Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
     Response response =
         await locator<SendMoneyRepositoryImpl>().makeTransfer(requestBody);
     CustomLoader.dismiss();

@@ -36,7 +36,7 @@ class AirtimePaymentController extends GetxController {
     loading.value = true;
     AppResponse response = await locator
         .get<PayBillsService>()
-        .makePayment(buildRequestModel(pin), route, "Please wait");
+        .makePayment(buildRequestModel(pin), route);
     loading.value = false;
     if (response.status) {
       Transactions trans = Transactions.fromJson(response.data["data"]);

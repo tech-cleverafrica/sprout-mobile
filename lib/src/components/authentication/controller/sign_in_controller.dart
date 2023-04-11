@@ -31,7 +31,6 @@ class SignInController extends GetxController {
 
   RxBool isFingerPrintEnabled = false.obs;
   DBProvider sharePreference = DBProvider();
-  // late AccountBloc accountBloc;
   RxString fullname = "".obs;
   SignInRequestModel signInRequestModel =
       SignInRequestModel.login(username: "", password: "", agentDeviceId: '');
@@ -194,7 +193,7 @@ class SignInController extends GetxController {
 
   signIn(Map<String, dynamic> model) async {
     AppResponse<SignInResponseModel> response =
-        await locator.get<AuthService>().signIn(model, "Logging in...");
+        await locator.get<AuthService>().signIn(model);
     if (response.status) {
       saveLoginDetailsToSharePref(model);
       preferenceRepository.setStringPref("storedMail", model['username']);

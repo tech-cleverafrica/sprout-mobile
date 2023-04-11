@@ -142,7 +142,7 @@ class SendMoneyController extends GetxController {
     }
     AppResponse response = await locator
         .get<SendMoneyService>()
-        .makeTransfer(buildTransferModel(pin), "Process transfer");
+        .makeTransfer(buildTransferModel(pin));
     if (response.status) {
       Transactions trans = Transactions.fromJson(response.data["data"]);
       return trans;
@@ -256,7 +256,7 @@ class SendMoneyController extends GetxController {
   loadBeneficiary() async {
     isBeneficiaryLoading.value = true;
     AppResponse<List<Beneficiary>> beneficiaryResponse =
-        await locator.get<SendMoneyService>().getBeneficiary("Please wait");
+        await locator.get<SendMoneyService>().getBeneficiary();
     isBeneficiaryLoading.value = false;
     if (beneficiaryResponse.status) {
       Beneficiary none = Beneficiary(

@@ -71,9 +71,8 @@ class ChangePasswordController extends GetxController {
   }
 
   changePassword(Map<String, dynamic> model) async {
-    AppResponse response = await locator
-        .get<ProfileService>()
-        .changePassword(model, "Please wait");
+    AppResponse response =
+        await locator.get<ProfileService>().changePassword(model);
     if (response.status) {
       pushUntil(
           page: ApprovalScreen(

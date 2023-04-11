@@ -308,7 +308,7 @@ class SignUpController extends GetxController {
 
   verifyEmail(Map<String, dynamic> request) async {
     AppResponse response =
-        await locator.get<AuthService>().verifyEmail(request, "Please wait");
+        await locator.get<AuthService>().verifyEmail(request);
     if (response.status) {
       push(page: SignupOtpScreen());
     } else {
@@ -318,9 +318,7 @@ class SignUpController extends GetxController {
 
   createUser() async {
     Map<String, dynamic> request = buildSignUpRequest();
-    AppResponse response = await locator
-        .get<AuthService>()
-        .createUser(request, "Creating account");
+    AppResponse response = await locator.get<AuthService>().createUser(request);
     if (response.status) {
       CustomToastNotification.show("Account creation successful",
           type: ToastType.success);
@@ -332,7 +330,7 @@ class SignUpController extends GetxController {
 
   signIn(Map<String, dynamic> model) async {
     AppResponse<SignInResponseModel> response =
-        await locator.get<AuthService>().signIn(model, "Logging in...");
+        await locator.get<AuthService>().signIn(model);
     if (response.status) {
       saveLoginDetailsToSharePref(model);
       preferenceRepository.setStringPref("storedMail", model['username']);

@@ -25,7 +25,7 @@ class HelpService {
 
   Future<AppResponse<List<IssuesSubCategory>>> getSubCategories(
       String id, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+    CustomLoader.show();
     Response response =
         await locator<HelpRepositoryImpl>().getSubCategories(id);
     CustomLoader.dismiss();
@@ -81,9 +81,9 @@ class HelpService {
     return AppResponse(false, statusCode, responseBody);
   }
 
-  Future<AppResponse<Issues>> reopenIssue(Map<String, dynamic> requestBody,
-      String id, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+  Future<AppResponse<Issues>> reopenIssue(
+      Map<String, dynamic> requestBody, String id) async {
+    CustomLoader.show();
     Response response =
         await locator<HelpRepositoryImpl>().reopenIssue(requestBody, id);
     CustomLoader.dismiss();
@@ -98,9 +98,9 @@ class HelpService {
     return AppResponse(false, statusCode, responseBody);
   }
 
-  Future<AppResponse<Issues>> updateIssue(Map<String, dynamic> requestBody,
-      String id, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+  Future<AppResponse<Issues>> updateIssue(
+      Map<String, dynamic> requestBody, String id) async {
+    CustomLoader.show();
     Response response =
         await locator<HelpRepositoryImpl>().updateIssue(requestBody, id);
     CustomLoader.dismiss();
@@ -116,8 +116,8 @@ class HelpService {
   }
 
   Future<AppResponse<Issues>> submitIssue(
-      Map<String, dynamic> requestBody, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+      Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
     Response response =
         await locator<HelpRepositoryImpl>().submitIssue(requestBody);
     CustomLoader.dismiss();
@@ -133,8 +133,8 @@ class HelpService {
   }
 
   Future<AppResponse<Issues>> submitDispenseError(
-      Map<String, dynamic> requestBody, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+      Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
     Response response =
         await locator<HelpRepositoryImpl>().submitDispenseError(requestBody);
     CustomLoader.dismiss();

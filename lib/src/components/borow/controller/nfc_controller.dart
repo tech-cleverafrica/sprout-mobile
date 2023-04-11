@@ -87,9 +87,8 @@ class NfcController extends GetxController {
   }
 
   Future<dynamic> initiateCardlessPayment(Map<String, dynamic> model) async {
-    AppResponse response = await locator
-        .get<BorrowService>()
-        .initiateCardlessPayment(model, "Please wait");
+    AppResponse response =
+        await locator.get<BorrowService>().initiateCardlessPayment(model);
     if (response.status) {
       return response.data["data"];
     } else {
@@ -99,9 +98,8 @@ class NfcController extends GetxController {
   }
 
   saveCardlessPayment(Map<String, dynamic> model) async {
-    AppResponse response = await locator
-        .get<BorrowService>()
-        .saveCardlessPayment(model, "Please wait");
+    AppResponse response =
+        await locator.get<BorrowService>().saveCardlessPayment(model);
     if (response.status) {
       pushUntil(
           page: ApprovalScreen(

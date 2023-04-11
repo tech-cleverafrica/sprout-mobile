@@ -101,8 +101,7 @@ class ChangePinController extends GetxController {
   }
 
   sendOtp(Map<String, dynamic> model) async {
-    AppResponse response =
-        await locator.get<ProfileService>().sendOtp(model, "Please wait");
+    AppResponse response = await locator.get<ProfileService>().sendOtp(model);
     if (response.status) {
       push(
           page: OtpScreen(
@@ -114,8 +113,7 @@ class ChangePinController extends GetxController {
   }
 
   changePin(Map<String, dynamic> model) async {
-    AppResponse response =
-        await locator.get<ProfileService>().changePin(model, "Please wait");
+    AppResponse response = await locator.get<ProfileService>().changePin(model);
     if (response.status) {
       pushUntil(
           page: ApprovalScreen(

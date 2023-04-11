@@ -6,9 +6,8 @@ import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
 import '../../../api-setup/api_setup.dart';
 
 class ProfileService {
-  Future<AppResponse<dynamic>> sendOtp(
-      Map<String, dynamic> requestBody, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+  Future<AppResponse<dynamic>> sendOtp(Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
     Response response =
         await locator<ProfileRepositoryImpl>().sendOtp(requestBody);
     CustomLoader.dismiss();
@@ -23,8 +22,8 @@ class ProfileService {
   }
 
   Future<AppResponse<dynamic>> changePin(
-      Map<String, dynamic> requestBody, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+      Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
     Response response =
         await locator<ProfileRepositoryImpl>().changePin(requestBody);
     CustomLoader.dismiss();
@@ -39,8 +38,8 @@ class ProfileService {
   }
 
   Future<AppResponse<dynamic>> createPin(
-      Map<String, dynamic> requestBody, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+      Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
     Response response =
         await locator<ProfileRepositoryImpl>().createPin(requestBody);
     CustomLoader.dismiss();
@@ -55,8 +54,8 @@ class ProfileService {
   }
 
   Future<AppResponse<dynamic>> changePassword(
-      Map<String, dynamic> requestBody, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+      Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
     Response response =
         await locator<ProfileRepositoryImpl>().changePassword(requestBody);
     CustomLoader.dismiss();
@@ -84,9 +83,8 @@ class ProfileService {
     return AppResponse(false, statusCode, responseBody);
   }
 
-  Future<AppResponse<dynamic>> logout(
-      Map<String, dynamic> requestBody, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+  Future<AppResponse<dynamic>> logout(Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
     Response response =
         await locator<ProfileRepositoryImpl>().logout(requestBody);
     CustomLoader.dismiss();

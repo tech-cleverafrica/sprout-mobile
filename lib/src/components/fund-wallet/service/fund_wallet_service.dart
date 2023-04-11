@@ -30,8 +30,8 @@ class FundWalletService {
   }
 
   Future<AppResponse<dynamic>> fundWalletWithNewCard(
-      Map<String, dynamic> requestBody, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+      Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
     Response response = await locator<FundWalletRepositoryImpl>()
         .fundWalletWithNewCard(requestBody);
     CustomLoader.dismiss();

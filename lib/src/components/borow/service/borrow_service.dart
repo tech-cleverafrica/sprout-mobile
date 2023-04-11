@@ -7,8 +7,8 @@ import '../repository/borrow_repositoryimpl.dart';
 
 class BorrowService {
   Future<AppResponse<dynamic>> initiateCardlessPayment(
-      Map<String, dynamic> requestBody, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+      Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
     Response response = await locator<BorrowRepositoryImpl>()
         .initiateCardlessPayment(requestBody);
     CustomLoader.dismiss();
@@ -23,8 +23,8 @@ class BorrowService {
   }
 
   Future<AppResponse<dynamic>> saveCardlessPayment(
-      Map<String, dynamic> requestBody, String loadingMessage) async {
-    CustomLoader.show(message: loadingMessage);
+      Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
     Response response =
         await locator<BorrowRepositoryImpl>().saveCardlessPayment(requestBody);
     CustomLoader.dismiss();

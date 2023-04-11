@@ -139,9 +139,8 @@ class PostComplaintController extends GetxController {
   }
 
   Future uploadAndCommit(File image, String fileType) async {
-    AppResponse response = await locator
-        .get<SharedService>()
-        .uploadAndCommit(image, fileType, "Please wait");
+    AppResponse response =
+        await locator.get<SharedService>().uploadAndCommit(image, fileType);
     if (response.status) {
       addFile(image, response.data["data"]);
       loading.value = false;
@@ -222,7 +221,7 @@ class PostComplaintController extends GetxController {
 
   Future<Issues?> submitIssue(Map<String, dynamic> model) async {
     AppResponse<Issues> response =
-        await locator.get<HelpService>().submitIssue(model, "Please wait");
+        await locator.get<HelpService>().submitIssue(model);
     if (response.status) {
       final Issues issue = response.data;
       return issue;
@@ -233,9 +232,8 @@ class PostComplaintController extends GetxController {
   }
 
   Future<Issues?> submitDispenseError(Map<String, dynamic> model) async {
-    AppResponse<Issues> response = await locator
-        .get<HelpService>()
-        .submitDispenseError(model, "Please wait");
+    AppResponse<Issues> response =
+        await locator.get<HelpService>().submitDispenseError(model);
     if (response.status) {
       final Issues issue = response.data;
       return issue;
