@@ -7,10 +7,16 @@ class CustomLoader {
   static show({String? message, bool dismissOnTap = false}) async {
     // Dismiss previous loader if any
     if (EasyLoading.isShow) EasyLoading.dismiss();
-    message == null
-        ? EasyLoading.show(dismissOnTap: dismissOnTap)
-        : EasyLoading.show(status: message, dismissOnTap: dismissOnTap);
+    EasyLoading.show(dismissOnTap: dismissOnTap);
   }
+
+  // static show({String? message, bool dismissOnTap = false}) async {
+  //   // Dismiss previous loader if any
+  //   if (EasyLoading.isShow) EasyLoading.dismiss();
+  //   message == null
+  //       ? EasyLoading.show(dismissOnTap: dismissOnTap)
+  //       : EasyLoading.show(status: message, dismissOnTap: dismissOnTap);
+  // }
 
   static dismiss() async {
     // Dismiss previous loader if any
