@@ -805,41 +805,66 @@ class CreateInvoice extends StatelessWidget {
                     Expanded(
                         child: InkWell(
                       onTap: () => createInvoiceController.selectInvoiceDate(),
-                      child: CustomTextFormField(
-                        controller:
-                            createInvoiceController.invoiceDateController,
-                        label: "Invoice Date",
-                        enabled: false,
-                        hintText: createInvoiceController.invoiceDate.value,
-                        fillColor: isDarkMode
-                            ? AppColors.inputBackgroundColor
-                            : AppColors.grey,
-                        textInputAction: TextInputAction.go,
-                      ),
+                      child: Obx((() => CustomTextFormField(
+                          controller:
+                              createInvoiceController.invoiceDateController,
+                          label: "Invoice Date",
+                          enabled: false,
+                          hintText: createInvoiceController.invoiceDate.value,
+                          fillColor: isDarkMode
+                              ? AppColors.inputBackgroundColor
+                              : AppColors.grey,
+                          textInputAction: TextInputAction.next,
+                          hintTextStyle:
+                              createInvoiceController.invoiceDate.value ==
+                                      "YYYY / MM / DAY"
+                                  ? null
+                                  : TextStyle(
+                                      color: isDarkMode
+                                          ? AppColors.white
+                                          : AppColors.black,
+                                      fontWeight: FontWeight.w600)))),
                     )),
                     addHorizontalSpace(10.w),
                     Expanded(
                         child: InkWell(
                             onTap: () =>
                                 createInvoiceController.selectDueDate(),
-                            child: CustomTextFormField(
-                              controller:
-                                  createInvoiceController.dueDateController,
-                              label: "Due Date",
-                              enabled: false,
-                              hintText: createInvoiceController.dueDate.value,
-                              fillColor: isDarkMode
-                                  ? AppColors.inputBackgroundColor
-                                  : AppColors.grey,
-                              textInputAction: TextInputAction.go,
-                            ))),
+                            child: Obx((() => CustomTextFormField(
+                                controller:
+                                    createInvoiceController.dueDateController,
+                                label: "Due Date",
+                                enabled: false,
+                                hintText: createInvoiceController.dueDate.value,
+                                fillColor: isDarkMode
+                                    ? AppColors.inputBackgroundColor
+                                    : AppColors.grey,
+                                textInputAction: TextInputAction.next,
+                                hintTextStyle:
+                                    createInvoiceController.dueDate.value ==
+                                            "YYYY / MM / DAY"
+                                        ? null
+                                        : TextStyle(
+                                            color: isDarkMode
+                                                ? AppColors.white
+                                                : AppColors.black,
+                                            fontWeight: FontWeight.w600)))))),
                   ],
                 ),
                 addVerticalSpace(10.h),
                 CustomTextFormField(
+                  controller: createInvoiceController.notesController,
                   label: "Notes",
                   maxLines: 3,
                   maxLength: 250,
+                  hintText: "Enter Address",
+                  maxLengthEnforced: true,
+                  validator: (value) {
+                    if (value!.length == 0)
+                      return "Notes is required";
+                    else if (value.length < 6) return "Notes is too short";
+                    return null;
+                  },
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
@@ -848,7 +873,7 @@ class CreateInvoice extends StatelessWidget {
                 CustomButton(
                   title: "Continue",
                   onTap: () {
-                    Get.to(() => InvoicePreviewScreen());
+                    createInvoiceController.validateInvoice();
                   },
                 ),
                 addVerticalSpace(20.h),

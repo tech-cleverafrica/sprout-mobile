@@ -19,7 +19,6 @@ import '../../../public/widgets/custom_toast_notification.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/global_function.dart';
 import '../service/auth_service.dart';
-import '../view/sign_in_screen.dart';
 
 class SignUpController extends GetxController {
   TextEditingController firstnameController = new TextEditingController();

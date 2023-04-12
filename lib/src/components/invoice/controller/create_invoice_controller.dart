@@ -16,6 +16,7 @@ import 'package:sprout_mobile/src/components/invoice/model/invoice_item_model.da
 import 'package:sprout_mobile/src/components/invoice/model/saved_invoice_customer_model.dart';
 import 'package:sprout_mobile/src/components/invoice/service/invoice_service.dart';
 import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
+import 'package:sprout_mobile/src/components/invoice/view/invoice_preview.dart';
 import 'package:sprout_mobile/src/utils/app_formatter.dart';
 import 'package:sprout_mobile/src/utils/global_function.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
@@ -53,6 +54,7 @@ class CreateInvoiceController extends GetxController {
 
   TextEditingController invoiceDateController = new TextEditingController();
   TextEditingController dueDateController = new TextEditingController();
+  TextEditingController notesController = new TextEditingController();
 
   RxList<InvoiceCustomer> customers = <InvoiceCustomer>[].obs;
 
@@ -286,6 +288,44 @@ class CreateInvoiceController extends GetxController {
         0) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("Price/Rate cannot be 0"),
+          backgroundColor: AppColors.errorRed));
+    } else {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please supply all required fields"),
+          backgroundColor: AppColors.errorRed));
+    }
+  }
+
+  validateInvoice() {
+    if (savedCustomer.value != null &&
+        invoiceItems.length > 0 &&
+        invoiceDate.value != "YYYY / MM / DAY" &&
+        dueDate.value != "YYYY / MM / DAY" &&
+        notesController.text.length > 6) {
+      push(page: InvoicePreviewScreen());
+    } else if (savedCustomer.value == null) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please select or create new customer"),
+          backgroundColor: AppColors.errorRed));
+    } else if (invoiceItems.length == 0) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please add invoice item"),
+          backgroundColor: AppColors.errorRed));
+    } else if (invoiceDate.value == "YYYY / MM / DAY") {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Invoice Date is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (dueDate.value == "YYYY / MM / DAY") {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Due Date is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (notesController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Invoice notes is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (notesController.text.length < 6) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Invoice notes too short"),
           backgroundColor: AppColors.errorRed));
     } else {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
@@ -616,9 +656,9 @@ class CreateInvoiceController extends GetxController {
                               controller: customerAddressController,
                               maxLines: 2,
                               maxLength: 250,
-                              maxLengthEnforced: true,
                               label: "Enter Address",
                               hintText: "Address",
+                              maxLengthEnforced: true,
                               enabled: customer.value == null ||
                                   customer.value?.id == "00",
                               validator: (value) {
