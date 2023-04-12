@@ -138,6 +138,7 @@ class SendToBank extends StatelessWidget {
                               }
                             }),
                             textInputAction: TextInputAction.next,
+                            textInputType: TextInputType.phone,
                             fillColor: isDarkMode
                                 ? AppColors.inputBackgroundColor
                                 : AppColors.grey,

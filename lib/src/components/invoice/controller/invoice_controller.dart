@@ -62,7 +62,7 @@ class InvoiceController extends GetxController {
     }
   }
 
-  fetchInvoiceCustomers() async {
+  Future<dynamic> fetchInvoiceCustomers() async {
     isInvoiceCustomerLoading.value = true;
     AppResponse<List<InvoiceCustomer>> invoiceCustomerResponse =
         await locator.get<InvoiceService>().getInvoiceCustomer();
@@ -70,9 +70,12 @@ class InvoiceController extends GetxController {
 
     if (invoiceCustomerResponse.status) {
       invoiceCustomer.assignAll(invoiceCustomerResponse.data!);
+      baseInvoiceCustomer.assignAll(invoiceCustomerResponse.data!);
       debugPrint(
           "the invoice customers are ::::::::::::::::::::$invoiceCustomer");
+      return true;
     }
+    return null;
   }
 
   fetchSingleInvoice(String invoiceId) async {

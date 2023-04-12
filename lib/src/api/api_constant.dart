@@ -48,6 +48,11 @@ const String sendInvoiceUrl = "invoice/invoices/send";
 const String invoiceCustomersUrl = "invoice/api/v1/invoice/customers";
 const String createCustomerUrl = "invoice/api/v1/invoice/customers/create";
 const String updateCustomerUrl = "invoice/api/v1/invoice//customers/update/";
+const String invoiceBusinessInfoUrl = "invoice/api/v1/invoice/templates/me";
+const String uploadInvoiceBusinessLogoUrl =
+    "invoice/api/v1/invoice/templates/upload-logo";
+const String removeInvoiceBusinessLogoUrl =
+    "invoice/api/v1/invoice/templates/remove-logo";
 
 //cashout
 const String initiateCardlessPaymentUrl =

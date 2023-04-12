@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sprout_mobile/src/components/invoice/controller/invoice_controller.dart';
@@ -177,7 +178,23 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                   ))
                             ],
                           ),
-                        )
+                        ),
+                        invoiceIncontroller.isInvoiceLoading.value ||
+                                invoiceIncontroller
+                                    .isInvoiceCustomerLoading.value
+                            ? Container(
+                                margin: EdgeInsets.only(bottom: 50),
+                                width: double.infinity,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.1,
+                                alignment: Alignment.center,
+                                child: SpinKitFadingCircle(
+                                  color: isDarkMode
+                                      ? AppColors.white
+                                      : AppColors.black,
+                                  size: 30,
+                                ))
+                            : SizedBox()
                       ],
                     ),
                   ),

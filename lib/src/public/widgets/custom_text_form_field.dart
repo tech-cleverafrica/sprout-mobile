@@ -46,6 +46,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextAlign? textAlign;
   final bool? autofocus;
   final Function(String)? onFieldSubmitted;
+  final bool? isDense;
 
   CustomTextFormField({
     this.prefixIcon,
@@ -90,6 +91,7 @@ class CustomTextFormField extends StatelessWidget {
     this.textAlign = TextAlign.left,
     this.autofocus = false,
     this.onFieldSubmitted,
+    this.isDense = false,
   });
 
   @override
@@ -179,6 +181,7 @@ class CustomTextFormField extends StatelessWidget {
               hintStyle: hintTextStyle,
               filled: filled,
               fillColor: fillColor,
+              isDense: isDense,
             ),
             obscureText: obscured,
           ),

@@ -10,6 +10,7 @@ import '../../../public/widgets/custom_text_form_field.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/helper_widgets.dart';
 
+// ignore: must_be_immutable
 class CreateCustomer extends StatelessWidget {
   CreateCustomer({super.key});
 
@@ -19,7 +20,6 @@ class CreateCustomer extends StatelessWidget {
   Widget build(BuildContext context) {
     customerController = Get.put(CustomerController());
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final theme = Theme.of(context);
     return SafeArea(
       child: Scaffold(
         body: Padding(
