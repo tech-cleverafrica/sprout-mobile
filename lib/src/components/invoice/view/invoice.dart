@@ -161,7 +161,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                         getHeader(isDarkMode),
                         addVerticalSpace(16.h),
                         getDisplaySwitch(isDarkMode),
-                        addVerticalSpace(16.h),
+                        addVerticalSpace(10.h),
                         CustomTextFormField(
                           controller: invoiceIncontroller.searchController,
                           hasPrefixIcon: true,
@@ -182,7 +182,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                           borderRadius: 4,
                           isDense: true,
                         ),
-                        addVerticalSpace(20.h),
+                        addVerticalSpace(10.h),
                         Text(
                           "Invoice History",
                           style: Theme.of(context).textTheme.subtitle2,
@@ -195,7 +195,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                 ),
                 bottomNavigationBar: Padding(
                   padding:
-                      const EdgeInsets.only(bottom: 20, left: 50, right: 50),
+                      const EdgeInsets.only(bottom: 10, left: 50, right: 50),
                   child: Obx(
                     () => CustomButton(
                         title: invoiceIncontroller.isInvoiceDisplay.value

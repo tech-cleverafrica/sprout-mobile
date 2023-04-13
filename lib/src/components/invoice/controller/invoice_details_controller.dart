@@ -131,6 +131,21 @@ class InvoiceDetailsController extends GetxController {
     }
   }
 
+  sendInvoice() async {
+    AppResponse<Invoice> response = await locator
+        .get<InvoiceService>()
+        .markInvoiceAsNotPaid(invoice.value!.id!);
+    if (response.status) {
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator<AuthService>().refreshUserToken();
+      if (res.status) {
+        sendInvoice();
+      }
+    } else {
+      CustomToastNotification.show(response.message, type: ToastType.error);
+    }
+  }
+
   setStatus() {
     if (invoice.value?.paymentStatus == "PAID") {
       status.value = "Mark as paid";
