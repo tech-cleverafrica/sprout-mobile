@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:sprout_mobile/src/components/fund-wallet/model/customer_card_model.dart';
 import 'package:sprout_mobile/src/components/fund-wallet/repository/fund_wallet_repositoryImpl.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
 
@@ -18,13 +19,14 @@ class FundWalletService {
   final PreferenceRepository preferenceRepository =
       get_accessor.Get.put(PreferenceRepository());
 
-  Future<AppResponse<dynamic>> getCards() async {
+  Future<AppResponse<List<CustomerCard>>> getCards() async {
     Response response = await locator<FundWalletRepositoryImpl>().getCards();
     int statusCode = response.statusCode ?? 000;
-    Map<String, dynamic> responseBody = response.data;
-    if (response.data["status"]) {
+    Map<String, dynamic> responseBody = {"data": response.data};
+    if (statusCode >= 200 && statusCode <= 300) {
       print(":::::::::$responseBody");
-      return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
+      return AppResponse<List<CustomerCard>>(true, statusCode, responseBody,
+          CustomerCard.getList(responseBody['data']));
     }
     return AppResponse(false, statusCode, responseBody);
   }
@@ -37,9 +39,6 @@ class FundWalletService {
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
-    print(response.data);
-    print(response.statusCode);
-    print("RRERRERRERRERR");
     if (response.statusCode == 200) {
       print(":::::::::$responseBody");
       return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);

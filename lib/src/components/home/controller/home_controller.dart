@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -36,6 +38,9 @@ class HomeController extends GetxController {
   RxBool inReview = false.obs;
   RxBool showAmount = true.obs;
 
+  var storageBalance;
+  var storageTransactions;
+
   var inflowGraph = Rxn<dynamic>();
   var outflowGraph = Rxn<dynamic>();
 
@@ -48,6 +53,17 @@ class HomeController extends GetxController {
   void onInit() async {
     inflowGraph.value = dummyGraph();
     outflowGraph.value = dummyGraph();
+    storageBalance = storage.read("userBalance");
+    storageTransactions = storage.read("transactionResponse");
+    if (storageBalance != null && storageBalance != "") {
+      walletBalance.value = storageBalance;
+    }
+    if (storageTransactions != null && storageTransactions != "") {
+      transactions.value = [];
+      jsonDecode(storageTransactions).forEach(
+        (e) => transactions.add(Transactions.fromJson(e)),
+      );
+    }
     getWallet();
     loadTransactions();
     fullname = StringUtils.capitalize(storage.read("firstname"));
@@ -83,12 +99,18 @@ class HomeController extends GetxController {
   }
 
   loadTransactions() async {
-    isTransactionLoading.value = true;
+    if (storageTransactions != null && storageTransactions != "") {
+      isTransactionLoading.value = false;
+    } else {
+      isTransactionLoading.value = true;
+    }
     AppResponse<List<Transactions>> transactionsResponse =
         await locator.get<HomeService>().getTransactions();
     isTransactionLoading.value = false;
     if (transactionsResponse.status) {
-      transactions.assignAll(transactionsResponse.data!);
+      transactions.assignAll(transactionsResponse.data);
+      storage.write(
+          "transactionResponse", jsonEncode(transactionsResponse.data!));
     } else if (transactionsResponse.statusCode == 999) {
       AppResponse res = await locator<AuthService>().refreshUserToken();
       if (res.status) {

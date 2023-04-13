@@ -71,9 +71,9 @@ const String billsUrl = "bills/api/v2/";
 const String billerGroupsUrl = "bills/api/v2/biller-group";
 
 //savings
-const String cardsUrl = "target-savings/api/v1/savings/card?status=enabled";
+const String cardsUrl = "bank-account/api/v1/card/list";
 const String fundWalletWithNewCardUrl =
-    "target-savings/api/v1/savings/initiate/direct-debit";
+    "bank-account/api/v1/card/initiate/direct-debit";
 
 apiResponse(String? message, [String? responseCode]) {
   return {

@@ -137,10 +137,7 @@ class SignInController extends GetxController {
     bool? isEnabled = await sharePreference
         .getBooleanStoredInSharedPreference(useBiometricAuth);
     isFingerPrintEnabled.value = isEnabled == null ? false : isEnabled;
-    bool isLoggedIn = await preferenceRepository.getBooleanPref(IS_LOGGED_IN);
-    if (!isLoggedIn) {
-      autoBiometrics();
-    }
+    autoBiometrics();
   }
 
   Future _initBiometricAuthentication() async {
@@ -159,9 +156,10 @@ class SignInController extends GetxController {
   }
 
   autoBiometrics() async {
+    bool isLoggedIn = await preferenceRepository.getBooleanPref(IS_LOGGED_IN);
     bool autoShowBiometrics = await preferenceRepository
         .getBooleanPrefPositive(SHOW_BIOMETRICS_ON_LOGINPAGE);
-    if (isFingerPrintEnabled.value && autoShowBiometrics) {
+    if (isFingerPrintEnabled.value && autoShowBiometrics && !isLoggedIn) {
       _initBiometricAuthentication();
     }
   }

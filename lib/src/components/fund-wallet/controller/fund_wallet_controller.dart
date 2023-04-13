@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutterwave_standard/core/flutterwave.dart';
 import 'package:flutterwave_standard/models/requests/customer.dart';
 import 'package:flutterwave_standard/models/requests/customizations.dart';
@@ -10,14 +11,16 @@ import 'package:get_storage/get_storage.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
+import 'package:sprout_mobile/src/components/fund-wallet/model/customer_card_model.dart';
 import 'package:sprout_mobile/src/components/fund-wallet/service/fund_wallet_service.dart';
+import 'package:sprout_mobile/src/components/fund-wallet/view/fund_wallet.dart';
 import 'package:sprout_mobile/src/components/home/model/wallet_model.dart';
 import 'package:sprout_mobile/src/components/home/service/home_service.dart';
-import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_formatter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 class FundWalletController extends GetxController {
@@ -39,6 +42,11 @@ class FundWalletController extends GetxController {
   late RxDouble walletBalance = 0.0.obs;
 
   String transactionRef = "";
+  var storageBalance;
+
+  RxList<CustomerCard> cards = <CustomerCard>[].obs;
+  var card = Rxn<CustomerCard>();
+  var cardData;
 
   @override
   void onReady() {
@@ -47,6 +55,10 @@ class FundWalletController extends GetxController {
 
   @override
   void onInit() async {
+    storageBalance = storage.read("userBalance");
+    if (storageBalance != null && storageBalance != "") {
+      walletBalance.value = storageBalance;
+    }
     getWallet();
     getCards();
     fullname = StringUtils.capitalize(storage.read("firstname"));
@@ -76,18 +88,35 @@ class FundWalletController extends GetxController {
   }
 
   getCards() async {
-    AppResponse response = await locator.get<FundWalletService>().getCards();
+    AppResponse<List<CustomerCard>> response =
+        await locator.get<FundWalletService>().getCards();
     if (response.status) {
-      print(response.data);
-      // Wallet wallet = Wallet.fromJson(response.data);
-      // walletBalance.value = wallet.data!.balance!;
-      // storage.write("userBalance", walletBalance.value);
+      cards.clear();
+      CustomerCard none = CustomerCard(
+        id: "00",
+        userID: "",
+        agentID: "",
+        pan: "Use New Card",
+        cardHash: "",
+        expiryMonth: "",
+        expiryYear: "",
+        issuingCountry: "",
+        token: "",
+        scheme: "",
+        status: "",
+        provider: "",
+        createdAt: "",
+        updatedAt: "",
+      );
+      cards.assignAll(response.data!);
+      cards.insert(0, none);
     }
   }
 
   Future<dynamic> validateFields() async {
     if ((double.parse(amountController.text.split(",").join()) >= 10 &&
-        double.parse(amountController.text.split(",").join()) <= 450000)) {
+            double.parse(amountController.text.split(",").join()) <= 450000) &&
+        card.value != null) {
       var response = await fundWalletWithNewCard();
       return response;
     } else if (double.parse(amountController.text.split(",").join("")) == 0) {
@@ -103,6 +132,10 @@ class FundWalletController extends GetxController {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("Maximum amount is 450,000"),
           backgroundColor: AppColors.errorRed));
+    } else if (card.value == null) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please select card"),
+          backgroundColor: AppColors.errorRed));
     } else {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("Please supply all required fields"),
@@ -116,8 +149,17 @@ class FundWalletController extends GetxController {
         .get<FundWalletService>()
         .fundWalletWithNewCard(buildBeneficiaryModel());
     if (response.status) {
-      print(response.data);
-      return response.data;
+      cardData = response.data;
+      if (card.value?.id == "00") {
+        return true;
+      } else {
+        return false;
+      }
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator<AuthService>().refreshUserToken();
+      if (res.status) {
+        fundWalletWithNewCard();
+      }
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }
@@ -133,10 +175,16 @@ class FundWalletController extends GetxController {
         DateTime.now().minute.toString() +
         DateTime.now().second.toString();
     transactionRef = "CLV$id$suffix".toUpperCase();
-    return {
-      "amount": amountController.text.split(",").join(),
-      "txRef": "CLV$id$suffix".toUpperCase(),
-    };
+    return card.value?.id == "00"
+        ? {
+            "amount": amountController.text.split(",").join(),
+            "txRef": "CLV$id$suffix".toUpperCase(),
+          }
+        : {
+            "amount": amountController.text.split(",").join(),
+            "txRef": "CLV$id$suffix".toUpperCase(),
+            "cardToken": card.value?.token,
+          };
   }
 
   @override
@@ -187,76 +235,89 @@ class FundWalletController extends GetxController {
                           )
                         ]),
                   ),
-                  // Expanded(
-                  //     child: ListView.builder(
-                  //         itemCount: bankList.length,
-                  //         shrinkWrap: true,
-                  //         physics: BouncingScrollPhysics(),
-                  //         itemBuilder: ((context, index) {
-                  //           return Padding(
-                  //             padding: EdgeInsets.symmetric(
-                  //                 vertical: 10.h, horizontal: 20.w),
-                  //             child: GestureDetector(
-                  //               onTap: () {
-                  //                 pop();
-                  //                 print(bankList[index]);
-                  //                 beneficiaryBank.value = bankList[index];
-                  //                 selectedBankCode.value = bankCode[
-                  //                     bankList.indexOf(beneficiaryBank.value)];
-                  //                 canResolve.value = true;
-                  //                 showBeneficiary.value = false;
-                  //                 newBeneficiaryName.value = "";
-                  //                 bankList = baseBankList;
-                  //                 validateBank();
-                  //               },
-                  //               child: Container(
-                  //                 decoration: BoxDecoration(
-                  //                     color: isDarkMode
-                  //                         ? AppColors.inputBackgroundColor
-                  //                         : AppColors.grey,
-                  //                     borderRadius: BorderRadius.circular(10)),
-                  //                 child: Padding(
-                  //                     padding: EdgeInsets.symmetric(
-                  //                         horizontal: 15.w, vertical: 16.h),
-                  //                     child: Row(
-                  //                       crossAxisAlignment:
-                  //                           CrossAxisAlignment.center,
-                  //                       mainAxisAlignment:
-                  //                           MainAxisAlignment.spaceBetween,
-                  //                       children: [
-                  //                         Text(
-                  //                           bankList[index]!,
-                  //                           style: TextStyle(
-                  //                               fontFamily: "DMSans",
-                  //                               fontSize: 12.sp,
-                  //                               fontWeight: beneficiaryBank
-                  //                                               .value !=
-                  //                                           "" &&
-                  //                                       beneficiaryBank.value ==
-                  //                                           bankList[index]
-                  //                                   ? FontWeight.w700
-                  //                                   : FontWeight.w600,
-                  //                               color: isDarkMode
-                  //                                   ? AppColors.mainGreen
-                  //                                   : AppColors.primaryColor),
-                  //                         ),
-                  //                         beneficiaryBank.value != "" &&
-                  //                                 beneficiaryBank.value ==
-                  //                                     bankList[index]
-                  //                             ? SvgPicture.asset(
-                  //                                 AppSvg.mark_green,
-                  //                                 height: 20,
-                  //                                 color: isDarkMode
-                  //                                     ? AppColors.mainGreen
-                  //                                     : AppColors.primaryColor,
-                  //                               )
-                  //                             : SizedBox()
-                  //                       ],
-                  //                     )),
-                  //               ),
-                  //             ),
-                  //           );
-                  //         }))),
+                  Obx((() => Expanded(
+                      child: ListView.builder(
+                          itemCount: cards.length,
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: ((context, index) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.h, horizontal: 20.w),
+                              child: GestureDetector(
+                                onTap: () {
+                                  pop();
+                                  card.value = cards[index];
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: isDarkMode
+                                          ? AppColors.inputBackgroundColor
+                                          : AppColors.grey,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 15.w, vertical: 16.h),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                cards[index].pan!,
+                                                style: TextStyle(
+                                                    fontFamily: "DMSans",
+                                                    fontSize: 12.sp,
+                                                    fontWeight: card.value
+                                                                    ?.id !=
+                                                                "" &&
+                                                            card.value?.id ==
+                                                                cards[index].id
+                                                        ? FontWeight.w700
+                                                        : FontWeight.w600,
+                                                    color: isDarkMode
+                                                        ? AppColors.mainGreen
+                                                        : AppColors
+                                                            .primaryColor),
+                                              ),
+                                              cards[index].id != "00"
+                                                  ? Text(
+                                                      cards[index].provider!,
+                                                      style: TextStyle(
+                                                          fontFamily: "DMSans",
+                                                          fontSize: 10.sp,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: isDarkMode
+                                                              ? AppColors.white
+                                                              : AppColors
+                                                                  .black),
+                                                    )
+                                                  : SizedBox(),
+                                            ],
+                                          ),
+                                          card.value?.id != "" &&
+                                                  card.value?.id ==
+                                                      cards[index].id
+                                              ? SvgPicture.asset(
+                                                  AppSvg.mark_green,
+                                                  height: 20,
+                                                  color: isDarkMode
+                                                      ? AppColors.mainGreen
+                                                      : AppColors.primaryColor,
+                                                )
+                                              : SizedBox()
+                                        ],
+                                      )),
+                                ),
+                              ),
+                            );
+                          }))))),
                 ],
               )),
             ),
@@ -290,16 +351,20 @@ class FundWalletController extends GetxController {
             description: "Fund Wallet"),
         isTestMode: true);
     final ChargeResponse response = await flutterwave.charge();
-    print("TEST OUTPUT");
-    print(response.transactionId);
     if (response.transactionId != null) {
       CustomToastNotification.show("Your wallet has been funded successfully",
           type: ToastType.success);
-      pushUntil(page: BottomNav());
+      pushUntil(page: FundWalletScreen());
     } else {
       pop();
       amountController = new MoneyMaskedTextController(
           initialValue: 0, decimalSeparator: ".", thousandSeparator: ",");
     }
+  }
+
+  handlePaymentComplete() {
+    CustomToastNotification.show("Your wallet has been funded successfully",
+        type: ToastType.success);
+    pushUntil(page: FundWalletScreen());
   }
 }

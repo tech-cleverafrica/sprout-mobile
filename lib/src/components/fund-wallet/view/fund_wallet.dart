@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sprout_mobile/src/components/fund-wallet/controller/fund_wallet_controller.dart';
@@ -15,7 +16,6 @@ import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import 'package:sprout_mobile/src/utils/global_function.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 import 'package:get/get.dart';
-import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 // ignore: must_be_immutable
 class FundWalletScreen extends StatelessWidget {
@@ -67,13 +67,18 @@ class FundWalletScreen extends StatelessWidget {
               ),
               addVerticalSpace(24.h),
               FundingCard(
-                isDarkMode: isDarkMode,
-                title: "Transfer from Card",
-                text: "Fund your wallet through debit card",
-                onTap: () =>
-                    // fundWalletController.handlePaymentInitialization(context),
-                    fundFromCard(context),
-              ),
+                  isDarkMode: isDarkMode,
+                  title: "Transfer from Card",
+                  text: "Fund your wallet through debit card",
+                  onTap: () => {
+                        fundWalletController.card.value = null,
+                        fundWalletController.amountController =
+                            new MoneyMaskedTextController(
+                                initialValue: 0,
+                                decimalSeparator: ".",
+                                thousandSeparator: ","),
+                        fundFromCard(context),
+                      }),
             ],
           ),
         ),
@@ -267,32 +272,33 @@ void fundFromCard(BuildContext context) {
                           },
                         ),
                         GestureDetector(
-                          onTap: () {
-                            fundWalletController.showCardList(
-                                context, isDarkMode);
-                          },
-                          child: CustomTextFormField(
-                              controller: fundWalletController.cardController,
-                              label: "Select Card",
-                              hintText:
-                                  fundWalletController.cardController.text == ""
-                                      ? "Select Card"
-                                      : fundWalletController
-                                          .cardController.text,
-                              required: true,
-                              enabled: false,
-                              fillColor: isDarkMode
-                                  ? AppColors.inputBackgroundColor
-                                  : AppColors.grey,
-                              hintTextStyle:
-                                  fundWalletController.cardController.text == ""
-                                      ? null
-                                      : TextStyle(
-                                          color: isDarkMode
-                                              ? AppColors.white
-                                              : AppColors.black,
-                                          fontWeight: FontWeight.w600)),
-                        ),
+                            onTap: () {
+                              fundWalletController.showCardList(
+                                  context, isDarkMode);
+                            },
+                            child: Obx((() => CustomTextFormField(
+                                controller: fundWalletController.cardController,
+                                label: "Select Card",
+                                hintText: fundWalletController.card.value ==
+                                        null
+                                    ? "Select Card"
+                                    : fundWalletController.card.value!.pan! +
+                                        " - " +
+                                        fundWalletController
+                                            .card.value!.provider!,
+                                required: true,
+                                enabled: false,
+                                fillColor: isDarkMode
+                                    ? AppColors.inputBackgroundColor
+                                    : AppColors.grey,
+                                hintTextStyle:
+                                    fundWalletController.card.value == null
+                                        ? null
+                                        : TextStyle(
+                                            color: isDarkMode
+                                                ? AppColors.white
+                                                : AppColors.black,
+                                            fontWeight: FontWeight.w600))))),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.05,
                         ),
@@ -303,11 +309,16 @@ void fundFromCard(BuildContext context) {
                                   fundWalletController
                                       .validateFields()
                                       .then((value) => {
-                                            if (value != null)
+                                            if (value == true)
                                               {
                                                 fundWalletController
                                                     .handlePaymentInitialization(
                                                         context)
+                                              }
+                                            else if (value == false)
+                                              {
+                                                fundWalletController
+                                                    .handlePaymentComplete()
                                               }
                                           })
                                 })),

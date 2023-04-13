@@ -24,7 +24,7 @@ import '../../utils/helper_widgets.dart';
 late HomeController homeController = Get.put(HomeController());
 late NotificationController notificationController =
     Get.put(NotificationController());
-List<String> routes = ["/InvoiceScreen", "/BottomNav"];
+List<String> routes = ["/InvoiceScreen", "/BottomNav", "/FundWalletScreen"];
 
 getHeader(bool isDarkMode, {hideHelp = false, hideNotification = false}) {
   return Padding(
