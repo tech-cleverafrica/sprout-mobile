@@ -137,6 +137,23 @@ class InvoiceService {
     return AppResponse(false, statusCode, responseBody);
   }
 
+  Future<AppResponse<InvoiceBusinessInfo>> updateBusinessInfo(
+      String name, String phone, String email, String address) async {
+    CustomLoader.show();
+    Response response = await locator<InvoiceRepositoryImpl>()
+        .updateBusinessInfo(name, phone, email, address);
+    CustomLoader.dismiss();
+    int statusCode = response.statusCode ?? 000;
+
+    Map<String, dynamic> responseBody = response.data;
+    if (statusCode >= 200 && statusCode <= 300) {
+      print(":::::::::$responseBody");
+      return AppResponse<InvoiceBusinessInfo>(
+          true, statusCode, responseBody, responseBody["data"]);
+    }
+    return AppResponse(false, statusCode, responseBody);
+  }
+
   Future<AppResponse<Invoice>> createInvoice(
       Map<String, dynamic> requestBody) async {
     CustomLoader.show();
@@ -219,5 +236,21 @@ class InvoiceService {
       return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
     }
     return AppResponse(false, statusCode, {});
+  }
+
+  Future<AppResponse<dynamic>> sendInvoice(
+      Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
+    Response response =
+        await locator<InvoiceRepositoryImpl>().sendInvoice(requestBody);
+    print(response);
+    CustomLoader.dismiss();
+    int statusCode = response.statusCode ?? 000;
+    Map<String, dynamic> responseBody = response.data;
+    if (response.data["status"]) {
+      print(":::::::::$responseBody");
+      return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
+    }
+    return AppResponse(false, statusCode, responseBody);
   }
 }

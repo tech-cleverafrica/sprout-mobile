@@ -42,9 +42,7 @@ const String addBeneficiaryUrl = "transfer/api/v1/beneficiary/add";
 
 //invoice
 const String getInvoicesUrl = "invoice/api/v1/invoice/invoices";
-const String updatePaymentStatusUrl = "invoice/invoices/paymentstatus/";
-const String markAsPaidUrl = "invoice/invoices/paid/";
-const String sendInvoiceUrl = "invoice/invoices/send";
+const String sendInvoiceUrl = "invoice/api/v1/invoice/invoices/send";
 const String invoiceCustomersUrl = "invoice/api/v1/invoice/customers";
 const String createCustomerUrl = "invoice/api/v1/invoice/customers/create";
 const String updateCustomerUrl = "invoice/api/v1/invoice//customers/update/";
@@ -53,6 +51,7 @@ const String uploadInvoiceBusinessLogoUrl =
     "invoice/api/v1/invoice/templates/upload-logo";
 const String removeInvoiceBusinessLogoUrl =
     "invoice/api/v1/invoice/templates/remove-logo";
+const String updateBusinessInfoUrl = "invoice/api/v1/invoice/templates/edit";
 const String createInvoiceUrl =
     "invoice/api/v1/invoice/invoices/create-with-customer";
 const String markInvoiceAsPaidUrl = "invoice/api/v1/invoice/invoices/paid/";

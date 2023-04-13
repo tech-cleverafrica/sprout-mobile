@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:email_validator/email_validator.dart';
@@ -40,6 +39,11 @@ class CreateInvoiceController extends GetxController {
   TextEditingController customerPhoneController = new TextEditingController();
   TextEditingController customerEmailController = new TextEditingController();
   TextEditingController customerAddressController = new TextEditingController();
+
+  TextEditingController companyNameController = new TextEditingController();
+  TextEditingController companyPhoneController = new TextEditingController();
+  TextEditingController companyEmailController = new TextEditingController();
+  TextEditingController companyAddressController = new TextEditingController();
 
   TextEditingController itemNameController = new TextEditingController();
   TextEditingController itemQuantityController = new TextEditingController();
@@ -138,6 +142,11 @@ class CreateInvoiceController extends GetxController {
     uploadingLogo.value = false;
     if (response.status) {
       info.value = InvoiceBusinessInfo.fromJson(response.data);
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator<AuthService>().refreshUserToken();
+      if (res.status) {
+        uploadInvoiceBusinessLogo();
+      }
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }
@@ -150,6 +159,33 @@ class CreateInvoiceController extends GetxController {
     uploadingLogo.value = false;
     if (response.status) {
       info.value = InvoiceBusinessInfo.fromJson(response.data);
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator<AuthService>().refreshUserToken();
+      if (res.status) {
+        removeInvoiceBusinessLogo();
+      }
+    } else {
+      CustomToastNotification.show(response.message, type: ToastType.error);
+    }
+  }
+
+  updateBusinessInfo() async {
+    uploadingLogo.value = true;
+    AppResponse<InvoiceBusinessInfo> response = await locator
+        .get<InvoiceService>()
+        .updateBusinessInfo(
+            companyNameController.text,
+            companyPhoneController.text,
+            companyEmailController.text,
+            companyAddressController.text);
+    uploadingLogo.value = false;
+    if (response.status) {
+      info.value = InvoiceBusinessInfo.fromJson(response.data);
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator<AuthService>().refreshUserToken();
+      if (res.status) {
+        updateBusinessInfo();
+      }
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }
@@ -228,6 +264,11 @@ class CreateInvoiceController extends GetxController {
                 loadCustomers(true),
               }
           });
+    } else if (appResponse.statusCode == 999) {
+      AppResponse res = await locator<AuthService>().refreshUserToken();
+      if (res.status) {
+        addCustomer();
+      }
     } else {
       CustomToastNotification.show(appResponse.message, type: ToastType.error);
     }
@@ -297,6 +338,56 @@ class CreateInvoiceController extends GetxController {
           content: Text("Address is required"),
           backgroundColor: AppColors.errorRed));
     } else if (customerAddressController.text.length < 6) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Address is too short"),
+          backgroundColor: AppColors.errorRed));
+    } else {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please supply all required fields"),
+          backgroundColor: AppColors.errorRed));
+    }
+  }
+
+  validateBusinessInfo() {
+    String pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    if (companyNameController.text.length > 1 &&
+        companyPhoneController.text.length == 11 &&
+        companyEmailController.text.isNotEmpty &&
+        companyAddressController.text.length > 5 &&
+        (regex.hasMatch(companyEmailController.text))) {
+      pop();
+      updateBusinessInfo();
+    } else if (companyNameController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Company Name is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (companyNameController.text.length < 2) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Company Name is too short"),
+          backgroundColor: AppColors.errorRed));
+    } else if (companyPhoneController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Phone number is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (companyPhoneController.text.length < 11) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Phone number should ber 11 digits"),
+          backgroundColor: AppColors.errorRed));
+    } else if (companyEmailController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Email is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (!(regex.hasMatch(companyEmailController.text))) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please enter a valid email"),
+          backgroundColor: AppColors.errorRed));
+    } else if (companyAddressController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Address is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (companyAddressController.text.length < 6) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("Address is too short"),
           backgroundColor: AppColors.errorRed));
@@ -890,6 +981,12 @@ class CreateInvoiceController extends GetxController {
   }
 
   editBusinessInfo(context, isDarkMode, theme) {
+    companyNameController =
+        new TextEditingController(text: info.value?.businessName);
+    companyPhoneController = new TextEditingController(text: info.value?.phone);
+    companyEmailController = new TextEditingController(text: info.value?.email);
+    companyAddressController =
+        new TextEditingController(text: info.value?.businessAddress);
     showDialog(
         context: context,
         barrierDismissible: true,
@@ -924,21 +1021,23 @@ class CreateInvoiceController extends GetxController {
                       ),
                       addVerticalSpace(10.h),
                       CustomTextFormField(
+                        controller: companyNameController,
                         label: "Company Name",
                         hintText: "Enter Company Name",
+                        textInputAction: TextInputAction.next,
                         fillColor: isDarkMode
                             ? AppColors.inputBackgroundColor
                             : AppColors.grey,
-                        textInputAction: TextInputAction.go,
-                        textInputType: TextInputType.phone,
                         validator: (value) {
                           if (value!.length == 0)
                             return "Company Name is required";
+                          else if (value.length < 2)
+                            return "Company Name is too short";
                           return null;
                         },
                       ),
                       CustomTextFormField(
-                          // controller: packagesController.phoneNumberController,
+                          controller: companyPhoneController,
                           label: "Phone Number",
                           hintText: "Enter Phone Number",
                           maxLength: 11,
@@ -961,8 +1060,7 @@ class CreateInvoiceController extends GetxController {
                             return null;
                           }),
                       CustomTextFormField(
-                        // controller: signUpController.emailController,
-                        label: "Email Address",
+                        controller: companyEmailController,
                         fillColor: isDarkMode
                             ? AppColors.inputBackgroundColor
                             : AppColors.grey,
@@ -974,16 +1072,19 @@ class CreateInvoiceController extends GetxController {
                                 : "Please enter a valid email",
                       ),
                       CustomTextFormField(
-                        maxLines: 3,
+                        controller: companyAddressController,
+                        maxLines: 2,
                         maxLength: 250,
-                        maxLengthEnforced: true,
                         label: "Enter Address",
                         hintText: "Address",
+                        maxLengthEnforced: true,
+                        enabled: customer.value == null ||
+                            customer.value?.id == "00",
                         validator: (value) {
                           if (value!.length == 0)
-                            return "Issue description cannot be empty";
-                          else if (value.length < 20)
-                            return "Issue description is too short";
+                            return "Address is required";
+                          else if (value.length < 6)
+                            return "Address is too short";
                           return null;
                         },
                         fillColor: isDarkMode
@@ -993,7 +1094,9 @@ class CreateInvoiceController extends GetxController {
                       addVerticalSpace(10.h),
                       CustomButton(
                         title: "Done",
-                        onTap: () {},
+                        onTap: () {
+                          validateBusinessInfo();
+                        },
                       ),
                       addVerticalSpace(10.h),
                     ],

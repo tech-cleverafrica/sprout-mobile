@@ -103,6 +103,24 @@ class InvoiceRepositoryImpl implements InvoiceRepository {
   }
 
   @override
+  updateBusinessInfo(
+      String name, String phone, String email, String address) async {
+    try {
+      FormData formData = FormData.fromMap({
+        "businessAddress": address,
+        "businessName": name,
+        "phone": phone,
+        "email": email,
+      });
+      return await api.dio.patch(updateBusinessInfoUrl, data: formData);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
+
+  @override
   createInvoice(Map<String, dynamic> requestBody) async {
     try {
       return await api.dio.post(createInvoiceUrl, data: requestBody);
@@ -151,6 +169,17 @@ class InvoiceRepositoryImpl implements InvoiceRepository {
   downloadInvoice(String invoiceId) async {
     try {
       return await api.dio.get(downloadInvoiceUrl + invoiceId);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
+
+  @override
+  sendInvoice(Map<String, dynamic> requestBody) async {
+    try {
+      return await api.dio.post(sendInvoiceUrl, data: requestBody);
     } on DioError catch (e) {
       return api.handleError(e);
     } catch (e) {
