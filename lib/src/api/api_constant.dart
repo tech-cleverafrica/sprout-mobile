@@ -41,7 +41,7 @@ const String makeTransferUrl = "transfer/api/v1/disburse";
 const String addBeneficiaryUrl = "transfer/api/v1/beneficiary/add";
 
 //invoice
-const String getInvoicesUrl = "invoice/api/v1/invoice/invoices";
+const String getInvoicesUrl = "invoice/api/v1/invoice/invoices?status=";
 const String sendInvoiceUrl = "invoice/api/v1/invoice/invoices/send";
 const String invoiceCustomersUrl = "invoice/api/v1/invoice/customers";
 const String createCustomerUrl = "invoice/api/v1/invoice/customers/create";

@@ -242,7 +242,6 @@ class InvoiceDetailsController extends GetxController {
                                       markInvoiceAsPaid();
                                     } else if (statuses[index] ==
                                         "Mark as partially paid") {
-                                      print("Partial Paid action");
                                       showAmountUpdate(
                                           context, isDarkMode, theme);
                                     } else {

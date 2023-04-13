@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -6,15 +5,19 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/invoice/model/invoice_customer_model.dart';
 import 'package:sprout_mobile/src/components/invoice/model/invoice_detail_model.dart';
 import 'package:sprout_mobile/src/components/invoice/model/invoice_model.dart';
 import 'package:sprout_mobile/src/components/invoice/service/invoice_service.dart';
 import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
+import 'package:sprout_mobile/src/public/model/date_range.dart';
+import 'package:sprout_mobile/src/public/services/date_service.dart';
 import 'package:sprout_mobile/src/public/services/shared_service.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_formatter.dart';
+import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 import '../../../api-setup/api_setup.dart';
@@ -60,6 +63,21 @@ class InvoiceController extends GetxController {
   // Show the progress status to the user.
   String progressString = 'File has not been downloaded yet.';
 
+  List<String> statuses = ["All", "Partial Payment", "Paid", "Not Paid"];
+  List<String> times = [
+    "All Time",
+    "Today",
+    "Yesterday",
+    "This week",
+    "Last week",
+    "This month",
+    "Last month"
+  ];
+  RxString status = "All".obs;
+  RxString time = "All Time".obs;
+  String statusFilter = "all";
+  Map<String, dynamic> timeFilter = {"startDate": null, "endDate": null};
+
   @override
   void onInit() {
     fetchUserInvoices(false);
@@ -68,16 +86,17 @@ class InvoiceController extends GetxController {
   }
 
   fetchUserInvoices(bool refresh) async {
+    reset();
     if (!refresh) {
       isInvoiceLoading.value = true;
     }
-    AppResponse<List<Invoice>> invoiceResponse =
-        await locator.get<InvoiceService>().getInvoices();
+    AppResponse<List<Invoice>> invoiceResponse = await locator
+        .get<InvoiceService>()
+        .getInvoices(statusFilter, timeFilter);
     isInvoiceLoading.value = false;
     if (invoiceResponse.status) {
       invoice.assignAll(invoiceResponse.data!);
       baseInvoice.assignAll(invoiceResponse.data!);
-      debugPrint("the invoices are ::::::::::::::::::::$invoice");
     } else if (invoiceResponse.statusCode == 999) {
       AppResponse res = await locator<AuthService>().refreshUserToken();
       if (res.status) {
@@ -87,6 +106,7 @@ class InvoiceController extends GetxController {
   }
 
   Future<dynamic> fetchInvoiceCustomers() async {
+    reset();
     isInvoiceCustomerLoading.value = true;
     AppResponse<List<InvoiceCustomer>> invoiceCustomerResponse =
         await locator.get<InvoiceService>().getInvoiceCustomer();
@@ -94,8 +114,6 @@ class InvoiceController extends GetxController {
     if (invoiceCustomerResponse.status) {
       invoiceCustomer.assignAll(invoiceCustomerResponse.data!);
       baseInvoiceCustomer.assignAll(invoiceCustomerResponse.data!);
-      debugPrint(
-          "the invoice customers are ::::::::::::::::::::$invoiceCustomer");
       return true;
     } else if (invoiceCustomerResponse.statusCode == 999) {
       AppResponse res = await locator<AuthService>().refreshUserToken();
@@ -111,13 +129,13 @@ class InvoiceController extends GetxController {
     AppResponse appResponse =
         await locator.get<InvoiceService>().getInvoice(invoiceId);
     isSingleInvoiceLoading.value = false;
-    debugPrint("the invoice is  ::::::::::::::::::::${appResponse.data}");
-
     if (appResponse.status) {
       invoiceDetail = InvoiceDetail.fromJson(appResponse.data['data']);
-
-      debugPrint(
-          "processed invoice is  ::::::::::::::::::::${json.encode(invoiceDetail)}");
+    } else if (appResponse.statusCode == 999) {
+      AppResponse res = await locator<AuthService>().refreshUserToken();
+      if (res.status) {
+        fetchSingleInvoice(invoiceId);
+      }
     }
   }
 
@@ -126,8 +144,6 @@ class InvoiceController extends GetxController {
         await locator.get<InvoiceService>().downloadInvoice(invoiceId);
     isSingleInvoiceLoading.value = false;
     if (response.status) {
-      debugPrint("the invoice is  ::::::::::::::::::::${response.data}");
-      print(response.data);
       fetchUserInvoices(true);
       return response.data["data"];
     } else if (response.statusCode == 999) {
@@ -202,7 +218,6 @@ class InvoiceController extends GetxController {
         .get<InvoiceService>()
         .updateCustomer(buildCustomerRequest(), customerId);
     if (appResponse.status) {
-      debugPrint(appResponse.message);
       CustomToastNotification.show(appResponse.message,
           type: ToastType.success);
       pop();
@@ -359,7 +374,6 @@ class InvoiceController extends GetxController {
                         CustomButton(
                           title: "Update Customer",
                           onTap: () {
-                            debugPrint(id);
                             validateCustomerUpdate(id);
                           },
                         ),
@@ -372,6 +386,279 @@ class InvoiceController extends GetxController {
                 ),
               );
             }),
+          );
+        });
+  }
+
+  showStatusList(context, isDarkMode, theme) {
+    return showModalBottomSheet(
+        backgroundColor: AppColors.transparent,
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return FractionallySizedBox(
+            heightFactor: 0.5,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              child: Container(
+                  child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 17.h,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10.h, horizontal: 20.w),
+                            child: Text(
+                              "Select Status",
+                              style: TextStyle(
+                                  fontFamily: "DMSans",
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: isDarkMode
+                                      ? AppColors.mainGreen
+                                      : AppColors.primaryColor),
+                            ),
+                          ),
+                        ]),
+                  ),
+                  Expanded(
+                      child: ListView.builder(
+                          itemCount: statuses.length,
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: ((context, index) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.h, horizontal: 20.w),
+                              child: GestureDetector(
+                                  onTap: () {
+                                    pop();
+                                    status.value = statuses[index];
+                                    if (statuses[index] == "All") {
+                                      statusFilter = "all";
+                                    } else if (statuses[index] ==
+                                        "Partial Payment") {
+                                      statusFilter = "PARTIAL_PAYMENT";
+                                    } else if (statuses[index] == "Paid") {
+                                      statusFilter = "PAID";
+                                    } else if (statuses[index] == "Not Paid") {
+                                      statusFilter = "NOT_PAID";
+                                    }
+                                    fetchUserInvoices(true);
+                                  },
+                                  child: Obx((() => Container(
+                                        decoration: BoxDecoration(
+                                            color: isDarkMode
+                                                ? AppColors.inputBackgroundColor
+                                                : AppColors.grey,
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                        child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 15.w,
+                                                vertical: 16.h),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      statuses[index],
+                                                      style: TextStyle(
+                                                          fontFamily: "DMSans",
+                                                          fontSize: 12.sp,
+                                                          fontWeight: status
+                                                                          .value !=
+                                                                      "" &&
+                                                                  status.value ==
+                                                                      statuses[
+                                                                          index]
+                                                              ? FontWeight.w700
+                                                              : FontWeight.w600,
+                                                          color: isDarkMode
+                                                              ? AppColors
+                                                                  .mainGreen
+                                                              : AppColors
+                                                                  .primaryColor),
+                                                    ),
+                                                  ],
+                                                ),
+                                                status.value != "" &&
+                                                        status.value ==
+                                                            statuses[index]
+                                                    ? SvgPicture.asset(
+                                                        AppSvg.mark_green,
+                                                        height: 20,
+                                                        color: isDarkMode
+                                                            ? AppColors
+                                                                .mainGreen
+                                                            : AppColors
+                                                                .primaryColor,
+                                                      )
+                                                    : SizedBox()
+                                              ],
+                                            )),
+                                      )))),
+                            );
+                          }))),
+                ],
+              )),
+            ),
+          );
+        });
+  }
+
+  showTimeList(context, isDarkMode, theme) {
+    return showModalBottomSheet(
+        backgroundColor: AppColors.transparent,
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return FractionallySizedBox(
+            heightFactor: 0.5,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              child: Container(
+                  child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 17.h,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10.h, horizontal: 20.w),
+                            child: Text(
+                              "Select Period",
+                              style: TextStyle(
+                                  fontFamily: "DMSans",
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: isDarkMode
+                                      ? AppColors.mainGreen
+                                      : AppColors.primaryColor),
+                            ),
+                          ),
+                        ]),
+                  ),
+                  Expanded(
+                      child: ListView.builder(
+                          itemCount: times.length,
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: ((context, index) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.h, horizontal: 20.w),
+                              child: GestureDetector(
+                                  onTap: () {
+                                    pop();
+                                    time.value = times[index];
+                                    if (times[index] != "All Time") {
+                                      DateRange dateFilter = locator
+                                          .get<DateService>()
+                                          .dateRangeFormatter(times[index]);
+                                      timeFilter = {
+                                        "startDate": dateFilter.startDate,
+                                        "endDate": dateFilter.endDate
+                                      };
+                                    } else {
+                                      timeFilter = {
+                                        "startDate": null,
+                                        "endDate": null
+                                      };
+                                    }
+                                    fetchUserInvoices(true);
+                                  },
+                                  child: Obx((() => Container(
+                                        decoration: BoxDecoration(
+                                            color: isDarkMode
+                                                ? AppColors.inputBackgroundColor
+                                                : AppColors.grey,
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                        child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 15.w,
+                                                vertical: 16.h),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      times[index],
+                                                      style: TextStyle(
+                                                          fontFamily: "DMSans",
+                                                          fontSize: 12.sp,
+                                                          fontWeight: time.value !=
+                                                                      "" &&
+                                                                  time.value ==
+                                                                      times[
+                                                                          index]
+                                                              ? FontWeight.w700
+                                                              : FontWeight.w600,
+                                                          color: isDarkMode
+                                                              ? AppColors
+                                                                  .mainGreen
+                                                              : AppColors
+                                                                  .primaryColor),
+                                                    ),
+                                                  ],
+                                                ),
+                                                time.value != "" &&
+                                                        time.value ==
+                                                            times[index]
+                                                    ? SvgPicture.asset(
+                                                        AppSvg.mark_green,
+                                                        height: 20,
+                                                        color: isDarkMode
+                                                            ? AppColors
+                                                                .mainGreen
+                                                            : AppColors
+                                                                .primaryColor,
+                                                      )
+                                                    : SizedBox()
+                                              ],
+                                            )),
+                                      )))),
+                            );
+                          }))),
+                ],
+              )),
+            ),
           );
         });
   }
@@ -399,7 +686,6 @@ class InvoiceController extends GetxController {
       // apps, you should display the warning to the user and give them a
       // way to restart the download.
     } catch (e) {
-      print("TROUBLE2");
       print(e);
     }
   }

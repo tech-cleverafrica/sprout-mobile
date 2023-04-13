@@ -84,7 +84,6 @@ class CustomerController extends GetxController {
     AppResponse appResponse =
         await locator.get<InvoiceService>().addCustomer(buildCustomerRequest());
     if (appResponse.status) {
-      debugPrint(appResponse.message);
       CustomToastNotification.show(appResponse.message,
           type: ToastType.success);
       pop();

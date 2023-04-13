@@ -1,7 +1,7 @@
 import 'dart:io';
 
 class InvoiceRepository {
-  getInvoices() {}
+  getInvoices(String statusFilter, Map<String, dynamic> timeFilter) {}
   getInvoice(String invoiceId) {}
   getCustomers() {}
   addCustomer(Map<String, dynamic> requestBody) async {}

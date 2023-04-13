@@ -12,8 +12,10 @@ import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
 import '../model/invoice_detail_model.dart';
 
 class InvoiceService {
-  Future<AppResponse<List<Invoice>>> getInvoices() async {
-    Response response = await locator<InvoiceRepositoryImpl>().getInvoices();
+  Future<AppResponse<List<Invoice>>> getInvoices(
+      String statusFilter, Map<String, dynamic> timeFilter) async {
+    Response response = await locator<InvoiceRepositoryImpl>()
+        .getInvoices(statusFilter, timeFilter);
 
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;

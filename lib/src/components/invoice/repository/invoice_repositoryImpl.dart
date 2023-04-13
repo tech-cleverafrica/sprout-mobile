@@ -12,10 +12,17 @@ import '../../../api/api.dart';
 class InvoiceRepositoryImpl implements InvoiceRepository {
   final Api api = Get.find<Api>();
   @override
-  getInvoices() async {
+  getInvoices(String statusFilter, Map<String, dynamic> timeFilter) async {
     try {
       return await api.dio.get(
-        getInvoicesUrl,
+        timeFilter['startDate'] != null && timeFilter['endDate'] != null
+            ? getInvoicesUrl +
+                statusFilter +
+                "&startDate=" +
+                timeFilter['startDate'] +
+                "&endDate=" +
+                timeFilter['endDate']
+            : getInvoicesUrl + statusFilter,
       );
     } on DioError catch (e) {
       return api.handleError(e);

@@ -162,25 +162,148 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                         addVerticalSpace(16.h),
                         getDisplaySwitch(isDarkMode),
                         addVerticalSpace(10.h),
-                        CustomTextFormField(
-                          controller: invoiceIncontroller.searchController,
-                          hasPrefixIcon: true,
-                          prefixIcon: Icon(
-                            Icons.search_outlined,
-                          ),
-                          hintText: invoiceIncontroller.isInvoiceDisplay.value
-                              ? "Search your invoices"
-                              : "Search your customers",
-                          fillColor: isDarkMode
-                              ? AppColors.inputBackgroundColor
-                              : AppColors.grey,
-                          onChanged: (value) =>
-                              invoiceIncontroller.isInvoiceDisplay.value
-                                  ? invoiceIncontroller.filterInvoices(value)
-                                  : invoiceIncontroller.filterCustomers(value),
-                          contentPaddingVertical: 10,
-                          borderRadius: 4,
-                          isDense: true,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: invoiceIncontroller.isInvoiceDisplay.value
+                                  ? MediaQuery.of(context).size.width * 0.55
+                                  : MediaQuery.of(context).size.width * 0.88,
+                              child: CustomTextFormField(
+                                controller:
+                                    invoiceIncontroller.searchController,
+                                hasPrefixIcon: true,
+                                prefixIcon: Icon(
+                                  Icons.search_outlined,
+                                ),
+                                hintText:
+                                    invoiceIncontroller.isInvoiceDisplay.value
+                                        ? "Search your invoices"
+                                        : "Search your customers",
+                                fillColor: isDarkMode
+                                    ? AppColors.inputBackgroundColor
+                                    : AppColors.grey,
+                                onChanged: (value) => invoiceIncontroller
+                                        .isInvoiceDisplay.value
+                                    ? invoiceIncontroller.filterInvoices(value)
+                                    : invoiceIncontroller
+                                        .filterCustomers(value),
+                                contentPaddingVertical: 17,
+                                borderRadius: 4,
+                                isDense: true,
+                              ),
+                            ),
+                            invoiceIncontroller.isInvoiceDisplay.value
+                                ? Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Container(
+                                        height: 25,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.22,
+                                        alignment: Alignment.center,
+                                        child: GestureDetector(
+                                          onTap: () => {
+                                            invoiceIncontroller.showStatusList(
+                                                context, isDarkMode, theme)
+                                          },
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            padding: EdgeInsets.only(left: 5),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(4),
+                                              color: isDarkMode
+                                                  ? AppColors.mainGreen
+                                                  : AppColors.primaryColor,
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                SizedBox(width: 5),
+                                                Image.asset(
+                                                  AppImages.filter,
+                                                  height: 5,
+                                                  color: AppColors.white,
+                                                ),
+                                                SizedBox(width: 7),
+                                                Expanded(
+                                                    child: Container(
+                                                  child: Text(
+                                                    invoiceIncontroller
+                                                        .status.value,
+                                                    style: TextStyle(
+                                                      color: AppColors.white,
+                                                      fontSize: 9.sp,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontFamily: "Mont",
+                                                    ),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                ))
+                                              ],
+                                            ), // )),
+                                          ),
+                                        ),
+                                      ),
+                                      addVerticalSpace(2.h),
+                                      Container(
+                                        height: 25,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.28,
+                                        alignment: Alignment.center,
+                                        child: GestureDetector(
+                                          onTap: () => {
+                                            invoiceIncontroller.showTimeList(
+                                                context, isDarkMode, theme)
+                                          },
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            padding: EdgeInsets.only(left: 5),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(4),
+                                              color: isDarkMode
+                                                  ? AppColors.mainGreen
+                                                  : AppColors.primaryColor,
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                SizedBox(width: 5),
+                                                Image.asset(
+                                                  AppImages.filter,
+                                                  height: 5,
+                                                  color: AppColors.white,
+                                                ),
+                                                SizedBox(width: 7),
+                                                Expanded(
+                                                    child: Container(
+                                                  child: Text(
+                                                    invoiceIncontroller
+                                                        .time.value,
+                                                    style: TextStyle(
+                                                      color: AppColors.white,
+                                                      fontSize: 9.sp,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontFamily: "Mont",
+                                                    ),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                ))
+                                              ],
+                                            ), // )),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : SizedBox()
+                          ],
                         ),
                         addVerticalSpace(10.h),
                         Text(
