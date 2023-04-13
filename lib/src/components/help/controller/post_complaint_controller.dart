@@ -31,6 +31,7 @@ class PostComplaintController extends GetxController {
   RxBool loading = false.obs;
   List<IssuesSubCategory> issuesSubCategories = [];
   RxList subCategoriesname = [].obs;
+  RxString subCategoryName = "".obs;
   final issuesSubCategory = Rxn<IssuesSubCategory>();
   final dispenseSubCategory = Rxn<IssuesSubCategory>();
   RxBool isFileRequired = false.obs;

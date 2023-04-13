@@ -108,6 +108,7 @@ class HomeController extends GetxController {
         await locator.get<HomeService>().getTransactions();
     isTransactionLoading.value = false;
     if (transactionsResponse.status) {
+      transactions.clear();
       transactions.assignAll(transactionsResponse.data);
       storage.write(
           "transactionResponse", jsonEncode(transactionsResponse.data!));

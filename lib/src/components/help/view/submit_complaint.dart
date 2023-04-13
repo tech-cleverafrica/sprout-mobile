@@ -3,17 +3,19 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/help/controller/help_controller.dart';
 import 'package:sprout_mobile/src/components/help/controller/post_complaint_controller.dart';
 import 'package:sprout_mobile/src/components/help/model/issues_model.dart';
 import 'package:sprout_mobile/src/components/help/model/issues_sub_category_model.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
-import 'package:sprout_mobile/src/public/widgets/custom_dropdown_button_field.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_multiline_text_form_field.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
+import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
 
@@ -31,16 +33,18 @@ class SubmitComplaintScreen extends StatelessWidget {
   final Function(String category, IssuesSubCategory? subCategory) navigateNext;
 
   late HelpController helpController;
-  late PostComplaintController postComplaintController;
+  late PostComplaintController pCC;
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     helpController = Get.put(HelpController());
-    postComplaintController = Get.put(PostComplaintController());
-    postComplaintController.getSubCategories(id);
-    postComplaintController.setCategory(category);
+    pCC = Get.put(PostComplaintController());
+    pCC.getSubCategories(id);
+    pCC.setCategory(category);
     return SafeArea(
+      key: navigatorKey,
       child: Scaffold(
           bottomNavigationBar: Padding(
             padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
@@ -48,7 +52,7 @@ class SubmitComplaintScreen extends StatelessWidget {
               isDarkMode: isDarkMode,
               buttonText: "Submit",
               onTap: () {
-                postComplaintController.validate().then((value) => {
+                pCC.validate().then((value) => {
                       if (value != null)
                         {
                           pop(),
@@ -66,27 +70,32 @@ class SubmitComplaintScreen extends StatelessWidget {
                     children: [
                       getHeader(isDarkMode, hideHelp: true),
                       addVerticalSpace(15.h),
-                      CustomDropdownButtonFormField(
-                        items: postComplaintController.subCategoriesname
-                            .map((element) => element)
-                            .toList(),
-                        onSaved: (value) => {
-                          postComplaintController
-                              .sortPackage(value ?? "")
-                              .then((value) => {
-                                    if (value != "") {showInstruction(context)}
-                                  }),
-                        },
-                        label: "Select Issue Subcategory",
-                        required: true,
-                        fillColor: isDarkMode
-                            ? AppColors.inputBackgroundColor
-                            : AppColors.grey,
-                      ),
-                      postComplaintController.issuesSubCategory.value != null
+                      GestureDetector(
+                          onTap: () {
+                            showSubCategoriesList(context, isDarkMode);
+                          },
+                          child: Obx((() => CustomTextFormField(
+                                label: "Select Issue Subcategory",
+                                hintText: pCC.subCategoryName.value == ""
+                                    ? "Select Issue Subcategory"
+                                    : pCC.subCategoryName.value,
+                                required: true,
+                                enabled: false,
+                                fillColor: isDarkMode
+                                    ? AppColors.inputBackgroundColor
+                                    : AppColors.grey,
+                                hintTextStyle: pCC.subCategoryName.value == ""
+                                    ? null
+                                    : TextStyle(
+                                        color: isDarkMode
+                                            ? AppColors.white
+                                            : AppColors.black,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12.sp),
+                              )))),
+                      pCC.issuesSubCategory.value != null
                           ? CustomMultilineTextFormField(
-                              controller:
-                                  postComplaintController.descriptionController,
+                              controller: pCC.descriptionController,
                               maxLines: 6,
                               maxLength: 500,
                               maxLengthEnforced: true,
@@ -105,13 +114,13 @@ class SubmitComplaintScreen extends StatelessWidget {
                                   : AppColors.grey,
                             )
                           : SizedBox(),
-                      postComplaintController.issuesSubCategory.value != null
+                      pCC.issuesSubCategory.value != null
                           ? addVerticalSpace(10)
                           : SizedBox(),
-                      postComplaintController.issuesSubCategory.value != null &&
-                              postComplaintController.files.length > 0
+                      pCC.issuesSubCategory.value != null &&
+                              pCC.files.length > 0
                           ? ListView.builder(
-                              itemCount: postComplaintController.files.length,
+                              itemCount: pCC.files.length,
                               physics: BouncingScrollPhysics(),
                               shrinkWrap: true,
                               itemBuilder: (context, index) => Container(
@@ -127,9 +136,7 @@ class SubmitComplaintScreen extends StatelessWidget {
                                           : MediaQuery.of(context).size.width *
                                               0.6,
                                       child: Text(
-                                        postComplaintController
-                                                .files[index].name ??
-                                            "",
+                                        pCC.files[index].name ?? "",
                                         style: TextStyle(
                                           fontSize: 12.sp,
                                           fontWeight: FontWeight.w500,
@@ -140,8 +147,7 @@ class SubmitComplaintScreen extends StatelessWidget {
                                       ),
                                     ),
                                     GestureDetector(
-                                      onTap: () => postComplaintController
-                                          .removeFile(index),
+                                      onTap: () => pCC.removeFile(index),
                                       behavior: HitTestBehavior.opaque,
                                       child: Container(
                                         height: 20,
@@ -170,10 +176,10 @@ class SubmitComplaintScreen extends StatelessWidget {
                               ),
                             )
                           : SizedBox(),
-                      postComplaintController.issuesSubCategory.value != null
+                      pCC.issuesSubCategory.value != null
                           ? addVerticalSpace(10)
                           : SizedBox(),
-                      postComplaintController.issuesSubCategory.value != null
+                      pCC.issuesSubCategory.value != null
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -186,12 +192,11 @@ class SubmitComplaintScreen extends StatelessWidget {
                                           .then((value) => {
                                                 if (value != null)
                                                   {
-                                                    postComplaintController
-                                                        .processFile(File(value
-                                                                .files
-                                                                .single
-                                                                .path ??
-                                                            "")),
+                                                    pCC.processFile(File(value
+                                                            .files
+                                                            .single
+                                                            .path ??
+                                                        "")),
                                                   }
                                               })
                                       : await FilePicker.platform.pickFiles(
@@ -203,11 +208,8 @@ class SubmitComplaintScreen extends StatelessWidget {
                                             ]).then((value) => {
                                             if (value != null)
                                               {
-                                                postComplaintController
-                                                    .processFile(File(value
-                                                            .files
-                                                            .single
-                                                            .path ??
+                                                pCC.processFile(File(
+                                                    value.files.single.path ??
                                                         "")),
                                               }
                                           }),
@@ -225,8 +227,7 @@ class SubmitComplaintScreen extends StatelessWidget {
                                                 : AppColors.black,
                                             fontWeight: FontWeight.w700),
                                       ),
-                                      Obx((() => postComplaintController
-                                              .isFileRequired.value
+                                      Obx((() => pCC.isFileRequired.value
                                           ? Text(' *',
                                               style: TextStyle(
                                                   color: Colors.red,
@@ -253,13 +254,14 @@ class SubmitComplaintScreen extends StatelessWidget {
     );
   }
 
-  void showInstruction(BuildContext context) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final theme = Theme.of(context);
+  void showInstruction() {
+    final isDarkMode =
+        Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark;
+    final theme = Theme.of(navigatorKey.currentContext!);
     Future.delayed(
         Duration(seconds: 1),
         () => showDialog(
-            context: context,
+            context: navigatorKey.currentContext!,
             barrierDismissible: true,
             builder: ((context) {
               return Dialog(
@@ -463,10 +465,8 @@ class SubmitComplaintScreen extends StatelessWidget {
                                 onTap: () => {
                                       pop(),
                                       pop(),
-                                      navigateNext(
-                                          postComplaintController.category,
-                                          postComplaintController
-                                              .dispenseSubCategory.value)
+                                      navigateNext(pCC.category,
+                                          pCC.dispenseSubCategory.value)
                                     })
                           ],
                         )
@@ -476,5 +476,134 @@ class SubmitComplaintScreen extends StatelessWidget {
                 ),
               );
             })));
+  }
+
+  showSubCategoriesList(context, isDarkMode) {
+    pCC = Get.put(PostComplaintController());
+    return showModalBottomSheet(
+        backgroundColor: AppColors.transparent,
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return FractionallySizedBox(
+            heightFactor: 0.5,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              child: Container(
+                  child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 17.h,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10.h, horizontal: 20.w),
+                            child: Text(
+                              "Select Card",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  fontFamily: "DMSans",
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: isDarkMode
+                                      ? AppColors.mainGreen
+                                      : AppColors.primaryColor),
+                            ),
+                          )
+                        ]),
+                  ),
+                  Obx((() => Expanded(
+                      child: ListView.builder(
+                          itemCount: pCC.subCategoriesname.length,
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: ((context, index) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.h, horizontal: 20.w),
+                              child: GestureDetector(
+                                onTap: () {
+                                  pop();
+                                  pCC.subCategoryName.value =
+                                      pCC.subCategoriesname[index];
+                                  pCC
+                                      .sortPackage(pCC.subCategoriesname[index])
+                                      .then((value) => {
+                                            if (value != "") {showInstruction()}
+                                          });
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: isDarkMode
+                                          ? AppColors.inputBackgroundColor
+                                          : AppColors.grey,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 15.w, vertical: 16.h),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                pCC.subCategoriesname[index],
+                                                style: TextStyle(
+                                                    fontFamily: "DMSans",
+                                                    fontSize: 12.sp,
+                                                    fontWeight: pCC.subCategoryName
+                                                                    .value !=
+                                                                "" &&
+                                                            pCC.subCategoryName
+                                                                    .value ==
+                                                                pCC.subCategoriesname[
+                                                                    index]
+                                                        ? FontWeight.w700
+                                                        : FontWeight.w600,
+                                                    color: isDarkMode
+                                                        ? AppColors.mainGreen
+                                                        : AppColors
+                                                            .primaryColor),
+                                              ),
+                                            ],
+                                          ),
+                                          pCC.subCategoryName.value != "" &&
+                                                  pCC.subCategoryName.value ==
+                                                      pCC.subCategoriesname[
+                                                          index]
+                                              ? SvgPicture.asset(
+                                                  AppSvg.mark_green,
+                                                  height: 20,
+                                                  color: isDarkMode
+                                                      ? AppColors.mainGreen
+                                                      : AppColors.primaryColor,
+                                                )
+                                              : SizedBox()
+                                        ],
+                                      )),
+                                ),
+                              ),
+                            );
+                          }))))),
+                ],
+              )),
+            ),
+          );
+        });
   }
 }
