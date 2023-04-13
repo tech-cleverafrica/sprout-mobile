@@ -12,4 +12,6 @@ class InvoiceRepository {
   createInvoice(Map<String, dynamic> requestBody) async {}
   markInvoiceAsPaid(String id) async {}
   markInvoiceAsNotPaid(String id) async {}
+  markInvoiceAsPartialPaid(Map<String, dynamic> requestBody) async {}
+  downloadInvoice(String invoiceId) async {}
 }

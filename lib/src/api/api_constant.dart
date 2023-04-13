@@ -58,6 +58,9 @@ const String createInvoiceUrl =
 const String markInvoiceAsPaidUrl = "invoice/api/v1/invoice/invoices/paid/";
 const String markInvoiceAsNotPaidUrl =
     "invoice/api/v1/invoice/invoices/paymentstatus/";
+const String markInvoiceAsPartialPaidUrl =
+    "invoice/api/v1/invoice/invoices/payment";
+const String downloadInvoiceUrl = "invoice/api/v1/invoice/invoices/download/";
 
 //cashout
 const String initiateCardlessPaymentUrl =

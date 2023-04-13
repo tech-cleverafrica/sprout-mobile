@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
@@ -7,10 +8,13 @@ import 'package:sprout_mobile/src/components/invoice/controller/invoice_controll
 import 'package:sprout_mobile/src/components/invoice/model/invoice_model.dart';
 import 'package:sprout_mobile/src/components/invoice/service/invoice_service.dart';
 import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 class InvoiceDetailsController extends GetxController {
@@ -22,6 +26,10 @@ class InvoiceDetailsController extends GetxController {
   RxString status = "".obs;
 
   late InvoiceController invoiceController;
+
+  late MoneyMaskedTextController amountController =
+      new MoneyMaskedTextController(
+          initialValue: 0, decimalSeparator: ".", thousandSeparator: ",");
 
   List<String> statuses = [
     "Mark as paid",
@@ -58,6 +66,13 @@ class InvoiceDetailsController extends GetxController {
     amountDue.value = invoice.value!.total! - amount;
   }
 
+  buildPaymentModel() {
+    return {
+      "amountPaid": amountController.text.split(",").join(),
+      "invoiceID": invoice.value?.id,
+    };
+  }
+
   markInvoiceAsPaid() async {
     AppResponse<Invoice> response = await locator
         .get<InvoiceService>()
@@ -65,11 +80,33 @@ class InvoiceDetailsController extends GetxController {
     if (response.status) {
       invoice.value = Invoice.fromJson(response.data);
       setStatus();
-      invoiceController.fetchUserInvoices();
+      invoiceController.fetchUserInvoices(true);
     } else if (response.statusCode == 999) {
       AppResponse res = await locator<AuthService>().refreshUserToken();
       if (res.status) {
         markInvoiceAsPaid();
+      }
+    } else {
+      CustomToastNotification.show(response.message, type: ToastType.error);
+    }
+  }
+
+  markInvoiceAsPartialPaid() async {
+    AppResponse<Invoice> response = await locator
+        .get<InvoiceService>()
+        .markInvoiceAsPartialPaid(buildPaymentModel());
+    if (response.status) {
+      invoice.value = Invoice.fromJson(response.data);
+      setStatus();
+      computeAmountDue();
+      invoiceController.fetchUserInvoices(true);
+      pop();
+      amountController = new MoneyMaskedTextController(
+          initialValue: 0, decimalSeparator: ".", thousandSeparator: ",");
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator<AuthService>().refreshUserToken();
+      if (res.status) {
+        markInvoiceAsPartialPaid();
       }
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
@@ -83,7 +120,7 @@ class InvoiceDetailsController extends GetxController {
     if (response.status) {
       invoice.value = Invoice.fromJson(response.data);
       setStatus();
-      invoiceController.fetchUserInvoices();
+      invoiceController.fetchUserInvoices(true);
     } else if (response.statusCode == 999) {
       AppResponse res = await locator<AuthService>().refreshUserToken();
       if (res.status) {
@@ -98,7 +135,7 @@ class InvoiceDetailsController extends GetxController {
     if (invoice.value?.paymentStatus == "PAID") {
       status.value = "Mark as paid";
       screenStatus.value = "Paid";
-    } else if (invoice.value?.paymentStatus == "PAID") {
+    } else if (invoice.value?.paymentStatus == "PARTIAL_PAYMENT") {
       status.value = "Mark as partially paid";
       screenStatus.value = "Partially Paid";
     } else {
@@ -107,7 +144,32 @@ class InvoiceDetailsController extends GetxController {
     }
   }
 
-  showStatusList(context, isDarkMode) {
+  validatePartialPayment() {
+    if (double.parse(amountController.text.split(",").join()) > 0 &&
+        double.parse(amountController.text.split(",").join()) <=
+            amountDue.value) {
+      markInvoiceAsPartialPaid();
+    } else if (amountController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Amount is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (double.parse(amountController.text.split(",").join("")) == 0) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Amount cannot be 0"),
+          backgroundColor: AppColors.errorRed));
+    } else if (double.parse(amountController.text.split(",").join("")) >
+        amountDue.value) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Amount cannot be more than amount due"),
+          backgroundColor: AppColors.errorRed));
+    } else {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please supply all required fields"),
+          backgroundColor: AppColors.errorRed));
+    }
+  }
+
+  showStatusList(context, isDarkMode, theme) {
     return showModalBottomSheet(
         backgroundColor: AppColors.transparent,
         context: context,
@@ -166,6 +228,8 @@ class InvoiceDetailsController extends GetxController {
                                     } else if (statuses[index] ==
                                         "Mark as partially paid") {
                                       print("Partial Paid action");
+                                      showAmountUpdate(
+                                          context, isDarkMode, theme);
                                     } else {
                                       markInvoiceAsNotPaid();
                                     }
@@ -236,5 +300,74 @@ class InvoiceDetailsController extends GetxController {
             ),
           );
         });
+  }
+
+  showAmountUpdate(context, isDarkMode, theme) {
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: ((context) {
+          return Dialog(
+            backgroundColor: isDarkMode ? AppColors.blackBg : AppColors.white,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.4,
+              child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Input Amount Paid",
+                              style: theme.textTheme.headline6,
+                            ),
+                            InkWell(
+                                onTap: () => Get.back(),
+                                child: SvgPicture.asset(
+                                  AppSvg.cancel,
+                                  height: 18.h,
+                                ))
+                          ],
+                        ),
+                        addVerticalSpace(10.h),
+                        CustomTextFormField(
+                          controller: amountController,
+                          label: "Please enter amount",
+                          textInputType: TextInputType.phone,
+                          textInputAction: TextInputAction.next,
+                          fillColor: isDarkMode
+                              ? AppColors.inputBackgroundColor
+                              : AppColors.grey,
+                          validator: (value) {
+                            if (value!.length == 0)
+                              return "Amount is required";
+                            else if (double.parse(value.split(",").join("")) ==
+                                0) {
+                              return "Amount cannot be 0";
+                            } else if (double.parse(value.split(",").join("")) >
+                                amountDue.value) {
+                              return "Amount cannot be more than amount due";
+                            }
+                            return null;
+                          },
+                        ),
+                        addVerticalSpace(25.h),
+                        CustomButton(
+                          title: "Submit",
+                          onTap: () => {
+                            validatePartialPayment(),
+                          },
+                        ),
+                      ],
+                    ),
+                  )),
+            ),
+          );
+        }));
   }
 }

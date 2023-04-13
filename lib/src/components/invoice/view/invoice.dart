@@ -31,56 +31,6 @@ class InvoiceScreen extends StatefulWidget {
 class _InvoiceScreenState extends State<InvoiceScreen> {
   late InvoiceController invoiceIncontroller;
 
-  // Track the progress of a downloaded file here.
-  double progress = 0;
-
-  // Track if the PDF was downloaded here.
-  bool didDownloadPDF = false;
-
-  // Show the progress status to the user.
-  String progressString = 'File has not been downloaded yet.';
-
-  // This method uses Dio to download a file from the given URL
-  Future download(Dio dio, String url, String savePath) async {
-    try {
-      var response = await dio.get(
-        url,
-        onReceiveProgress: updateProgress,
-        options: Options(
-            responseType: ResponseType.bytes,
-            followRedirects: false,
-            validateStatus: (status) {
-              return status! < 500;
-            }),
-      );
-      var file = File(savePath).openSync(mode: FileMode.write);
-      file.writeFromSync(response.data);
-      await file.close();
-
-      // Here, you're catching an error and printing it. For production
-      // apps, you should display the warning to the user and give them a
-      // way to restart the download.
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  // You can update the download progress here so that the user is
-  void updateProgress(done, total) {
-    progress = done / total;
-    setState(() {
-      if (progress >= 1) {
-        progressString =
-            '✅ File has finished downloading. Try opening the file.';
-        didDownloadPDF = true;
-      } else {
-        progressString = 'Download progress: ' +
-            (progress * 100).toStringAsFixed(0) +
-            '% done.';
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     invoiceIncontroller = Get.put(InvoiceController());
@@ -523,16 +473,43 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                         onTap: () async {
                                           var tempDir =
                                               await getTemporaryDirectory();
-                                          print("OGUN");
-                                          print(invoiceIncontroller
-                                              .invoice[index].invoicePDFUrl);
-                                          download(
-                                              Dio(),
+                                          if (invoiceIncontroller.invoice[index]
+                                                      .invoicePDFUrl !=
+                                                  null &&
                                               invoiceIncontroller.invoice[index]
-                                                  .invoicePDFUrl!,
-                                              tempDir.path +
-                                                  invoiceIncontroller
-                                                      .invoice[index].id!);
+                                                      .invoicePDFUrl !=
+                                                  "") {
+                                            invoiceIncontroller.download(
+                                                Dio(),
+                                                invoiceIncontroller
+                                                    .invoice[index]
+                                                    .invoicePDFUrl!,
+                                                tempDir.path +
+                                                    invoiceIncontroller
+                                                        .invoice[index].id! +
+                                                    ".pdf");
+                                            pop();
+                                          } else {
+                                            invoiceIncontroller
+                                                .downloadInvoice(
+                                                    invoiceIncontroller
+                                                        .invoice[index].id!)
+                                                .then((value) => {
+                                                      if (value != null)
+                                                        {
+                                                          invoiceIncontroller.download(
+                                                              Dio(),
+                                                              value,
+                                                              tempDir.path +
+                                                                  invoiceIncontroller
+                                                                      .invoice[
+                                                                          index]
+                                                                      .id! +
+                                                                  ".pdf"),
+                                                          pop()
+                                                        }
+                                                    });
+                                          }
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(

@@ -134,4 +134,27 @@ class InvoiceRepositoryImpl implements InvoiceRepository {
       e.printError();
     }
   }
+
+  @override
+  markInvoiceAsPartialPaid(Map<String, dynamic> requestBody) async {
+    try {
+      return await api.dio
+          .patch(markInvoiceAsPartialPaidUrl, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
+
+  @override
+  downloadInvoice(String invoiceId) async {
+    try {
+      return await api.dio.get(downloadInvoiceUrl + invoiceId);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
 }

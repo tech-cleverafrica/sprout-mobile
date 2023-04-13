@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +12,7 @@ import 'package:sprout_mobile/src/components/invoice/model/invoice_detail_model.
 import 'package:sprout_mobile/src/components/invoice/model/invoice_model.dart';
 import 'package:sprout_mobile/src/components/invoice/service/invoice_service.dart';
 import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
+import 'package:sprout_mobile/src/public/services/shared_service.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_formatter.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
@@ -50,15 +53,24 @@ class InvoiceController extends GetxController {
   RxBool isInvoiceDisplay = true.obs;
   RxBool showMain = false.obs;
 
+  // Track the progress of a downloaded file here.
+  double progress = 0;
+  // Track if the PDF was downloaded here.
+  bool didDownloadPDF = false;
+  // Show the progress status to the user.
+  String progressString = 'File has not been downloaded yet.';
+
   @override
   void onInit() {
-    fetchUserInvoices();
+    fetchUserInvoices(false);
     fetchInvoiceCustomers();
     super.onInit();
   }
 
-  fetchUserInvoices() async {
-    isInvoiceLoading.value = true;
+  fetchUserInvoices(bool refresh) async {
+    if (!refresh) {
+      isInvoiceLoading.value = true;
+    }
     AppResponse<List<Invoice>> invoiceResponse =
         await locator.get<InvoiceService>().getInvoices();
     isInvoiceLoading.value = false;
@@ -69,7 +81,7 @@ class InvoiceController extends GetxController {
     } else if (invoiceResponse.statusCode == 999) {
       AppResponse res = await locator<AuthService>().refreshUserToken();
       if (res.status) {
-        fetchUserInvoices();
+        fetchUserInvoices(refresh);
       }
     }
   }
@@ -107,6 +119,24 @@ class InvoiceController extends GetxController {
       debugPrint(
           "processed invoice is  ::::::::::::::::::::${json.encode(invoiceDetail)}");
     }
+  }
+
+  Future<dynamic> downloadInvoice(String invoiceId) async {
+    AppResponse response =
+        await locator.get<InvoiceService>().downloadInvoice(invoiceId);
+    isSingleInvoiceLoading.value = false;
+    if (response.status) {
+      debugPrint("the invoice is  ::::::::::::::::::::${response.data}");
+      print(response.data);
+      fetchUserInvoices(true);
+      return response.data["data"];
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator<AuthService>().refreshUserToken();
+      if (res.status) {
+        downloadInvoice(invoiceId);
+      }
+    }
+    return null;
   }
 
   buildCustomerRequest() {
@@ -344,6 +374,47 @@ class InvoiceController extends GetxController {
             }),
           );
         });
+  }
+
+  // This method uses Dio to download a file from the given URL
+  Future download(Dio dio, String url, String savePath) async {
+    try {
+      var response = await dio.get(
+        url,
+        onReceiveProgress: updateProgress,
+        options: Options(
+            responseType: ResponseType.bytes,
+            followRedirects: false,
+            validateStatus: (status) {
+              return status! < 500;
+            }),
+      );
+      File file = File(savePath);
+      var raf = file.openSync(mode: FileMode.write);
+      raf.writeFromSync(response.data);
+      await file.writeAsBytes(response.data);
+      await locator.get<SharedService>().shareFile(file);
+      await raf.close();
+      // Here, you're catching an error and printing it. For production
+      // apps, you should display the warning to the user and give them a
+      // way to restart the download.
+    } catch (e) {
+      print("TROUBLE2");
+      print(e);
+    }
+  }
+
+  // You can update the download progress here so that the user is
+  void updateProgress(done, total) {
+    progress = done / total;
+    if (progress >= 1) {
+      progressString = '✅ File has finished downloading. Try opening the file.';
+      didDownloadPDF = true;
+    } else {
+      progressString = 'Download progress: ' +
+          (progress * 100).toStringAsFixed(0) +
+          '% done.';
+    }
   }
 
   @override

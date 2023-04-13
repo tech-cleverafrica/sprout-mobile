@@ -188,4 +188,36 @@ class InvoiceService {
     }
     return AppResponse(false, statusCode, responseBody);
   }
+
+  Future<AppResponse<Invoice>> markInvoiceAsPartialPaid(
+      Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
+    Response response = await locator<InvoiceRepositoryImpl>()
+        .markInvoiceAsPartialPaid(requestBody);
+    print(response);
+    CustomLoader.dismiss();
+    int statusCode = response.statusCode ?? 000;
+
+    Map<String, dynamic> responseBody = response.data;
+    if (response.data["status"]) {
+      print(":::::::::$responseBody");
+      return AppResponse<Invoice>(
+          true, statusCode, responseBody, responseBody["data"]);
+    }
+    return AppResponse(false, statusCode, responseBody);
+  }
+
+  Future<AppResponse<dynamic>> downloadInvoice(String invoiceId) async {
+    CustomLoader.show();
+    Response response =
+        await locator<InvoiceRepositoryImpl>().downloadInvoice(invoiceId);
+    CustomLoader.dismiss();
+    int statusCode = response.statusCode ?? 000;
+    Map<String, dynamic> responseBody = response.data;
+    if (statusCode >= 200 && statusCode <= 300) {
+      print("vvv$responseBody");
+      return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
+    }
+    return AppResponse(false, statusCode, {});
+  }
 }

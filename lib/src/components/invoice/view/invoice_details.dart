@@ -1,9 +1,11 @@
 import 'package:basic_utils/basic_utils.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sprout_mobile/src/components/invoice/controller/invoice_controller.dart';
 import 'package:sprout_mobile/src/components/invoice/controller/invoice_details_controller.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
@@ -63,7 +65,8 @@ class InvoiceDetails extends StatelessWidget {
                 alignment: Alignment.center,
                 child: GestureDetector(
                   onTap: () => {
-                    invoiceDetailsController.showStatusList(context, isDarkMode)
+                    invoiceDetailsController.showStatusList(
+                        context, isDarkMode, theme)
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -138,7 +141,41 @@ class InvoiceDetails extends StatelessWidget {
                   ),
                   addHorizontalSpace(10.w),
                   InkWell(
-                    onTap: () => {},
+                    onTap: () async {
+                      var tempDir = await getTemporaryDirectory();
+                      if (invoiceDetailsController
+                                  .invoice.value!.invoicePDFUrl !=
+                              null &&
+                          invoiceDetailsController
+                                  .invoice.value!.invoicePDFUrl !=
+                              "") {
+                        invoiceController.download(
+                            Dio(),
+                            invoiceDetailsController
+                                .invoice.value!.invoicePDFUrl!,
+                            tempDir.path +
+                                invoiceDetailsController.invoice.value!.id! +
+                                ".pdf");
+                      } else {
+                        invoiceController
+                            .downloadInvoice(
+                                invoiceDetailsController.invoice.value!.id!)
+                            .then((value) => {
+                                  if (value != null)
+                                    invoiceDetailsController
+                                        .invoice.value?.invoicePDFUrl = value,
+                                  {
+                                    invoiceController.download(
+                                        Dio(),
+                                        value,
+                                        tempDir.path +
+                                            invoiceDetailsController
+                                                .invoice.value!.id! +
+                                            ".pdf"),
+                                  }
+                                });
+                      }
+                    },
                     child: Container(
                       width: 40.w,
                       height: 32.h,
