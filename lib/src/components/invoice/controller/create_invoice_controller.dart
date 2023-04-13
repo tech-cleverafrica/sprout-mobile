@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:email_validator/email_validator.dart';
@@ -13,10 +14,12 @@ import 'package:sprout_mobile/src/components/invoice/controller/invoice_controll
 import 'package:sprout_mobile/src/components/invoice/model/invoice_business_info_model.dart';
 import 'package:sprout_mobile/src/components/invoice/model/invoice_customer_model.dart';
 import 'package:sprout_mobile/src/components/invoice/model/invoice_item_model.dart';
+import 'package:sprout_mobile/src/components/invoice/model/invoice_model.dart';
 import 'package:sprout_mobile/src/components/invoice/model/saved_invoice_customer_model.dart';
 import 'package:sprout_mobile/src/components/invoice/service/invoice_service.dart';
 import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
 import 'package:sprout_mobile/src/components/invoice/view/invoice_preview.dart';
+import 'package:sprout_mobile/src/components/invoice/view/success_invoice.dart';
 import 'package:sprout_mobile/src/utils/app_formatter.dart';
 import 'package:sprout_mobile/src/utils/global_function.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
@@ -161,6 +164,49 @@ class CreateInvoiceController extends GetxController {
     };
   }
 
+  buildInvoiceRequest() {
+    var items = [];
+    double all = 0;
+    for (int i = 0; i < invoiceItems.length; i++) {
+      items.add({
+        "itemQuantity": invoiceItems[i].quantity,
+        "itemTitle": invoiceItems[i].name,
+        "itemTotalPrice": invoiceItems[i].amount,
+        "itemUnitPrice": invoiceItems[i].price
+      });
+    }
+    for (int i = 0; i < invoiceItems.length; i++) {
+      all = all + invoiceItems[i].amount!;
+    }
+    return {
+      "customer": {
+        "address": savedCustomer.value?.address,
+        "email": savedCustomer.value?.email,
+        "fullName": savedCustomer.value?.name,
+        "phone": savedCustomer.value?.phone
+      },
+      "invoice": {
+        "discount":
+            double.parse(itemDiscountController.text.split(",").join("")),
+        "dueDate": DateFormat("yyyy-MM-ddTHH:mm:ss")
+                .format(DateTime.parse(dueDate.value)) +
+            "+0100",
+        // "dueDate": DateTime.parse(dueDate.value).toIso8601String(),
+        "invoiceContent": items,
+        "invoiceDate": DateFormat("yyyy-MM-ddTHH:mm:ss")
+                .format(DateTime.parse(invoiceDate.value)) +
+            "+0100",
+        // "invoiceDate": DateTime.parse(invoiceDate.value).toIso8601String(),
+        "note": notesController.text,
+        "paymentAccountNumber": info.value?.paymentAccountNumber,
+        "subTotal": all,
+        "tax": double.parse(itemTaxController.text.split(",").join("")),
+        "total": total.value,
+        "userID": info.value?.userID
+      },
+    };
+  }
+
   addCustomer() async {
     AppResponse appResponse =
         await locator.get<InvoiceService>().addCustomer(buildCustomerRequest());
@@ -184,6 +230,22 @@ class CreateInvoiceController extends GetxController {
           });
     } else {
       CustomToastNotification.show(appResponse.message, type: ToastType.error);
+    }
+  }
+
+  submitInvoice() async {
+    AppResponse<Invoice> response = await locator
+        .get<InvoiceService>()
+        .createInvoice(buildInvoiceRequest());
+    if (response.status) {
+      pushUntil(page: SuccessfulInvoice(), arguments: response.data);
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator<AuthService>().refreshUserToken();
+      if (res.status) {
+        submitInvoice();
+      }
+    } else {
+      CustomToastNotification.show(response.message, type: ToastType.error);
     }
   }
 
@@ -473,8 +535,9 @@ class CreateInvoiceController extends GetxController {
                               itemAmountController.value =
                                   new MoneyMaskedTextController(
                                       initialValue: double.parse(value) *
-                                          double.parse(
-                                              itemPriceController.text),
+                                          double.parse(itemPriceController.text
+                                              .split(",")
+                                              .join("")),
                                       decimalSeparator: ".",
                                       thousandSeparator: ",");
                             }
@@ -501,7 +564,8 @@ class CreateInvoiceController extends GetxController {
                                 value.isNotEmpty) {
                               itemAmountController.value =
                                   new MoneyMaskedTextController(
-                                      initialValue: double.parse(value) *
+                                      initialValue: double.parse(
+                                              value.split(",").join("")) *
                                           double.parse(
                                               itemQuantityController.text),
                                       decimalSeparator: ".",

@@ -24,6 +24,7 @@ import '../../utils/helper_widgets.dart';
 late HomeController homeController = Get.put(HomeController());
 late NotificationController notificationController =
     Get.put(NotificationController());
+List<String> routes = ["/InvoiceScreen", "/BottomNav"];
 
 getHeader(bool isDarkMode, {hideHelp = false, hideNotification = false}) {
   return Padding(
@@ -34,7 +35,15 @@ getHeader(bool isDarkMode, {hideHelp = false, hideNotification = false}) {
         Row(
           children: [
             InkWell(
-                onTap: () => pop(),
+                onTap: () => {
+                      print(Get.currentRoute),
+                      if (routes.contains(Get.currentRoute))
+                        {
+                          {pushUntil(page: BottomNav())}
+                        }
+                      else
+                        {pop()}
+                    },
                 child: Container(
                   padding: EdgeInsets.only(right: 5, bottom: 5, top: 5),
                   child: SvgPicture.asset(

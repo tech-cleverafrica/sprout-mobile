@@ -242,7 +242,6 @@ class _PinPageState extends State<PinPage> {
       strPin += e;
     });
     if (pinIndex == 4) {
-      print(strPin);
       switch (widget.process) {
         case "transfer":
           sendMoneyController.makeTransafer(strPin);

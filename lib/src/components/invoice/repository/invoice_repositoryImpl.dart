@@ -101,4 +101,15 @@ class InvoiceRepositoryImpl implements InvoiceRepository {
       e.printError();
     }
   }
+
+  @override
+  createInvoice(Map<String, dynamic> requestBody) async {
+    try {
+      return await api.dio.post(createInvoiceUrl, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
 }

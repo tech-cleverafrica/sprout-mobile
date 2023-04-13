@@ -125,7 +125,6 @@ class SendToBank extends StatelessWidget {
                               return null;
                             },
                             onChanged: ((value) {
-                              print("object");
                               if (sendMoneyController.accountNumberController
                                           .text.length ==
                                       10 &&

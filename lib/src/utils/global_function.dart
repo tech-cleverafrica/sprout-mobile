@@ -32,7 +32,6 @@ Future<List> initBiometricAuthentication(BuildContext context) async {
 
     return [authenticateWithBiometricsResponse, null];
   } on PlatformException catch (e) {
-    print("WAHALALALA");
     print(e.message);
     return [false, e.message];
   }

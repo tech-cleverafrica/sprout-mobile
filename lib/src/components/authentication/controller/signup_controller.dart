@@ -241,13 +241,6 @@ class SignUpController extends GetxController {
     String pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
-    print(emailController.text +
-        " " +
-        phoneController.text +
-        " " +
-        passwordController.text +
-        " " +
-        confirmPasswordController.text);
     if (emailController.text.isNotEmpty &&
         phoneController.text.length == 11 &&
         (regex.hasMatch(emailController.text)) &&

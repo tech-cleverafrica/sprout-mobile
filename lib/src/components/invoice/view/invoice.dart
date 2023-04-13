@@ -201,10 +201,10 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                 ),
               )
             : Scaffold(
-                body: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                  child: SingleChildScrollView(
+                body: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 24),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -445,13 +445,13 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
             return InvoiceCard(
               theme: theme,
               isDarkMode: isDarkMode,
-              invoiceNo: invoiceIncontroller.invoice.value[index].invoiceNo!,
-              invoiceTotalPrice: invoiceIncontroller.invoice.value[index].total,
-              to: invoiceIncontroller.invoice.value[index].customer!.fullName,
-              from: invoiceIncontroller
-                  .invoice.value[index].businessInfo!.businessName,
-              createdAt: invoiceIncontroller.invoice.value[index].createdAt,
-              status: invoiceIncontroller.invoice.value[index].paymentStatus!,
+              invoiceNo: invoiceIncontroller.invoice[index].invoiceNo!,
+              invoiceTotalPrice: invoiceIncontroller.invoice[index].total,
+              to: invoiceIncontroller.invoice[index].customer!.fullName,
+              from:
+                  invoiceIncontroller.invoice[index].businessInfo!.businessName,
+              createdAt: invoiceIncontroller.invoice[index].createdAt,
+              status: invoiceIncontroller.invoice[index].paymentStatus!,
               onTapDownload: () {
                 showDialog(
                     context: context,
@@ -519,13 +519,16 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                         onTap: () async {
                                           var tempDir =
                                               await getTemporaryDirectory();
+                                          print("OGUN");
+                                          print(invoiceIncontroller
+                                              .invoice[index].invoicePDFUrl);
                                           download(
                                               Dio(),
-                                              invoiceIncontroller.invoice
-                                                  .value[index].invoicePDFUrl!,
+                                              invoiceIncontroller.invoice[index]
+                                                  .invoicePDFUrl!,
                                               tempDir.path +
-                                                  invoiceIncontroller.invoice
-                                                      .value[index].id!);
+                                                  invoiceIncontroller
+                                                      .invoice[index].id!);
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(

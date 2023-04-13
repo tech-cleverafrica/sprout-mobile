@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:sprout_mobile/src/components/invoice/view/invoice_details.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
 
 import '../../../../utils/helper_widgets.dart';
+
+var oCcy = new NumberFormat("#,##0.00", "en_US");
+
+DateTime localDate(String date) {
+  return DateTime.parse(date).toLocal();
+}
 
 class InvoiceCard extends StatelessWidget {
   const InvoiceCard({
@@ -61,7 +69,7 @@ class InvoiceCard extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 0),
       child: InkWell(
         onTap: () {
-          // Get.to(() => InvoiceDetails());
+          Get.to(() => InvoiceDetails());
           debugPrint("GOT HERE!!!");
         },
         child: Container(
@@ -128,7 +136,8 @@ class InvoiceCard extends StatelessWidget {
                           Container(
                             width: MediaQuery.of(context).size.width * .6,
                             child: Text(
-                              createdAt!,
+                              DateFormat('h:mma\t.\tdd-MM-yyyy')
+                                  .format(localDate(createdAt!)),
                               style: TextStyle(
                                   fontFamily: "DMSans",
                                   fontSize: 10.sp,
@@ -146,9 +155,15 @@ class InvoiceCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        invoiceTotalPrice.toString(),
+                        "₦ " +
+                            (invoiceTotalPrice != null
+                                ? oCcy
+                                    .format(double.parse(
+                                        invoiceTotalPrice!.toStringAsFixed(2)))
+                                    .toString()
+                                : "0.00"),
                         style: TextStyle(
-                            fontFamily: "DMSans",
+                            fontFamily: "Mont",
                             color: AppColors.mainGreen,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w500),
@@ -158,10 +173,9 @@ class InvoiceCard extends StatelessWidget {
                       ),
                       Container(
                         decoration: BoxDecoration(
-                            color: sBg,
-                            borderRadius: BorderRadius.circular(10)),
+                            color: sBg, borderRadius: BorderRadius.circular(4)),
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(6.0),
                           child: Center(
                             child: Text(
                               sType,
@@ -170,7 +184,7 @@ class InvoiceCard extends StatelessWidget {
                                   color: isDarkMode
                                       ? AppColors.white
                                       : AppColors.black,
-                                  fontSize: 11.sp),
+                                  fontSize: 10.sp),
                             ),
                           ),
                         ),

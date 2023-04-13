@@ -136,4 +136,22 @@ class InvoiceService {
     }
     return AppResponse(false, statusCode, responseBody);
   }
+
+  Future<AppResponse<Invoice>> createInvoice(
+      Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
+    Response response =
+        await locator<InvoiceRepositoryImpl>().createInvoice(requestBody);
+    print(response);
+    CustomLoader.dismiss();
+    int statusCode = response.statusCode ?? 000;
+
+    Map<String, dynamic> responseBody = response.data;
+    if (response.data["status"]) {
+      print(":::::::::$responseBody");
+      return AppResponse<Invoice>(
+          true, statusCode, responseBody, responseBody["data"]);
+    }
+    return AppResponse(false, statusCode, responseBody);
+  }
 }

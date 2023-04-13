@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
+import 'package:sprout_mobile/src/components/invoice/controller/invoice_success_controller.dart';
+import 'package:sprout_mobile/src/components/invoice/view/invoice.dart';
+import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 import '../../../public/widgets/custom_button.dart';
 import '../../../utils/app_colors.dart';
@@ -8,11 +13,15 @@ import '../../../utils/app_images.dart';
 import '../../../utils/app_svgs.dart';
 import '../../../utils/helper_widgets.dart';
 
+// ignore: must_be_immutable
 class SuccessfulInvoice extends StatelessWidget {
-  const SuccessfulInvoice({super.key});
+  SuccessfulInvoice({super.key});
+
+  late InvoiceSuccessController invoiceSuccessController;
 
   @override
   Widget build(BuildContext context) {
+    invoiceSuccessController = Get.put(InvoiceSuccessController());
     return Container(
       decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -56,23 +65,32 @@ class SuccessfulInvoice extends StatelessWidget {
                   ),
                 )),
             addVerticalSpace(20.h),
-            Container(
+            Obx((() => Container(
                 width: MediaQuery.of(context).size.width * 0.5,
                 child: Text(
-                  "You have successfully created an invoice to tadainic Company",
+                  "You have successfully created an invoice to " +
+                      invoiceSuccessController
+                          .invoice.value!.customer!.fullName!,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontFamily: "DMSans",
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w700,
                       color: AppColors.white),
-                )),
+                )))),
             addVerticalSpace(150.h),
             Row(
               children: [
                 Container(
                   width: 246.w,
-                  child: CustomButton(title: "Back To Invoices", onTap: () {}),
+                  child: CustomButton(
+                      title: "Back To Invoices",
+                      onTap: () {
+                        pushUntil(
+                            page: BottomNav(
+                          index: 2,
+                        ));
+                      }),
                 ),
                 addHorizontalSpace(8.w),
                 Expanded(

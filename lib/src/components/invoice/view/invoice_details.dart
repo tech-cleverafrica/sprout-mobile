@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/invoice/controller/invoice_controller.dart';
-import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 
@@ -26,7 +25,7 @@ class InvoiceDetails extends StatelessWidget {
           children: [
             getHeader(isDarkMode),
             addVerticalSpace(16.h),
-            //getInfo(isDarkMode)
+            getInfo(isDarkMode)
           ],
         ),
       )),

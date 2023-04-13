@@ -296,7 +296,6 @@ class _OTPScreenState extends State<OTPScreen> {
       strPin += e;
     });
     if (pinIndex == 4) {
-      print(strPin);
       log(":::::::::: navigation here");
     }
   }

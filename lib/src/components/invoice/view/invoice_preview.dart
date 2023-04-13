@@ -549,7 +549,8 @@ class InvoicePreviewScreen extends StatelessWidget {
                     isDarkMode: isDarkMode,
                     buttonText: "Create invoice",
                     onTap: () {
-                      Get.to(() => SuccessfulInvoice());
+                      createInvoiceController.submitInvoice();
+                      // Get.to(() => SuccessfulInvoice());
                     }),
                 addVerticalSpace(20.h),
               ],

@@ -53,6 +53,8 @@ const String uploadInvoiceBusinessLogoUrl =
     "invoice/api/v1/invoice/templates/upload-logo";
 const String removeInvoiceBusinessLogoUrl =
     "invoice/api/v1/invoice/templates/remove-logo";
+const String createInvoiceUrl =
+    "invoice/api/v1/invoice/invoices/create-with-customer";
 
 //cashout
 const String initiateCardlessPaymentUrl =
