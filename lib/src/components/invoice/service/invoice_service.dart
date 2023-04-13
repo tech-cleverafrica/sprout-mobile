@@ -154,4 +154,38 @@ class InvoiceService {
     }
     return AppResponse(false, statusCode, responseBody);
   }
+
+  Future<AppResponse<Invoice>> markInvoiceAsPaid(String id) async {
+    CustomLoader.show();
+    Response response =
+        await locator<InvoiceRepositoryImpl>().markInvoiceAsPaid(id);
+    print(response);
+    CustomLoader.dismiss();
+    int statusCode = response.statusCode ?? 000;
+
+    Map<String, dynamic> responseBody = response.data;
+    if (response.data["status"]) {
+      print(":::::::::$responseBody");
+      return AppResponse<Invoice>(
+          true, statusCode, responseBody, responseBody["data"]);
+    }
+    return AppResponse(false, statusCode, responseBody);
+  }
+
+  Future<AppResponse<Invoice>> markInvoiceAsNotPaid(String id) async {
+    CustomLoader.show();
+    Response response =
+        await locator<InvoiceRepositoryImpl>().markInvoiceAsNotPaid(id);
+    print(response);
+    CustomLoader.dismiss();
+    int statusCode = response.statusCode ?? 000;
+
+    Map<String, dynamic> responseBody = response.data;
+    if (response.data["status"]) {
+      print(":::::::::$responseBody");
+      return AppResponse<Invoice>(
+          true, statusCode, responseBody, responseBody["data"]);
+    }
+    return AppResponse(false, statusCode, responseBody);
+  }
 }

@@ -1,4 +1,6 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -33,29 +35,67 @@ class CreateCustomer extends StatelessWidget {
                 CustomTextFormField(
                   controller: customerController.customerNameController,
                   label: "Customer Name",
+                  hintText: "Enter Customer Name",
+                  textInputAction: TextInputAction.next,
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
+                  validator: (value) {
+                    if (value!.length == 0)
+                      return "Customer Name is required";
+                    else if (value.length < 2)
+                      return "Customer Name is too short";
+                    return null;
+                  },
                 ),
                 CustomTextFormField(
-                  controller: customerController.customerPhoneController,
-                  label: "Phone Number",
-                  textInputType: TextInputType.phone,
-                  fillColor: isDarkMode
-                      ? AppColors.inputBackgroundColor
-                      : AppColors.grey,
-                ),
+                    controller: customerController.customerPhoneController,
+                    label: "Phone Number",
+                    hintText: "Enter Phone Number",
+                    maxLength: 11,
+                    showCounterText: false,
+                    maxLengthEnforced: true,
+                    fillColor: isDarkMode
+                        ? AppColors.inputBackgroundColor
+                        : AppColors.grey,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'^[0-9]*$'))
+                    ],
+                    textInputAction: TextInputAction.next,
+                    textInputType: TextInputType.phone,
+                    validator: (value) {
+                      if (value!.length == 0)
+                        return "Phone number is required";
+                      else if (value.length < 11)
+                        return "Phone number should be 11 digits";
+                      return null;
+                    }),
                 CustomTextFormField(
                   controller: customerController.customerEmailController,
                   label: "Email",
-                  textInputType: TextInputType.emailAddress,
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
+                  hintText: "davejossy9@gmail.com",
+                  textInputAction: TextInputAction.next,
+                  textInputType: TextInputType.emailAddress,
+                  validator: (value) => EmailValidator.validate(value ?? "")
+                      ? null
+                      : "Please enter a valid email",
                 ),
                 CustomTextFormField(
                   controller: customerController.customerAddressController,
-                  label: "Address",
+                  maxLines: 2,
+                  maxLength: 250,
+                  label: "Enter Address",
+                  hintText: "Address",
+                  maxLengthEnforced: true,
+                  validator: (value) {
+                    if (value!.length == 0)
+                      return "Address is required";
+                    else if (value.length < 6) return "Address is too short";
+                    return null;
+                  },
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
@@ -63,7 +103,6 @@ class CreateCustomer extends StatelessWidget {
                 addVerticalSpace(40.h),
                 CustomButton(
                   title: "Add Customer",
-                  borderRadius: 30,
                   onTap: () {
                     customerController.validate();
                   },

@@ -10,4 +10,6 @@ class InvoiceRepository {
   uploadInvoiceBusinessLogo(File? file) async {}
   removeInvoiceBusinessLogo() async {}
   createInvoice(Map<String, dynamic> requestBody) async {}
+  markInvoiceAsPaid(String id) async {}
+  markInvoiceAsNotPaid(String id) async {}
 }

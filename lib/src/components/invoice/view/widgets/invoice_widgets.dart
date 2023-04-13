@@ -72,7 +72,7 @@ class InvoiceCard extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 0),
       child: InkWell(
         onTap: () {
-          Get.to(() => InvoiceDetails(invoice: invoice));
+          Get.to(() => InvoiceDetails(), arguments: invoice);
           debugPrint("GOT HERE!!!");
         },
         child: Container(

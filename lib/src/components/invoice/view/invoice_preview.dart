@@ -1,11 +1,10 @@
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/invoice/controller/create_invoice_controller.dart';
-import 'package:sprout_mobile/src/components/invoice/view/success_invoice.dart';
-import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
@@ -39,39 +38,107 @@ class InvoicePreviewScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(
-                        "Invoice #1",
-                        style: TextStyle(
-                            fontFamily: "DMSans",
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16.sp,
-                            color:
-                                isDarkMode ? AppColors.white : AppColors.black),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                              alignment: Alignment.topLeft,
+                              child: Container(
+                                  height: createInvoiceController
+                                              .info.value!.businessLogo !=
+                                          null
+                                      ? 40
+                                      : 28,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: AppColors.transparent,
+                                  ),
+                                  child: createInvoiceController
+                                              .info.value!.businessLogo !=
+                                          null
+                                      ? Row(
+                                          children: [
+                                            Container(
+                                              height: 40,
+                                              child: Image.network(
+                                                createInvoiceController.info
+                                                        .value?.businessLogo ??
+                                                    "",
+                                                loadingBuilder: (context, child,
+                                                        loadingProgress) =>
+                                                    loadingProgress == null
+                                                        ? child
+                                                        : Container(
+                                                            height: 40,
+                                                            width: 40,
+                                                            alignment: Alignment
+                                                                .center,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .scaffoldBackgroundColor,
+                                                            ),
+                                                            child:
+                                                                SpinKitThreeBounce(
+                                                              color: isDarkMode
+                                                                  ? AppColors
+                                                                      .white
+                                                                  : AppColors
+                                                                      .primaryColor,
+                                                              size: 15,
+                                                            ),
+                                                          ),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      : SizedBox())),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                "Invoice #1",
+                                style: TextStyle(
+                                    fontFamily: "DMSans",
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16.sp,
+                                    color: isDarkMode
+                                        ? AppColors.white
+                                        : AppColors.black),
+                              ),
+                              addVerticalSpace(10.h),
+                              Obx((() => Text(
+                                    "Date: " +
+                                        createInvoiceController
+                                            .invoiceDate.value,
+                                    style: TextStyle(
+                                        fontFamily: "DMSans",
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 12.sp,
+                                        color: isDarkMode
+                                            ? AppColors.white
+                                            : AppColors.black),
+                                  ))),
+                              addVerticalSpace(10.h),
+                              Obx((() => Text(
+                                    "Due Date: " +
+                                        createInvoiceController.dueDate.value,
+                                    style: TextStyle(
+                                        fontFamily: "DMSans",
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 12.sp,
+                                        color: isDarkMode
+                                            ? AppColors.white
+                                            : AppColors.black),
+                                  ))),
+                            ],
+                          ),
+                        ],
                       ),
-                      addVerticalSpace(10.h),
-                      Obx((() => Text(
-                            "Date: " +
-                                createInvoiceController.invoiceDate.value,
-                            style: TextStyle(
-                                fontFamily: "DMSans",
-                                fontWeight: FontWeight.w700,
-                                fontSize: 12.sp,
-                                color: isDarkMode
-                                    ? AppColors.white
-                                    : AppColors.black),
-                          ))),
-                      addVerticalSpace(10.h),
-                      Obx((() => Text(
-                            "Due Date: " +
-                                createInvoiceController.dueDate.value,
-                            style: TextStyle(
-                                fontFamily: "DMSans",
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12.sp,
-                                color: isDarkMode
-                                    ? AppColors.white
-                                    : AppColors.black),
-                          ))),
                       addVerticalSpace(20.h),
                       Obx((() => Container(
                             decoration: BoxDecoration(

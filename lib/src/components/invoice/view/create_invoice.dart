@@ -855,7 +855,7 @@ class CreateInvoice extends StatelessWidget {
                   label: "Notes",
                   maxLines: 3,
                   maxLength: 250,
-                  hintText: "Enter Address",
+                  hintText: "Enter Notes",
                   maxLengthEnforced: true,
                   validator: (value) {
                     if (value!.length == 0)

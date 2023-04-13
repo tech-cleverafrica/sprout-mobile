@@ -374,16 +374,13 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                         onTap: () => invoiceIncontroller.showUpdateModal(
                             context,
                             isDarkMode,
+                            invoiceIncontroller.invoiceCustomer[index].id!,
                             invoiceIncontroller
-                                .invoiceCustomer.value[index].id!,
+                                .invoiceCustomer[index].fullName!,
+                            invoiceIncontroller.invoiceCustomer[index].phone!,
+                            invoiceIncontroller.invoiceCustomer[index].email!,
                             invoiceIncontroller
-                                .invoiceCustomer.value[index].fullName!,
-                            invoiceIncontroller
-                                .invoiceCustomer.value[index].phone!,
-                            invoiceIncontroller
-                                .invoiceCustomer.value[index].email!,
-                            invoiceIncontroller
-                                .invoiceCustomer.value[index].address!),
+                                .invoiceCustomer[index].address!),
                         child: Container(
                           width: 100.w,
                           decoration: BoxDecoration(

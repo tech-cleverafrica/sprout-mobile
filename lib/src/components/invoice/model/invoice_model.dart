@@ -311,7 +311,7 @@ class InvoiceContent {
 
 class PaymentHistory {
   int? date;
-  int? amount;
+  num? amount;
 
   PaymentHistory({this.date, this.amount});
 

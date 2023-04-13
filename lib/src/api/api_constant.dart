@@ -55,6 +55,9 @@ const String removeInvoiceBusinessLogoUrl =
     "invoice/api/v1/invoice/templates/remove-logo";
 const String createInvoiceUrl =
     "invoice/api/v1/invoice/invoices/create-with-customer";
+const String markInvoiceAsPaidUrl = "invoice/api/v1/invoice/invoices/paid/";
+const String markInvoiceAsNotPaidUrl =
+    "invoice/api/v1/invoice/invoices/paymentstatus/";
 
 //cashout
 const String initiateCardlessPaymentUrl =

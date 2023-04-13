@@ -1,12 +1,15 @@
 import 'dart:convert';
 
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/invoice/model/invoice_customer_model.dart';
 import 'package:sprout_mobile/src/components/invoice/model/invoice_detail_model.dart';
 import 'package:sprout_mobile/src/components/invoice/model/invoice_model.dart';
 import 'package:sprout_mobile/src/components/invoice/service/invoice_service.dart';
+import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_formatter.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
@@ -22,13 +25,13 @@ class InvoiceController extends GetxController {
   final AppFormatter formatter = Get.put(AppFormatter());
   TextEditingController searchController = new TextEditingController();
 
-  final TextEditingController updateCustomerNameController =
+  TextEditingController updateCustomerNameController =
       new TextEditingController();
-  final TextEditingController updateCustomerPhoneController =
+  TextEditingController updateCustomerPhoneController =
       new TextEditingController();
-  final TextEditingController updateCustomerEmailController =
+  TextEditingController updateCustomerEmailController =
       new TextEditingController();
-  final TextEditingController updateCustomerAddressController =
+  TextEditingController updateCustomerAddressController =
       new TextEditingController();
 
   RxList<InvoiceRespose> invoiceResponse = <InvoiceRespose>[].obs;
@@ -59,11 +62,15 @@ class InvoiceController extends GetxController {
     AppResponse<List<Invoice>> invoiceResponse =
         await locator.get<InvoiceService>().getInvoices();
     isInvoiceLoading.value = false;
-
     if (invoiceResponse.status) {
       invoice.assignAll(invoiceResponse.data!);
       baseInvoice.assignAll(invoiceResponse.data!);
       debugPrint("the invoices are ::::::::::::::::::::$invoice");
+    } else if (invoiceResponse.statusCode == 999) {
+      AppResponse res = await locator<AuthService>().refreshUserToken();
+      if (res.status) {
+        fetchUserInvoices();
+      }
     }
   }
 
@@ -72,13 +79,17 @@ class InvoiceController extends GetxController {
     AppResponse<List<InvoiceCustomer>> invoiceCustomerResponse =
         await locator.get<InvoiceService>().getInvoiceCustomer();
     isInvoiceCustomerLoading.value = false;
-
     if (invoiceCustomerResponse.status) {
       invoiceCustomer.assignAll(invoiceCustomerResponse.data!);
       baseInvoiceCustomer.assignAll(invoiceCustomerResponse.data!);
       debugPrint(
           "the invoice customers are ::::::::::::::::::::$invoiceCustomer");
       return true;
+    } else if (invoiceCustomerResponse.statusCode == 999) {
+      AppResponse res = await locator<AuthService>().refreshUserToken();
+      if (res.status) {
+        fetchInvoiceCustomers();
+      }
     }
     return null;
   }
@@ -108,14 +119,51 @@ class InvoiceController extends GetxController {
   }
 
   validateCustomerUpdate(String id) {
-    if (updateCustomerNameController.text.isEmpty ||
-        updateCustomerAddressController.text.isEmpty ||
-        updateCustomerEmailController.text.isEmpty ||
-        updateCustomerPhoneController.text.isEmpty) {
-      CustomToastNotification.show("Please supply new details to upload",
-          type: ToastType.error);
-    } else {
+    String pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    if (updateCustomerNameController.text.length > 1 &&
+        updateCustomerPhoneController.text.length == 11 &&
+        updateCustomerEmailController.text.isNotEmpty &&
+        updateCustomerAddressController.text.length > 5 &&
+        (regex.hasMatch(updateCustomerEmailController.text))) {
       updateCustomer(id);
+    } else if (updateCustomerNameController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Customer Name is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (updateCustomerNameController.text.length < 2) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Customer Name is too short"),
+          backgroundColor: AppColors.errorRed));
+    } else if (updateCustomerPhoneController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Phone number is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (updateCustomerPhoneController.text.length < 11) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Phone number should ber 11 digits"),
+          backgroundColor: AppColors.errorRed));
+    } else if (updateCustomerEmailController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Email is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (!(regex.hasMatch(updateCustomerEmailController.text))) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please enter a valid email"),
+          backgroundColor: AppColors.errorRed));
+    } else if (updateCustomerAddressController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Address is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (updateCustomerAddressController.text.length < 6) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Address is too short"),
+          backgroundColor: AppColors.errorRed));
+    } else {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please supply all required fields"),
+          backgroundColor: AppColors.errorRed));
     }
   }
 
@@ -166,6 +214,10 @@ class InvoiceController extends GetxController {
 
   showUpdateModal(context, isDarkMode, String id, String fullName, String phone,
       String email, String address) {
+    updateCustomerNameController = new TextEditingController(text: fullName);
+    updateCustomerPhoneController = new TextEditingController(text: phone);
+    updateCustomerEmailController = new TextEditingController(text: email);
+    updateCustomerAddressController = new TextEditingController(text: address);
     showModalBottomSheet(
         backgroundColor: AppColors.transparent,
         context: context,
@@ -185,6 +237,7 @@ class InvoiceController extends GetxController {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: SingleChildScrollView(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         SizedBox(
@@ -194,41 +247,80 @@ class InvoiceController extends GetxController {
                           child: Text(
                             "Update Customer info",
                             style: TextStyle(
-                                fontFamily: "Outfit",
-                                fontSize: 15.sp,
-                                color: AppColors.black),
+                                fontFamily: "Mont",
+                                fontSize: 14.sp,
+                                color: AppColors.black,
+                                fontWeight: FontWeight.w600),
+                            textAlign: TextAlign.start,
                           ),
                         ),
                         CustomTextFormField(
                           controller: updateCustomerNameController,
                           label: "Customer Name",
-                          hintText: fullName,
+                          hintText: "Enter Customer Name",
+                          textInputAction: TextInputAction.next,
                           fillColor: isDarkMode
                               ? AppColors.inputBackgroundColor
                               : AppColors.grey,
+                          validator: (value) {
+                            if (value!.length == 0)
+                              return "Customer Name is required";
+                            else if (value.length < 2)
+                              return "Customer Name is too short";
+                            return null;
+                          },
                         ),
                         CustomTextFormField(
-                          controller: updateCustomerPhoneController,
-                          label: "Phone Number",
-                          textInputType: TextInputType.phone,
-                          hintText: phone,
-                          fillColor: isDarkMode
-                              ? AppColors.inputBackgroundColor
-                              : AppColors.grey,
-                        ),
+                            controller: updateCustomerPhoneController,
+                            label: "Phone Number",
+                            hintText: "Enter Phone Number",
+                            maxLength: 11,
+                            showCounterText: false,
+                            maxLengthEnforced: true,
+                            fillColor: isDarkMode
+                                ? AppColors.inputBackgroundColor
+                                : AppColors.grey,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'^[0-9]*$'))
+                            ],
+                            textInputAction: TextInputAction.next,
+                            textInputType: TextInputType.phone,
+                            validator: (value) {
+                              if (value!.length == 0)
+                                return "Phone number is required";
+                              else if (value.length < 11)
+                                return "Phone number should be 11 digits";
+                              return null;
+                            }),
                         CustomTextFormField(
                           controller: updateCustomerEmailController,
                           label: "Email",
-                          textInputType: TextInputType.emailAddress,
-                          hintText: email,
                           fillColor: isDarkMode
                               ? AppColors.inputBackgroundColor
                               : AppColors.grey,
+                          hintText: "davejossy9@gmail.com",
+                          textInputAction: TextInputAction.next,
+                          textInputType: TextInputType.emailAddress,
+                          validator: (value) =>
+                              EmailValidator.validate(value ?? "")
+                                  ? null
+                                  : "Please enter a valid email",
                         ),
                         CustomTextFormField(
                           controller: updateCustomerAddressController,
-                          label: "Address",
-                          hintText: address,
+                          maxLines: 2,
+                          maxLength: 250,
+                          label: "Enter Address",
+                          hintText: "Address",
+                          maxLengthEnforced: true,
+                          validator: (value) {
+                            if (value!.length == 0)
+                              return "Address is required";
+                            else if (value.length < 6)
+                              return "Address is too short";
+                            return null;
+                          },
                           fillColor: isDarkMode
                               ? AppColors.inputBackgroundColor
                               : AppColors.grey,
@@ -236,7 +328,6 @@ class InvoiceController extends GetxController {
                         addVerticalSpace(40.h),
                         CustomButton(
                           title: "Update Customer",
-                          borderRadius: 30,
                           onTap: () {
                             debugPrint(id);
                             validateCustomerUpdate(id);

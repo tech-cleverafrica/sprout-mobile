@@ -112,4 +112,26 @@ class InvoiceRepositoryImpl implements InvoiceRepository {
       e.printError();
     }
   }
+
+  @override
+  markInvoiceAsPaid(String id) async {
+    try {
+      return await api.dio.patch(markInvoiceAsPaidUrl + id);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
+
+  @override
+  markInvoiceAsNotPaid(String id) async {
+    try {
+      return await api.dio.patch(markInvoiceAsNotPaidUrl + id);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
 }
