@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:sprout_mobile/src/components/invoice/model/invoice_model.dart';
 import 'package:sprout_mobile/src/components/invoice/view/invoice_details.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
@@ -27,6 +28,7 @@ class InvoiceCard extends StatelessWidget {
     this.from,
     this.createdAt,
     this.status,
+    this.invoice,
   }) : super(key: key);
 
   final ThemeData theme;
@@ -37,6 +39,7 @@ class InvoiceCard extends StatelessWidget {
   final String? from;
   final String? createdAt;
   final String? status;
+  final Invoice? invoice;
   final VoidCallback onTapDownload;
   @override
   Widget build(BuildContext context) {
@@ -69,7 +72,7 @@ class InvoiceCard extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 0),
       child: InkWell(
         onTap: () {
-          Get.to(() => InvoiceDetails());
+          Get.to(() => InvoiceDetails(invoice: invoice));
           debugPrint("GOT HERE!!!");
         },
         child: Container(

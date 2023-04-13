@@ -8,6 +8,7 @@ import 'package:sprout_mobile/src/components/invoice/model/invoice_detail_model.
 import 'package:sprout_mobile/src/components/invoice/model/invoice_model.dart';
 import 'package:sprout_mobile/src/components/invoice/service/invoice_service.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
+import 'package:sprout_mobile/src/utils/app_formatter.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 import '../../../api-setup/api_setup.dart';
@@ -18,6 +19,9 @@ import '../../../public/widgets/custom_toast_notification.dart';
 import '../../../utils/helper_widgets.dart';
 
 class InvoiceController extends GetxController {
+  final AppFormatter formatter = Get.put(AppFormatter());
+  TextEditingController searchController = new TextEditingController();
+
   final TextEditingController updateCustomerNameController =
       new TextEditingController();
   final TextEditingController updateCustomerPhoneController =
@@ -58,6 +62,7 @@ class InvoiceController extends GetxController {
 
     if (invoiceResponse.status) {
       invoice.assignAll(invoiceResponse.data!);
+      baseInvoice.assignAll(invoiceResponse.data!);
       debugPrint("the invoices are ::::::::::::::::::::$invoice");
     }
   }
@@ -133,8 +138,14 @@ class InvoiceController extends GetxController {
     invoice.value = value == ""
         ? baseInvoice
         : baseInvoice
-            .where(
-                (i) => i.invoiceNo!.toLowerCase().contains(value.toLowerCase()))
+            .where((i) =>
+                i.invoiceNo!.toLowerCase().contains(value.toLowerCase()) ||
+                i.customer!.fullName!
+                    .toLowerCase()
+                    .contains(value.toLowerCase()) ||
+                i.businessInfo!.businessName!
+                    .toLowerCase()
+                    .contains(value.toLowerCase()))
             .toList();
   }
 
@@ -145,6 +156,12 @@ class InvoiceController extends GetxController {
             .where(
                 (i) => i.fullName!.toLowerCase().contains(value.toLowerCase()))
             .toList();
+  }
+
+  reset() {
+    searchController = new TextEditingController(text: "");
+    invoice.value = baseInvoice;
+    invoiceCustomer.value = baseInvoiceCustomer;
   }
 
   showUpdateModal(context, isDarkMode, String id, String fullName, String phone,

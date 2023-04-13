@@ -213,8 +213,11 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                         getDisplaySwitch(isDarkMode),
                         addVerticalSpace(16.h),
                         CustomTextFormField(
+                          controller: invoiceIncontroller.searchController,
                           hasPrefixIcon: true,
-                          prefixIcon: Icon(Icons.search_outlined),
+                          prefixIcon: Icon(
+                            Icons.search_outlined,
+                          ),
                           hintText: invoiceIncontroller.isInvoiceDisplay.value
                               ? "Search your invoices"
                               : "Search your customers",
@@ -225,6 +228,9 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                               invoiceIncontroller.isInvoiceDisplay.value
                                   ? invoiceIncontroller.filterInvoices(value)
                                   : invoiceIncontroller.filterCustomers(value),
+                          contentPaddingVertical: 10,
+                          borderRadius: 4,
+                          isDense: true,
                         ),
                         addVerticalSpace(20.h),
                         Text(
@@ -452,6 +458,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                   invoiceIncontroller.invoice[index].businessInfo!.businessName,
               createdAt: invoiceIncontroller.invoice[index].createdAt,
               status: invoiceIncontroller.invoice[index].paymentStatus!,
+              invoice: invoiceIncontroller.invoice[index],
               onTapDownload: () {
                 showDialog(
                     context: context,
@@ -574,6 +581,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
         InkWell(
           onTap: () {
             invoiceIncontroller.isInvoiceDisplay.value = true;
+            invoiceIncontroller.reset();
           },
           child: Container(
             decoration: BoxDecoration(
@@ -610,6 +618,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
         InkWell(
           onTap: () {
             invoiceIncontroller.isInvoiceDisplay.value = false;
+            invoiceIncontroller.reset();
           },
           child: Container(
             decoration: BoxDecoration(
