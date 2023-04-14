@@ -107,7 +107,7 @@ class InvoiceDetails extends StatelessWidget {
               Row(
                 children: [
                   InkWell(
-                    onTap: () => {},
+                    onTap: () => {invoiceDetailsController.sendInvoice()},
                     child: Container(
                       width: 88.w,
                       height: 32.h,

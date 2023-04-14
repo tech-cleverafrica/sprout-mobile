@@ -73,6 +73,17 @@ class InvoiceDetailsController extends GetxController {
     };
   }
 
+  buildInvoiceEmailModel() {
+    return {
+      "invoiceID": invoice.value?.id,
+      "message": "Dear " +
+          invoice.value!.customer!.fullName! +
+          ", \n\nAn invoice has been generated for you by Crossover.\n\nPlease click on the button below to view the invoice\n       \nBest regards,\nClever Digital Limited. \n      ",
+      "subject": invoice.value?.note,
+      "to": invoice.value?.customer?.email
+    };
+  }
+
   markInvoiceAsPaid() async {
     AppResponse<Invoice> response = await locator
         .get<InvoiceService>()
@@ -132,10 +143,11 @@ class InvoiceDetailsController extends GetxController {
   }
 
   sendInvoice() async {
-    AppResponse<Invoice> response = await locator
+    AppResponse response = await locator
         .get<InvoiceService>()
-        .markInvoiceAsNotPaid(invoice.value!.id!);
+        .sendInvoice(buildInvoiceEmailModel());
     if (response.status) {
+      CustomToastNotification.show(response.message, type: ToastType.success);
     } else if (response.statusCode == 999) {
       AppResponse res = await locator<AuthService>().refreshUserToken();
       if (res.status) {
