@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/save/view/savings_summary.dart';
-import 'package:sprout_mobile/src/public/widgets/custom_dropdown_button_field.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
@@ -33,42 +32,32 @@ class NewSavingsScreen extends StatelessWidget {
               children: [
                 getHeader(isDarkMode),
                 addVerticalSpace(15.h),
-                // CustomDropdownButtonFormField(
-                //   label: "How Would You Like To Save",
-                //   items: [],
-                //   fillColor: isDarkMode
-                //       ? AppColors.inputBackgroundColor
-                //       : AppColors.grey,
-                // ),
                 CustomTextFormField(
-                  label: "Name Your Savings",
+                  label: "Name your savings",
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
                 ),
                 CustomTextFormField(
-                  label: "How Much Do You Want To Save?",
+                  label: "How much do you want to save?",
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
                 ),
-                CustomDropdownButtonFormField(
-                  label: "How Long Do You Want To Save For?",
-                  items: [],
+                CustomTextFormField(
+                  label: "How often do you want to save?",
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
                 ),
-                CustomDropdownButtonFormField(
-                  label: "Date Of Withdrawal",
-                  items: [],
+                CustomTextFormField(
+                  label: "Date of withdrawal",
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
                 ),
-                CustomDropdownButtonFormField(
+                CustomTextFormField(
                   label: "Select Payment Type",
-                  items: [],
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
