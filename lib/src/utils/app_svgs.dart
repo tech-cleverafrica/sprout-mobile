@@ -37,6 +37,7 @@ class AppSvg {
   static const String nfc = path + "nfc.svg";
   static const String cancel = path + "cancel.svg";
   static const String mark_green = path + "mark-green.svg";
+  static const String mark_dot = path + "mark-dot.svg";
 
   static const String add = path + 'add.svg';
   static const String pendown = path + 'pendown.svg';

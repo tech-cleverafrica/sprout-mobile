@@ -54,6 +54,8 @@ class Api {
   Response? handleError(DioError e) {
     debugPrint("${e.error} dddddddddddddddddddddd");
     debugPrint("${e.response} messagggggggeee");
+    print(e.response?.data);
+    print(e.response?.data["message"]);
     debugPrint("${e.message} dddddddddddddddddddddd");
 
     Response? response;
@@ -101,8 +103,11 @@ class Api {
           response = Response(
               data: apiResponse(e.response?.data == ""
                   ? "An error occurred, please try again"
-                  : jsonDecode(e.response?.data)["message"] ??
-                      "An error occurred, please try again"),
+                  : e.response?.data is String
+                      ? jsonDecode(e.response?.data)["message"] ??
+                          "An error occurred, please try again"
+                      : e.response?.data["message"] ??
+                          "An error occurred, please try again"),
               statusCode: 000,
               requestOptions: RequestOptions(path: ''));
         } else if (e.response?.data.runtimeType == String ||

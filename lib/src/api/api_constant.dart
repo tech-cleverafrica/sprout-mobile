@@ -70,10 +70,13 @@ const String saveCardlessPaymentUrl = "cashout/api/v1/netpos/mobile/save";
 const String billsUrl = "bills/api/v2/";
 const String billerGroupsUrl = "bills/api/v2/biller-group";
 
-//savings
+//bank account
 const String cardsUrl = "bank-account/api/v1/card/list";
 const String fundWalletWithNewCardUrl =
     "bank-account/api/v1/card/initiate/direct-debit";
+
+//savings
+const String plansUrl = "target-savings/api/v1/savings/view";
 
 apiResponse(String? message, [String? responseCode]) {
   return {
