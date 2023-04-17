@@ -16,7 +16,7 @@ class NewSavingsScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         bottomNavigationBar: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: EdgeInsets.only(left: 24, right: 24, bottom: 24),
           child: DecisionButton(
               isDarkMode: isDarkMode,
               buttonText: "Continue",
@@ -25,7 +25,7 @@ class NewSavingsScreen extends StatelessWidget {
               }),
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,31 +33,44 @@ class NewSavingsScreen extends StatelessWidget {
                 getHeader(isDarkMode),
                 addVerticalSpace(15.h),
                 CustomTextFormField(
-                  label: "Name your savings",
+                  label: "Name your Savings",
+                  hintText: "Enter Savings Name",
+                  fillColor: isDarkMode
+                      ? AppColors.inputBackgroundColor
+                      : AppColors.grey,
+                ),
+                CustomTextFormField(
+                  label: "What is your Target Amount?",
+                  hintText: "Enter Target Amount",
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
                 ),
                 CustomTextFormField(
                   label: "How much do you want to save?",
+                  hintText: "Enter Amount",
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
                 ),
                 CustomTextFormField(
                   label: "How often do you want to save?",
+                  hintText: "Select Frequency",
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
                 ),
                 CustomTextFormField(
                   label: "Date of withdrawal",
+                  hintText: "YYYY / MM / DAY",
+                  enabled: false,
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
                 ),
                 CustomTextFormField(
-                  label: "Select Payment Type",
+                  label: "Payment Type",
+                  hintText: "Select Payment Type",
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,

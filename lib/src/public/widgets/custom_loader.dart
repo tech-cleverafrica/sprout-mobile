@@ -215,3 +215,59 @@ Widget buildSlimLoadingContainer() {
     ),
   );
 }
+
+Widget buildLargeShimmer() {
+  return Shimmer.fromColors(
+    baseColor: AppColors.primaryColor.withOpacity(0.7),
+    highlightColor: Colors.grey.withOpacity(0.7),
+    enabled: true,
+    child: buildLargeLoadingContainer(),
+  );
+}
+
+Widget buildLargeLoadingContainer() {
+  return Container(
+    margin: EdgeInsets.symmetric(vertical: 10),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(10),
+      color: AppColors.primaryColor.withOpacity(0.1),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.fromLTRB(30, 15, 15, 15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 175,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.grey.withOpacity(0.1),
+                ),
+              ),
+              SizedBox(height: 15),
+              Text(
+                'Loading',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.grey.withOpacity(0.1),
+                ),
+              ),
+            ],
+          ),
+          Container(
+            height: 40,
+            width: 100,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: AppColors.primaryColor.withOpacity(0.1),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
