@@ -12,6 +12,7 @@ import 'package:sprout_mobile/src/components/profile/controller/profile_controll
 import 'package:sprout_mobile/src/components/profile/view/download_statement.dart';
 import 'package:sprout_mobile/src/components/profile/view/security_settings.dart';
 import 'package:sprout_mobile/src/components/profile/view/support.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
@@ -19,6 +20,7 @@ import 'package:sprout_mobile/src/utils/app_images.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 import '../../../theme/theme_service.dart';
 
@@ -32,6 +34,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
     profileController = Get.put(ProfileController());
     return SafeArea(
       child: Scaffold(
@@ -465,7 +468,85 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 addVerticalSpace(50.h),
                 InkWell(
-                  onTap: () => profileController.logout(),
+                  onTap: () => {
+                    showDialog(
+                        context: context,
+                        barrierDismissible: true,
+                        builder: ((context) {
+                          return Dialog(
+                            backgroundColor: isDarkMode
+                                ? AppColors.blackBg
+                                : AppColors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * 0.35,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 20, horizontal: 20),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        InkWell(
+                                            onTap: () => Get.back(),
+                                            child: SvgPicture.asset(
+                                              AppSvg.cancel,
+                                              height: 20,
+                                            ))
+                                      ],
+                                    ),
+                                    addVerticalSpace(25.h),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.4,
+                                      child: Text(
+                                        "Are you sure you want to logout?",
+                                        style: TextStyle(
+                                            fontFamily: "DMSans",
+                                            fontSize: 14.sp,
+                                            color: isDarkMode
+                                                ? AppColors.white
+                                                : AppColors.black,
+                                            fontWeight: FontWeight.w600),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    Column(
+                                      children: [
+                                        addVerticalSpace(30.h),
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                          child: CustomButton(
+                                            title: "Yes",
+                                            onTap: () {
+                                              pop();
+                                              profileController.logout();
+                                            },
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                          child: CustomButton(
+                                            title: "Cancel",
+                                            onTap: () {
+                                              pop();
+                                            },
+                                            color: AppColors.red,
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        }))
+                  },
                   child: Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: Row(

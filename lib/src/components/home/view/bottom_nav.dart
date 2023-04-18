@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -90,20 +89,20 @@ class _BottomNavState extends State<BottomNav> {
           child: InkWell(
             splashColor: AppColors.transparent,
             highlightColor: AppColors.transparent,
-            //  onTap: () => setState(() => currentTabIndex = position),
-            onTap: () {
-              log(widget.index.toString());
-              if (widget.index != null) {
-                setState(() {
-                  currentTabIndex = widget.index!;
-                  widget.index = null;
-                });
-              } else {
-                setState(() {
-                  currentTabIndex = position;
-                });
-              }
-            },
+            onTap: () => setState(() => currentTabIndex = position),
+            // onTap: () {
+            //   log(widget.index.toString());
+            //   if (widget.index != null) {
+            //     setState(() {
+            //       currentTabIndex = widget.index!;
+            //       widget.index = null;
+            //     });
+            //   } else {
+            //     setState(() {
+            //       currentTabIndex = position;
+            //     });
+            //   }
+            // },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
