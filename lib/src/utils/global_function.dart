@@ -75,21 +75,25 @@ Future<List> checkAvailableBiometrics(BuildContext context) async {
   }
 }
 
-Future<DateTime?> showRangeDatePicker() async {
+Future<DateTime?> showRangeDatePicker(
+    {DateTime? initialDate, DateTime? firstDate, DateTime? lastDate}) async {
   return await showDatePicker(
     context: Get.context!,
-    initialDate:
-        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
-    firstDate: DateTime(2000),
-    lastDate: DateTime(2100),
+    initialDate: initialDate == null
+        ? DateTime(
+            DateTime.now().year, DateTime.now().month, DateTime.now().day)
+        : initialDate,
+    firstDate:
+        firstDate == null ? DateTime(DateTime.now().year - 100) : firstDate,
+    lastDate: lastDate == null ? DateTime(2100) : lastDate,
     builder: (context, child) {
       return Theme(
         data: Theme.of(context).copyWith(
-          // colorScheme: ColorScheme.light(
-          //   primary:, // <-- SEE HERE
-          //   onPrimary: AppColors.white, // <-- SEE HERE
-          //   onSurface: AppColors.greyText, // <-- SEE HERE
-          // ),
+          colorScheme: ColorScheme.light(
+            primary: AppColors.primaryColor, // <-- SEE HERE
+            onPrimary: AppColors.white, // <-- SEE HERE
+            onSurface: AppColors.greyText, // <-- SEE HERE
+          ),
           textButtonTheme: TextButtonThemeData(
             style: TextButton.styleFrom(
               primary: AppColors.mainGreen, // button text color

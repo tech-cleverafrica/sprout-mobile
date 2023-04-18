@@ -15,4 +15,12 @@ class SavingsRepositoryImpl implements SavingsRepository {
       return api.handleError(e);
     }
   }
+
+  getRateOptions() async {
+    try {
+      return await api.dio.get(rateOptionsUrl);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    }
+  }
 }

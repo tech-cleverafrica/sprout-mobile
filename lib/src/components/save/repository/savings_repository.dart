@@ -1,3 +1,4 @@
 class SavingsRepository {
   getPlans() {}
+  getRateOptions() {}
 }

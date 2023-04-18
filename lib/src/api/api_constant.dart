@@ -77,6 +77,7 @@ const String fundWalletWithNewCardUrl =
 
 //savings
 const String plansUrl = "target-savings/api/v1/savings/view";
+const String rateOptionsUrl = "target-savings/api/v1/savings/rate";
 
 apiResponse(String? message, [String? responseCode]) {
   return {

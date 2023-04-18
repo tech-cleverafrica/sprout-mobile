@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
+import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 import '../../utils/app_colors.dart';
 import '../../utils/app_images.dart';
@@ -13,11 +14,12 @@ import '../widgets/custom_button.dart';
 import 'package:get/get.dart';
 
 class ApprovalScreen extends StatelessWidget {
-  const ApprovalScreen(
-      {super.key,
-      this.containShare = true,
-      this.heading = "Successful",
-      this.messages = ""});
+  const ApprovalScreen({
+    super.key,
+    this.containShare = true,
+    this.heading = "Successful",
+    this.messages = "",
+  });
 
   final String heading;
   final String messages;
@@ -88,15 +90,21 @@ class ApprovalScreen extends StatelessWidget {
                     color: AppColors.white),
               )),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.2,
+                height: MediaQuery.of(context).size.height * 0.25,
               ),
               containShare
                   ? Row(
                       children: [
                         Container(
                           width: 246.w,
-                          child:
-                              CustomButton(title: "Back To Home", onTap: () {}),
+                          child: CustomButton(
+                              title: "Back To Profile",
+                              onTap: () {
+                                pushUntil(
+                                    page: BottomNav(
+                                  index: 3,
+                                ));
+                              }),
                         ),
                         addHorizontalSpace(8.w),
                         Expanded(
@@ -114,9 +122,12 @@ class ApprovalScreen extends StatelessWidget {
                         Expanded(
                           child: Container(
                             child: CustomButton(
-                                title: "Back To Home",
+                                title: "Back To Profile",
                                 onTap: () {
-                                  Get.to(() => BottomNav());
+                                  pushUntil(
+                                      page: BottomNav(
+                                    index: 3,
+                                  ));
                                 }),
                           ),
                         ),

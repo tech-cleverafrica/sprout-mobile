@@ -9,6 +9,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/profile/controller/profile_controller.dart';
+import 'package:sprout_mobile/src/components/profile/view/download_statement.dart';
 import 'package:sprout_mobile/src/components/profile/view/security_settings.dart';
 import 'package:sprout_mobile/src/components/profile/view/support.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
@@ -341,7 +342,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 addVerticalSpace(20.h),
                 InkWell(
-                  onTap: () => {},
+                  onTap: () => Get.to(() => DownloadStatementScreen()),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

@@ -54,8 +54,6 @@ class Api {
   Response? handleError(DioError e) {
     debugPrint("${e.error} dddddddddddddddddddddd");
     debugPrint("${e.response} messagggggggeee");
-    print(e.response?.data);
-    print(e.response?.data["message"]);
     debugPrint("${e.message} dddddddddddddddddddddd");
 
     Response? response;
