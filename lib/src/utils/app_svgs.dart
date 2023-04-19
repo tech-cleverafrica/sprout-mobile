@@ -10,6 +10,7 @@ class AppSvg {
   static const String nigeria = path + "nigeria.svg";
   static const String copy = path + "copy.svg";
   static const String send = path + "Send.svg";
+  static const String basil_invoice = path + "basil-invoice.svg";
   static const String swap = path + "Swap.svg";
   static const String bill = path + "bill.svg";
   static const String airtime = path + "airtime.svg";

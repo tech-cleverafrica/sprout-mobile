@@ -531,7 +531,9 @@ class CreateInvoice extends StatelessWidget {
                                               Text(
                                                 "$currencySymbol${createInvoiceController.formatter.formatAsMoney(createInvoiceController.invoiceItems[index].price ?? 0)}",
                                                 style: TextStyle(
-                                                    color: AppColors.black,
+                                                    color: isDarkMode
+                                                        ? AppColors.white
+                                                        : AppColors.black,
                                                     fontSize: 12.sp,
                                                     fontFamily: "Mont",
                                                     fontWeight:
@@ -557,7 +559,9 @@ class CreateInvoice extends StatelessWidget {
                                               Text(
                                                 "$currencySymbol${createInvoiceController.formatter.formatAsMoney(createInvoiceController.invoiceItems[index].amount ?? 0)}",
                                                 style: TextStyle(
-                                                    color: AppColors.black,
+                                                    color: isDarkMode
+                                                        ? AppColors.white
+                                                        : AppColors.black,
                                                     fontSize: 12.sp,
                                                     fontFamily: "Mont",
                                                     fontWeight:
@@ -852,10 +856,10 @@ class CreateInvoice extends StatelessWidget {
                 addVerticalSpace(10.h),
                 CustomTextFormField(
                   controller: createInvoiceController.notesController,
-                  label: "Notes",
+                  label: "Email Subject",
                   maxLines: 3,
                   maxLength: 250,
-                  hintText: "Enter Notes",
+                  hintText: "Enter Email Subject",
                   maxLengthEnforced: true,
                   validator: (value) {
                     if (value!.length == 0)

@@ -92,17 +92,6 @@ class DownloadStatementScreen extends StatelessWidget {
                                           ? AppColors.white
                                           : AppColors.black,
                                       fontWeight: FontWeight.w600))))),
-                  CustomTextFormField(
-                      label: "Currency",
-                      hintText: "NAIRA",
-                      enabled: false,
-                      fillColor: isDarkMode
-                          ? AppColors.inputBackgroundColor
-                          : AppColors.grey,
-                      hintTextStyle: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        color: isDarkMode ? AppColors.white : AppColors.black,
-                      )),
                 ],
               ),
             )),

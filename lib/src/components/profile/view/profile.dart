@@ -441,31 +441,31 @@ class ProfileScreen extends StatelessWidget {
                     )
                   ],
                 ),
-                addVerticalSpace(20.h),
-                InkWell(
-                  onTap: () => {},
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          AppImages.rateApp,
-                          height: 25,
-                        ),
-                        addHorizontalSpace(10.w),
-                        Text(
-                          "Rate App",
-                          style: TextStyle(
-                              color: isDarkMode
-                                  ? AppColors.white
-                                  : AppColors.greyDot,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 14.sp),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+                // addVerticalSpace(20.h),
+                // InkWell(
+                //   onTap: () => {},
+                //   child: Padding(
+                //     padding: const EdgeInsets.only(left: 10),
+                //     child: Row(
+                //       children: [
+                //         Image.asset(
+                //           AppImages.rateApp,
+                //           height: 25,
+                //         ),
+                //         addHorizontalSpace(10.w),
+                //         Text(
+                //           "Rate App",
+                //           style: TextStyle(
+                //               color: isDarkMode
+                //                   ? AppColors.white
+                //                   : AppColors.greyDot,
+                //               fontWeight: FontWeight.w700,
+                //               fontSize: 14.sp),
+                //         )
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 addVerticalSpace(50.h),
                 InkWell(
                   onTap: () => {

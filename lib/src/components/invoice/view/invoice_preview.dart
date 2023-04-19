@@ -164,8 +164,8 @@ class InvoicePreviewScreen extends StatelessWidget {
                                             fontWeight: FontWeight.w500,
                                             fontSize: 12.sp,
                                             color: isDarkMode
-                                                ? AppColors.greyText
-                                                : AppColors.greyText),
+                                                ? AppColors.white
+                                                : AppColors.black),
                                       ),
                                       InkWell(
                                         onTap: () => {pop()},
@@ -223,8 +223,8 @@ class InvoicePreviewScreen extends StatelessWidget {
                                             fontWeight: FontWeight.w500,
                                             fontSize: 12.sp,
                                             color: isDarkMode
-                                                ? AppColors.greyText
-                                                : AppColors.greyText),
+                                                ? AppColors.white
+                                                : AppColors.black),
                                       ),
                                       InkWell(
                                         onTap: () => {pop()},
@@ -250,9 +250,11 @@ class InvoicePreviewScreen extends StatelessWidget {
                                           .savedCustomer.value?.email ??
                                       ""),
                                   addVerticalSpace(10.h),
-                                  Text(createInvoiceController
-                                          .savedCustomer.value?.phone ??
-                                      ""),
+                                  Text(
+                                    createInvoiceController
+                                            .savedCustomer.value?.phone ??
+                                        "",
+                                  ),
                                 ],
                               ),
                             ),
@@ -279,7 +281,11 @@ class InvoicePreviewScreen extends StatelessWidget {
                                         0.20,
                                     child: Text(
                                       "NAME",
-                                      style: TextStyle(fontSize: 10),
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          color: isDarkMode
+                                              ? AppColors.white
+                                              : AppColors.black),
                                     ),
                                   ),
                                   Container(
@@ -288,7 +294,11 @@ class InvoicePreviewScreen extends StatelessWidget {
                                     child: Text(
                                       "QTY",
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 10),
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          color: isDarkMode
+                                              ? AppColors.white
+                                              : AppColors.black),
                                     ),
                                   ),
                                   Container(
@@ -297,7 +307,11 @@ class InvoicePreviewScreen extends StatelessWidget {
                                     child: Text(
                                       "PRICE/RATE",
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 10),
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          color: isDarkMode
+                                              ? AppColors.white
+                                              : AppColors.black),
                                     ),
                                   ),
                                   Container(
@@ -306,7 +320,11 @@ class InvoicePreviewScreen extends StatelessWidget {
                                     child: Text(
                                       "AMOUNT",
                                       textAlign: TextAlign.end,
-                                      style: TextStyle(fontSize: 10),
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          color: isDarkMode
+                                              ? AppColors.white
+                                              : AppColors.black),
                                     ),
                                   ),
                                 ],
@@ -437,8 +455,8 @@ class InvoicePreviewScreen extends StatelessWidget {
                                         fontWeight: FontWeight.w500,
                                         fontSize: 12.sp,
                                         color: isDarkMode
-                                            ? AppColors.greyText
-                                            : AppColors.greyText),
+                                            ? AppColors.white
+                                            : AppColors.black),
                                   ),
                                 ],
                               ),
@@ -447,7 +465,13 @@ class InvoicePreviewScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("Discount"),
+                                  Text(
+                                    "Discount",
+                                    style: TextStyle(
+                                        color: isDarkMode
+                                            ? AppColors.white
+                                            : AppColors.black),
+                                  ),
                                   Text(
                                       createInvoiceController
                                               .itemDiscountController.text +
@@ -460,7 +484,13 @@ class InvoicePreviewScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("Tax"),
+                                  Text(
+                                    "Tax",
+                                    style: TextStyle(
+                                        color: isDarkMode
+                                            ? AppColors.white
+                                            : AppColors.black),
+                                  ),
                                   Text(
                                       createInvoiceController
                                               .itemTaxController.text +
@@ -474,12 +504,14 @@ class InvoicePreviewScreen extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "GRAND TOTAL",
+                                    "TOTAL",
                                     style: TextStyle(
                                         fontFamily: "DMSans",
                                         fontWeight: FontWeight.w600,
                                         fontSize: 14.sp,
-                                        color: AppColors.mainGreen),
+                                        color: isDarkMode
+                                            ? AppColors.white
+                                            : AppColors.black),
                                   ),
                                   Obx((() => Text(
                                         "$currencySymbol${createInvoiceController.formatter.formatAsMoney(createInvoiceController.total.value)}",
@@ -521,8 +553,8 @@ class InvoicePreviewScreen extends StatelessWidget {
                                         fontWeight: FontWeight.w500,
                                         fontSize: 12.sp,
                                         color: isDarkMode
-                                            ? AppColors.greyText
-                                            : AppColors.greyText),
+                                            ? AppColors.white
+                                            : AppColors.black),
                                   ),
                                 ],
                               ),
@@ -531,7 +563,13 @@ class InvoicePreviewScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("Account Name"),
+                                  Text(
+                                    "Account Name",
+                                    style: TextStyle(
+                                        color: isDarkMode
+                                            ? AppColors.white
+                                            : AppColors.black),
+                                  ),
                                   Text(
                                       StringUtils.capitalize(
                                               createInvoiceController
@@ -548,7 +586,13 @@ class InvoicePreviewScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("Account Number"),
+                                  Text(
+                                    "Account Number",
+                                    style: TextStyle(
+                                        color: isDarkMode
+                                            ? AppColors.white
+                                            : AppColors.black),
+                                  ),
                                   Text(
                                       createInvoiceController.info.value
                                               ?.paymentAccountNumber ??
@@ -561,7 +605,13 @@ class InvoicePreviewScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("Bank Name"),
+                                  Text(
+                                    "Bank Name",
+                                    style: TextStyle(
+                                        color: isDarkMode
+                                            ? AppColors.white
+                                            : AppColors.black),
+                                  ),
                                   Text(
                                       createInvoiceController
                                               .info.value?.bankName ??

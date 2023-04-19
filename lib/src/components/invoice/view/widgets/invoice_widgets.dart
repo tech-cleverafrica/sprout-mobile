@@ -88,8 +88,8 @@ class InvoiceCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SvgPicture.asset(
-                        AppSvg.send,
-                        color: AppColors.mainGreen,
+                        AppSvg.basil_invoice,
+                        // color: AppColors.mainGreen,
                         height: 18,
                         width: 18,
                       ),
@@ -98,7 +98,7 @@ class InvoiceCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            invoiceNo,
+                            to!,
                             style: TextStyle(
                                 fontFamily: "DMSans",
                                 fontSize: 12.sp,
@@ -111,7 +111,7 @@ class InvoiceCard extends StatelessWidget {
                           Container(
                             width: MediaQuery.of(context).size.width * .6,
                             child: Text(
-                              to!,
+                              invoiceNo,
                               style: TextStyle(
                                   fontFamily: "DMSans",
                                   fontSize: 10.sp,
@@ -121,20 +121,20 @@ class InvoiceCard extends StatelessWidget {
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
-                          addVerticalSpace(5.h),
-                          Container(
-                            width: MediaQuery.of(context).size.width * .6,
-                            child: Text(
-                              from!,
-                              style: TextStyle(
-                                  fontFamily: "DMSans",
-                                  fontSize: 10.sp,
-                                  color: isDarkMode
-                                      ? AppColors.inputLabelColor
-                                      : AppColors.black,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
+                          // addVerticalSpace(5.h),
+                          // Container(
+                          //   width: MediaQuery.of(context).size.width * .6,
+                          //   child: Text(
+                          //     from!,
+                          //     style: TextStyle(
+                          //         fontFamily: "DMSans",
+                          //         fontSize: 10.sp,
+                          //         color: isDarkMode
+                          //             ? AppColors.inputLabelColor
+                          //             : AppColors.black,
+                          //         fontWeight: FontWeight.w500),
+                          //   ),
+                          // ),
                           addVerticalSpace(5.h),
                           Container(
                             width: MediaQuery.of(context).size.width * .6,
@@ -167,7 +167,8 @@ class InvoiceCard extends StatelessWidget {
                                 : "0.00"),
                         style: TextStyle(
                             fontFamily: "Mont",
-                            color: AppColors.mainGreen,
+                            color:
+                                isDarkMode ? AppColors.white : AppColors.black,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w500),
                       ),
@@ -196,28 +197,28 @@ class InvoiceCard extends StatelessWidget {
                   ),
                 ],
               ),
-              addVerticalSpace(10.h),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: InkWell(
-                  onTap: onTapDownload,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        border: Border.all(color: AppColors.primaryColor)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Center(
-                          child: Text(
-                        "Download Invoice",
-                        style: TextStyle(
-                            color: AppColors.primaryColor,
-                            fontFamily: "DMSans"),
-                      )),
-                    ),
-                  ),
-                ),
-              ),
+              // addVerticalSpace(10.h),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 24),
+              //   child: InkWell(
+              //     onTap: onTapDownload,
+              //     child: Container(
+              //       decoration: BoxDecoration(
+              //           borderRadius: BorderRadius.circular(30),
+              //           border: Border.all(color: AppColors.primaryColor)),
+              //       child: Padding(
+              //         padding: const EdgeInsets.all(10.0),
+              //         child: Center(
+              //             child: Text(
+              //           "Download Invoice",
+              //           style: TextStyle(
+              //               color: AppColors.primaryColor,
+              //               fontFamily: "DMSans"),
+              //         )),
+              //       ),
+              //     ),
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Divider(

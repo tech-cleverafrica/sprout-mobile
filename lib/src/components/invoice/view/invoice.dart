@@ -191,7 +191,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.22,
+                                                0.28,
                                             alignment: Alignment.center,
                                             child: GestureDetector(
                                               onTap: () => {

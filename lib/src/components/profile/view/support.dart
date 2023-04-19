@@ -32,25 +32,25 @@ class SupportScreen extends StatelessWidget {
             children: [
               getHeader(isDarkMode),
               addVerticalSpace(15.h),
-              Row(
-                children: [
-                  SvgPicture.asset(AppSvg.faqs),
-                  Text(
-                    "FAQs",
-                    style: TextStyle(
-                        fontFamily: "DMSans",
-                        fontSize: 14.sp,
-                        color: isDarkMode ? AppColors.white : AppColors.black,
-                        fontWeight: FontWeight.w500),
-                  )
-                ],
-              ),
-              Divider(
-                thickness: 0.3,
-                color: isDarkMode
-                    ? AppColors.semi_white.withOpacity(0.3)
-                    : AppColors.inputLabelColor.withOpacity(0.6),
-              ),
+              // Row(
+              //   children: [
+              //     SvgPicture.asset(AppSvg.faqs),
+              //     Text(
+              //       "FAQs",
+              //       style: TextStyle(
+              //           fontFamily: "DMSans",
+              //           fontSize: 14.sp,
+              //           color: isDarkMode ? AppColors.white : AppColors.black,
+              //           fontWeight: FontWeight.w500),
+              //     )
+              //   ],
+              // ),
+              // Divider(
+              //   thickness: 0.3,
+              //   color: isDarkMode
+              //       ? AppColors.semi_white.withOpacity(0.3)
+              //       : AppColors.inputLabelColor.withOpacity(0.6),
+              // ),
               InkWell(
                 onTap: () {
                   showPopUp(context, isDarkMode, theme);

@@ -154,6 +154,7 @@ class InvoiceDetails extends StatelessWidget {
                             invoiceDetailsController
                                 .invoice.value!.invoicePDFUrl!,
                             tempDir.path +
+                                "/" +
                                 invoiceDetailsController.invoice.value!.id! +
                                 ".pdf");
                       } else {
@@ -169,6 +170,7 @@ class InvoiceDetails extends StatelessWidget {
                                         Dio(),
                                         value,
                                         tempDir.path +
+                                            "/" +
                                             invoiceDetailsController
                                                 .invoice.value!.id! +
                                             ".pdf"),
@@ -205,9 +207,7 @@ class InvoiceDetails extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: isDarkMode
-                  ? AppColors.greyDot
-                  : Color.fromRGBO(61, 2, 230, 0.1)),
+              color: isDarkMode ? AppColors.greyDot : AppColors.greyBg),
           child: Container(
             alignment: Alignment.topRight,
             child: Padding(
@@ -345,8 +345,7 @@ class InvoiceDetails extends StatelessWidget {
                               .invoice.value?.customer?.fullName ??
                           "",
                       style: TextStyle(
-                        color:
-                            isDarkMode ? AppColors.greyDot : AppColors.greyText,
+                        color: isDarkMode ? AppColors.white : AppColors.black,
                         fontFamily: "DMSans",
                       )),
                   addVerticalSpace(10.h),
@@ -355,8 +354,7 @@ class InvoiceDetails extends StatelessWidget {
                               .invoice.value?.customer?.address ??
                           "",
                       style: TextStyle(
-                        color:
-                            isDarkMode ? AppColors.greyDot : AppColors.greyText,
+                        color: isDarkMode ? AppColors.white : AppColors.black,
                         fontFamily: "DMSans",
                       )),
                   addVerticalSpace(10.h),
@@ -364,8 +362,7 @@ class InvoiceDetails extends StatelessWidget {
                       invoiceDetailsController.invoice.value?.customer?.email ??
                           "",
                       style: TextStyle(
-                        color:
-                            isDarkMode ? AppColors.greyDot : AppColors.greyText,
+                        color: isDarkMode ? AppColors.white : AppColors.black,
                         fontFamily: "DMSans",
                       )),
                   addVerticalSpace(10.h),
@@ -373,8 +370,7 @@ class InvoiceDetails extends StatelessWidget {
                       invoiceDetailsController.invoice.value?.customer?.phone ??
                           "",
                       style: TextStyle(
-                        color:
-                            isDarkMode ? AppColors.greyDot : AppColors.greyText,
+                        color: isDarkMode ? AppColors.white : AppColors.black,
                         fontFamily: "DMSans",
                       )),
                 ],
@@ -407,7 +403,10 @@ class InvoiceDetails extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * 0.20,
                       child: Text(
                         "NAME",
-                        style: TextStyle(fontSize: 10),
+                        style: TextStyle(
+                            fontSize: 10,
+                            color:
+                                isDarkMode ? AppColors.white : AppColors.black),
                       ),
                     ),
                     Container(
@@ -415,7 +414,10 @@ class InvoiceDetails extends StatelessWidget {
                       child: Text(
                         "QTY",
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 10),
+                        style: TextStyle(
+                            fontSize: 10,
+                            color:
+                                isDarkMode ? AppColors.white : AppColors.black),
                       ),
                     ),
                     Container(
@@ -423,7 +425,10 @@ class InvoiceDetails extends StatelessWidget {
                       child: Text(
                         "PRICE/RATE",
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 10),
+                        style: TextStyle(
+                            fontSize: 10,
+                            color:
+                                isDarkMode ? AppColors.white : AppColors.black),
                       ),
                     ),
                     Container(
@@ -431,7 +436,10 @@ class InvoiceDetails extends StatelessWidget {
                       child: Text(
                         "AMOUNT",
                         textAlign: TextAlign.end,
-                        style: TextStyle(fontSize: 10),
+                        style: TextStyle(
+                            fontSize: 10,
+                            color:
+                                isDarkMode ? AppColors.white : AppColors.black),
                       ),
                     ),
                   ],
@@ -540,14 +548,18 @@ class InvoiceDetails extends StatelessWidget {
                       fontFamily: "DMSans",
                       fontWeight: FontWeight.w500,
                       fontSize: 12.sp,
-                      color:
-                          isDarkMode ? AppColors.greyText : AppColors.greyText),
+                      color: isDarkMode ? AppColors.white : AppColors.black),
                 ),
                 addVerticalSpace(20.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Discount"),
+                    Text(
+                      "Discount",
+                      style: TextStyle(
+                          color:
+                              isDarkMode ? AppColors.white : AppColors.black),
+                    ),
                     Text(
                         double.parse(invoiceDetailsController
                                     .invoice.value!.discount
@@ -561,7 +573,11 @@ class InvoiceDetails extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Tax"),
+                    Text("Tax",
+                        style: TextStyle(
+                            color: isDarkMode
+                                ? AppColors.white
+                                : AppColors.black)),
                     Text(
                         double.parse(invoiceDetailsController.invoice.value!.tax
                                     .toString())
@@ -580,7 +596,8 @@ class InvoiceDetails extends StatelessWidget {
                           fontFamily: "DMSans",
                           fontWeight: FontWeight.w600,
                           fontSize: 12.sp,
-                          color: AppColors.mainGreen),
+                          color:
+                              isDarkMode ? AppColors.white : AppColors.black),
                     ),
                     Text(
                       "$currencySymbol${invoiceController.formatter.formatAsMoney(double.parse(invoiceDetailsController.invoice.value!.total.toString()))}",
@@ -603,7 +620,8 @@ class InvoiceDetails extends StatelessWidget {
                           fontFamily: "DMSans",
                           fontWeight: FontWeight.w600,
                           fontSize: 12.sp,
-                          color: AppColors.mainGreen),
+                          color:
+                              isDarkMode ? AppColors.white : AppColors.black),
                     ),
                     Text(
                       "$currencySymbol${invoiceController.formatter.formatAsMoney(invoiceDetailsController.amountDue.value)}",
@@ -637,14 +655,17 @@ class InvoiceDetails extends StatelessWidget {
                       fontFamily: "DMSans",
                       fontWeight: FontWeight.w500,
                       fontSize: 12.sp,
-                      color:
-                          isDarkMode ? AppColors.greyText : AppColors.greyText),
+                      color: isDarkMode ? AppColors.white : AppColors.black),
                 ),
                 addVerticalSpace(20.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Account Name"),
+                    Text("Account Name",
+                        style: TextStyle(
+                            color: isDarkMode
+                                ? AppColors.white
+                                : AppColors.black)),
                     Text(
                         StringUtils.capitalize(invoiceDetailsController
                                 .invoice.value!.businessInfo!.firstName!) +
@@ -658,7 +679,11 @@ class InvoiceDetails extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Account Number"),
+                    Text("Account Number",
+                        style: TextStyle(
+                            color: isDarkMode
+                                ? AppColors.white
+                                : AppColors.black)),
                     Text(
                         invoiceDetailsController.invoice.value!.businessInfo!
                                 .paymentAccountNumber ??
@@ -670,7 +695,11 @@ class InvoiceDetails extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Bank Name"),
+                    Text("Bank Name",
+                        style: TextStyle(
+                            color: isDarkMode
+                                ? AppColors.white
+                                : AppColors.black)),
                     Text(
                         invoiceDetailsController
                                 .invoice.value!.businessInfo!.bankName ??

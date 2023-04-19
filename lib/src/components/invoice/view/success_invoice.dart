@@ -73,7 +73,7 @@ class SuccessfulInvoice extends StatelessWidget {
                 Obx((() => Container(
                     width: MediaQuery.of(context).size.width * 0.7,
                     child: Text(
-                      "You have successfully created an invoice on behalf of " +
+                      "You have successfully created an invoice for " +
                           invoiceSuccessController
                               .invoice.value!.customer!.fullName!,
                       textAlign: TextAlign.center,
@@ -121,6 +121,7 @@ class SuccessfulInvoice extends StatelessWidget {
                               Dio(),
                               invoiceSuccessController.invoiceUrl.value,
                               tempDir.path +
+                                  "/" +
                                   invoiceSuccessController.invoice.value!.id! +
                                   ".pdf");
                           pop();
@@ -135,6 +136,7 @@ class SuccessfulInvoice extends StatelessWidget {
                                             Dio(),
                                             value,
                                             tempDir.path +
+                                                "/" +
                                                 invoiceSuccessController
                                                     .invoice.value!.id! +
                                                 ".pdf"),
