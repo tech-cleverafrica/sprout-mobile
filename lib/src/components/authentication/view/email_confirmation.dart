@@ -42,7 +42,7 @@ class EmailConfirmation extends StatelessWidget {
                 Text(
                   "Reset Password",
                   style: TextStyle(
-                      fontFamily: "DMSans",
+                      fontFamily: "Mont",
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w400,
                       color:

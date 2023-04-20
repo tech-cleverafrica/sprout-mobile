@@ -58,7 +58,7 @@ class CustomButton extends StatelessWidget {
                             letterSpacing: 1.2,
                             fontSize: 13.sp,
                             color: textColor,
-                            fontFamily: "DMSans",
+                            fontFamily: "Mont",
                             fontWeight: FontWeight.w400),
                       )
                     : title,

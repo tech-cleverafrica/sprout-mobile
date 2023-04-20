@@ -274,7 +274,7 @@ class InvoiceController extends GetxController {
                 StateSetter setModalState /*You can rename this!*/) {
               return Container(
                 decoration: BoxDecoration(
-                    color: AppColors.white,
+                    color: isDarkMode ? AppColors.greyDot : AppColors.white,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(0),
                         topRight: Radius.circular(0))),
@@ -400,7 +400,7 @@ class InvoiceController extends GetxController {
             heightFactor: 0.5,
             child: Container(
               decoration: BoxDecoration(
-                  color: AppColors.white,
+                  color: isDarkMode ? AppColors.greyDot : AppColors.white,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
@@ -422,7 +422,7 @@ class InvoiceController extends GetxController {
                             child: Text(
                               "Select Status",
                               style: TextStyle(
-                                  fontFamily: "DMSans",
+                                  fontFamily: "Mont",
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w700,
                                   color: isDarkMode
@@ -482,7 +482,7 @@ class InvoiceController extends GetxController {
                                                     Text(
                                                       statuses[index],
                                                       style: TextStyle(
-                                                          fontFamily: "DMSans",
+                                                          fontFamily: "Mont",
                                                           fontSize: 12.sp,
                                                           fontWeight: status
                                                                           .value !=
@@ -535,7 +535,7 @@ class InvoiceController extends GetxController {
             heightFactor: 0.5,
             child: Container(
               decoration: BoxDecoration(
-                  color: AppColors.white,
+                  color: isDarkMode ? AppColors.greyDot : AppColors.white,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
@@ -557,7 +557,7 @@ class InvoiceController extends GetxController {
                             child: Text(
                               "Select Period",
                               style: TextStyle(
-                                  fontFamily: "DMSans",
+                                  fontFamily: "Mont",
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w700,
                                   color: isDarkMode
@@ -621,7 +621,7 @@ class InvoiceController extends GetxController {
                                                     Text(
                                                       times[index],
                                                       style: TextStyle(
-                                                          fontFamily: "DMSans",
+                                                          fontFamily: "Mont",
                                                           fontSize: 12.sp,
                                                           fontWeight: time.value !=
                                                                       "" &&

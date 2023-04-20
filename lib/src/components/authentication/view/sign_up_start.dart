@@ -87,7 +87,7 @@ class SignUpStart extends StatelessWidget {
                     Text(
                       "Already have an account?",
                       style: TextStyle(
-                          fontFamily: "DMSans",
+                          fontFamily: "Mont",
                           fontSize: 13.sp,
                           color: isDarkMode ? AppColors.white : AppColors.black,
                           fontWeight: FontWeight.w700),
@@ -170,7 +170,7 @@ class TypeCard extends StatelessWidget {
                     child: Text(
                       text,
                       style: TextStyle(
-                          fontFamily: "DMSans",
+                          fontFamily: "Mont",
                           fontSize: 13.sp,
                           color: index != signUpController.currentIndex.value
                               ? isDarkMode

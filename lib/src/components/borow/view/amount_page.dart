@@ -37,7 +37,7 @@ class AmountScreen extends StatelessWidget {
                 Text(
                   "Enter Amount",
                   style: TextStyle(
-                      fontFamily: "DMSans",
+                      fontFamily: "Mont",
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: isDarkMode ? AppColors.greyText : AppColors.grey),
@@ -48,7 +48,7 @@ class AmountScreen extends StatelessWidget {
                     enabled: true,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontFamily: "DMSans",
+                        fontFamily: "Mont",
                         fontSize: 40.sp,
                         fontWeight: FontWeight.w700,
                         color: isDarkMode ? AppColors.white : AppColors.black),
@@ -69,7 +69,7 @@ class AmountScreen extends StatelessWidget {
                             FontFeature.superscripts(),
                           ],
                           color: isDarkMode ? AppColors.white : AppColors.black,
-                          fontFamily: "DMSans",
+                          fontFamily: "Mont",
                         )),
                   ),
                 ),

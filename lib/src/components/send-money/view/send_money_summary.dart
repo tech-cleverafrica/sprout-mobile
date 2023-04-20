@@ -122,11 +122,7 @@ class SendMoneySummaryScreen extends StatelessWidget {
                           ),
                           Text(
                             currencySymbol + "20.00",
-                            style: TextStyle(
-                                fontSize: 12.sp,
-                                fontFamily: "Mont",
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.errorRed),
+                            style: detailStyle(isDarkMode),
                           )
                         ],
                       ),
@@ -136,9 +132,9 @@ class SendMoneySummaryScreen extends StatelessWidget {
               ),
               addVerticalSpace(16.h),
               Text(
-                  "Please ensure the details entered are correct before proceeding with this transfer as Clever Digital Ltd will not be responsible for recall of funds transferred in error. Thank You.",
+                  "Please ensure the details entered are correct before proceeding with this transfer as Clever Digital Limited will not be responsible for recall of funds transferred in error. Thank You.",
                   style: TextStyle(
-                    fontFamily: "DMSans",
+                    fontFamily: "Mont",
                     color: isDarkMode
                         ? AppColors.mainGreen
                         : AppColors.primaryColor,

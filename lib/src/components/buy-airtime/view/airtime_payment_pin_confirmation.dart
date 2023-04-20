@@ -65,7 +65,7 @@ class _AirtimePaymentPinPageState extends State<AirtimePaymentPinPage> {
                 addVerticalSpace(10.h),
                 Text("Forgotten Pin?",
                     style: TextStyle(
-                      fontFamily: "DMSans",
+                      fontFamily: "Mont",
                       fontSize: 12.sp,
                       fontStyle: FontStyle.italic,
                       color: isDarkMode ? AppColors.grey : AppColors.greyText,

@@ -14,6 +14,7 @@ import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart'
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sprout_mobile/src/utils/global_function.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
 
@@ -206,7 +207,7 @@ class InvoiceDetailsController extends GetxController {
             heightFactor: 0.5,
             child: Container(
               decoration: BoxDecoration(
-                  color: AppColors.white,
+                  color: isDarkMode ? AppColors.greyDot : AppColors.white,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
@@ -228,7 +229,7 @@ class InvoiceDetailsController extends GetxController {
                             child: Text(
                               "Select Status",
                               style: TextStyle(
-                                  fontFamily: "DMSans",
+                                  fontFamily: "Mont",
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w700,
                                   color: isDarkMode
@@ -285,7 +286,7 @@ class InvoiceDetailsController extends GetxController {
                                                     Text(
                                                       statuses[index],
                                                       style: TextStyle(
-                                                          fontFamily: "DMSans",
+                                                          fontFamily: "Mont",
                                                           fontSize: 12.sp,
                                                           fontWeight: status
                                                                           .value !=
@@ -363,7 +364,7 @@ class InvoiceDetailsController extends GetxController {
                         addVerticalSpace(10.h),
                         CustomTextFormField(
                           controller: amountController,
-                          label: "Please enter amount",
+                          label: "Please enter amount ($currencySymbol)",
                           textInputType: TextInputType.phone,
                           textInputAction: TextInputAction.next,
                           fillColor: isDarkMode

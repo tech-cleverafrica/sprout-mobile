@@ -99,7 +99,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                           child: Text(
                                             "Lorem ipsum dolor sit amet consectetur. Placerat lorem neque risus.",
                                             style: TextStyle(
-                                                fontFamily: "DMSans",
+                                                fontFamily: "Mont",
                                                 fontSize: 12.sp,
                                                 color: AppColors.white,
                                                 fontWeight: FontWeight.w500),
@@ -414,7 +414,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                               invoiceIncontroller
                                   .invoiceCustomer.value[index].fullName!,
                               style: TextStyle(
-                                  fontFamily: "DMSans",
+                                  fontFamily: "Mont",
                                   fontWeight: FontWeight.w700,
                                   color: isDarkMode
                                       ? AppColors.mainGreen
@@ -430,7 +430,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                               invoiceIncontroller
                                   .invoiceCustomer.value[index].phone!,
                               style: TextStyle(
-                                  fontFamily: "DMSans",
+                                  fontFamily: "Mont",
                                   fontWeight: FontWeight.w500,
                                   color: isDarkMode
                                       ? AppColors.white
@@ -446,7 +446,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                               invoiceIncontroller
                                   .invoiceCustomer.value[index].email!,
                               style: TextStyle(
-                                fontFamily: "DMSans",
+                                fontFamily: "Mont",
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -478,7 +478,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                               child: Text(
                                 "Edit Customer",
                                 style: TextStyle(
-                                    fontFamily: "DMSans",
+                                    fontFamily: "Mont",
                                     fontWeight: FontWeight.w500,
                                     color: AppColors.white),
                               ),
@@ -564,7 +564,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                 Text(
                                   "Download invoice as pdf to your device",
                                   style: TextStyle(
-                                      fontFamily: "DMSans",
+                                      fontFamily: "Mont",
                                       color: AppColors.black),
                                 ),
                                 SizedBox(
@@ -590,7 +590,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                               child: Text(
                                                 "Cancel",
                                                 style: TextStyle(
-                                                    fontFamily: "Outfit",
+                                                    fontFamily: "Mont",
                                                     color: AppColors.errorRed,
                                                     fontSize: 14.sp,
                                                     fontWeight:
@@ -660,7 +660,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                               child: Text(
                                                 "Download",
                                                 style: TextStyle(
-                                                    fontFamily: "Outfit",
+                                                    fontFamily: "Mont",
                                                     color: AppColors.mainGreen,
                                                     fontSize: 14.sp,
                                                     fontWeight:
@@ -710,7 +710,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                 child: Text(
                   "Invoice",
                   style: TextStyle(
-                      fontFamily: "DmSans",
+                      fontFamily: "Mont",
                       fontSize: 14.sp,
                       color: invoiceIncontroller.isInvoiceDisplay.value
                           ? isDarkMode
@@ -747,7 +747,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
               child: Text(
                 "Customer",
                 style: TextStyle(
-                    fontFamily: "DmSans",
+                    fontFamily: "Mont",
                     fontSize: 14.sp,
                     color: !invoiceIncontroller.isInvoiceDisplay.value
                         ? isDarkMode

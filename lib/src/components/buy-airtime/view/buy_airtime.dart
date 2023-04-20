@@ -60,7 +60,7 @@ class BuyAirtimeScreen extends StatelessWidget {
                         child: Text(
                           "Go Back",
                           style: TextStyle(
-                              fontFamily: "DMSans", color: AppColors.white),
+                              fontFamily: "Mont", color: AppColors.white),
                         ),
                       ),
                     ))
@@ -264,7 +264,7 @@ class BuyAirtimeScreen extends StatelessWidget {
                               ? CustomTextFormField(
                                   controller:
                                       airtimeController.amountController.value,
-                                  label: "Amount",
+                                  label: "Amount ($currencySymbol)",
                                   hintText: "Enter Amount",
                                   required: true,
                                   enabled:
@@ -465,7 +465,7 @@ class BuyAirtimeScreen extends StatelessWidget {
                 // Text(
                 //   "Send airtime to",
                 //   style: TextStyle(
-                //       fontFamily: "DMSans",
+                //       fontFamily: "Mont",
                 //       fontWeight: FontWeight.w500,
                 //       color: isDarkMode ? AppColors.white : AppColors.black,
                 //       fontSize: 10.sp),
@@ -541,7 +541,7 @@ getRecentContacts(isDarkMode) {
                         ? AppColors.inputLabelColor
                         : AppColors.greyText,
                     fontSize: 12.sp,
-                    fontFamily: "DMSans",
+                    fontFamily: "Mont",
                     fontWeight: FontWeight.w400),
               ),
               IconButton(
@@ -631,7 +631,7 @@ class ContactCard extends StatelessWidget {
               child: Text(
                 text,
                 style: TextStyle(
-                    fontFamily: "DMSans",
+                    fontFamily: "Mont",
                     fontSize: 15.sp,
                     fontWeight: FontWeight.w700,
                     color: isDarkMode ? AppColors.white : AppColors.white),

@@ -67,7 +67,7 @@ class _SecuritySettingsState extends State<SecuritySettings> {
                     Text(
                       "Create PIN",
                       style: TextStyle(
-                          fontFamily: "DMSans",
+                          fontFamily: "Mont",
                           fontSize: 14.sp,
                           color: isDarkMode ? AppColors.white : AppColors.black,
                           fontWeight: FontWeight.w500),
@@ -89,7 +89,7 @@ class _SecuritySettingsState extends State<SecuritySettings> {
                     Text(
                       "Change PIN",
                       style: TextStyle(
-                          fontFamily: "DMSans",
+                          fontFamily: "Mont",
                           fontSize: 14.sp,
                           color: isDarkMode ? AppColors.white : AppColors.black,
                           fontWeight: FontWeight.w500),
@@ -110,7 +110,7 @@ class _SecuritySettingsState extends State<SecuritySettings> {
                       Text(
                         "Enable Biometric Login",
                         style: TextStyle(
-                            fontFamily: "DMSans",
+                            fontFamily: "Mont",
                             fontSize: 14.sp,
                             color:
                                 isDarkMode ? AppColors.white : AppColors.black,
@@ -142,7 +142,7 @@ class _SecuritySettingsState extends State<SecuritySettings> {
                     Text(
                       "Change Login Password",
                       style: TextStyle(
-                          fontFamily: "DMSans",
+                          fontFamily: "Mont",
                           fontSize: 14.sp,
                           color: isDarkMode ? AppColors.white : AppColors.black,
                           fontWeight: FontWeight.w500),

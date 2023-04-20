@@ -100,7 +100,7 @@ class InvoiceCard extends StatelessWidget {
                           Text(
                             to!,
                             style: TextStyle(
-                                fontFamily: "DMSans",
+                                fontFamily: "Mont",
                                 fontSize: 12.sp,
                                 color: isDarkMode
                                     ? AppColors.white
@@ -113,7 +113,7 @@ class InvoiceCard extends StatelessWidget {
                             child: Text(
                               invoiceNo,
                               style: TextStyle(
-                                  fontFamily: "DMSans",
+                                  fontFamily: "Mont",
                                   fontSize: 10.sp,
                                   color: isDarkMode
                                       ? AppColors.inputLabelColor
@@ -127,7 +127,7 @@ class InvoiceCard extends StatelessWidget {
                           //   child: Text(
                           //     from!,
                           //     style: TextStyle(
-                          //         fontFamily: "DMSans",
+                          //         fontFamily: "Mont",
                           //         fontSize: 10.sp,
                           //         color: isDarkMode
                           //             ? AppColors.inputLabelColor
@@ -142,7 +142,7 @@ class InvoiceCard extends StatelessWidget {
                               DateFormat('h:mma\t.\tdd-MM-yyyy')
                                   .format(localDate(createdAt!)),
                               style: TextStyle(
-                                  fontFamily: "DMSans",
+                                  fontFamily: "Mont",
                                   fontSize: 10.sp,
                                   color: isDarkMode
                                       ? AppColors.inputLabelColor
@@ -184,7 +184,7 @@ class InvoiceCard extends StatelessWidget {
                             child: Text(
                               sType,
                               style: TextStyle(
-                                  fontFamily: "DMSans",
+                                  fontFamily: "Mont",
                                   color: isDarkMode
                                       ? AppColors.white
                                       : AppColors.black,
@@ -213,7 +213,7 @@ class InvoiceCard extends StatelessWidget {
               //           "Download Invoice",
               //           style: TextStyle(
               //               color: AppColors.primaryColor,
-              //               fontFamily: "DMSans"),
+              //               fontFamily: "Mont"),
               //         )),
               //       ),
               //     ),

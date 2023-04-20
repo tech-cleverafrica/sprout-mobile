@@ -644,7 +644,7 @@ class CreateInvoiceController extends GetxController {
                         ),
                         CustomTextFormField(
                           controller: itemPriceController,
-                          label: "Price/Rate",
+                          label: "Price/Rate ($currencySymbol)",
                           textInputType: TextInputType.phone,
                           textInputAction: TextInputAction.next,
                           fillColor: isDarkMode
@@ -676,7 +676,7 @@ class CreateInvoiceController extends GetxController {
                         Obx((() => CustomTextFormField(
                               controller: itemAmountController.value,
                               enabled: false,
-                              label: "Amount",
+                              label: "Amount ($currencySymbol)",
                               fillColor: isDarkMode
                                   ? AppColors.inputBackgroundColor
                                   : AppColors.grey,
@@ -841,7 +841,7 @@ class CreateInvoiceController extends GetxController {
                                       Text(
                                         "Save Customer Information",
                                         style: TextStyle(
-                                            fontFamily: "DMSans",
+                                            fontFamily: "Mont",
                                             fontSize: 13.sp,
                                             color: isDarkMode
                                                 ? AppColors.white
@@ -1118,7 +1118,7 @@ class CreateInvoiceController extends GetxController {
             heightFactor: 0.5,
             child: Container(
               decoration: BoxDecoration(
-                  color: AppColors.white,
+                  color: isDarkMode ? AppColors.greyDot : AppColors.white,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
@@ -1140,7 +1140,7 @@ class CreateInvoiceController extends GetxController {
                             child: Text(
                               "Select Customer",
                               style: TextStyle(
-                                  fontFamily: "DMSans",
+                                  fontFamily: "Mont",
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w700,
                                   color: isDarkMode
@@ -1199,7 +1199,7 @@ class CreateInvoiceController extends GetxController {
                                               Text(
                                                 customers[index].fullName!,
                                                 style: TextStyle(
-                                                    fontFamily: "DMSans",
+                                                    fontFamily: "Mont",
                                                     fontSize: 12.sp,
                                                     fontWeight: customer.value
                                                                     ?.id !=
@@ -1219,7 +1219,7 @@ class CreateInvoiceController extends GetxController {
                                                   ? Text(
                                                       customers[index].email!,
                                                       style: TextStyle(
-                                                          fontFamily: "DMSans",
+                                                          fontFamily: "Mont",
                                                           fontSize: 10.sp,
                                                           fontWeight:
                                                               FontWeight.w500,
@@ -1233,7 +1233,7 @@ class CreateInvoiceController extends GetxController {
                                                   ? Text(
                                                       customers[index].phone!,
                                                       style: TextStyle(
-                                                          fontFamily: "DMSans",
+                                                          fontFamily: "Mont",
                                                           fontSize: 10.sp,
                                                           fontWeight:
                                                               FontWeight.w500,

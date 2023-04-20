@@ -220,7 +220,7 @@ class SubmitComplaintScreen extends StatelessWidget {
                                       Text(
                                         "Attach receipt or evidence",
                                         style: TextStyle(
-                                            fontFamily: "DMSans",
+                                            fontFamily: "Mont",
                                             fontSize: 13.sp,
                                             color: isDarkMode
                                                 ? AppColors.white
@@ -489,7 +489,7 @@ class SubmitComplaintScreen extends StatelessWidget {
             heightFactor: 0.5,
             child: Container(
               decoration: BoxDecoration(
-                  color: AppColors.white,
+                  color: isDarkMode ? AppColors.greyDot : AppColors.white,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
@@ -512,7 +512,7 @@ class SubmitComplaintScreen extends StatelessWidget {
                               "Select Card",
                               textAlign: TextAlign.left,
                               style: TextStyle(
-                                  fontFamily: "DMSans",
+                                  fontFamily: "Mont",
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w700,
                                   color: isDarkMode
@@ -564,7 +564,7 @@ class SubmitComplaintScreen extends StatelessWidget {
                                               Text(
                                                 pCC.subCategoriesname[index],
                                                 style: TextStyle(
-                                                    fontFamily: "DMSans",
+                                                    fontFamily: "Mont",
                                                     fontSize: 12.sp,
                                                     fontWeight: pCC.subCategoryName
                                                                     .value !=

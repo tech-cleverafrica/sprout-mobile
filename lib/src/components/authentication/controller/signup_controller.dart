@@ -359,7 +359,7 @@ class SignUpController extends GetxController {
             heightFactor: 0.4,
             child: Container(
               decoration: BoxDecoration(
-                  color: AppColors.white,
+                  color: isDarkMode ? AppColors.greyDot : AppColors.white,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
@@ -381,7 +381,7 @@ class SignUpController extends GetxController {
                             child: Text(
                               "Select Gender",
                               style: TextStyle(
-                                  fontFamily: "DMSans",
+                                  fontFamily: "Mont",
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w700,
                                   color: isDarkMode
@@ -428,7 +428,7 @@ class SignUpController extends GetxController {
                                               Text(
                                                 genders[index],
                                                 style: TextStyle(
-                                                    fontFamily: "DMSans",
+                                                    fontFamily: "Mont",
                                                     fontSize: 12.sp,
                                                     fontWeight: genderController
                                                                     .text !=
@@ -446,7 +446,7 @@ class SignUpController extends GetxController {
                                               Text(
                                                 genders[index],
                                                 style: TextStyle(
-                                                    fontFamily: "DMSans",
+                                                    fontFamily: "Mont",
                                                     fontSize: 10.sp,
                                                     fontWeight: FontWeight.w500,
                                                     color: isDarkMode
@@ -489,7 +489,7 @@ class SignUpController extends GetxController {
             heightFactor: 0.6,
             child: Container(
               decoration: BoxDecoration(
-                  color: AppColors.white,
+                  color: isDarkMode ? AppColors.greyDot : AppColors.white,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
@@ -511,7 +511,7 @@ class SignUpController extends GetxController {
                             child: Text(
                               "Select State",
                               style: TextStyle(
-                                  fontFamily: "DMSans",
+                                  fontFamily: "Mont",
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w700,
                                   color: isDarkMode
@@ -558,7 +558,7 @@ class SignUpController extends GetxController {
                                               Text(
                                                 states[index],
                                                 style: TextStyle(
-                                                    fontFamily: "DMSans",
+                                                    fontFamily: "Mont",
                                                     fontSize: 12.sp,
                                                     fontWeight: stateController
                                                                     .text !=
@@ -576,7 +576,7 @@ class SignUpController extends GetxController {
                                               Text(
                                                 states[index],
                                                 style: TextStyle(
-                                                    fontFamily: "DMSans",
+                                                    fontFamily: "Mont",
                                                     fontSize: 10.sp,
                                                     fontWeight: FontWeight.w500,
                                                     color: isDarkMode

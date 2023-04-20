@@ -51,7 +51,7 @@ class SuccessfulInvoice extends StatelessWidget {
                   "Successful",
                   style: TextStyle(
                       color: AppColors.white,
-                      fontFamily: "DMSans",
+                      fontFamily: "Mont",
                       fontSize: 22.sp,
                       fontWeight: FontWeight.w700),
                 ),
@@ -78,7 +78,7 @@ class SuccessfulInvoice extends StatelessWidget {
                               .invoice.value!.customer!.fullName!,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontFamily: "DMSans",
+                          fontFamily: "Mont",
                           fontSize: 13.sp,
                           fontWeight: FontWeight.w700,
                           color: AppColors.white),

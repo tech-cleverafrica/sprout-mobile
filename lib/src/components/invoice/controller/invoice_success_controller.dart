@@ -143,7 +143,7 @@ class InvoiceSuccessController extends GetxController {
                 StateSetter setModalState /*You can rename this!*/) {
               return Container(
                 decoration: BoxDecoration(
-                    color: AppColors.white,
+                    color: isDarkMode ? AppColors.greyDot : AppColors.white,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(0),
                         topRight: Radius.circular(0))),

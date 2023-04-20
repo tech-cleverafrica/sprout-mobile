@@ -40,7 +40,7 @@ class SuccessfultransactionScreen extends StatelessWidget {
                 "Successful",
                 style: TextStyle(
                     color: AppColors.white,
-                    fontFamily: "DMSans",
+                    fontFamily: "Mont",
                     fontSize: 22.sp,
                     fontWeight: FontWeight.w700),
               ),
@@ -86,7 +86,7 @@ class SuccessfultransactionScreen extends StatelessWidget {
                     "You have successfully sent money to 06376*****",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontFamily: "DMSans",
+                        fontFamily: "Mont",
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w400,
                         color: AppColors.white),
@@ -227,7 +227,7 @@ class SuccessfultransactionScreen extends StatelessWidget {
 
   TextStyle titleStyle() {
     return TextStyle(
-        fontFamily: "DMSans",
+        fontFamily: "Mont",
         fontSize: 12.sp,
         fontWeight: FontWeight.w400,
         color: AppColors.inputLabelColor);
@@ -235,7 +235,7 @@ class SuccessfultransactionScreen extends StatelessWidget {
 
   TextStyle detailStyle() {
     return TextStyle(
-        fontFamily: "DMSans",
+        fontFamily: "Mont",
         fontSize: 12.sp,
         fontWeight: FontWeight.w400,
         color: AppColors.white);

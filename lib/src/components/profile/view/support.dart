@@ -38,7 +38,7 @@ class SupportScreen extends StatelessWidget {
               //     Text(
               //       "FAQs",
               //       style: TextStyle(
-              //           fontFamily: "DMSans",
+              //           fontFamily: "Mont",
               //           fontSize: 14.sp,
               //           color: isDarkMode ? AppColors.white : AppColors.black,
               //           fontWeight: FontWeight.w500),
@@ -61,7 +61,7 @@ class SupportScreen extends StatelessWidget {
                     Text(
                       "Contact Customer Support",
                       style: TextStyle(
-                          fontFamily: "DMSans",
+                          fontFamily: "Mont",
                           fontSize: 14.sp,
                           color: isDarkMode ? AppColors.white : AppColors.black,
                           fontWeight: FontWeight.w500),
@@ -87,7 +87,7 @@ class SupportScreen extends StatelessWidget {
                     Text(
                       "Log a complaint",
                       style: TextStyle(
-                          fontFamily: "DMSans",
+                          fontFamily: "Mont",
                           fontSize: 14.sp,
                           color: isDarkMode ? AppColors.white : AppColors.black,
                           fontWeight: FontWeight.w500),

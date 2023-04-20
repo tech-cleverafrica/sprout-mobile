@@ -43,7 +43,7 @@ class NFCScreen extends StatelessWidget {
                 child: Text("Please tap the icon below to initiate payment",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontFamily: "DMSans",
+                        fontFamily: "Mont",
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w500,
                         color:
@@ -98,7 +98,7 @@ class NFCScreen extends StatelessWidget {
       showNFCFeedback(
           context,
           "Tap-to-Pay Service",
-          "An NFC enabled android device will be required to use this service. The Tap-to-Pay (Soft POS) service enables you to process card transactions through your Clevermoni app.\n\nThank you.",
+          "An NFC enabled android device will be required to use this service. The Tap-to-Pay (Soft POS) service enables you to process card transactions through your Sprout app.\n\nThank you.",
           false);
     } else {
       bool isNFCEnabled = await NfcManager.instance.isAvailable();
@@ -108,7 +108,7 @@ class NFCScreen extends StatelessWidget {
         showNFCFeedback(
             context,
             "Tap-to-Pay Service",
-            "An NFC enabled android device will be required to use this service. The Tap-to-Pay (Soft POS) service enables you to process card transactions through your Clevermoni app.\n\nThank you.",
+            "An NFC enabled android device will be required to use this service. The Tap-to-Pay (Soft POS) service enables you to process card transactions through your Sprout app.\n\nThank you.",
             false);
       } else {
         setUserData(context);
@@ -122,7 +122,7 @@ class NFCScreen extends StatelessWidget {
       showNFCFeedback(
           context,
           "Tap-to-Pay Service",
-          'The Tap-to-Pay (Soft POS) service enables you to process card transactions through your Clevermoni app. To request for this service, please click the "Request" button below. You will be notified once your request has been approved.\n\nThank you.',
+          'The Tap-to-Pay (Soft POS) service enables you to process card transactions through your Sprout app. To request for this service, please click the "Request" button below. You will be notified once your request has been approved.\n\nThank you.',
           true);
     } else {
       try {

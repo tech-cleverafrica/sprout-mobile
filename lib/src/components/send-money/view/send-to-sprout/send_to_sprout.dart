@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_dropdown_button_field.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
+import 'package:sprout_mobile/src/utils/global_function.dart';
 
 import '../../../../public/widgets/general_widgets.dart';
 import '../../../../utils/helper_widgets.dart';
@@ -52,7 +53,7 @@ class SendToSprout extends StatelessWidget {
                     child: Text(
                       "Jossy Davids",
                       style: TextStyle(
-                          fontFamily: "DMSans",
+                          fontFamily: "Mont",
                           fontSize: 13.sp,
                           color: isDarkMode ? AppColors.white : AppColors.black,
                           fontWeight: FontWeight.w700),
@@ -68,7 +69,7 @@ class SendToSprout extends StatelessWidget {
                           Text(
                             "Save as beneficiary",
                             style: TextStyle(
-                                fontFamily: "DMSans",
+                                fontFamily: "Mont",
                                 fontSize: 13.sp,
                                 color: isDarkMode
                                     ? AppColors.white
@@ -79,7 +80,7 @@ class SendToSprout extends StatelessWidget {
                           Text(
                             "We will save this Account for next time",
                             style: TextStyle(
-                                fontFamily: "DMSans",
+                                fontFamily: "Mont",
                                 fontSize: 10.sp,
                                 color: isDarkMode
                                     ? AppColors.semi_white.withOpacity(0.5)
@@ -95,7 +96,7 @@ class SendToSprout extends StatelessWidget {
                     ],
                   ),
                   CustomTextFormField(
-                    label: "Enter Amount",
+                    label: "Enter Amount ($currencySymbol)",
                     // hintText: "Your Email",
                     fillColor: isDarkMode
                         ? AppColors.inputBackgroundColor

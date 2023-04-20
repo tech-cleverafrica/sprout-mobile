@@ -110,7 +110,7 @@ class PayBillsScreen extends StatelessWidget {
           style: TextStyle(
               fontSize: 12.sp,
               fontWeight: FontWeight.w400,
-              fontFamily: "DMSans",
+              fontFamily: "Mont",
               color: isDarkMode ? AppColors.white : AppColors.black),
         ),
       ],

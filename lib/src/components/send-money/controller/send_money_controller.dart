@@ -270,6 +270,7 @@ class SendMoneyController extends GetxController {
       beneficiary.insert(0, none);
       baseBeneficiary.assignAll(beneficiary);
       defaultBeneficiary(beneficiary[0]);
+      showFields.value = true;
     }
   }
 
@@ -346,7 +347,7 @@ class SendMoneyController extends GetxController {
             heightFactor: 0.6,
             child: Container(
               decoration: BoxDecoration(
-                  color: AppColors.white,
+                  color: isDarkMode ? AppColors.greyDot : AppColors.white,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
@@ -369,7 +370,7 @@ class SendMoneyController extends GetxController {
                               "Select Bank",
                               textAlign: TextAlign.left,
                               style: TextStyle(
-                                  fontFamily: "DMSans",
+                                  fontFamily: "Mont",
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w700,
                                   color: isDarkMode
@@ -433,7 +434,7 @@ class SendMoneyController extends GetxController {
                                           Text(
                                             bankList[index]!,
                                             style: TextStyle(
-                                                fontFamily: "DMSans",
+                                                fontFamily: "Mont",
                                                 fontSize: 12.sp,
                                                 fontWeight: beneficiaryBank
                                                                 .value !=
@@ -480,7 +481,7 @@ class SendMoneyController extends GetxController {
             heightFactor: 0.6,
             child: Container(
               decoration: BoxDecoration(
-                  color: AppColors.white,
+                  color: isDarkMode ? AppColors.greyDot : AppColors.white,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
@@ -502,7 +503,7 @@ class SendMoneyController extends GetxController {
                             child: Text(
                               "Select Beneficiary",
                               style: TextStyle(
-                                  fontFamily: "DMSans",
+                                  fontFamily: "Mont",
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w700,
                                   color: isDarkMode
@@ -584,7 +585,7 @@ class SendMoneyController extends GetxController {
                                                 beneficiary[index]
                                                     .beneficiaryName!,
                                                 style: TextStyle(
-                                                    fontFamily: "DMSans",
+                                                    fontFamily: "Mont",
                                                     fontSize: 12.sp,
                                                     fontWeight: beneficiaryId
                                                                     .value !=
@@ -605,7 +606,7 @@ class SendMoneyController extends GetxController {
                                                 beneficiary[index]
                                                     .beneficiaryBank!,
                                                 style: TextStyle(
-                                                    fontFamily: "DMSans",
+                                                    fontFamily: "Mont",
                                                     fontSize: 10.sp,
                                                     fontWeight: FontWeight.w500,
                                                     color: isDarkMode

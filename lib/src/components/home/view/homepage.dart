@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/complete-account-setup/view/document_upload.dart';
 import 'package:sprout_mobile/src/components/fund-wallet/view/fund_wallet.dart';
 import 'package:sprout_mobile/src/components/home/view/all_transactions.dart';
+import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
 import 'package:sprout_mobile/src/components/home/view/home_chart.dart';
 import 'package:sprout_mobile/src/components/home/view/transaction_details.dart';
 import 'package:sprout_mobile/src/components/home/view/widgets.dart';
@@ -66,7 +67,7 @@ class HomePage extends StatelessWidget {
                 "Hi",
                 style: TextStyle(
                   color: isDarkMode ? AppColors.white : AppColors.black,
-                  fontFamily: "DMSans",
+                  fontFamily: "Mont",
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w400,
                 ),
@@ -75,7 +76,7 @@ class HomePage extends StatelessWidget {
               Text(homeController.fullname,
                   style: TextStyle(
                     color: isDarkMode ? AppColors.white : AppColors.black,
-                    fontFamily: "DMSans",
+                    fontFamily: "Mont",
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w700,
                   )),
@@ -84,7 +85,7 @@ class HomePage extends StatelessWidget {
         ),
         addVerticalSpace(16.h),
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.2,
+          height: MediaQuery.of(context).size.height * 0.18,
           child: ListView(
             padding: EdgeInsets.symmetric(horizontal: 24),
             shrinkWrap: true,
@@ -102,7 +103,7 @@ class HomePage extends StatelessWidget {
                     bank: homeController.bankToUse.value,
                     accountNumber: homeController.accountNumberToUse.value,
                     buttontext: "Fund Account",
-                    buttonColor: AppColors.primaryColor,
+                    buttonColor: AppColors.black,
                     copyVisible: true,
                     iconVisible: true,
                     bankVisible: true,
@@ -121,8 +122,8 @@ class HomePage extends StatelessWidget {
                 currency: "Naira",
                 title: "Savings Balance",
                 symbol: "N",
-                naira: "19,260",
-                kobo: "00",
+                naira: "19,260.00",
+                kobo: "",
                 bank: "Providus Bank",
                 accountNumber: "0087642335",
                 buttontext: "Details",
@@ -132,7 +133,12 @@ class HomePage extends StatelessWidget {
                 bankVisible: false,
                 buttonVisible: true,
                 showAmount: homeController.showAmount.value,
-                onTap: () => {},
+                onTap: () => {
+                  pushUntil(
+                      page: BottomNav(
+                    index: 1,
+                  )),
+                },
                 setVisibility: () => {
                   homeController.showAmount.value =
                       !homeController.showAmount.value
@@ -201,7 +207,7 @@ class HomePage extends StatelessWidget {
                                         Text(
                                           "Complete Account Setup",
                                           style: TextStyle(
-                                              fontFamily: "DMSans",
+                                              fontFamily: "Mont",
                                               fontSize: 12.sp,
                                               color: AppColors.white,
                                               fontWeight: FontWeight.w500),
@@ -232,7 +238,7 @@ class HomePage extends StatelessWidget {
                                                 child: Text(
                                                   "Complete",
                                                   style: TextStyle(
-                                                      fontFamily: "DMSans",
+                                                      fontFamily: "Mont",
                                                       fontSize: 13.sp,
                                                       color: isDarkMode
                                                           ? AppColors.white
@@ -269,7 +275,7 @@ class HomePage extends StatelessWidget {
                                   Text(
                                     "Advert will be placed here",
                                     style: TextStyle(
-                                        fontFamily: "DMSans",
+                                        fontFamily: "Mont",
                                         fontSize: 12.sp,
                                         color: AppColors.white,
                                         fontWeight: FontWeight.w500),
@@ -296,7 +302,7 @@ class HomePage extends StatelessWidget {
                                           child: Text(
                                             "Advert button",
                                             style: TextStyle(
-                                                fontFamily: "DMSans",
+                                                fontFamily: "Mont",
                                                 fontSize: 13.sp,
                                                 color: isDarkMode
                                                     ? AppColors.white
@@ -327,7 +333,7 @@ class HomePage extends StatelessWidget {
               Text(
                 "Recent Transactions",
                 style: TextStyle(
-                    fontFamily: "DMSans",
+                    fontFamily: "Mont",
                     fontSize: 12.sp,
                     color: isDarkMode
                         ? AppColors.inputLabelColor
@@ -344,7 +350,7 @@ class HomePage extends StatelessWidget {
                 child: Text(
                   "See All",
                   style: TextStyle(
-                      fontFamily: "DMSans",
+                      fontFamily: "Mont",
                       fontStyle: FontStyle.italic,
                       decoration: TextDecoration.underline,
                       fontSize: 12.sp,
@@ -472,7 +478,7 @@ class HomePage extends StatelessWidget {
                   child: Text(
                     "Account",
                     style: TextStyle(
-                        fontFamily: "DmSans",
+                        fontFamily: "Mont",
                         fontSize: 14.sp,
                         color: isDarkMode
                             ? AppColors.white
@@ -501,7 +507,7 @@ class HomePage extends StatelessWidget {
                     child: Text(
                       "Invoice",
                       style: TextStyle(
-                          fontFamily: "DmSans",
+                          fontFamily: "Mont",
                           fontSize: 14.sp,
                           color:
                               isDarkMode ? AppColors.grey : AppColors.greyText,

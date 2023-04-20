@@ -103,7 +103,7 @@ class InvoicePreviewScreen extends StatelessWidget {
                               Text(
                                 "Invoice #1",
                                 style: TextStyle(
-                                    fontFamily: "DMSans",
+                                    fontFamily: "Mont",
                                     fontWeight: FontWeight.w500,
                                     fontSize: 16.sp,
                                     color: isDarkMode
@@ -116,7 +116,7 @@ class InvoicePreviewScreen extends StatelessWidget {
                                         createInvoiceController
                                             .invoiceDate.value,
                                     style: TextStyle(
-                                        fontFamily: "DMSans",
+                                        fontFamily: "Mont",
                                         fontWeight: FontWeight.w700,
                                         fontSize: 12.sp,
                                         color: isDarkMode
@@ -128,7 +128,7 @@ class InvoicePreviewScreen extends StatelessWidget {
                                     "Due Date: " +
                                         createInvoiceController.dueDate.value,
                                     style: TextStyle(
-                                        fontFamily: "DMSans",
+                                        fontFamily: "Mont",
                                         fontWeight: FontWeight.w400,
                                         fontSize: 12.sp,
                                         color: isDarkMode
@@ -160,7 +160,7 @@ class InvoicePreviewScreen extends StatelessWidget {
                                       Text(
                                         "Business:",
                                         style: TextStyle(
-                                            fontFamily: "DMSans",
+                                            fontFamily: "Mont",
                                             fontWeight: FontWeight.w500,
                                             fontSize: 12.sp,
                                             color: isDarkMode
@@ -219,7 +219,7 @@ class InvoicePreviewScreen extends StatelessWidget {
                                       Text(
                                         "To",
                                         style: TextStyle(
-                                            fontFamily: "DMSans",
+                                            fontFamily: "Mont",
                                             fontWeight: FontWeight.w500,
                                             fontSize: 12.sp,
                                             color: isDarkMode
@@ -353,7 +353,7 @@ class InvoicePreviewScreen extends StatelessWidget {
                                                         .name ??
                                                     "",
                                                 style: TextStyle(
-                                                    fontFamily: "DMSans",
+                                                    fontFamily: "Mont",
                                                     fontSize: 10.sp,
                                                     fontWeight: FontWeight.w700,
                                                     color: isDarkMode
@@ -372,7 +372,7 @@ class InvoicePreviewScreen extends StatelessWidget {
                                                     .quantity
                                                     .toString(),
                                                 style: TextStyle(
-                                                    fontFamily: "DMSans",
+                                                    fontFamily: "Mont",
                                                     fontSize: 10.sp,
                                                     fontWeight: FontWeight.w700,
                                                     color: isDarkMode
@@ -451,7 +451,7 @@ class InvoicePreviewScreen extends StatelessWidget {
                                   Text(
                                     "Summary",
                                     style: TextStyle(
-                                        fontFamily: "DMSans",
+                                        fontFamily: "Mont",
                                         fontWeight: FontWeight.w500,
                                         fontSize: 12.sp,
                                         color: isDarkMode
@@ -506,7 +506,7 @@ class InvoicePreviewScreen extends StatelessWidget {
                                   Text(
                                     "TOTAL",
                                     style: TextStyle(
-                                        fontFamily: "DMSans",
+                                        fontFamily: "Mont",
                                         fontWeight: FontWeight.w600,
                                         fontSize: 14.sp,
                                         color: isDarkMode
@@ -549,7 +549,7 @@ class InvoicePreviewScreen extends StatelessWidget {
                                   Text(
                                     "Payment Details",
                                     style: TextStyle(
-                                        fontFamily: "DMSans",
+                                        fontFamily: "Mont",
                                         fontWeight: FontWeight.w500,
                                         fontSize: 12.sp,
                                         color: isDarkMode

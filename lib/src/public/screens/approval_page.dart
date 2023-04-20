@@ -72,7 +72,7 @@ class ApprovalScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: AppColors.white,
-                    fontFamily: "DMSans",
+                    fontFamily: "Mont",
                     fontSize: 22.sp,
                     fontWeight: FontWeight.w700),
               )),
@@ -84,7 +84,7 @@ class ApprovalScreen extends StatelessWidget {
                 messages,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontFamily: "DMSans",
+                    fontFamily: "Mont",
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w500,
                     color: AppColors.white),

@@ -37,17 +37,17 @@ class DownloadStatementScreen extends StatelessWidget {
                 children: [
                   getHeader(isDarkMode),
                   addVerticalSpace(15.h),
-                  CustomTextFormField(
-                      label: "Choose account",
-                      hintText: "Sprout Naira Account",
-                      enabled: false,
-                      fillColor: isDarkMode
-                          ? AppColors.inputBackgroundColor
-                          : AppColors.grey,
-                      hintTextStyle: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        color: isDarkMode ? AppColors.white : AppColors.black,
-                      )),
+                  // CustomTextFormField(
+                  //     label: "Choose account",
+                  //     hintText: "Sprout Naira Account",
+                  //     enabled: false,
+                  //     fillColor: isDarkMode
+                  //         ? AppColors.inputBackgroundColor
+                  //         : AppColors.grey,
+                  //     hintTextStyle: TextStyle(
+                  //       fontWeight: FontWeight.w700,
+                  //       color: isDarkMode ? AppColors.white : AppColors.black,
+                  //     )),
                   InkWell(
                     onTap: () => downloadStatementController.selectStartDate(),
                     child: Obx((() => CustomTextFormField(

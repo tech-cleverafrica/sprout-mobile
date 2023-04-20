@@ -41,7 +41,7 @@ class SendMoney extends StatelessWidget {
                           Text(
                             "Send to Sprout Account",
                             style: TextStyle(
-                                fontFamily: "DMSans",
+                                fontFamily: "Mont",
                                 fontSize: 14.sp,
                                 color: isDarkMode
                                     ? AppColors.white
@@ -74,7 +74,7 @@ class SendMoney extends StatelessWidget {
                           Text(
                             "Send to Bank Account",
                             style: TextStyle(
-                                fontFamily: "DMSans",
+                                fontFamily: "Mont",
                                 fontSize: 14.sp,
                                 color: isDarkMode
                                     ? AppColors.white

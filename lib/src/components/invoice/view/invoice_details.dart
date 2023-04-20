@@ -280,7 +280,7 @@ class InvoiceDetails extends StatelessWidget {
                                 color: isDarkMode
                                     ? AppColors.white
                                     : AppColors.black,
-                                fontFamily: "DMSans",
+                                fontFamily: "Mont",
                                 fontWeight: FontWeight.w600)),
                         addVerticalSpace(10.h),
                         Text(
@@ -291,7 +291,7 @@ class InvoiceDetails extends StatelessWidget {
                                 color: isDarkMode
                                     ? AppColors.white
                                     : AppColors.black,
-                                fontFamily: "DMSans",
+                                fontFamily: "Mont",
                                 fontWeight: FontWeight.w600)),
                         addVerticalSpace(10.h),
                         Text(
@@ -302,7 +302,7 @@ class InvoiceDetails extends StatelessWidget {
                                 color: isDarkMode
                                     ? AppColors.white
                                     : AppColors.black,
-                                fontFamily: "DMSans",
+                                fontFamily: "Mont",
                                 fontWeight: FontWeight.w600)),
                         addVerticalSpace(10.h),
                         Text(
@@ -313,7 +313,7 @@ class InvoiceDetails extends StatelessWidget {
                                 color: isDarkMode
                                     ? AppColors.white
                                     : AppColors.black,
-                                fontFamily: "DMSans",
+                                fontFamily: "Mont",
                                 fontWeight: FontWeight.w600)),
                       ],
                     ),
@@ -336,7 +336,7 @@ class InvoiceDetails extends StatelessWidget {
                   Text("Billed To",
                       style: TextStyle(
                           color: isDarkMode ? AppColors.white : AppColors.black,
-                          fontFamily: "DMSans",
+                          fontFamily: "Mont",
                           fontSize: 14,
                           fontWeight: FontWeight.w600)),
                   addVerticalSpace(10.h),
@@ -346,7 +346,7 @@ class InvoiceDetails extends StatelessWidget {
                           "",
                       style: TextStyle(
                         color: isDarkMode ? AppColors.white : AppColors.black,
-                        fontFamily: "DMSans",
+                        fontFamily: "Mont",
                       )),
                   addVerticalSpace(10.h),
                   Text(
@@ -355,7 +355,7 @@ class InvoiceDetails extends StatelessWidget {
                           "",
                       style: TextStyle(
                         color: isDarkMode ? AppColors.white : AppColors.black,
-                        fontFamily: "DMSans",
+                        fontFamily: "Mont",
                       )),
                   addVerticalSpace(10.h),
                   Text(
@@ -363,7 +363,7 @@ class InvoiceDetails extends StatelessWidget {
                           "",
                       style: TextStyle(
                         color: isDarkMode ? AppColors.white : AppColors.black,
-                        fontFamily: "DMSans",
+                        fontFamily: "Mont",
                       )),
                   addVerticalSpace(10.h),
                   Text(
@@ -371,7 +371,7 @@ class InvoiceDetails extends StatelessWidget {
                           "",
                       style: TextStyle(
                         color: isDarkMode ? AppColors.white : AppColors.black,
-                        fontFamily: "DMSans",
+                        fontFamily: "Mont",
                       )),
                 ],
               ),
@@ -382,7 +382,7 @@ class InvoiceDetails extends StatelessWidget {
         Text("Invoice Information",
             style: TextStyle(
                 color: isDarkMode ? AppColors.white : AppColors.black,
-                fontFamily: "DMSans",
+                fontFamily: "Mont",
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600)),
         addVerticalSpace(10.h),
@@ -463,7 +463,7 @@ class InvoiceDetails extends StatelessWidget {
                                           ?.invoiceContent![index].itemTitle ??
                                       "",
                                   style: TextStyle(
-                                      fontFamily: "DMSans",
+                                      fontFamily: "Mont",
                                       fontSize: 10.sp,
                                       fontWeight: FontWeight.w700,
                                       color: isDarkMode
@@ -478,7 +478,7 @@ class InvoiceDetails extends StatelessWidget {
                                       .invoiceContent![index].itemQuantity
                                       .toString(),
                                   style: TextStyle(
-                                      fontFamily: "DMSans",
+                                      fontFamily: "Mont",
                                       fontSize: 10.sp,
                                       fontWeight: FontWeight.w700,
                                       color: isDarkMode
@@ -545,7 +545,7 @@ class InvoiceDetails extends StatelessWidget {
                 Text(
                   "Summary",
                   style: TextStyle(
-                      fontFamily: "DMSans",
+                      fontFamily: "Mont",
                       fontWeight: FontWeight.w500,
                       fontSize: 12.sp,
                       color: isDarkMode ? AppColors.white : AppColors.black),
@@ -593,7 +593,7 @@ class InvoiceDetails extends StatelessWidget {
                     Text(
                       "INVOICE AMOUNT",
                       style: TextStyle(
-                          fontFamily: "DMSans",
+                          fontFamily: "Mont",
                           fontWeight: FontWeight.w600,
                           fontSize: 12.sp,
                           color:
@@ -617,7 +617,7 @@ class InvoiceDetails extends StatelessWidget {
                     Text(
                       "AMOUNT DUE",
                       style: TextStyle(
-                          fontFamily: "DMSans",
+                          fontFamily: "Mont",
                           fontWeight: FontWeight.w600,
                           fontSize: 12.sp,
                           color:
@@ -652,7 +652,7 @@ class InvoiceDetails extends StatelessWidget {
                 Text(
                   "Payment Details",
                   style: TextStyle(
-                      fontFamily: "DMSans",
+                      fontFamily: "Mont",
                       fontWeight: FontWeight.w500,
                       fontSize: 12.sp,
                       color: isDarkMode ? AppColors.white : AppColors.black),

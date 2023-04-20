@@ -56,7 +56,7 @@ class AllSavingsScreen extends StatelessWidget {
                                 Text(
                                   "Total Savings - Housing",
                                   style: TextStyle(
-                                      fontFamily: "DMSans",
+                                      fontFamily: "Mont",
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w400,
                                       color: isDarkMode
@@ -71,7 +71,7 @@ class AllSavingsScreen extends StatelessWidget {
                                     Text(
                                       'N19,260.0',
                                       style: TextStyle(
-                                          fontFamily: "DMSans",
+                                          fontFamily: "Mont",
                                           fontSize: 20.sp,
                                           fontWeight: FontWeight.w700,
                                           color: isDarkMode

@@ -33,7 +33,7 @@ class CreatePin extends StatelessWidget {
                 'Your PIN adds an extra layer of security to your Sprout account (a PIN is required to authorise transactions)',
                 style: TextStyle(
                     fontSize: 12.sp,
-                    fontFamily: "DMSans",
+                    fontFamily: "Mont",
                     color: AppColors.inputLabelColor),
               ),
               addVerticalSpace(15.h),

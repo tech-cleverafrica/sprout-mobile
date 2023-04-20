@@ -129,7 +129,7 @@ class SavingsSummaryScreen extends StatelessWidget {
                       child: Text(
                           "By checking this box, I agree that I have read and understod the terms and conditions set forth in. Read more",
                           style: TextStyle(
-                              fontFamily: "DMSans",
+                              fontFamily: "Mont",
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w700,
                               color: isDarkMode
@@ -155,7 +155,7 @@ class SavingsSummaryScreen extends StatelessWidget {
 
   TextStyle titleStyle() {
     return TextStyle(
-        fontFamily: "DMSans",
+        fontFamily: "Mont",
         fontSize: 12.sp,
         fontWeight: FontWeight.w400,
         color: AppColors.inputLabelColor);
@@ -163,7 +163,7 @@ class SavingsSummaryScreen extends StatelessWidget {
 
   TextStyle detailStyle(isDark) {
     return TextStyle(
-        fontFamily: "DMSans",
+        fontFamily: "Mont",
         fontSize: 14.sp,
         fontWeight: FontWeight.w500,
         color: isDark ? AppColors.white : Color(0xFF0D0D0D));

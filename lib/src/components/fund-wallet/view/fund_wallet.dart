@@ -248,7 +248,7 @@ void fundFromCard(BuildContext context) {
                       children: [
                         CustomTextFormField(
                           controller: fundWalletController.amountController,
-                          label: "Amount",
+                          label: "Amount ($currencySymbol)",
                           required: true,
                           textInputType: TextInputType.phone,
                           textInputAction: TextInputAction.next,

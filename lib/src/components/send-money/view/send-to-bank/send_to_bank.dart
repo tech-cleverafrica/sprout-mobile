@@ -158,7 +158,7 @@ class SendToBank extends StatelessWidget {
                                         : sendMoneyController
                                             .newBeneficiaryName.value,
                                     style: TextStyle(
-                                        fontFamily: "DMSans",
+                                        fontFamily: "Mont",
                                         fontSize: 13.sp,
                                         color: isDarkMode
                                             ? AppColors.white
@@ -185,6 +185,64 @@ class SendToBank extends StatelessWidget {
                                       sendMoneyController.showBeneficiary.value)
                               ? addVerticalSpace(10)
                               : SizedBox(),
+                          CustomTextFormField(
+                            controller: sendMoneyController.amountController,
+                            enabled: !sendMoneyController.isValidating.value,
+                            label: "Amount ($currencySymbol)",
+                            required: true,
+                            textInputType: TextInputType.phone,
+                            textInputAction: TextInputAction.next,
+                            fillColor: isDarkMode
+                                ? AppColors.inputBackgroundColor
+                                : AppColors.grey,
+                            validator: (value) {
+                              if (value!.length == 0)
+                                return "Amount is required";
+                              else if (double.parse(
+                                      value.split(",").join("")) ==
+                                  0) {
+                                return "Invalid amount";
+                              } else if (double.parse(
+                                      value.split(",").join("")) <
+                                  10) {
+                                return "Amount too small";
+                              } else if (double.parse(value.split(",").join()) >
+                                  double.parse(sendMoneyController.userBalance
+                                      .toString()
+                                      .split(",")
+                                      .join())) {
+                                return "Amount is greater than wallet balance";
+                              } else if (double.parse(
+                                      value.split(",").join("")) >
+                                  450000) {
+                                return "Maximum amount is 450,000";
+                              }
+                              return null;
+                            },
+                          ),
+                          Text(
+                              "$currencySymbol${sendMoneyController.formatter.formatAsMoney(sendMoneyController.userBalance!)}",
+                              style: TextStyle(
+                                  color: AppColors.black,
+                                  fontSize: 15.sp,
+                                  fontFamily: "Mont",
+                                  fontWeight: FontWeight.w700)),
+                          addVerticalSpace(5),
+                          CustomTextFormField(
+                            controller: sendMoneyController.purposeController,
+                            label: "Purpose",
+                            hintText: "Enter Purpose",
+                            required: true,
+                            validator: (value) {
+                              if (value!.length == 0)
+                                return "Purpose is required";
+                              return null;
+                            },
+                            fillColor: isDarkMode
+                                ? AppColors.inputBackgroundColor
+                                : AppColors.grey,
+                            textInputAction: TextInputAction.go,
+                          ),
                           Obx(
                             () => Visibility(
                               visible: sendMoneyController.showSaver.value,
@@ -199,25 +257,25 @@ class SendToBank extends StatelessWidget {
                                       Text(
                                         "Save as beneficiary",
                                         style: TextStyle(
-                                            fontFamily: "DMSans",
+                                            fontFamily: "Mont",
                                             fontSize: 13.sp,
                                             color: isDarkMode
                                                 ? AppColors.white
                                                 : AppColors.black,
                                             fontWeight: FontWeight.w700),
                                       ),
-                                      addVerticalSpace(9.h),
-                                      Text(
-                                        "We will save this Account for next time",
-                                        style: TextStyle(
-                                            fontFamily: "DMSans",
-                                            fontSize: 10.sp,
-                                            color: isDarkMode
-                                                ? AppColors.semi_white
-                                                    .withOpacity(0.5)
-                                                : AppColors.black,
-                                            fontWeight: FontWeight.w400),
-                                      )
+                                      // addVerticalSpace(9.h),
+                                      // Text(
+                                      //   "We will save this Account for next time",
+                                      //   style: TextStyle(
+                                      //       fontFamily: "Mont",
+                                      //       fontSize: 10.sp,
+                                      //       color: isDarkMode
+                                      //           ? AppColors.semi_white
+                                      //               .withOpacity(0.5)
+                                      //           : AppColors.black,
+                                      //       fontWeight: FontWeight.w400),
+                                      // )
                                     ],
                                   ),
                                   Obx(
@@ -259,64 +317,6 @@ class SendToBank extends StatelessWidget {
                                   },
                                 )
                               : SizedBox(),
-                          CustomTextFormField(
-                            controller: sendMoneyController.amountController,
-                            enabled: !sendMoneyController.isValidating.value,
-                            label: "Amount",
-                            required: true,
-                            textInputType: TextInputType.phone,
-                            textInputAction: TextInputAction.next,
-                            fillColor: isDarkMode
-                                ? AppColors.inputBackgroundColor
-                                : AppColors.grey,
-                            validator: (value) {
-                              if (value!.length == 0)
-                                return "Amount is required";
-                              else if (double.parse(
-                                      value.split(",").join("")) ==
-                                  0) {
-                                return "Invalid amount";
-                              } else if (double.parse(
-                                      value.split(",").join("")) <
-                                  10) {
-                                return "Amount too small";
-                              } else if (double.parse(value.split(",").join()) >
-                                  double.parse(sendMoneyController.userBalance
-                                      .toString()
-                                      .split(",")
-                                      .join())) {
-                                return "Amount is greater than wallet balance";
-                              } else if (double.parse(
-                                      value.split(",").join("")) >
-                                  450000) {
-                                return "Maximum amount is 450,000";
-                              }
-                              return null;
-                            },
-                          ),
-                          Text(
-                              "$currencySymbol${sendMoneyController.formatter.formatAsMoney(sendMoneyController.userBalance!)}",
-                              style: TextStyle(
-                                  color: AppColors.black,
-                                  fontSize: 15.sp,
-                                  fontFamily: "Outfit",
-                                  fontWeight: FontWeight.w700)),
-                          addVerticalSpace(5),
-                          CustomTextFormField(
-                            controller: sendMoneyController.purposeController,
-                            label: "Purpose",
-                            hintText: "Enter Purpose",
-                            required: true,
-                            validator: (value) {
-                              if (value!.length == 0)
-                                return "Purpose is required";
-                              return null;
-                            },
-                            fillColor: isDarkMode
-                                ? AppColors.inputBackgroundColor
-                                : AppColors.grey,
-                            textInputAction: TextInputAction.go,
-                          ),
                         ],
                       ))),
                 ],

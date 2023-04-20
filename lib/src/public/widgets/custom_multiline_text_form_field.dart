@@ -97,7 +97,7 @@ class CustomMultilineTextFormField extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w700,
-                      fontFamily: "DMSans",
+                      fontFamily: "Mont",
                       color: AppColors.inputLabelColor),
                 ),
                 required != null && required == true

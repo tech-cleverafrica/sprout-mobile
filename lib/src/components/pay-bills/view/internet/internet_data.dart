@@ -130,7 +130,7 @@ class InternetBillsCard extends StatelessWidget {
                         Text(
                           title!,
                           style: TextStyle(
-                              fontFamily: "DMSans",
+                              fontFamily: "Mont",
                               fontWeight: FontWeight.w700,
                               fontSize: 14.sp,
                               color: isDarkMode
@@ -140,7 +140,7 @@ class InternetBillsCard extends StatelessWidget {
                         Text(
                           subTitle!,
                           style: TextStyle(
-                              fontFamily: "DMSans",
+                              fontFamily: "Mont",
                               fontWeight: FontWeight.w400,
                               fontSize: 11.sp,
                               color: isDarkMode

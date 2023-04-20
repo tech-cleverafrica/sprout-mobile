@@ -208,7 +208,7 @@ class BillSummaryPage extends StatelessWidget {
               Text(
                   "Please ensure the details entered are correct before proceeding with this transfer as Clever Digital Ltd will not be responsible for recall of funds transferred in error. Thank You.",
                   style: TextStyle(
-                    fontFamily: "DMSans",
+                    fontFamily: "Mont",
                     color: isDarkMode
                         ? AppColors.mainGreen
                         : AppColors.primaryColor,
@@ -237,7 +237,7 @@ class BillSummaryPage extends StatelessWidget {
                       child: Text(
                         "Go Back",
                         style: TextStyle(
-                            fontFamily: "DMSans", color: AppColors.white),
+                            fontFamily: "Mont", color: AppColors.white),
                       ),
                     ),
                   ))

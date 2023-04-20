@@ -53,7 +53,7 @@ class NotificationCard extends StatelessWidget {
                             Text(
                               date,
                               style: TextStyle(
-                                  fontFamily: "DMSans",
+                                  fontFamily: "Mont",
                                   fontSize: 12.sp,
                                   color: isDarkMode
                                       ? AppColors.inputLabelColor
@@ -66,7 +66,7 @@ class NotificationCard extends StatelessWidget {
                               child: Text(
                                 notification,
                                 style: TextStyle(
-                                    fontFamily: "DMSans",
+                                    fontFamily: "Mont",
                                     fontSize: 12.sp,
                                     color: isDarkMode
                                         ? AppColors.white
@@ -78,10 +78,10 @@ class NotificationCard extends StatelessWidget {
                         )
                       ],
                     ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 16,
-                    ),
+                    // Icon(
+                    //   Icons.arrow_forward_ios,
+                    //   size: 16,
+                    // ),
                   ],
                 ),
                 Padding(

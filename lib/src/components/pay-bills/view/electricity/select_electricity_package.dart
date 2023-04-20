@@ -6,6 +6,7 @@ import 'package:sprout_mobile/src/components/pay-bills/controller/packages_contr
 import 'package:sprout_mobile/src/components/pay-bills/view/bills_summary.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
+import 'package:sprout_mobile/src/utils/global_function.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
 
@@ -70,7 +71,7 @@ class SelectElectricityPackageScreen extends StatelessWidget {
                   Obx((() => packagesController.package.value != null
                       ? CustomTextFormField(
                           controller: packagesController.amountController.value,
-                          label: "Amount",
+                          label: "Amount ($currencySymbol)",
                           hintText: "Enter Amount",
                           required: true,
                           enabled:

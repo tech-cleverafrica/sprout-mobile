@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/borow/controller/nfc_controller.dart';
 import 'package:sprout_mobile/src/components/borow/view/widgets.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
+import 'package:sprout_mobile/src/utils/global_function.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 
 import '../../../utils/app_colors.dart';
@@ -50,13 +51,12 @@ class NfcAmountScreen extends StatelessWidget {
                 getHeader(isDarkMode),
                 addVerticalSpace(90.h),
                 Text(
-                  "Enter Amount",
+                  "Enter Amount ($currencySymbol)",
                   style: TextStyle(
-                      fontFamily: "DMSans",
+                      fontFamily: "Mont",
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
-                      color:
-                          isDarkMode ? AppColors.greyText : AppColors.greyText),
+                      color: isDarkMode ? AppColors.white : AppColors.black),
                 ),
                 Container(
                   child: TextFormField(
@@ -64,7 +64,7 @@ class NfcAmountScreen extends StatelessWidget {
                     enabled: true,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontFamily: "DMSans",
+                        fontFamily: "Mont",
                         fontSize: 40.sp,
                         fontWeight: FontWeight.w700,
                         color: isDarkMode ? AppColors.white : AppColors.black),
@@ -72,23 +72,8 @@ class NfcAmountScreen extends StatelessWidget {
                     onChanged: (val) {},
                     onSaved: (val) {},
                     decoration: InputDecoration(
-                        border: InputBorder.none,
-                        //prefixText: "NGN",
-                        prefix: Padding(
-                          padding: const EdgeInsets.only(bottom: 20.0),
-                          child: Text(
-                            "NGN",
-                          ),
-                        ),
-                        prefixStyle: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w700,
-                          fontFeatures: [
-                            FontFeature.superscripts(),
-                          ],
-                          color: isDarkMode ? AppColors.white : AppColors.black,
-                          fontFamily: "DMSans",
-                        )),
+                      border: InputBorder.none,
+                    ),
                   ),
                 ),
               ],

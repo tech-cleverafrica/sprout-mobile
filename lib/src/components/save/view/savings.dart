@@ -89,7 +89,7 @@ class SavingsScreen extends StatelessWidget {
                                         child: Text(
                                           "Lorem ipsum dolor sit amet consectetur. Placerat lorem neque risus.",
                                           style: TextStyle(
-                                              fontFamily: "DMSans",
+                                              fontFamily: "Mont",
                                               fontSize: 12.sp,
                                               color: AppColors.white,
                                               fontWeight: FontWeight.w500),
@@ -229,7 +229,7 @@ class SavingsScreen extends StatelessWidget {
                                                               addVerticalSpace(
                                                                   5.h),
                                                               Text(
-                                                                "Lock your funds for a particular period of time and earn interest",
+                                                                "Lock your funds for a period of time and earn interest.",
                                                                 style: theme
                                                                     .textTheme
                                                                     .subtitle2,
@@ -273,7 +273,7 @@ class SavingsScreen extends StatelessWidget {
                                                               addVerticalSpace(
                                                                   5.h),
                                                               Text(
-                                                                  "Automate your savings for a future target and earn interest",
+                                                                  "Automate your savings for a future goal and earn interest while you do so.",
                                                                   style: theme
                                                                       .textTheme
                                                                       .subtitle2)
@@ -294,7 +294,7 @@ class SavingsScreen extends StatelessWidget {
                                                                     child:
                                                                         CustomButton(
                                                                       title:
-                                                                          "Done",
+                                                                          "Continue",
                                                                       onTap:
                                                                           () {
                                                                         pop();
@@ -337,7 +337,7 @@ class SavingsScreen extends StatelessWidget {
                                         addHorizontalSpace(4.w),
                                         Text("Start New Savings",
                                             style: TextStyle(
-                                                fontFamily: "DMSans",
+                                                fontFamily: "Mont",
                                                 fontSize: 10.sp,
                                                 color: isDarkMode
                                                     ? AppColors.white
@@ -437,7 +437,7 @@ class SavingsScreen extends StatelessWidget {
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(
-                                                          fontFamily: "DMSans",
+                                                          fontFamily: "Mont",
                                                           fontWeight:
                                                               FontWeight.w700,
                                                           color: isDarkMode
@@ -486,7 +486,7 @@ class SavingsScreen extends StatelessWidget {
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(
-                                                          fontFamily: "DMSans",
+                                                          fontFamily: "Mont",
                                                           fontWeight:
                                                               FontWeight.w700,
                                                           color: isDarkMode
@@ -507,7 +507,7 @@ class SavingsScreen extends StatelessWidget {
                                               Text(
                                                 "Savings History",
                                                 style: TextStyle(
-                                                    fontFamily: "DMSans",
+                                                    fontFamily: "Mont",
                                                     fontSize: 12.sp,
                                                     fontWeight: FontWeight.w400,
                                                     color: AppColors.greyText),
@@ -522,7 +522,7 @@ class SavingsScreen extends StatelessWidget {
                                                   style: TextStyle(
                                                       fontStyle:
                                                           FontStyle.italic,
-                                                      fontFamily: "DMSans",
+                                                      fontFamily: "Mont",
                                                       fontSize: 12.sp,
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -619,7 +619,7 @@ class SavingsScreen extends StatelessWidget {
                 child: Text(
                   "Account",
                   style: TextStyle(
-                      fontFamily: "DmSans",
+                      fontFamily: "Mont",
                       fontSize: 14.sp,
                       color:
                           isDarkMode ? AppColors.white : AppColors.primaryColor,
@@ -639,7 +639,7 @@ class SavingsScreen extends StatelessWidget {
                   child: Text(
                     "Invoice",
                     style: TextStyle(
-                        fontFamily: "DmSans",
+                        fontFamily: "Mont",
                         fontSize: 14.sp,
                         color: isDarkMode ? AppColors.grey : AppColors.greyText,
                         fontWeight: FontWeight.w700),

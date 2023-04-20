@@ -69,7 +69,7 @@ getHeader(bool isDarkMode, {hideHelp = false, hideNotification = false}) {
                   child: Text(
                     homeController.abbreviation,
                     style: TextStyle(
-                        fontFamily: "DMSans",
+                        fontFamily: "Mont",
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w700,
                         color: isDarkMode
@@ -236,7 +236,7 @@ class KeyboardNumber extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 21.sp,
-              fontFamily: "DMSans",
+              fontFamily: "Mont",
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -280,7 +280,7 @@ class DecisionButton extends StatelessWidget {
             child: Center(
               child: Text(
                 "Go Back",
-                style: TextStyle(fontFamily: "DMSans", color: AppColors.white),
+                style: TextStyle(fontFamily: "Mont", color: AppColors.white),
               ),
             ),
           ),
@@ -385,7 +385,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                         title,
                         style: TextStyle(
                           fontSize: 12.0.sp,
-                          fontFamily: "DMSans",
+                          fontFamily: "Mont",
                           color: currentTabIndex == position
                               ? AppColors.white
                               : AppColors.greyText,
@@ -395,7 +395,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                         title,
                         style: TextStyle(
                           fontSize: 12.0.sp,
-                          fontFamily: "DMSans",
+                          fontFamily: "Mont",
                           color: currentTabIndex == position
                               ? AppColors.black
                               : AppColors.greyText,

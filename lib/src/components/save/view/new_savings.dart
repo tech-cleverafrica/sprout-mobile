@@ -6,6 +6,7 @@ import 'package:sprout_mobile/src/components/save/view/savings_summary.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
+import 'package:sprout_mobile/src/utils/global_function.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 
 // ignore: must_be_immutable
@@ -52,7 +53,7 @@ class NewSavingsScreen extends StatelessWidget {
                       : AppColors.grey,
                 ),
                 CustomTextFormField(
-                  label: "How much do you want to save?",
+                  label: "How much do you want to save (Recurring amount)?",
                   hintText: "Enter Amount",
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
@@ -76,6 +77,7 @@ class NewSavingsScreen extends StatelessWidget {
                 CustomTextFormField(
                   label: "Payment Type",
                   hintText: "Select Payment Type",
+                  enabled: false,
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,

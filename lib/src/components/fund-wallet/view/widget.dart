@@ -69,7 +69,7 @@ class FundWalletCard extends StatelessWidget {
                     Text(
                       currency,
                       style: TextStyle(
-                          fontFamily: "DMSans",
+                          fontFamily: "Mont",
                           fontSize: 14.sp,
                           color: isDarkMode ? AppColors.white : AppColors.black,
                           fontWeight: FontWeight.w400),
@@ -79,7 +79,7 @@ class FundWalletCard extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                      fontFamily: "DMSans",
+                      fontFamily: "Mont",
                       fontSize: 12.sp,
                       color: isDarkMode ? AppColors.white : AppColors.black,
                       fontWeight: FontWeight.w500),
@@ -109,7 +109,7 @@ class FundWalletCard extends StatelessWidget {
                           Text(
                             naira,
                             style: TextStyle(
-                                fontFamily: "DMSans",
+                                fontFamily: "Mont",
                                 fontSize: 36.sp,
                                 color: isDarkMode
                                     ? AppColors.white
@@ -119,7 +119,7 @@ class FundWalletCard extends StatelessWidget {
                           Text(
                             ".",
                             style: TextStyle(
-                                fontFamily: "DMSans",
+                                fontFamily: "Mont",
                                 fontSize: 26.sp,
                                 color: isDarkMode
                                     ? AppColors.white
@@ -131,7 +131,7 @@ class FundWalletCard extends StatelessWidget {
                             child: Text(
                               kobo,
                               style: TextStyle(
-                                  fontFamily: "DMSans",
+                                  fontFamily: "Mont",
                                   fontSize: 20.sp,
                                   color: isDarkMode
                                       ? AppColors.white
@@ -158,7 +158,7 @@ class FundWalletCard extends StatelessWidget {
                       Text(
                         bank,
                         style: TextStyle(
-                            fontFamily: "DMSans",
+                            fontFamily: "Mont",
                             fontSize: 11.sp,
                             fontWeight: FontWeight.w700,
                             color:
@@ -167,7 +167,7 @@ class FundWalletCard extends StatelessWidget {
                       Text(
                         accountNumber,
                         style: TextStyle(
-                            fontFamily: "DMSans",
+                            fontFamily: "Mont",
                             fontSize: 11.sp,
                             fontWeight: FontWeight.w400,
                             color: isDarkMode

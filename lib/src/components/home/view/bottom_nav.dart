@@ -131,7 +131,7 @@ class _BottomNavState extends State<BottomNav> {
                         title,
                         style: TextStyle(
                           fontSize: 12.0.sp,
-                          fontFamily: "DMSans",
+                          fontFamily: "Mont",
                           color: currentTabIndex == position
                               ? AppColors.white
                               : AppColors.greyText,
@@ -141,7 +141,7 @@ class _BottomNavState extends State<BottomNav> {
                         title,
                         style: TextStyle(
                           fontSize: 12.0.sp,
-                          fontFamily: "DMSans",
+                          fontFamily: "Mont",
                           color: currentTabIndex == position
                               ? AppColors.black
                               : AppColors.greyText,

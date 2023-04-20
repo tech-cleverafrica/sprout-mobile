@@ -40,7 +40,7 @@ class SignupOtpScreen extends StatelessWidget {
                               text:
                                   "Please enter the OTP sent to your registered email address ",
                               style: TextStyle(
-                                  fontFamily: "DMSans",
+                                  fontFamily: "Mont",
                                   fontSize: 12.sp,
                                   color: isDarkMode
                                       ? AppColors.white
@@ -50,7 +50,7 @@ class SignupOtpScreen extends StatelessWidget {
                             TextSpan(
                               text: "- " + signUpController.email,
                               style: TextStyle(
-                                  fontFamily: "DMSans",
+                                  fontFamily: "Mont",
                                   fontSize: 12.sp,
                                   color: isDarkMode
                                       ? AppColors.white
@@ -82,7 +82,7 @@ class SignupOtpScreen extends StatelessWidget {
                   hintTextStyle: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w900,
-                    fontFamily: "DMSans",
+                    fontFamily: "Mont",
                     letterSpacing: 20,
                   ),
                   contentPaddingHorizontal: 12,
@@ -90,7 +90,7 @@ class SignupOtpScreen extends StatelessWidget {
                   textFormFieldStyle: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w900,
-                    fontFamily: "DMSans",
+                    fontFamily: "Mont",
                     letterSpacing: 20,
                   ),
                   textAlign: TextAlign.center,

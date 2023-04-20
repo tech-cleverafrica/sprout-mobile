@@ -15,6 +15,7 @@ import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
+import 'package:sprout_mobile/src/utils/global_function.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
 
@@ -195,7 +196,7 @@ class DispenseErrorScreen extends StatelessWidget {
                             Container(
                               width: MediaQuery.of(context).size.width * 0.42,
                               child: CustomTextFormField(
-                                label: "Transaction amount",
+                                label: "Transaction amount ($currencySymbol)",
                                 hintText: "Amount",
                                 required: true,
                                 textInputType: TextInputType.phone,
@@ -403,7 +404,7 @@ class DispenseErrorScreen extends StatelessWidget {
                                   Text(
                                     "Attach receipt or evidence",
                                     style: TextStyle(
-                                        fontFamily: "DMSans",
+                                        fontFamily: "Mont",
                                         fontSize: 13.sp,
                                         color: isDarkMode
                                             ? AppColors.white

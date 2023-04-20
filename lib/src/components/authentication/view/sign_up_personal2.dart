@@ -69,7 +69,7 @@ class SignupPersonal2 extends StatelessWidget {
                 Text(
                   "Let's get to know you!",
                   style: TextStyle(
-                      fontFamily: "DMSans",
+                      fontFamily: "Mont",
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w500,
                       color: isDarkMode

@@ -45,7 +45,7 @@ getHomeHeader(bool isDarkMode, abbreviation, int size) {
               child: Text(
                 abbreviation,
                 style: TextStyle(
-                    fontFamily: "DMSans",
+                    fontFamily: "Mont",
                     fontSize: 13.sp,
                     fontWeight: FontWeight.w700,
                     color:
@@ -291,6 +291,7 @@ getItems(isDark) {
       children: [
         itemOptions(
           isDark: isDark,
+          iconColor: AppColors.mainGreen,
           color: isDark ? AppColors.greyDot : AppColors.grey,
           title: "Send",
           svg: AppSvg.send,
@@ -300,6 +301,7 @@ getItems(isDark) {
         ),
         itemOptions(
           isDark: isDark,
+          iconColor: AppColors.primaryColor,
           color: isDark ? AppColors.greyDot : AppColors.grey,
           title: "Payments",
           svg: AppSvg.swap,
@@ -309,6 +311,7 @@ getItems(isDark) {
         ),
         itemOptions(
           isDark: isDark,
+          iconColor: AppColors.orangeWarning,
           color: isDark ? AppColors.greyDot : AppColors.grey,
           title: "Pay Bills",
           svg: AppSvg.bill,
@@ -318,6 +321,7 @@ getItems(isDark) {
         ),
         itemOptions(
           isDark: isDark,
+          iconColor: AppColors.red,
           color: isDark ? AppColors.greyDot : AppColors.grey,
           title: "Buy Airtime",
           svg: AppSvg.airtime,
@@ -334,12 +338,14 @@ getItems(isDark) {
 class itemOptions extends StatelessWidget {
   itemOptions(
       {Key? key,
+      required this.iconColor,
       required this.color,
       required this.svg,
       required this.title,
       required this.onTap,
       required this.isDark})
       : super(key: key);
+  final Color iconColor;
   final Color color;
   final String svg;
   final String title;
@@ -359,9 +365,8 @@ class itemOptions extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(25.0),
                   child: SvgPicture.asset(svg,
-                      height: 20.h,
-                      width: 20.w,
-                      color: isDark ? AppColors.white : AppColors.black),
+                      height: 20.h, width: 20.w, color: iconColor),
+                  // color: isDark ? AppColors.white : AppColors.black),
                 ),
               ),
             ),
@@ -370,7 +375,7 @@ class itemOptions extends StatelessWidget {
               title,
               style: TextStyle(
                   fontWeight: FontWeight.w500,
-                  fontFamily: "DMSans",
+                  fontFamily: "Mont",
                   fontSize: 10.sp,
                   color: isDark ? AppColors.white : AppColors.black),
             )
@@ -426,9 +431,9 @@ class BalanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 289.w,
+      width: 279.w,
       decoration: BoxDecoration(
-          color: isDarkMode ? AppColors.balanceCardDark : AppColors.greyBg,
+          color: isDarkMode ? AppColors.balanceCardDark : AppColors.card,
           borderRadius: BorderRadius.circular(14)),
       child: Padding(
         padding: const EdgeInsets.only(top: 15, bottom: 0, right: 15, left: 15),
@@ -438,33 +443,33 @@ class BalanceCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    ClipRRect(
-                      child: SvgPicture.asset(
-                        flag,
-                        height: 30,
-                        width: 30,
-                      ),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    addHorizontalSpace(
-                      5.w,
-                    ),
-                    Text(
-                      currency,
-                      style: TextStyle(
-                          fontFamily: "DMSans",
-                          fontSize: 14.sp,
-                          color: isDarkMode ? AppColors.white : AppColors.black,
-                          fontWeight: FontWeight.w400),
-                    )
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     ClipRRect(
+                //       child: SvgPicture.asset(
+                //         flag,
+                //         height: 30,
+                //         width: 30,
+                //       ),
+                //       borderRadius: BorderRadius.circular(30),
+                //     ),
+                //     addHorizontalSpace(
+                //       5.w,
+                //     ),
+                //     Text(
+                //       currency,
+                //       style: TextStyle(
+                //           fontFamily: "Mont",
+                //           fontSize: 14.sp,
+                //           color: isDarkMode ? AppColors.white : AppColors.black,
+                //           fontWeight: FontWeight.w400),
+                //     )
+                //   ],
+                // ),
                 Text(
                   title,
                   style: TextStyle(
-                      fontFamily: "DMSans",
+                      fontFamily: "Mont",
                       fontSize: 12.sp,
                       color: isDarkMode ? AppColors.white : AppColors.black,
                       fontWeight: FontWeight.w500),
@@ -495,8 +500,8 @@ class BalanceCard extends StatelessWidget {
                                 Text(
                                   naira,
                                   style: TextStyle(
-                                      fontFamily: "DMSans",
-                                      fontSize: 26.sp,
+                                      fontFamily: "Mont",
+                                      fontSize: 32.sp,
                                       color: isDarkMode
                                           ? AppColors.white
                                           : AppColors.black,
@@ -506,8 +511,8 @@ class BalanceCard extends StatelessWidget {
                                     ? Text(
                                         ".",
                                         style: TextStyle(
-                                            fontFamily: "DMSans",
-                                            fontSize: 26.sp,
+                                            fontFamily: "Mont",
+                                            fontSize: 32.sp,
                                             color: isDarkMode
                                                 ? AppColors.white
                                                 : AppColors.black,
@@ -519,7 +524,7 @@ class BalanceCard extends StatelessWidget {
                                   child: Text(
                                     kobo,
                                     style: TextStyle(
-                                        fontFamily: "DMSans",
+                                        fontFamily: "Mont",
                                         fontSize: 16.sp,
                                         color: isDarkMode
                                             ? AppColors.white
@@ -534,7 +539,7 @@ class BalanceCard extends StatelessWidget {
                                 Text(
                                   "******",
                                   style: TextStyle(
-                                      fontFamily: "DMSans",
+                                      fontFamily: "Mont",
                                       fontSize: 26.sp,
                                       color: isDarkMode
                                           ? AppColors.white
@@ -544,47 +549,111 @@ class BalanceCard extends StatelessWidget {
                               ],
                             ),
                     ),
-                    addHorizontalSpace(24.w),
+                    addHorizontalSpace(16.w),
                     InkWell(
-                      onTap: setVisibility,
-                      child: Container(
-                        height: 36.h,
-                        width: 36.w,
-                        alignment: Alignment.topRight,
-                        decoration: BoxDecoration(
-                            color:
-                                isDarkMode ? AppColors.black : AppColors.white,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(0.0),
-                            child: Icon(
-                                showAmount
-                                    ? CommunityMaterialIcons.eye_off_outline
-                                    : CommunityMaterialIcons.eye_outline,
-                                size: 18,
+                        onTap: setVisibility,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Container(
+                            height: 20.h,
+                            width: 20.w,
+                            alignment: Alignment.topRight,
+                            decoration: BoxDecoration(
                                 color: isDarkMode
-                                    ? AppColors.white
-                                    : AppColors.black),
+                                    ? AppColors.black
+                                    : AppColors.white,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(0.0),
+                                child: Icon(
+                                    showAmount
+                                        ? CommunityMaterialIcons.eye_off_outline
+                                        : CommunityMaterialIcons.eye_outline,
+                                    size: 12,
+                                    color: isDarkMode
+                                        ? AppColors.white
+                                        : AppColors.black),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    )
+                        ))
                   ],
                 )
               ],
             ),
             addVerticalSpace(8.h),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: bankVisible
+                  ? MainAxisAlignment.spaceBetween
+                  : MainAxisAlignment.start,
               children: [
+                Visibility(
+                    visible: bankVisible,
+                    child: Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              bank,
+                              style: TextStyle(
+                                  fontFamily: "Mont",
+                                  fontSize: 11.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: isDarkMode
+                                      ? AppColors.white
+                                      : AppColors.black),
+                            ),
+                            Text(
+                              accountNumber,
+                              style: TextStyle(
+                                  fontFamily: "Mont",
+                                  fontSize: 11.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: isDarkMode
+                                      ? AppColors.greyText
+                                      : AppColors.deepGrey),
+                            )
+                          ],
+                        ),
+                        addHorizontalSpace(10.w),
+                        GestureDetector(
+                            onTap: () => Platform.isIOS
+                                ? Clipboard.setData(
+                                        ClipboardData(text: accountNumber))
+                                    .then((value) => {
+                                          CustomToastNotification.show(
+                                              "Account number has been copied successfully",
+                                              type: ToastType.success),
+                                        })
+                                : FlutterClipboard.copy(accountNumber)
+                                    .then((value) => {
+                                          CustomToastNotification.show(
+                                              "Account number has been copied successfully",
+                                              type: ToastType.success),
+                                        }),
+                            child: Container(
+                              color: Colors.transparent,
+                              alignment: Alignment.center,
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset(
+                                      AppSvg.copy,
+                                      height: 16,
+                                    ),
+                                  ]),
+                            )),
+                      ],
+                    )),
                 InkWell(
                     onTap: onTap,
                     child: Visibility(
                       visible: buttonVisible,
                       child: Container(
-                        width: 122.w,
-                        height: 32.h,
+                        width: 95.w,
+                        height: 24.h,
                         decoration: BoxDecoration(
                             color: buttonColor,
                             borderRadius: BorderRadius.circular(5)),
@@ -596,72 +665,20 @@ class BalanceCard extends StatelessWidget {
                                 child: Icon(
                                   Icons.add,
                                   color: AppColors.white,
-                                  size: 18,
+                                  size: 14,
                                 ),
                               ),
                               addHorizontalSpace(5.w),
                               Text(
                                 buttontext,
                                 style: TextStyle(
-                                    fontFamily: "DMSans",
+                                    fontFamily: "Mont",
                                     color: AppColors.white,
-                                    fontSize: 12.sp,
+                                    fontSize: 10.sp,
                                     fontWeight: FontWeight.w700),
                               )
                             ]),
                       ),
-                    )),
-                Visibility(
-                  visible: bankVisible,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        bank,
-                        style: TextStyle(
-                            fontFamily: "DMSans",
-                            fontSize: 11.sp,
-                            fontWeight: FontWeight.w700,
-                            color:
-                                isDarkMode ? AppColors.white : AppColors.black),
-                      ),
-                      Text(
-                        accountNumber,
-                        style: TextStyle(
-                            fontFamily: "DMSans",
-                            fontSize: 11.sp,
-                            fontWeight: FontWeight.w400,
-                            color: isDarkMode
-                                ? AppColors.greyText
-                                : AppColors.deepGrey),
-                      )
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                    onTap: () => Platform.isIOS
-                        ? Clipboard.setData(ClipboardData(text: accountNumber))
-                            .then((value) => {
-                                  CustomToastNotification.show(
-                                      "Account number has been copied successfully",
-                                      type: ToastType.success),
-                                })
-                        : FlutterClipboard.copy(accountNumber).then((value) => {
-                              CustomToastNotification.show(
-                                  "Account number has been copied successfully",
-                                  type: ToastType.success),
-                            }),
-                    child: Container(
-                      color: Colors.transparent,
-                      alignment: Alignment.center,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              AppSvg.copy,
-                              height: 16,
-                            ),
-                          ]),
                     )),
               ],
             ),
@@ -671,3 +688,293 @@ class BalanceCard extends StatelessWidget {
     );
   }
 }
+// class BalanceCard extends StatelessWidget {
+//   const BalanceCard(
+//       {Key? key,
+//       required this.isDarkMode,
+//       required this.flag,
+//       required this.currency,
+//       required this.title,
+//       required this.symbol,
+//       required this.naira,
+//       required this.kobo,
+//       required this.bank,
+//       required this.buttontext,
+//       required this.buttonColor,
+//       required this.accountNumber,
+//       required this.bankVisible,
+//       required this.iconVisible,
+//       required this.copyVisible,
+//       required this.buttonVisible,
+//       required this.showAmount,
+//       required this.onTap,
+//       required this.setVisibility})
+//       : super(key: key);
+
+//   final bool isDarkMode;
+//   final String flag;
+//   final String currency;
+//   final String title;
+//   final String symbol;
+//   final String naira;
+//   final String kobo;
+//   final String bank;
+//   final String buttontext;
+//   final String accountNumber;
+//   final Color buttonColor;
+//   final bool iconVisible;
+//   final bool bankVisible;
+//   final bool copyVisible;
+//   final bool buttonVisible;
+//   final bool showAmount;
+//   final VoidCallback onTap;
+//   final VoidCallback setVisibility;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: 289.w,
+//       decoration: BoxDecoration(
+//           color: isDarkMode ? AppColors.balanceCardDark : AppColors.greyBg,
+//           borderRadius: BorderRadius.circular(14)),
+//       child: Padding(
+//         padding: const EdgeInsets.only(top: 15, bottom: 0, right: 15, left: 15),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//               children: [
+//                 Row(
+//                   children: [
+//                     ClipRRect(
+//                       child: SvgPicture.asset(
+//                         flag,
+//                         height: 30,
+//                         width: 30,
+//                       ),
+//                       borderRadius: BorderRadius.circular(30),
+//                     ),
+//                     addHorizontalSpace(
+//                       5.w,
+//                     ),
+//                     Text(
+//                       currency,
+//                       style: TextStyle(
+//                           fontFamily: "Mont",
+//                           fontSize: 14.sp,
+//                           color: isDarkMode ? AppColors.white : AppColors.black,
+//                           fontWeight: FontWeight.w400),
+//                     )
+//                   ],
+//                 ),
+//                 Text(
+//                   title,
+//                   style: TextStyle(
+//                       fontFamily: "Mont",
+//                       fontSize: 12.sp,
+//                       color: isDarkMode ? AppColors.white : AppColors.black,
+//                       fontWeight: FontWeight.w500),
+//                 )
+//               ],
+//             ),
+//             addVerticalSpace(5.h),
+//             Row(
+//               children: [
+//                 Row(
+//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                   children: [
+//                     Container(
+//                       height: 60,
+//                       child: showAmount
+//                           ? Row(
+//                               children: [
+//                                 Text(
+//                                   symbol,
+//                                   style: TextStyle(
+//                                       fontFamily: "Mont",
+//                                       fontSize: 14.sp,
+//                                       color: isDarkMode
+//                                           ? AppColors.white
+//                                           : AppColors.black,
+//                                       fontWeight: FontWeight.w700),
+//                                 ),
+//                                 Text(
+//                                   naira,
+//                                   style: TextStyle(
+//                                       fontFamily: "Mont",
+//                                       fontSize: 26.sp,
+//                                       color: isDarkMode
+//                                           ? AppColors.white
+//                                           : AppColors.black,
+//                                       fontWeight: FontWeight.w700),
+//                                 ),
+//                                 kobo != ""
+//                                     ? Text(
+//                                         ".",
+//                                         style: TextStyle(
+//                                             fontFamily: "Mont",
+//                                             fontSize: 26.sp,
+//                                             color: isDarkMode
+//                                                 ? AppColors.white
+//                                                 : AppColors.black,
+//                                             fontWeight: FontWeight.w700),
+//                                       )
+//                                     : Text(""),
+//                                 Container(
+//                                   margin: EdgeInsets.only(top: 5),
+//                                   child: Text(
+//                                     kobo,
+//                                     style: TextStyle(
+//                                         fontFamily: "Mont",
+//                                         fontSize: 16.sp,
+//                                         color: isDarkMode
+//                                             ? AppColors.white
+//                                             : AppColors.black,
+//                                         fontWeight: FontWeight.w500),
+//                                   ),
+//                                 )
+//                               ],
+//                             )
+//                           : Row(
+//                               children: [
+//                                 Text(
+//                                   "******",
+//                                   style: TextStyle(
+//                                       fontFamily: "Mont",
+//                                       fontSize: 26.sp,
+//                                       color: isDarkMode
+//                                           ? AppColors.white
+//                                           : AppColors.black,
+//                                       fontWeight: FontWeight.w700),
+//                                 ),
+//                               ],
+//                             ),
+//                     ),
+//                     addHorizontalSpace(24.w),
+//                     InkWell(
+//                       onTap: setVisibility,
+//                       child: Container(
+//                         height: 36.h,
+//                         width: 36.w,
+//                         alignment: Alignment.topRight,
+//                         decoration: BoxDecoration(
+//                             color:
+//                                 isDarkMode ? AppColors.black : AppColors.white,
+//                             borderRadius: BorderRadius.circular(10)),
+//                         child: Center(
+//                           child: Padding(
+//                             padding: const EdgeInsets.all(0.0),
+//                             child: Icon(
+//                                 showAmount
+//                                     ? CommunityMaterialIcons.eye_off_outline
+//                                     : CommunityMaterialIcons.eye_outline,
+//                                 size: 18,
+//                                 color: isDarkMode
+//                                     ? AppColors.white
+//                                     : AppColors.black),
+//                           ),
+//                         ),
+//                       ),
+//                     )
+//                   ],
+//                 )
+//               ],
+//             ),
+//             addVerticalSpace(8.h),
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//               children: [
+//                 InkWell(
+//                     onTap: onTap,
+//                     child: Visibility(
+//                       visible: buttonVisible,
+//                       child: Container(
+//                         width: 122.w,
+//                         height: 32.h,
+//                         decoration: BoxDecoration(
+//                             color: buttonColor,
+//                             borderRadius: BorderRadius.circular(5)),
+//                         child: Row(
+//                             mainAxisAlignment: MainAxisAlignment.center,
+//                             children: [
+//                               Visibility(
+//                                 visible: iconVisible,
+//                                 child: Icon(
+//                                   Icons.add,
+//                                   color: AppColors.white,
+//                                   size: 18,
+//                                 ),
+//                               ),
+//                               addHorizontalSpace(5.w),
+//                               Text(
+//                                 buttontext,
+//                                 style: TextStyle(
+//                                     fontFamily: "Mont",
+//                                     color: AppColors.white,
+//                                     fontSize: 12.sp,
+//                                     fontWeight: FontWeight.w700),
+//                               )
+//                             ]),
+//                       ),
+//                     )),
+//                 Visibility(
+//                   visible: bankVisible,
+//                   child: Column(
+//                     crossAxisAlignment: CrossAxisAlignment.start,
+//                     children: [
+//                       Text(
+//                         bank,
+//                         style: TextStyle(
+//                             fontFamily: "Mont",
+//                             fontSize: 11.sp,
+//                             fontWeight: FontWeight.w700,
+//                             color:
+//                                 isDarkMode ? AppColors.white : AppColors.black),
+//                       ),
+//                       Text(
+//                         accountNumber,
+//                         style: TextStyle(
+//                             fontFamily: "Mont",
+//                             fontSize: 11.sp,
+//                             fontWeight: FontWeight.w400,
+//                             color: isDarkMode
+//                                 ? AppColors.greyText
+//                                 : AppColors.deepGrey),
+//                       )
+//                     ],
+//                   ),
+//                 ),
+//                 GestureDetector(
+//                     onTap: () => Platform.isIOS
+//                         ? Clipboard.setData(ClipboardData(text: accountNumber))
+//                             .then((value) => {
+//                                   CustomToastNotification.show(
+//                                       "Account number has been copied successfully",
+//                                       type: ToastType.success),
+//                                 })
+//                         : FlutterClipboard.copy(accountNumber).then((value) => {
+//                               CustomToastNotification.show(
+//                                   "Account number has been copied successfully",
+//                                   type: ToastType.success),
+//                             }),
+//                     child: Container(
+//                       color: Colors.transparent,
+//                       alignment: Alignment.center,
+//                       child: Column(
+//                           crossAxisAlignment: CrossAxisAlignment.center,
+//                           children: [
+//                             SvgPicture.asset(
+//                               AppSvg.copy,
+//                               height: 16,
+//                             ),
+//                           ]),
+//                     )),
+//               ],
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

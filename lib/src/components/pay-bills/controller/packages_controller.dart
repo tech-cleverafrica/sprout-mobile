@@ -388,7 +388,7 @@ class PackagesController extends GetxController {
             heightFactor: 0.5,
             child: Container(
               decoration: BoxDecoration(
-                  color: AppColors.white,
+                  color: isDarkMode ? AppColors.greyDot : AppColors.white,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
@@ -410,7 +410,7 @@ class PackagesController extends GetxController {
                               ? "Select Bundle"
                               : "Select Package",
                           style: TextStyle(
-                              fontFamily: "DMSans",
+                              fontFamily: "Mont",
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
                               color: isDarkMode
@@ -473,7 +473,7 @@ class PackagesController extends GetxController {
                                         Text(
                                           packages[index].name!,
                                           style: TextStyle(
-                                              fontFamily: "DMSans",
+                                              fontFamily: "Mont",
                                               fontSize: 12.sp,
                                               fontWeight:
                                                   package.value != null &&

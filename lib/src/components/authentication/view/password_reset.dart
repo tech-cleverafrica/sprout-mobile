@@ -41,7 +41,7 @@ class PasswordReset extends StatelessWidget {
                 Text(
                   "Reset Password",
                   style: TextStyle(
-                      fontFamily: "DMSans",
+                      fontFamily: "Mont",
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w400,
                       color:
@@ -51,7 +51,7 @@ class PasswordReset extends StatelessWidget {
                 Text(
                   "Reset your password with the OTP sent to your mail",
                   style: TextStyle(
-                      fontFamily: "DMSans",
+                      fontFamily: "Mont",
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w500,
                       color: isDarkMode

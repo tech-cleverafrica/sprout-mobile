@@ -148,7 +148,7 @@ class ProfileScreen extends StatelessWidget {
                                 Text(
                                   profileController.fullname.value,
                                   style: TextStyle(
-                                      fontFamily: "DMSans",
+                                      fontFamily: "Mont",
                                       fontSize: 18.sp,
                                       color: isDarkMode
                                           ? AppColors.white
@@ -158,7 +158,7 @@ class ProfileScreen extends StatelessWidget {
                                 Text(
                                   profileController.email.value,
                                   style: TextStyle(
-                                      fontFamily: "DMSans",
+                                      fontFamily: "Mont",
                                       fontSize: 13.sp,
                                       color: isDarkMode
                                           ? AppColors.greyText
@@ -184,7 +184,7 @@ class ProfileScreen extends StatelessWidget {
                         Text(
                           "Customer ID:",
                           style: TextStyle(
-                              fontFamily: "DMSans",
+                              fontFamily: "Mont",
                               fontSize: 13.sp,
                               color: isDarkMode
                                   ? AppColors.greyText
@@ -195,7 +195,7 @@ class ProfileScreen extends StatelessWidget {
                         Text(
                           profileController.agentId.value,
                           style: TextStyle(
-                              fontFamily: "DMSans",
+                              fontFamily: "Mont",
                               fontSize: 13.sp,
                               color: isDarkMode
                                   ? AppColors.greyText
@@ -210,7 +210,7 @@ class ProfileScreen extends StatelessWidget {
                         Text(
                           "Account Number",
                           style: TextStyle(
-                              fontFamily: "DMSans",
+                              fontFamily: "Mont",
                               fontSize: 13.sp,
                               color: isDarkMode
                                   ? AppColors.greyText
@@ -221,7 +221,7 @@ class ProfileScreen extends StatelessWidget {
                         Text(
                           profileController.accountNumberToUse.value,
                           style: TextStyle(
-                              fontFamily: "DMSans",
+                              fontFamily: "Mont",
                               fontSize: 13.sp,
                               color: isDarkMode
                                   ? AppColors.greyText
@@ -259,7 +259,7 @@ class ProfileScreen extends StatelessWidget {
                         Text(
                           "Bank",
                           style: TextStyle(
-                              fontFamily: "DMSans",
+                              fontFamily: "Mont",
                               fontSize: 13.sp,
                               color: isDarkMode
                                   ? AppColors.greyText
@@ -270,7 +270,7 @@ class ProfileScreen extends StatelessWidget {
                         Text(
                           profileController.bankToUse.value,
                           style: TextStyle(
-                              fontFamily: "DMSans",
+                              fontFamily: "Mont",
                               fontSize: 13.sp,
                               color: isDarkMode
                                   ? AppColors.greyText
@@ -295,7 +295,7 @@ class ProfileScreen extends StatelessWidget {
                           ? "Switch to light mode"
                           : "Switch to dark mode",
                       style: TextStyle(
-                          fontFamily: "DMSans",
+                          fontFamily: "Mont",
                           fontSize: 13.sp,
                           color: isDarkMode
                               ? AppColors.semi_white.withOpacity(0.8)
@@ -504,7 +504,7 @@ class ProfileScreen extends StatelessWidget {
                                       child: Text(
                                         "Are you sure you want to logout?",
                                         style: TextStyle(
-                                            fontFamily: "DMSans",
+                                            fontFamily: "Mont",
                                             fontSize: 14.sp,
                                             color: isDarkMode
                                                 ? AppColors.white
@@ -575,7 +575,7 @@ class ProfileScreen extends StatelessWidget {
                   child: Text(
                     "V.S.1.0.0",
                     style: TextStyle(
-                        fontFamily: "DMSans",
+                        fontFamily: "Mont",
                         fontSize: 13.sp,
                         color:
                             isDarkMode ? AppColors.white : AppColors.greyText,

@@ -40,7 +40,7 @@ class BorrowScren extends StatelessWidget {
                             Text(
                               "Tap to pay",
                               style: TextStyle(
-                                  fontFamily: "DMSans",
+                                  fontFamily: "Mont",
                                   fontSize: 14.sp,
                                   color: isDarkMode
                                       ? AppColors.white
@@ -71,9 +71,9 @@ class BorrowScren extends StatelessWidget {
                             SvgPicture.asset(AppSvg.request),
                             addHorizontalSpace(10.w),
                             Text(
-                              "Request Payment",
+                              "Create Payment Link",
                               style: TextStyle(
-                                  fontFamily: "DMSans",
+                                  fontFamily: "Mont",
                                   fontSize: 14.sp,
                                   color: isDarkMode
                                       ? AppColors.white

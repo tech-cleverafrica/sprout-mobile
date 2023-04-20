@@ -82,7 +82,7 @@ class _OnboardingState extends State<Onboarding> {
                                 "Access all business payment solutions like contactless pos, scheduled payments, transfers",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontFamily: "DMSans",
+                                    fontFamily: "Mont",
                                     fontSize: 12.sp,
                                     color: isDarkMode
                                         ? AppColors.semi_white
@@ -129,7 +129,7 @@ class _OnboardingState extends State<Onboarding> {
                                 "Send money, request money pay bills seamlessly",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontFamily: "DMSans",
+                                    fontFamily: "Mont",
                                     fontSize: 12.sp,
                                     color: isDarkMode
                                         ? AppColors.semi_white
@@ -176,7 +176,7 @@ class _OnboardingState extends State<Onboarding> {
                                 "We comply with all guideline by regulators to protect your funds",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontFamily: "DMSans",
+                                    fontFamily: "Mont",
                                     fontSize: 12.sp,
                                     color: isDarkMode
                                         ? AppColors.semi_white
@@ -224,7 +224,7 @@ class _OnboardingState extends State<Onboarding> {
                               "Access all business payment solutions like contactless pos, scheduled payments, transfers",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontFamily: "DMSans",
+                                  fontFamily: "Mont",
                                   fontSize: 12.sp,
                                   color: isDarkMode
                                       ? AppColors.semi_white
@@ -276,7 +276,7 @@ class _OnboardingState extends State<Onboarding> {
                               style: TextStyle(
                                   color: Color(0xFFF2f2f2),
                                   fontWeight: FontWeight.w400,
-                                  fontFamily: 'DMSans',
+                                  fontFamily: 'Mont',
                                   fontSize: 15.sp),
                             ),
                           ),
@@ -302,7 +302,7 @@ class _OnboardingState extends State<Onboarding> {
                           child: Text(
                             "Login",
                             style: TextStyle(
-                                fontFamily: 'DMSans',
+                                fontFamily: 'Mont',
                                 color: isDarkMode
                                     ? AppColors.white
                                     : AppColors.black,

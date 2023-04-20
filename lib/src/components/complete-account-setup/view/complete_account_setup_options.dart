@@ -45,7 +45,7 @@ class CompleteAccountSetupOptions extends StatelessWidget {
                           Text(
                             "Next of Kin",
                             style: TextStyle(
-                                fontFamily: "DMSans",
+                                fontFamily: "Mont",
                                 fontSize: 14.sp,
                                 color: isDarkMode
                                     ? AppColors.white
@@ -75,7 +75,7 @@ class CompleteAccountSetupOptions extends StatelessWidget {
                           Text(
                             "Business Details",
                             style: TextStyle(
-                                fontFamily: "DMSans",
+                                fontFamily: "Mont",
                                 fontSize: 14.sp,
                                 color: isDarkMode
                                     ? AppColors.white
@@ -107,7 +107,7 @@ class CompleteAccountSetupOptions extends StatelessWidget {
                           Text(
                             "Upload Documents",
                             style: TextStyle(
-                                fontFamily: "DMSans",
+                                fontFamily: "Mont",
                                 fontSize: 14.sp,
                                 color: isDarkMode
                                     ? AppColors.white

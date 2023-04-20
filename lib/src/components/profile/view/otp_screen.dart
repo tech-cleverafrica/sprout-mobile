@@ -45,7 +45,7 @@ class OtpScreen extends StatelessWidget {
                               text:
                                   "Please enter the OTP sent to your registered email address ",
                               style: TextStyle(
-                                  fontFamily: "DMSans",
+                                  fontFamily: "Mont",
                                   fontSize: 12.sp,
                                   color: isDarkMode
                                       ? AppColors.white
@@ -59,7 +59,7 @@ class OtpScreen extends StatelessWidget {
                                       ? createPinController.email
                                       : "",
                               style: TextStyle(
-                                  fontFamily: "DMSans",
+                                  fontFamily: "Mont",
                                   fontSize: 14.sp,
                                   color: isDarkMode
                                       ? AppColors.white
@@ -93,7 +93,7 @@ class OtpScreen extends StatelessWidget {
                   hintTextStyle: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w900,
-                    fontFamily: "DMSans",
+                    fontFamily: "Mont",
                     letterSpacing: 20,
                   ),
                   contentPaddingHorizontal: 12,
@@ -101,7 +101,7 @@ class OtpScreen extends StatelessWidget {
                   textFormFieldStyle: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w900,
-                    fontFamily: "DMSans",
+                    fontFamily: "Mont",
                     letterSpacing: 20,
                   ),
                   textAlign: TextAlign.center,

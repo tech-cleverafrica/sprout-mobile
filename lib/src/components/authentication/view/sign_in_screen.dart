@@ -46,7 +46,7 @@ class SignInScreen extends StatelessWidget {
                           ? "Welcome Back, " + signInController.fullname.value
                           : "Welcome Back",
                       style: TextStyle(
-                          fontFamily: "DMSans",
+                          fontFamily: "Mont",
                           fontSize: 20.sp,
                           fontWeight: FontWeight.w400,
                           color: isDarkMode
@@ -86,7 +86,7 @@ class SignInScreen extends StatelessWidget {
                       child: Text(
                         'Forgot Password?',
                         style: TextStyle(
-                            fontFamily: "DMSans",
+                            fontFamily: "Mont",
                             fontSize: 12.sp,
                             fontStyle: FontStyle.italic,
                             fontWeight: FontWeight.w700,
@@ -116,7 +116,7 @@ class SignInScreen extends StatelessWidget {
                   Text(
                     "You do not have an account? ",
                     style: TextStyle(
-                        fontFamily: "DMSans",
+                        fontFamily: "Mont",
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w400,
                         color: isDarkMode ? AppColors.white : AppColors.black),
@@ -131,7 +131,7 @@ class SignInScreen extends StatelessWidget {
                         child: Text(
                           "Create Account",
                           style: TextStyle(
-                              fontFamily: "DMSans",
+                              fontFamily: "Mont",
                               fontSize: 12.sp,
                               decoration: TextDecoration.underline,
                               fontWeight: FontWeight.w700,
@@ -157,10 +157,10 @@ class SignInScreen extends StatelessWidget {
                   Obx(
                     () => Text(
                         signInController.isFingerPrintEnabled.value
-                            ? 'Use Fingerprint'
+                            ? 'Use Biometric Login'
                             : "",
                         style: TextStyle(
-                            fontFamily: "DMSans",
+                            fontFamily: "Mont",
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w700,
                             color: isDarkMode

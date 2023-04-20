@@ -46,7 +46,7 @@ class ComingSoon extends StatelessWidget {
                     Text(
                       "Coming Soon",
                       style: TextStyle(
-                          fontFamily: "DMSans",
+                          fontFamily: "Mont",
                           fontSize: 30.sp,
                           fontWeight: FontWeight.w700,
                           color: AppColors.white),
@@ -60,7 +60,7 @@ class ComingSoon extends StatelessWidget {
                         "We are currently working on this feature and will be back soon!",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontFamily: "DMSans",
+                            fontFamily: "Mont",
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w500,
                             color: AppColors.white),

@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_dropdown_button_field.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
+import 'package:sprout_mobile/src/utils/global_function.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 
 import '../../../utils/app_colors.dart';
@@ -30,15 +31,15 @@ class RequestPayment extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
           child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 getHeader(isDarkMode),
                 addVerticalSpace(40.h),
                 Text(
-                  "Enter Amount",
+                  "Enter Amount ($currencySymbol)",
                   style: TextStyle(
-                      fontFamily: "DMSans",
-                      fontSize: 14.sp,
+                      fontFamily: "Mont",
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                       color: isDarkMode ? AppColors.white : AppColors.black),
                 ),
@@ -48,7 +49,7 @@ class RequestPayment extends StatelessWidget {
                     enabled: true,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontFamily: "DMSans",
+                        fontFamily: "Mont",
                         fontSize: 40.sp,
                         fontWeight: FontWeight.w700,
                         color: isDarkMode ? AppColors.white : AppColors.black),
@@ -56,20 +57,9 @@ class RequestPayment extends StatelessWidget {
                     onChanged: (val) {},
                     onSaved: (val) {},
                     decoration: InputDecoration(
-                        border: InputBorder.none,
-                        prefix: Padding(
-                          padding: const EdgeInsets.only(bottom: 20.0),
-                          child: Text("NGN"),
-                        ),
-                        prefixStyle: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w700,
-                          fontFeatures: [
-                            FontFeature.superscripts(),
-                          ],
-                          color: isDarkMode ? AppColors.white : AppColors.black,
-                          fontFamily: "DMSans",
-                        )),
+                      border: InputBorder.none,
+                      //prefixText: "NGN",
+                    ),
                   ),
                 ),
                 addVerticalSpace(20.h),
