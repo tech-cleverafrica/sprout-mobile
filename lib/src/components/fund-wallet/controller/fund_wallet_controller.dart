@@ -115,8 +115,10 @@ class FundWalletController extends GetxController {
 
   Future<dynamic> validateFields() async {
     if ((double.parse(amountController.text.split(",").join()) >= 10 &&
-            double.parse(amountController.text.split(",").join()) <= 450000) &&
-        card.value != null) {
+        double.parse(amountController.text.split(",").join()) <= 450000)) {
+      // if ((double.parse(amountController.text.split(",").join()) >= 10 &&
+      //         double.parse(amountController.text.split(",").join()) <= 450000) &&
+      //     card.value != null) {
       var response = await fundWalletWithNewCard();
       return response;
     } else if (double.parse(amountController.text.split(",").join("")) == 0) {
@@ -132,10 +134,10 @@ class FundWalletController extends GetxController {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("Maximum amount is 450,000"),
           backgroundColor: AppColors.errorRed));
-    } else if (card.value == null) {
-      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-          content: Text("Please select card"),
-          backgroundColor: AppColors.errorRed));
+      // } else if (card.value == null) {
+      //   ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+      //       content: Text("Please select card"),
+      //       backgroundColor: AppColors.errorRed));
     } else {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("Please supply all required fields"),

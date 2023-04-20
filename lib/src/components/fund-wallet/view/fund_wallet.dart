@@ -271,37 +271,37 @@ void fundFromCard(BuildContext context) {
                             return null;
                           },
                         ),
-                        GestureDetector(
-                            onTap: () {
-                              fundWalletController.showCardList(
-                                  context, isDarkMode);
-                            },
-                            child: Obx((() => CustomTextFormField(
-                                controller: fundWalletController.cardController,
-                                label: "Select Card",
-                                hintText: fundWalletController.card.value ==
-                                        null
-                                    ? "Select Card"
-                                    : fundWalletController.card.value!.pan! +
-                                        " - " +
-                                        fundWalletController
-                                            .card.value!.provider!,
-                                required: true,
-                                enabled: false,
-                                fillColor: isDarkMode
-                                    ? AppColors.inputBackgroundColor
-                                    : AppColors.grey,
-                                hintTextStyle:
-                                    fundWalletController.card.value == null
-                                        ? null
-                                        : TextStyle(
-                                            color: isDarkMode
-                                                ? AppColors.white
-                                                : AppColors.black,
-                                            fontWeight: FontWeight.w600))))),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.05,
-                        ),
+                        // GestureDetector(
+                        //     onTap: () {
+                        //       fundWalletController.showCardList(
+                        //           context, isDarkMode);
+                        //     },
+                        //     child: Obx((() => CustomTextFormField(
+                        //         controller: fundWalletController.cardController,
+                        //         label: "Select Card",
+                        //         hintText: fundWalletController.card.value ==
+                        //                 null
+                        //             ? "Select Card"
+                        //             : fundWalletController.card.value!.pan! +
+                        //                 " - " +
+                        //                 fundWalletController
+                        //                     .card.value!.provider!,
+                        //         required: true,
+                        //         enabled: false,
+                        //         fillColor: isDarkMode
+                        //             ? AppColors.inputBackgroundColor
+                        //             : AppColors.grey,
+                        //         hintTextStyle:
+                        //             fundWalletController.card.value == null
+                        //                 ? null
+                        //                 : TextStyle(
+                        //                     color: isDarkMode
+                        //                         ? AppColors.white
+                        //                         : AppColors.black,
+                        //                     fontWeight: FontWeight.w600))))),
+                        // SizedBox(
+                        //   height: MediaQuery.of(context).size.height * 0.05,
+                        // ),
                         DecisionButton(
                             isDarkMode: isDarkMode,
                             buttonText: "Proceed",
@@ -309,17 +309,20 @@ void fundFromCard(BuildContext context) {
                                   fundWalletController
                                       .validateFields()
                                       .then((value) => {
-                                            if (value == true)
-                                              {
-                                                fundWalletController
-                                                    .handlePaymentInitialization(
-                                                        context)
-                                              }
-                                            else if (value == false)
-                                              {
-                                                fundWalletController
-                                                    .handlePaymentComplete()
-                                              }
+                                            fundWalletController
+                                                .handlePaymentInitialization(
+                                                    context)
+                                            // if (value == true)
+                                            //   {
+                                            //     fundWalletController
+                                            //         .handlePaymentInitialization(
+                                            //             context)
+                                            //   }
+                                            // else if (value == false)
+                                            //   {
+                                            //     fundWalletController
+                                            //         .handlePaymentComplete()
+                                            //   }
                                           })
                                 })),
                       ]),
