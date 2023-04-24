@@ -1,10 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:sprout_mobile/src/public/widgets/custom_dropdown_button_field.dart';
+import 'package:sprout_mobile/src/components/borow/view/success_payment_link.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/global_function.dart';
@@ -92,7 +90,7 @@ class RequestPayment extends StatelessWidget {
                   isDarkMode: isDarkMode,
                   buttonText: "Continue",
                   onTap: () {
-                    // Get.to(() => TransactionDetailsScreen());
+                    Get.to(() => SuccessfulPaymentLink());
                   },
                 ),
               ],

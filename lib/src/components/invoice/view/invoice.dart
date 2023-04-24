@@ -516,7 +516,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
             Container(
               width: 150.w,
               child: Text(
-                "No history yet. Click Invoice at the top to get started",
+                "No history yet. Click Invoice at the bottom to get started",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: isDarkMode ? AppColors.greyText : AppColors.black),

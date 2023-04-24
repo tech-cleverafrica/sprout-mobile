@@ -81,4 +81,8 @@ class SharedService {
     final url = file.path;
     await Share.shareFiles([url]);
   }
+
+  Future shareText(String text) async {
+    await Share.share(text);
+  }
 }
