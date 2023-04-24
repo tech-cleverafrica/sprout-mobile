@@ -107,7 +107,8 @@ class AirtimePaymentApprovalScreen extends StatelessWidget {
                   Expanded(
                       child: InkWell(
                     onTap: () async {
-                      final pdfFile = await locator<PdfService>()
+                      final pdfFile = await locator
+                          .get<PdfService>()
                           .generateAirtimeReceipt(
                               trans.transactionAmount.toString(),
                               trans.type.toString(),
@@ -117,8 +118,8 @@ class AirtimePaymentApprovalScreen extends StatelessWidget {
                               trans.transactionFee.toString(),
                               trans.agentCut.toString(),
                               trans.createdAt.toString(),
-                              trans.status.toString());
-                      await locator<SharedService>().shareFile(pdfFile);
+                              trans.responseMessage.toString());
+                      await locator.get<SharedService>().shareFile(pdfFile);
                     },
                     child: Container(
                       height: 50,

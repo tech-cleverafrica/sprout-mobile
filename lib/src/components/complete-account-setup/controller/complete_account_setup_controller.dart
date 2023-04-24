@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/complete-account-setup/service/complete_account_setup_service.dart';
+import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
 import 'package:sprout_mobile/src/public/screens/approval_page.dart';
 import 'package:sprout_mobile/src/public/services/shared_service.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
@@ -74,6 +75,11 @@ class CompleteAccountSetupController extends GetxController {
         heading: "Your information has been successfully submitted",
         messages: "You will be notified once your account is verified",
       ));
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        requestVerification(model);
+      }
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }
@@ -94,12 +100,17 @@ class CompleteAccountSetupController extends GetxController {
         uploadBillText.value = utilityBill!.path;
         isUtilityValid = true;
       }
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        uploadAndCommit(image, fileType);
+      }
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }
   }
 
-  void processIdUpload(File file) {
+  void processIdUpload(File file) async {
     identityCardUploadError = null;
     String message = locator.get<SharedService>().validateFileSize(file, 5);
     if (message == "") {

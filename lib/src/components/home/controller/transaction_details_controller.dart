@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/home/service/home_service.dart';
+import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
 import 'package:sprout_mobile/src/public/services/pdf_service.dart';
 import 'package:sprout_mobile/src/public/services/shared_service.dart';
 
@@ -35,6 +36,11 @@ class TransactionDetailsController extends GetxController {
         .getTransaction(transaction.value?.slug?.substring(1) ?? "");
     if (response.status) {
       transaction.value = response.data;
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        getTransaction();
+      }
     }
   }
 
@@ -70,7 +76,7 @@ class TransactionDetailsController extends GetxController {
         transaction.value?.narration.toString() ?? "",
         transaction.value?.rrn.toString() ?? "",
         transaction.value?.type == "CASH_OUT",
-        transaction.value?.status.toString() ?? "");
+        transaction.value?.responseMessage.toString() ?? "");
     return pdfFile;
   }
 
@@ -88,7 +94,7 @@ class TransactionDetailsController extends GetxController {
           transaction.value?.agentCut.toString() ?? "",
           transaction.value?.createdAt.toString() ?? "",
           transaction.value?.narration.toString() ?? "",
-          transaction.value?.status.toString() ?? "",
+          transaction.value?.responseMessage.toString() ?? "",
         );
     return pdfFile;
   }
@@ -102,7 +108,7 @@ class TransactionDetailsController extends GetxController {
           transaction.value?.postBalance.toString() ?? "",
           transaction.value?.createdAt.toString() ?? "",
           transaction.value?.narration.toString() ?? "",
-          transaction.value?.status.toString() ?? "",
+          transaction.value?.responseMessage.toString() ?? "",
         );
     return pdfFile;
   }
@@ -117,7 +123,7 @@ class TransactionDetailsController extends GetxController {
         transaction.value?.transactionFee.toString() ?? "",
         transaction.value?.agentCut.toString() ?? "",
         transaction.value?.createdAt.toString() ?? "",
-        transaction.value?.status.toString() ?? "");
+        transaction.value?.responseMessage.toString() ?? "");
     return pdfFile;
   }
 
@@ -132,7 +138,7 @@ class TransactionDetailsController extends GetxController {
         transaction.value?.transactionFee.toString() ?? "",
         transaction.value?.createdAt.toString() ?? "",
         transaction.value?.narration.toString() ?? "",
-        transaction.value?.status.toString() ?? "");
+        transaction.value?.responseMessage.toString() ?? "");
     return pdfFile;
   }
 }

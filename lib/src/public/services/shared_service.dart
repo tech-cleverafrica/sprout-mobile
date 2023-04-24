@@ -16,8 +16,9 @@ class SharedService {
   Future<AppResponse<dynamic>> uploadAndCommit(
       File? file, String fileType) async {
     CustomLoader.show();
-    Response response =
-        await locator<SharedRepositoryImpl>().uploadAndCommit(file, fileType);
+    Response response = await locator
+        .get<SharedRepositoryImpl>()
+        .uploadAndCommit(file, fileType);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
 

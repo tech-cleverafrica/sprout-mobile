@@ -20,7 +20,8 @@ class FundWalletService {
       get_accessor.Get.put(PreferenceRepository());
 
   Future<AppResponse<List<CustomerCard>>> getCards() async {
-    Response response = await locator<FundWalletRepositoryImpl>().getCards();
+    Response response =
+        await locator.get<FundWalletRepositoryImpl>().getCards();
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = {"data": response.data};
     if (statusCode >= 200 && statusCode <= 300) {
@@ -34,7 +35,8 @@ class FundWalletService {
   Future<AppResponse<dynamic>> fundWalletWithNewCard(
       Map<String, dynamic> requestBody) async {
     CustomLoader.show();
-    Response response = await locator<FundWalletRepositoryImpl>()
+    Response response = await locator
+        .get<FundWalletRepositoryImpl>()
         .fundWalletWithNewCard(requestBody);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;

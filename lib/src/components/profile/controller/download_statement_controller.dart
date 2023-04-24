@@ -84,7 +84,7 @@ class DownloadStatementController extends GetxController {
         messages: response.message,
       ));
     } else if (response.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         downloadStatement();
       }

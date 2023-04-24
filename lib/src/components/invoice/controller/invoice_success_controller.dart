@@ -60,7 +60,7 @@ class InvoiceSuccessController extends GetxController {
       CustomToastNotification.show(response.message, type: ToastType.success);
       pop();
     } else if (response.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         sendInvoice();
       }
@@ -76,7 +76,7 @@ class InvoiceSuccessController extends GetxController {
       invoiceUrl.value = response.data["data"];
       return response.data["data"];
     } else if (response.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         downloadInvoice(invoiceId);
       }

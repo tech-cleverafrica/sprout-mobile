@@ -6,6 +6,7 @@ import 'package:sprout_mobile/src/components/pay-bills/controller/billers_contro
 import 'package:sprout_mobile/src/components/pay-bills/model/biller_model.dart';
 import 'package:sprout_mobile/src/components/pay-bills/model/biller_package_model.dart';
 import 'package:sprout_mobile/src/components/pay-bills/service/pay_bills_service.dart';
+import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
@@ -63,6 +64,11 @@ class PackagesController extends GetxController {
     if (response.status) {
       packages.assignAll(response.data!);
       basePackages.assignAll(response.data);
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        getPackages();
+      }
     }
   }
 
@@ -83,6 +89,11 @@ class PackagesController extends GetxController {
             type: ToastType.error);
       } else {
         return response.data["responseData"];
+      }
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        lookup(requestBody, route);
       }
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);

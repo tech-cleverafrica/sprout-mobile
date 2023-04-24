@@ -5,6 +5,7 @@ import 'package:sprout_mobile/src/components/buy-airtime/controller/airtime_cont
 import 'package:sprout_mobile/src/components/home/model/transactions_model.dart';
 import 'package:sprout_mobile/src/components/pay-bills/service/pay_bills_service.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
+import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
 
 class AirtimePaymentController extends GetxController {
   final AirtimeController airtimeController = Get.put(AirtimeController());
@@ -41,6 +42,11 @@ class AirtimePaymentController extends GetxController {
     if (response.status) {
       Transactions trans = Transactions.fromJson(response.data["data"]);
       return trans;
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        pay(pin);
+      }
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }

@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/home/service/home_service.dart';
+import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
 import 'package:sprout_mobile/src/public/model/date_range.dart';
 import 'package:sprout_mobile/src/public/services/date_service.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
@@ -52,13 +53,18 @@ class TransactionsController extends GetxController {
   }
 
   loadTransactions() async {
-    AppResponse<List<Transactions>> transactionsResponse = await locator
+    AppResponse<List<Transactions>> response = await locator
         .get<HomeService>()
         .getTransactionsWithFilter(buildFilters());
     loading.value = false;
     transactions.clear();
-    if (transactionsResponse.status) {
-      transactions.assignAll(transactionsResponse.data!);
+    if (response.status) {
+      transactions.assignAll(response.data!);
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        loadTransactions();
+      }
     }
   }
 
@@ -68,6 +74,11 @@ class TransactionsController extends GetxController {
         .downloadTransactionRecords(transactionFilters);
     if (response.status) {
       CustomToastNotification.show(response.message, type: ToastType.success);
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        downloadTransactionRecords();
+      }
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }

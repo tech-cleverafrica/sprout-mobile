@@ -107,23 +107,24 @@ class BillsPaymentApprovalScreen extends StatelessWidget {
                   Expanded(
                       child: InkWell(
                     onTap: () async {
-                      final pdfFile = await locator<PdfService>()
+                      final pdfFile = await locator
+                          .get<PdfService>()
                           .generateBillPaymentReceipt(
-                        trans.transactionAmount.toString(),
-                        trans.type ?? "",
-                        trans.smartCardNumber ?? "",
-                        trans.phoneNumber ?? "",
-                        trans.accountNumber ?? "",
-                        trans.group ?? "",
-                        trans.bundle ?? "",
-                        trans.ref ?? "",
-                        trans.transactionFee.toString(),
-                        trans.agentCut.toString(),
-                        trans.createdAt ?? "",
-                        trans.narration ?? "",
-                        trans.status ?? "",
-                      );
-                      await locator<SharedService>().shareFile(pdfFile);
+                            trans.transactionAmount.toString(),
+                            trans.type ?? "",
+                            trans.smartCardNumber ?? "",
+                            trans.phoneNumber ?? "",
+                            trans.accountNumber ?? "",
+                            trans.group ?? "",
+                            trans.bundle ?? "",
+                            trans.ref ?? "",
+                            trans.transactionFee.toString(),
+                            trans.agentCut.toString(),
+                            trans.createdAt ?? "",
+                            trans.narration ?? "",
+                            trans.responseMessage ?? "",
+                          );
+                      await locator.get<SharedService>().shareFile(pdfFile);
                     },
                     child: Container(
                       height: 50,

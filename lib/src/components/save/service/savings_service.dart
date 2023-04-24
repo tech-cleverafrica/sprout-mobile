@@ -6,7 +6,7 @@ import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
 
 class SavingsService {
   Future<AppResponse<dynamic>> getPlans() async {
-    Response response = await locator<SavingsRepositoryImpl>().getPlans();
+    Response response = await locator.get<SavingsRepositoryImpl>().getPlans();
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
     if (statusCode >= 200 && statusCode <= 300) {
@@ -19,7 +19,8 @@ class SavingsService {
 
   Future<AppResponse<dynamic>> getRateOptions() async {
     CustomLoader.show();
-    Response response = await locator<SavingsRepositoryImpl>().getRateOptions();
+    Response response =
+        await locator.get<SavingsRepositoryImpl>().getRateOptions();
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;

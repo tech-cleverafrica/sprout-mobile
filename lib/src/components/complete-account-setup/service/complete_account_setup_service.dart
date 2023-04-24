@@ -9,7 +9,8 @@ class CompleteAccountSetupService {
   Future<AppResponse<dynamic>> requestVerification(
       Map<String, dynamic> requestBody) async {
     CustomLoader.show();
-    Response response = await locator<CompleteAccountSetupRepositoryImpl>()
+    Response response = await locator
+        .get<CompleteAccountSetupRepositoryImpl>()
         .requestVerification(requestBody);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;

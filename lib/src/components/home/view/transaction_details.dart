@@ -51,7 +51,7 @@ class TransactionDetailsScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         bottomNavigationBar: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24),
+          padding: EdgeInsets.only(left: 24, right: 24, bottom: 24),
           child: Row(
             children: [
               Container(
@@ -665,7 +665,7 @@ class TransactionDetailsScreen extends StatelessWidget {
                               ),
                               value(
                                   isDarkMode,
-                                  tDs.transaction.value?.status
+                                  tDs.transaction.value?.responseMessage
                                       ?.toString()
                                       .toUpperCase(),
                                   context)

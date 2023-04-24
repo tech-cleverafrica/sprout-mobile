@@ -91,7 +91,7 @@ class HomeController extends GetxController {
       walletBalance.value = wallet.data!.balance!;
       storage.write("userBalance", walletBalance.value);
     } else if (response.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         getWallet();
       }
@@ -113,7 +113,7 @@ class HomeController extends GetxController {
       storage.write(
           "transactionResponse", jsonEncode(transactionsResponse.data!));
     } else if (transactionsResponse.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         loadTransactions();
       }
@@ -131,7 +131,7 @@ class HomeController extends GetxController {
       inflowGraph.value = setGraph(inflowData, "amount");
       outflowGraph.value = setGraph(outflowData, "amount");
     } else if (response.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         getDashboardGraph();
       }
@@ -142,7 +142,7 @@ class HomeController extends GetxController {
     AppResponse<dynamic> response =
         await locator.get<AuthService>().getUserDetails();
     if (response.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         getUserInfo();
       }

@@ -9,7 +9,7 @@ class ProfileService {
   Future<AppResponse<dynamic>> sendOtp(Map<String, dynamic> requestBody) async {
     CustomLoader.show();
     Response response =
-        await locator<ProfileRepositoryImpl>().sendOtp(requestBody);
+        await locator.get<ProfileRepositoryImpl>().sendOtp(requestBody);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
 
@@ -25,7 +25,7 @@ class ProfileService {
       Map<String, dynamic> requestBody) async {
     CustomLoader.show();
     Response response =
-        await locator<ProfileRepositoryImpl>().changePin(requestBody);
+        await locator.get<ProfileRepositoryImpl>().changePin(requestBody);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
 
@@ -41,7 +41,7 @@ class ProfileService {
       Map<String, dynamic> requestBody) async {
     CustomLoader.show();
     Response response =
-        await locator<ProfileRepositoryImpl>().createPin(requestBody);
+        await locator.get<ProfileRepositoryImpl>().createPin(requestBody);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
 
@@ -57,7 +57,7 @@ class ProfileService {
       Map<String, dynamic> requestBody) async {
     CustomLoader.show();
     Response response =
-        await locator<ProfileRepositoryImpl>().changePassword(requestBody);
+        await locator.get<ProfileRepositoryImpl>().changePassword(requestBody);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
 
@@ -71,7 +71,8 @@ class ProfileService {
 
   Future<AppResponse<dynamic>> updateProfilePicture(
       Map<String, dynamic> requestBody) async {
-    Response response = await locator<ProfileRepositoryImpl>()
+    Response response = await locator
+        .get<ProfileRepositoryImpl>()
         .updateProfilePicture(requestBody);
     int statusCode = response.statusCode ?? 000;
 
@@ -86,7 +87,7 @@ class ProfileService {
   Future<AppResponse<dynamic>> logout(Map<String, dynamic> requestBody) async {
     CustomLoader.show();
     Response response =
-        await locator<ProfileRepositoryImpl>().logout(requestBody);
+        await locator.get<ProfileRepositoryImpl>().logout(requestBody);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
 

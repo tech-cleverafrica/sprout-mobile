@@ -45,7 +45,7 @@ class SavingsController extends GetxController {
     if (response.status) {
       print(response.data);
     } else if (response.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         fetchPlans(refresh);
       }

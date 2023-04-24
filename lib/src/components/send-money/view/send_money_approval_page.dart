@@ -108,22 +108,22 @@ class SendMoneyApprovalScreen extends StatelessWidget {
                       child: InkWell(
                     onTap: () async {
                       final pdfFile =
-                          await locator<PdfService>().generateReceipt(
-                        trans.transactionAmount.toString(),
-                        trans.type.toString(),
-                        trans.beneficiaryAccountNumber.toString(),
-                        trans.beneficiaryName.toString(),
-                        trans.beneficiaryBankName.toString(),
-                        trans.ref.toString(),
-                        trans.sessionID.toString(),
-                        trans.transactionFee.toString(),
-                        trans.createdAt.toString(),
-                        trans.narration.toString(),
-                        trans.rrn.toString(),
-                        trans.type == "CASH_OUT",
-                        trans.status.toString(),
-                      );
-                      await locator<SharedService>().shareFile(pdfFile);
+                          await locator.get<PdfService>().generateReceipt(
+                                trans.transactionAmount.toString(),
+                                trans.type.toString(),
+                                trans.beneficiaryAccountNumber.toString(),
+                                trans.beneficiaryName.toString(),
+                                trans.beneficiaryBankName.toString(),
+                                trans.ref.toString(),
+                                trans.sessionID.toString(),
+                                trans.transactionFee.toString(),
+                                trans.createdAt.toString(),
+                                trans.narration.toString(),
+                                trans.rrn.toString(),
+                                trans.type == "CASH_OUT",
+                                trans.responseMessage.toString(),
+                              );
+                      await locator.get<SharedService>().shareFile(pdfFile);
                     },
                     child: Container(
                       height: 50,

@@ -98,7 +98,7 @@ class InvoiceController extends GetxController {
       invoice.assignAll(invoiceResponse.data!);
       baseInvoice.assignAll(invoiceResponse.data!);
     } else if (invoiceResponse.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         fetchUserInvoices(refresh);
       }
@@ -116,7 +116,7 @@ class InvoiceController extends GetxController {
       baseInvoiceCustomer.assignAll(invoiceCustomerResponse.data!);
       return true;
     } else if (invoiceCustomerResponse.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         fetchInvoiceCustomers();
       }
@@ -132,7 +132,7 @@ class InvoiceController extends GetxController {
     if (appResponse.status) {
       invoiceDetail = InvoiceDetail.fromJson(appResponse.data['data']);
     } else if (appResponse.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         fetchSingleInvoice(invoiceId);
       }
@@ -147,7 +147,7 @@ class InvoiceController extends GetxController {
       fetchUserInvoices(true);
       return response.data["data"];
     } else if (response.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         downloadInvoice(invoiceId);
       }

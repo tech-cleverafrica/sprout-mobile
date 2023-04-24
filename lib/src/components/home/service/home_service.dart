@@ -19,7 +19,7 @@ class HomeService {
   final PreferenceRepository preferenceRepository =
       get_accessor.Get.put(PreferenceRepository());
   Future<AppResponse<dynamic>> getWallet() async {
-    Response response = await locator<HomeRepositoryImpl>().getWallet();
+    Response response = await locator.get<HomeRepositoryImpl>().getWallet();
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
     if (response.data["status"]) {
@@ -30,7 +30,8 @@ class HomeService {
   }
 
   Future<AppResponse<List<Transactions>>> getTransactions() async {
-    Response response = await locator<HomeRepositoryImpl>().getTransactions();
+    Response response =
+        await locator.get<HomeRepositoryImpl>().getTransactions();
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
     if (statusCode >= 200 && statusCode <= 300) {
@@ -43,8 +44,9 @@ class HomeService {
 
   Future<AppResponse<List<Transactions>>> getTransactionsWithFilter(
       String filters) async {
-    Response response =
-        await locator<HomeRepositoryImpl>().getTransactionsWithFilter(filters);
+    Response response = await locator
+        .get<HomeRepositoryImpl>()
+        .getTransactionsWithFilter(filters);
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
     if (statusCode >= 200 && statusCode <= 300) {
@@ -58,8 +60,9 @@ class HomeService {
   Future<AppResponse<dynamic>> downloadTransactionRecords(
       String filters) async {
     CustomLoader.show();
-    Response response =
-        await locator<HomeRepositoryImpl>().downloadTransactionRecords(filters);
+    Response response = await locator
+        .get<HomeRepositoryImpl>()
+        .downloadTransactionRecords(filters);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
@@ -72,7 +75,7 @@ class HomeService {
 
   Future<AppResponse<Transactions>> getTransaction(String slug) async {
     Response response =
-        await locator<HomeRepositoryImpl>().getTransaction(slug);
+        await locator.get<HomeRepositoryImpl>().getTransaction(slug);
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
     if (statusCode >= 200 && statusCode <= 300) {
@@ -84,7 +87,8 @@ class HomeService {
   }
 
   Future<AppResponse<dynamic>> getDashboardGraph() async {
-    Response response = await locator<HomeRepositoryImpl>().getDashboardGraph();
+    Response response =
+        await locator.get<HomeRepositoryImpl>().getDashboardGraph();
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
     if (statusCode >= 200 && statusCode <= 300) {

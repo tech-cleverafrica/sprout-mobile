@@ -29,7 +29,8 @@ class AuthService {
   Future<AppResponse<SignInResponseModel>> signIn(
       Map<String, dynamic> requestBody) async {
     CustomLoader.show();
-    Response response = await locator<AuthRepositoryImpl>().signin(requestBody);
+    Response response =
+        await locator.get<AuthRepositoryImpl>().signin(requestBody);
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
     if (response.data["status"]) {
@@ -51,7 +52,8 @@ class AuthService {
   }
 
   Future<AppResponse<dynamic>> getUserDetails() async {
-    Response response = await locator<AuthRepositoryImpl>().getUserDetails();
+    Response response =
+        await locator.get<AuthRepositoryImpl>().getUserDetails();
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
 
@@ -92,7 +94,7 @@ class AuthService {
       Map<String, dynamic> requestBody) async {
     CustomLoader.show();
     Response response =
-        await locator<AuthRepositoryImpl>().emailConfirmation(requestBody);
+        await locator.get<AuthRepositoryImpl>().emailConfirmation(requestBody);
     print(response);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
@@ -109,7 +111,7 @@ class AuthService {
       Map<String, dynamic> requestBody) async {
     CustomLoader.show();
     Response response =
-        await locator<AuthRepositoryImpl>().resetPassword(requestBody);
+        await locator.get<AuthRepositoryImpl>().resetPassword(requestBody);
     print(response);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
@@ -148,7 +150,7 @@ class AuthService {
       Map<String, dynamic> requestBody) async {
     CustomLoader.show();
     Response response =
-        await locator<AuthRepositoryImpl>().verifyEmail(requestBody);
+        await locator.get<AuthRepositoryImpl>().verifyEmail(requestBody);
     print(response);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
@@ -165,7 +167,7 @@ class AuthService {
       Map<String, dynamic> requestBody) async {
     CustomLoader.show();
     Response response =
-        await locator<AuthRepositoryImpl>().createUser(requestBody);
+        await locator.get<AuthRepositoryImpl>().createUser(requestBody);
     print(response);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
@@ -180,7 +182,7 @@ class AuthService {
 
   Future<AppResponse<dynamic>> logout(Map<String, dynamic> requestBody) async {
     Response response =
-        await locator<ProfileRepositoryImpl>().logout(requestBody);
+        await locator.get<ProfileRepositoryImpl>().logout(requestBody);
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
     setLoginStatus(false);

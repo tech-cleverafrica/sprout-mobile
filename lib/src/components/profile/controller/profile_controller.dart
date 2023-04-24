@@ -10,6 +10,7 @@ import 'package:sprout_mobile/src/components/authentication/view/sign_in_screen.
 import 'package:sprout_mobile/src/components/profile/service/profile_service.dart';
 import 'package:sprout_mobile/src/public/services/shared_service.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
+import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
 import 'package:sprout_mobile/src/utils/global_function.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
 
@@ -68,7 +69,9 @@ class ProfileController extends GetxController {
       showAutoBiometricsOnLoginPage(false);
       pushUntil(page: SignInScreen());
     } else {
-      CustomToastNotification.show(response.message, type: ToastType.error);
+      setLoginStatus(false);
+      showAutoBiometricsOnLoginPage(false);
+      pushUntil(page: SignInScreen());
     }
   }
 
@@ -79,6 +82,11 @@ class ProfileController extends GetxController {
         .uploadAndCommit(profilePicture, "profilePicture");
     if (response.status) {
       uploadProfilePicture(response.data["data"]);
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        uploadAndCommit();
+      }
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }
@@ -92,6 +100,11 @@ class ProfileController extends GetxController {
     if (response.status) {
       profileImage.value = url;
       storage.write('profilePicture', url);
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        uploadProfilePicture(url);
+      }
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }

@@ -80,7 +80,7 @@ class FundWalletController extends GetxController {
       walletBalance.value = wallet.data!.balance!;
       storage.write("userBalance", walletBalance.value);
     } else if (response.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         getWallet();
       }
@@ -110,6 +110,11 @@ class FundWalletController extends GetxController {
       );
       cards.assignAll(response.data!);
       cards.insert(0, none);
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        getCards();
+      }
     }
   }
 
@@ -158,7 +163,7 @@ class FundWalletController extends GetxController {
         return false;
       }
     } else if (response.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         fundWalletWithNewCard();
       }

@@ -128,7 +128,7 @@ class CreateInvoiceController extends GetxController {
     if (response.status) {
       info.value = InvoiceBusinessInfo.fromJson(response.data);
     } else if (response.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         fetchInvoiceBusinessInfo();
       }
@@ -143,7 +143,7 @@ class CreateInvoiceController extends GetxController {
     if (response.status) {
       info.value = InvoiceBusinessInfo.fromJson(response.data);
     } else if (response.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         uploadInvoiceBusinessLogo();
       }
@@ -160,7 +160,7 @@ class CreateInvoiceController extends GetxController {
     if (response.status) {
       info.value = InvoiceBusinessInfo.fromJson(response.data);
     } else if (response.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         removeInvoiceBusinessLogo();
       }
@@ -182,7 +182,7 @@ class CreateInvoiceController extends GetxController {
     if (response.status) {
       info.value = InvoiceBusinessInfo.fromJson(response.data);
     } else if (response.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         updateBusinessInfo();
       }
@@ -265,7 +265,7 @@ class CreateInvoiceController extends GetxController {
               }
           });
     } else if (appResponse.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         addCustomer();
       }
@@ -281,7 +281,7 @@ class CreateInvoiceController extends GetxController {
     if (response.status) {
       pushUntil(page: SuccessfulInvoice(), arguments: response.data);
     } else if (response.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         submitInvoice();
       }

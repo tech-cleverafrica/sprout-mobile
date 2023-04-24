@@ -9,7 +9,8 @@ class BorrowService {
   Future<AppResponse<dynamic>> initiateCardlessPayment(
       Map<String, dynamic> requestBody) async {
     CustomLoader.show();
-    Response response = await locator<BorrowRepositoryImpl>()
+    Response response = await locator
+        .get<BorrowRepositoryImpl>()
         .initiateCardlessPayment(requestBody);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
@@ -25,8 +26,9 @@ class BorrowService {
   Future<AppResponse<dynamic>> saveCardlessPayment(
       Map<String, dynamic> requestBody) async {
     CustomLoader.show();
-    Response response =
-        await locator<BorrowRepositoryImpl>().saveCardlessPayment(requestBody);
+    Response response = await locator
+        .get<BorrowRepositoryImpl>()
+        .saveCardlessPayment(requestBody);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
 

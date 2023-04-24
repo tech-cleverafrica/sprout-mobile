@@ -48,6 +48,11 @@ class NfcController extends GetxController {
     AppResponse response = await locator.get<AuthService>().getUserDetails();
     if (response.status) {
       bankTID = storage.read("bankTID");
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        getUserInfo();
+      }
     }
   }
 
@@ -55,6 +60,11 @@ class NfcController extends GetxController {
     AppResponse response = await locator.get<AuthService>().getUserDetails();
     if (response.status) {
       bankTID = storage.read("bankTID");
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        requestTerminalId();
+      }
     }
   }
 
@@ -91,6 +101,11 @@ class NfcController extends GetxController {
         await locator.get<BorrowService>().initiateCardlessPayment(model);
     if (response.status) {
       return response.data["data"];
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        initiateCardlessPayment(model);
+      }
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
       return null;
@@ -107,6 +122,11 @@ class NfcController extends GetxController {
         heading: "Good Job!",
         messages: "Cash Withdrawal Successful",
       ));
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        saveCardlessPayment(model);
+      }
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }

@@ -89,7 +89,7 @@ class CustomerController extends GetxController {
       pop();
       invoiceController.fetchInvoiceCustomers();
     } else if (appResponse.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         addCustomer();
       }

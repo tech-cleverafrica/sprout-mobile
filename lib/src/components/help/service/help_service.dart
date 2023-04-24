@@ -11,7 +11,7 @@ import '../repository/help_repositoryimpl.dart';
 
 class HelpService {
   Future<AppResponse<List<Categories>>> getCategories() async {
-    Response response = await locator<HelpRepositoryImpl>().getCategories();
+    Response response = await locator.get<HelpRepositoryImpl>().getCategories();
     int statusCode = response.statusCode ?? 000;
 
     Map<String, dynamic> responseBody = response.data;
@@ -27,7 +27,7 @@ class HelpService {
       String id, String loadingMessage) async {
     CustomLoader.show();
     Response response =
-        await locator<HelpRepositoryImpl>().getSubCategories(id);
+        await locator.get<HelpRepositoryImpl>().getSubCategories(id);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
 
@@ -41,7 +41,7 @@ class HelpService {
   }
 
   Future<AppResponse<Overview>> getOverview() async {
-    Response response = await locator<HelpRepositoryImpl>().getOverview();
+    Response response = await locator.get<HelpRepositoryImpl>().getOverview();
     int statusCode = response.statusCode ?? 000;
 
     Map<String, dynamic> responseBody = response.data;
@@ -55,7 +55,7 @@ class HelpService {
 
   Future<AppResponse<List<Issues>>> getIssues(int size, String param) async {
     Response response =
-        await locator<HelpRepositoryImpl>().getIssues(size, param);
+        await locator.get<HelpRepositoryImpl>().getIssues(size, param);
     int statusCode = response.statusCode ?? 000;
 
     Map<String, dynamic> responseBody = response.data;
@@ -69,7 +69,7 @@ class HelpService {
 
   Future<AppResponse<List<Issues>>> getPendingIssues(int size) async {
     Response response =
-        await locator<HelpRepositoryImpl>().getPendingIssues(size);
+        await locator.get<HelpRepositoryImpl>().getPendingIssues(size);
     int statusCode = response.statusCode ?? 000;
 
     Map<String, dynamic> responseBody = response.data;
@@ -85,7 +85,7 @@ class HelpService {
       Map<String, dynamic> requestBody, String id) async {
     CustomLoader.show();
     Response response =
-        await locator<HelpRepositoryImpl>().reopenIssue(requestBody, id);
+        await locator.get<HelpRepositoryImpl>().reopenIssue(requestBody, id);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
 
@@ -102,7 +102,7 @@ class HelpService {
       Map<String, dynamic> requestBody, String id) async {
     CustomLoader.show();
     Response response =
-        await locator<HelpRepositoryImpl>().updateIssue(requestBody, id);
+        await locator.get<HelpRepositoryImpl>().updateIssue(requestBody, id);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
 
@@ -119,7 +119,7 @@ class HelpService {
       Map<String, dynamic> requestBody) async {
     CustomLoader.show();
     Response response =
-        await locator<HelpRepositoryImpl>().submitIssue(requestBody);
+        await locator.get<HelpRepositoryImpl>().submitIssue(requestBody);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
 
@@ -135,8 +135,9 @@ class HelpService {
   Future<AppResponse<Issues>> submitDispenseError(
       Map<String, dynamic> requestBody) async {
     CustomLoader.show();
-    Response response =
-        await locator<HelpRepositoryImpl>().submitDispenseError(requestBody);
+    Response response = await locator
+        .get<HelpRepositoryImpl>()
+        .submitDispenseError(requestBody);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
 

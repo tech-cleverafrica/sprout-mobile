@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/help/model/catergories_model.dart';
+import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
 import 'package:sprout_mobile/src/components/help/model/issues_model.dart';
 import 'package:sprout_mobile/src/components/help/model/overview_model.dart';
 import 'package:sprout_mobile/src/components/help/service/help_service.dart';
@@ -73,6 +74,11 @@ class HelpController extends GetxController {
     if (response.status) {
       categories.assignAll(response.data!);
       getOverview();
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        getCategories();
+      }
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
       pop();
@@ -87,6 +93,11 @@ class HelpController extends GetxController {
           (response.data!.data!.total! - response.data!.data!.resolved!)
               .toString();
       resolved.value = response.data!.data!.resolved!.toString();
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        getOverview();
+      }
     }
   }
 
@@ -98,6 +109,11 @@ class HelpController extends GetxController {
     resolvedIssues.clear();
     if (response.status) {
       resolvedIssues.assignAll(response.data!);
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        getIssues();
+      }
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }
@@ -111,6 +127,11 @@ class HelpController extends GetxController {
     pendingIssues.clear();
     if (response.status) {
       pendingIssues.assignAll(response.data!);
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        getPendingIssues();
+      }
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }

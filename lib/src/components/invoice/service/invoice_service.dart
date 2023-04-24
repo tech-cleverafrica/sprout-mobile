@@ -14,7 +14,8 @@ import '../model/invoice_detail_model.dart';
 class InvoiceService {
   Future<AppResponse<List<Invoice>>> getInvoices(
       String statusFilter, Map<String, dynamic> timeFilter) async {
-    Response response = await locator<InvoiceRepositoryImpl>()
+    Response response = await locator
+        .get<InvoiceRepositoryImpl>()
         .getInvoices(statusFilter, timeFilter);
 
     int statusCode = response.statusCode ?? 000;
@@ -30,7 +31,7 @@ class InvoiceService {
 
   Future<AppResponse<InvoiceDetail>> getInvoice(String invoiceId) async {
     Response response =
-        await locator<InvoiceRepositoryImpl>().getInvoice(invoiceId);
+        await locator.get<InvoiceRepositoryImpl>().getInvoice(invoiceId);
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
 
@@ -43,7 +44,8 @@ class InvoiceService {
   }
 
   Future<AppResponse<List<InvoiceCustomer>>> getInvoiceCustomer() async {
-    Response response = await locator<InvoiceRepositoryImpl>().getCustomers();
+    Response response =
+        await locator.get<InvoiceRepositoryImpl>().getCustomers();
 
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
@@ -60,7 +62,7 @@ class InvoiceService {
       Map<String, dynamic> requestBody) async {
     CustomLoader.show();
     Response response =
-        await locator<InvoiceRepositoryImpl>().addCustomer(requestBody);
+        await locator.get<InvoiceRepositoryImpl>().addCustomer(requestBody);
     print(response);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
@@ -76,8 +78,9 @@ class InvoiceService {
   Future<AppResponse<dynamic>> updateCustomer(
       Map<String, dynamic> requestBody, String id) async {
     CustomLoader.show();
-    Response response =
-        await locator<InvoiceRepositoryImpl>().updateCustomer(requestBody, id);
+    Response response = await locator
+        .get<InvoiceRepositoryImpl>()
+        .updateCustomer(requestBody, id);
     print(response);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
@@ -93,7 +96,7 @@ class InvoiceService {
   Future<AppResponse<InvoiceBusinessInfo>> getInvoiceBusinessInfo() async {
     CustomLoader.show();
     Response response =
-        await locator<InvoiceRepositoryImpl>().getInvoiceBusinessInfo();
+        await locator.get<InvoiceRepositoryImpl>().getInvoiceBusinessInfo();
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
@@ -109,8 +112,9 @@ class InvoiceService {
   Future<AppResponse<InvoiceBusinessInfo>> uploadInvoiceBusinessLogo(
       File? file) async {
     CustomLoader.show();
-    Response response =
-        await locator<InvoiceRepositoryImpl>().uploadInvoiceBusinessLogo(file);
+    Response response = await locator
+        .get<InvoiceRepositoryImpl>()
+        .uploadInvoiceBusinessLogo(file);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
 
@@ -126,7 +130,7 @@ class InvoiceService {
   Future<AppResponse<InvoiceBusinessInfo>> removeInvoiceBusinessLogo() async {
     CustomLoader.show();
     Response response =
-        await locator<InvoiceRepositoryImpl>().removeInvoiceBusinessLogo();
+        await locator.get<InvoiceRepositoryImpl>().removeInvoiceBusinessLogo();
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
 
@@ -142,7 +146,8 @@ class InvoiceService {
   Future<AppResponse<InvoiceBusinessInfo>> updateBusinessInfo(
       String name, String phone, String email, String address) async {
     CustomLoader.show();
-    Response response = await locator<InvoiceRepositoryImpl>()
+    Response response = await locator
+        .get<InvoiceRepositoryImpl>()
         .updateBusinessInfo(name, phone, email, address);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
@@ -160,7 +165,7 @@ class InvoiceService {
       Map<String, dynamic> requestBody) async {
     CustomLoader.show();
     Response response =
-        await locator<InvoiceRepositoryImpl>().createInvoice(requestBody);
+        await locator.get<InvoiceRepositoryImpl>().createInvoice(requestBody);
     print(response);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
@@ -177,7 +182,7 @@ class InvoiceService {
   Future<AppResponse<Invoice>> markInvoiceAsPaid(String id) async {
     CustomLoader.show();
     Response response =
-        await locator<InvoiceRepositoryImpl>().markInvoiceAsPaid(id);
+        await locator.get<InvoiceRepositoryImpl>().markInvoiceAsPaid(id);
     print(response);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
@@ -194,7 +199,7 @@ class InvoiceService {
   Future<AppResponse<Invoice>> markInvoiceAsNotPaid(String id) async {
     CustomLoader.show();
     Response response =
-        await locator<InvoiceRepositoryImpl>().markInvoiceAsNotPaid(id);
+        await locator.get<InvoiceRepositoryImpl>().markInvoiceAsNotPaid(id);
     print(response);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
@@ -211,7 +216,8 @@ class InvoiceService {
   Future<AppResponse<Invoice>> markInvoiceAsPartialPaid(
       Map<String, dynamic> requestBody) async {
     CustomLoader.show();
-    Response response = await locator<InvoiceRepositoryImpl>()
+    Response response = await locator
+        .get<InvoiceRepositoryImpl>()
         .markInvoiceAsPartialPaid(requestBody);
     print(response);
     CustomLoader.dismiss();
@@ -229,7 +235,7 @@ class InvoiceService {
   Future<AppResponse<dynamic>> downloadInvoice(String invoiceId) async {
     CustomLoader.show();
     Response response =
-        await locator<InvoiceRepositoryImpl>().downloadInvoice(invoiceId);
+        await locator.get<InvoiceRepositoryImpl>().downloadInvoice(invoiceId);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
@@ -244,7 +250,7 @@ class InvoiceService {
       Map<String, dynamic> requestBody) async {
     CustomLoader.show();
     Response response =
-        await locator<InvoiceRepositoryImpl>().sendInvoice(requestBody);
+        await locator.get<InvoiceRepositoryImpl>().sendInvoice(requestBody);
     print(response);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;

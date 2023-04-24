@@ -94,7 +94,7 @@ class InvoiceDetailsController extends GetxController {
       setStatus();
       invoiceController.fetchUserInvoices(true);
     } else if (response.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         markInvoiceAsPaid();
       }
@@ -116,7 +116,7 @@ class InvoiceDetailsController extends GetxController {
       amountController = new MoneyMaskedTextController(
           initialValue: 0, decimalSeparator: ".", thousandSeparator: ",");
     } else if (response.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         markInvoiceAsPartialPaid();
       }
@@ -134,7 +134,7 @@ class InvoiceDetailsController extends GetxController {
       setStatus();
       invoiceController.fetchUserInvoices(true);
     } else if (response.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         markInvoiceAsPaid();
       }
@@ -150,7 +150,7 @@ class InvoiceDetailsController extends GetxController {
     if (response.status) {
       CustomToastNotification.show(response.message, type: ToastType.success);
     } else if (response.statusCode == 999) {
-      AppResponse res = await locator<AuthService>().refreshUserToken();
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         sendInvoice();
       }

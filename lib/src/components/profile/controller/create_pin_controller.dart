@@ -7,6 +7,7 @@ import 'package:sprout_mobile/src/components/profile/service/profile_service.dar
 import 'package:sprout_mobile/src/components/profile/view/otp_screen.dart';
 import 'package:sprout_mobile/src/public/screens/approval_page.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
+import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
 
@@ -95,6 +96,11 @@ class CreatePinController extends GetxController {
           page: OtpScreen(
         screen: "CREATE_PIN",
       ));
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        sendOtp(model);
+      }
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }
@@ -109,6 +115,11 @@ class CreatePinController extends GetxController {
         heading: "Good Job!",
         messages: "Your PIN has been created Successfully",
       ));
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        createPin(model);
+      }
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }

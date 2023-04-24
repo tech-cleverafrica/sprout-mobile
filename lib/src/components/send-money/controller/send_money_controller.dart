@@ -8,6 +8,7 @@ import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/components/home/model/transactions_model.dart';
 import 'package:sprout_mobile/src/components/send-money/model/bank_beneficiary.dart';
 import 'package:sprout_mobile/src/components/send-money/service/send_money_service.dart';
+import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
 import 'package:sprout_mobile/src/components/send-money/view/send_money_summary.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
@@ -146,6 +147,11 @@ class SendMoneyController extends GetxController {
     if (response.status) {
       Transactions trans = Transactions.fromJson(response.data["data"]);
       return trans;
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        makeTransafer(pin);
+      }
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }
@@ -247,6 +253,11 @@ class SendMoneyController extends GetxController {
         newBeneficiaryName.value =
             response.data['data']['account_name'].toString().trim();
         showBeneficiary.value = true;
+      } else if (response.statusCode == 999) {
+        AppResponse res = await locator.get<AuthService>().refreshUserToken();
+        if (res.status) {
+          validateBank();
+        }
       } else {
         CustomToastNotification.show(response.message, type: ToastType.error);
       }
@@ -255,10 +266,10 @@ class SendMoneyController extends GetxController {
 
   loadBeneficiary() async {
     isBeneficiaryLoading.value = true;
-    AppResponse<List<Beneficiary>> beneficiaryResponse =
+    AppResponse<List<Beneficiary>> response =
         await locator.get<SendMoneyService>().getBeneficiary();
     isBeneficiaryLoading.value = false;
-    if (beneficiaryResponse.status) {
+    if (response.status) {
       Beneficiary none = Beneficiary(
           id: "00",
           userID: "",
@@ -266,20 +277,25 @@ class SendMoneyController extends GetxController {
           beneficiaryBank: "New Beneficiary",
           beneficiaryName: "None",
           accountNumber: "");
-      beneficiary.assignAll(beneficiaryResponse.data!);
+      beneficiary.assignAll(response.data!);
       beneficiary.insert(0, none);
       baseBeneficiary.assignAll(beneficiary);
       defaultBeneficiary(beneficiary[0]);
       showFields.value = true;
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        loadBeneficiary();
+      }
     }
   }
 
   getBanks() async {
-    AppResponse<dynamic> bankresponse =
+    AppResponse<dynamic> response =
         await locator.get<SendMoneyService>().getBanks();
-    if (bankresponse.status) {
-      print(bankresponse.data["data"]);
-      var banks = bankresponse.data["data"];
+    if (response.status) {
+      print(response.data["data"]);
+      var banks = response.data["data"];
       List<dynamic> _banks = [];
       List<dynamic> _bankCodes = [];
       List<dynamic> __banks = [];
@@ -300,6 +316,11 @@ class SendMoneyController extends GetxController {
       baseBankList.addAll(__banks);
       bankCode.addAll(__bankCodes);
       print(bankList);
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        getBanks();
+      }
     }
   }
 

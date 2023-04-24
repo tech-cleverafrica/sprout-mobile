@@ -10,7 +10,7 @@ class SendMoneyService {
   Future<AppResponse<List<Beneficiary>>> getBeneficiary() async {
     CustomLoader.show();
     Response response =
-        await locator<SendMoneyRepositoryImpl>().getBeneficiaries();
+        await locator.get<SendMoneyRepositoryImpl>().getBeneficiaries();
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
@@ -24,7 +24,7 @@ class SendMoneyService {
   }
 
   Future<AppResponse<dynamic>> getBanks() async {
-    Response response = await locator<SendMoneyRepositoryImpl>().getBanks();
+    Response response = await locator.get<SendMoneyRepositoryImpl>().getBanks();
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
 
@@ -40,7 +40,7 @@ class SendMoneyService {
   Future<AppResponse<dynamic>> validateBank(
       Map<String, dynamic> requestBody) async {
     Response response =
-        await locator<SendMoneyRepositoryImpl>().validateBank(requestBody);
+        await locator.get<SendMoneyRepositoryImpl>().validateBank(requestBody);
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
     if (response.data["status"]) {
@@ -54,7 +54,7 @@ class SendMoneyService {
       Map<String, dynamic> requestBody) async {
     CustomLoader.show();
     Response response =
-        await locator<SendMoneyRepositoryImpl>().makeTransfer(requestBody);
+        await locator.get<SendMoneyRepositoryImpl>().makeTransfer(requestBody);
     CustomLoader.dismiss();
     int statusCode = response.statusCode ?? 000;
 
@@ -68,8 +68,9 @@ class SendMoneyService {
 
   Future<AppResponse<dynamic>> addBeneficiary(
       Map<String, dynamic> requestBody) async {
-    Response response =
-        await locator<SendMoneyRepositoryImpl>().addBeneficiary(requestBody);
+    Response response = await locator
+        .get<SendMoneyRepositoryImpl>()
+        .addBeneficiary(requestBody);
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
     if (response.data["status"]) {

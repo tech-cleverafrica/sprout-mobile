@@ -5,6 +5,7 @@ import 'package:sprout_mobile/src/components/home/model/transactions_model.dart'
 import 'package:sprout_mobile/src/components/pay-bills/controller/billers_controller.dart';
 import 'package:sprout_mobile/src/components/pay-bills/controller/packages_controller.dart';
 import 'package:sprout_mobile/src/components/pay-bills/service/pay_bills_service.dart';
+import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
 
 class PaymentController extends GetxController {
@@ -44,6 +45,11 @@ class PaymentController extends GetxController {
     if (response.status) {
       Transactions trans = Transactions.fromJson(response.data["data"]);
       return trans;
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        pay(pin);
+      }
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }

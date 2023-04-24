@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/help/service/help_service.dart';
+import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
 import 'package:sprout_mobile/src/public/model/file_model.dart';
 import 'package:sprout_mobile/src/components/help/model/issues_model.dart';
 import 'package:sprout_mobile/src/public/services/shared_service.dart';
@@ -109,6 +110,11 @@ class ResolvedIssuesController extends GetxController {
     if (response.status) {
       final Issues issue = response.data;
       return issue;
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        reopenIssue(model, id);
+      }
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }
@@ -121,6 +127,11 @@ class ResolvedIssuesController extends GetxController {
     if (response.status) {
       addFile(image, response.data["data"]);
       loading.value = false;
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        uploadAndCommit(image, fileType);
+      }
     } else {
       CustomToastNotification.show(response.message, type: ToastType.error);
     }
