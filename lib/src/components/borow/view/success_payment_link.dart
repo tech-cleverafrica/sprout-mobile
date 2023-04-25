@@ -75,7 +75,7 @@ class SuccessfulPaymentLink extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * 0.7,
                     child: Text(
                       "You have successfully created a payment link for " +
-                          "Payment Name",
+                          paymentLinkSuccessController.paymentName.value,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontFamily: "Mont",
@@ -91,15 +91,16 @@ class SuccessfulPaymentLink extends StatelessWidget {
                       title: "Copy Link",
                       onTap: () => Platform.isIOS
                           ? Clipboard.setData(ClipboardData(
-                                  text:
-                                      "https://www.figma.com/file/uib7UPxq5LnBlwuVzq9WZS/Sprout?node-id=0-1&t=IIzccajYDtD9QMAC-0"))
+                                  text: paymentLinkSuccessController.paymentLink
+                                      .value["data"]["data"]["payment_link"]))
                               .then((value) => {
                                     CustomToastNotification.show(
                                         "Link has been copied successfully",
                                         type: ToastType.success),
                                   })
-                          : FlutterClipboard.copy(
-                                  "https://www.figma.com/file/uib7UPxq5LnBlwuVzq9WZS/Sprout?node-id=0-1&t=IIzccajYDtD9QMAC-0")
+                          : FlutterClipboard.copy(paymentLinkSuccessController
+                                  .paymentLink
+                                  .value["data"]["data"]["payment_link"])
                               .then((value) => {
                                     CustomToastNotification.show(
                                         "Link has been copied successfully",
@@ -128,7 +129,8 @@ class SuccessfulPaymentLink extends StatelessWidget {
                         child: InkWell(
                       onTap: () {
                         paymentLinkSuccessController.share(
-                            "https://www.figma.com/file/uib7UPxq5LnBlwuVzq9WZS/Sprout?node-id=0-1&t=IIzccajYDtD9QMAC-0");
+                            paymentLinkSuccessController.paymentLink
+                                .value["data"]["data"]["payment_link"]);
                       },
                       child: Container(
                         height: 50,

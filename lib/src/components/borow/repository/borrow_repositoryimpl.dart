@@ -30,4 +30,37 @@ class BorrowRepositoryImpl implements BorrowRepository {
       e.printError();
     }
   }
+
+  @override
+  getPaymentLinks() async {
+    try {
+      return await api.dio.get(paymentLinksUrl);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
+
+  @override
+  createPaymentLink(requestBody) async {
+    try {
+      return await api.dio.post(createPaymentLinkUrl, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
+
+  @override
+  getPaymentLink(String id) async {
+    try {
+      return await api.dio.get(paymentLinkUrl + id);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
 }

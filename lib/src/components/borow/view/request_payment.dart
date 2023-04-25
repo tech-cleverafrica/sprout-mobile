@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/borow/controller/payment_link_controler.dart';
 import 'package:sprout_mobile/src/components/borow/view/success_payment_link.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
@@ -9,20 +9,17 @@ import 'package:sprout_mobile/src/utils/global_function.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 
 import '../../../utils/app_colors.dart';
-import '../../../utils/app_formatter.dart';
 
 // ignore: must_be_immutable
 class RequestPayment extends StatelessWidget {
   RequestPayment({super.key});
-  final AppFormatter formatter = Get.put(AppFormatter());
-  late MoneyMaskedTextController amountController =
-      new MoneyMaskedTextController();
-  String? cardType;
+
+  late PaymentLinkController paymentLinkController;
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    amountController = formatter.getMoneyController();
+    paymentLinkController = Get.put(PaymentLinkController());
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -43,7 +40,7 @@ class RequestPayment extends StatelessWidget {
                 ),
                 Container(
                   child: TextFormField(
-                    controller: amountController,
+                    controller: paymentLinkController.amountController,
                     enabled: true,
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -56,19 +53,38 @@ class RequestPayment extends StatelessWidget {
                     onSaved: (val) {},
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      //prefixText: "NGN",
                     ),
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if (value!.length == 0)
+                        return "Amount is required";
+                      else if (double.parse(value.split(",").join("")) == 0) {
+                        return "Invalid amount";
+                      } else if (double.parse(value.split(",").join("")) < 10) {
+                        return "Amount too small";
+                      }
+                      return null;
+                    },
                   ),
                 ),
                 addVerticalSpace(20.h),
                 CustomTextFormField(
+                  controller: paymentLinkController.paymentNameController,
                   label: "Name",
                   hintText: "Enter Payment Name",
+                  validator: (value) {
+                    if (value!.length == 0)
+                      return "Name is required";
+                    else if (value.length < 3) return "Name is too short";
+                    return null;
+                  },
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
                 ),
                 CustomTextFormField(
+                  controller:
+                      paymentLinkController.paymentDescriptionController,
                   maxLines: 4,
                   maxLength: 250,
                   label: "Description",
@@ -90,7 +106,7 @@ class RequestPayment extends StatelessWidget {
                   isDarkMode: isDarkMode,
                   buttonText: "Continue",
                   onTap: () {
-                    Get.to(() => SuccessfulPaymentLink());
+                    paymentLinkController.validate();
                   },
                 ),
               ],

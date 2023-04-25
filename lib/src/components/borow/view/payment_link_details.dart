@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/borow/controller/payment_link_controler.dart';
+import 'package:sprout_mobile/src/components/borow/controller/payment_link_details_controller.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
@@ -20,10 +21,12 @@ class PaymentLinkDetails extends StatelessWidget {
   PaymentLinkDetails({super.key});
 
   late PaymentLinkController paymentLinkController;
+  late PaymentLinkDetailsController paymentLinkDetailsController;
 
   @override
   Widget build(BuildContext context) {
     paymentLinkController = Get.put(PaymentLinkController());
+    paymentLinkDetailsController = Get.put(PaymentLinkDetailsController());
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final theme = Theme.of(context);
     return SafeArea(
@@ -36,7 +39,7 @@ class PaymentLinkDetails extends StatelessWidget {
           children: [
             getHeader(isDarkMode),
             addVerticalSpace(16.h),
-            getInfo(isDarkMode, context, theme)
+            Obx((() => getInfo(isDarkMode, context, theme)))
           ],
         ),
       )),
@@ -61,7 +64,7 @@ class PaymentLinkDetails extends StatelessWidget {
                     padding: const EdgeInsets.only(
                         top: 8, bottom: 8, right: 10, left: 10),
                     child: Text(
-                      "Paid",
+                      paymentLinkDetailsController.screenStatus.value,
                       style: TextStyle(
                           fontFamily: "Mont",
                           fontSize: 12.sp,
@@ -77,8 +80,8 @@ class PaymentLinkDetails extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () async {
-                      paymentLinkController.share(
-                          "https://www.figma.com/file/uib7UPxq5LnBlwuVzq9WZS/Sprout?node-id=0-1&t=IIzccajYDtD9QMAC-0");
+                      paymentLinkController.share(paymentLinkDetailsController
+                          .paymentLink.value!.paymentLinkUrl!);
                     },
                     child: Container(
                       width: 40.w,
@@ -134,7 +137,10 @@ class PaymentLinkDetails extends StatelessWidget {
                           color:
                               isDarkMode ? AppColors.white : AppColors.black),
                     ),
-                    Text("Payment Name", style: theme.textTheme.headline6),
+                    Text(
+                        paymentLinkDetailsController
+                            .paymentLink.value!.fullName!,
+                        style: theme.textTheme.headline6),
                   ],
                 ),
                 addVerticalSpace(10.h),
@@ -147,7 +153,7 @@ class PaymentLinkDetails extends StatelessWidget {
                                 ? AppColors.white
                                 : AppColors.black)),
                     Text(
-                        "$currencySymbol${paymentLinkController.formatter.formatAsMoney(double.parse(200.toString()))}",
+                        "$currencySymbol${paymentLinkController.formatter.formatAsMoney(double.parse(paymentLinkDetailsController.paymentLink.value!.amount.toString()))}",
                         style: theme.textTheme.headline6),
                   ],
                 ),
@@ -160,7 +166,9 @@ class PaymentLinkDetails extends StatelessWidget {
                             color: isDarkMode
                                 ? AppColors.white
                                 : AppColors.black)),
-                    Text("Payment Description",
+                    Text(
+                        paymentLinkDetailsController
+                            .paymentLink.value!.description!,
                         style: theme.textTheme.headline6),
                   ],
                 ),
@@ -194,7 +202,8 @@ class PaymentLinkDetails extends StatelessWidget {
                     Container(
                       width: MediaQuery.of(context).size.width * 0.65,
                       child: Text(
-                        "https://www.figma.com/file/uib7UPxq5LnBlwuVzq9WZS/Sprout?node-id=0-1&t=IIzccajYDtD9QMAC-0",
+                        paymentLinkDetailsController
+                            .paymentLink.value!.paymentLinkUrl!,
                         style: TextStyle(
                             color:
                                 isDarkMode ? AppColors.white : AppColors.black),
@@ -203,15 +212,15 @@ class PaymentLinkDetails extends StatelessWidget {
                     InkWell(
                       onTap: () => Platform.isIOS
                           ? Clipboard.setData(ClipboardData(
-                                  text:
-                                      "https://www.figma.com/file/uib7UPxq5LnBlwuVzq9WZS/Sprout?node-id=0-1&t=IIzccajYDtD9QMAC-0"))
+                                  text: paymentLinkDetailsController
+                                      .paymentLink.value!.paymentLinkUrl!))
                               .then((value) => {
                                     CustomToastNotification.show(
                                         "Link has been copied successfully",
                                         type: ToastType.success),
                                   })
-                          : FlutterClipboard.copy(
-                                  "https://www.figma.com/file/uib7UPxq5LnBlwuVzq9WZS/Sprout?node-id=0-1&t=IIzccajYDtD9QMAC-0")
+                          : FlutterClipboard.copy(paymentLinkDetailsController
+                                  .paymentLink.value!.paymentLinkUrl!)
                               .then((value) => {
                                     CustomToastNotification.show(
                                         "Link has been copied successfully",
@@ -221,7 +230,7 @@ class PaymentLinkDetails extends StatelessWidget {
                         width: MediaQuery.of(context).size.width * 0.1,
                         child: SvgPicture.asset(
                           AppSvg.copy,
-                          color: AppColors.black,
+                          color: isDarkMode ? AppColors.white : AppColors.black,
                           height: 14,
                         ),
                       ),

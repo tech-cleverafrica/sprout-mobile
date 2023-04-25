@@ -74,6 +74,9 @@ const String billerGroupsUrl = "bills/api/v2/biller-group";
 const String cardsUrl = "bank-account/api/v1/card/list";
 const String fundWalletWithNewCardUrl =
     "bank-account/api/v1/card/initiate/direct-debit";
+const String paymentLinksUrl = "bank-account/api/v1/payment-link/list";
+const String createPaymentLinkUrl = "bank-account/api/v1/payment-link/create";
+const String paymentLinkUrl = "bank-account/api/v1/payment-link/";
 
 //savings
 const String plansUrl = "target-savings/api/v1/savings/view";

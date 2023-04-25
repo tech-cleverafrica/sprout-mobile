@@ -43,134 +43,134 @@ class PaymentLinkScreenState extends State<PaymentLinkScreen> {
                 addVerticalSpace(16.h),
                 getDisplaySwitch(isDarkMode),
                 addVerticalSpace(10.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.55,
-                      // width: paymentLinkIncontroller.isInvoiceDisplay.value
-                      //     ? MediaQuery.of(context).size.width * 0.55
-                      //     : MediaQuery.of(context).size.width * 0.88,
-                      child: CustomTextFormField(
-                        hasPrefixIcon: true,
-                        prefixIcon: Icon(
-                          Icons.search_outlined,
-                        ),
-                        hintText: "Search",
-                        fillColor: isDarkMode
-                            ? AppColors.inputBackgroundColor
-                            : AppColors.grey,
-                        onChanged: (value) => {},
-                        contentPaddingVertical: 17,
-                        borderRadius: 4,
-                        isDense: true,
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Container(
-                          height: 25,
-                          width: MediaQuery.of(context).size.width * 0.28,
-                          alignment: Alignment.center,
-                          child: GestureDetector(
-                            onTap: () => {
-                              paymentLinkController.showStatusList(
-                                  context, isDarkMode, theme)
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.only(left: 5),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4),
-                                color: isDarkMode
-                                    ? AppColors.mainGreen
-                                    : AppColors.primaryColor,
+                Obx((() => paymentLinkController.basePaymentLinks.length > 0
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.55,
+                            child: CustomTextFormField(
+                              hasPrefixIcon: true,
+                              prefixIcon: Icon(
+                                Icons.search_outlined,
                               ),
-                              child: Row(
-                                children: [
-                                  SizedBox(width: 5),
-                                  Image.asset(
-                                    AppImages.filter,
-                                    height: 5,
-                                    color: AppColors.white,
-                                  ),
-                                  SizedBox(width: 7),
-                                  Expanded(
-                                      child: Container(
-                                    child: Text(
-                                      paymentLinkController.status.value,
-                                      style: TextStyle(
-                                        color: AppColors.white,
-                                        fontSize: 9.sp,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: "Mont",
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ))
-                                ],
-                              ), // )),
+                              hintText: "Search",
+                              fillColor: isDarkMode
+                                  ? AppColors.inputBackgroundColor
+                                  : AppColors.grey,
+                              onChanged: (value) => paymentLinkController
+                                  .filterPaymentLinks(value),
+                              contentPaddingVertical: 17,
+                              borderRadius: 4,
+                              isDense: true,
                             ),
                           ),
-                        ),
-                        addVerticalSpace(2.h),
-                        Container(
-                          height: 25,
-                          width: MediaQuery.of(context).size.width * 0.28,
-                          alignment: Alignment.center,
-                          child: GestureDetector(
-                            onTap: () => {
-                              paymentLinkController.showTimeList(
-                                  context, isDarkMode, theme)
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.only(left: 5),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4),
-                                color: isDarkMode
-                                    ? AppColors.mainGreen
-                                    : AppColors.primaryColor,
-                              ),
-                              child: Row(
-                                children: [
-                                  SizedBox(width: 5),
-                                  Image.asset(
-                                    AppImages.filter,
-                                    height: 5,
-                                    color: AppColors.white,
-                                  ),
-                                  SizedBox(width: 7),
-                                  Expanded(
-                                      child: Container(
-                                    child: Text(
-                                      paymentLinkController.time.value,
-                                      style: TextStyle(
-                                        color: AppColors.white,
-                                        fontSize: 9.sp,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: "Mont",
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Container(
+                                height: 25,
+                                width: MediaQuery.of(context).size.width * 0.28,
+                                alignment: Alignment.center,
+                                child: GestureDetector(
+                                  onTap: () => {
+                                    paymentLinkController.showStatusList(
+                                        context, isDarkMode, theme)
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    padding: EdgeInsets.only(left: 5),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4),
+                                      color: isDarkMode
+                                          ? AppColors.mainGreen
+                                          : AppColors.primaryColor,
                                     ),
-                                  ))
-                                ],
-                              ), // )),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(width: 5),
+                                        Image.asset(
+                                          AppImages.filter,
+                                          height: 5,
+                                          color: AppColors.white,
+                                        ),
+                                        SizedBox(width: 7),
+                                        Expanded(
+                                            child: Container(
+                                          child: Text(
+                                            paymentLinkController.status.value,
+                                            style: TextStyle(
+                                              color: AppColors.white,
+                                              fontSize: 9.sp,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "Mont",
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ))
+                                      ],
+                                    ), // )),
+                                  ),
+                                ),
+                              ),
+                              addVerticalSpace(2.h),
+                              Container(
+                                height: 25,
+                                width: MediaQuery.of(context).size.width * 0.28,
+                                alignment: Alignment.center,
+                                child: GestureDetector(
+                                  onTap: () => {
+                                    paymentLinkController.showTimeList(
+                                        context, isDarkMode, theme)
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    padding: EdgeInsets.only(left: 5),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4),
+                                      color: isDarkMode
+                                          ? AppColors.mainGreen
+                                          : AppColors.primaryColor,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(width: 5),
+                                        Image.asset(
+                                          AppImages.filter,
+                                          height: 5,
+                                          color: AppColors.white,
+                                        ),
+                                        SizedBox(width: 7),
+                                        Expanded(
+                                            child: Container(
+                                          child: Text(
+                                            paymentLinkController.time.value,
+                                            style: TextStyle(
+                                              color: AppColors.white,
+                                              fontSize: 9.sp,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "Mont",
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ))
+                                      ],
+                                    ), // )),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      )
+                    : SizedBox())),
                 addVerticalSpace(10.h),
                 Text(
                   "History",
                   style: Theme.of(context).textTheme.subtitle2,
                 ),
                 addVerticalSpace(20.h),
-                buildBody(theme, isDarkMode)
+                Obx((() => buildBody(theme, isDarkMode)))
               ],
             ),
           ),
@@ -199,7 +199,7 @@ class PaymentLinkScreenState extends State<PaymentLinkScreen> {
         padding: EdgeInsets.symmetric(horizontal: 0.w),
         child: buildShimmer(3),
       );
-    } else if (paymentLinkController.paymentLinks.length < 1) {
+    } else if (paymentLinkController.basePaymentLinks.length < 1) {
       return Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -212,7 +212,7 @@ class PaymentLinkScreenState extends State<PaymentLinkScreen> {
               width: 150,
             ),
             Container(
-              width: 150.w,
+              width: 200.w,
               child: Text(
                 "No history yet. Click Create Payment Link at the bottom to get started",
                 textAlign: TextAlign.center,
@@ -232,13 +232,15 @@ class PaymentLinkScreenState extends State<PaymentLinkScreen> {
             return PaymentLinkCard(
               theme: theme,
               isDarkMode: isDarkMode,
-              invoiceNo: "Payment Link Description",
-              invoiceTotalPrice:
-                  paymentLinkController.paymentLinks[index].total,
-              to: "The person's name",
-              from: "Cross Over",
+              description:
+                  paymentLinkController.paymentLinks[index].description!,
+              amount: paymentLinkController.paymentLinks[index].amount,
+              name: paymentLinkController.paymentLinks[index].fullName,
               createdAt: paymentLinkController.paymentLinks[index].createdAt,
-              status: paymentLinkController.paymentLinks[index].paymentStatus!,
+              status: paymentLinkController.paymentLinks[index].paid!
+                  ? "PAID"
+                  : "NOT_PAID",
+              paymentLink: paymentLinkController.paymentLinks[index],
             );
           });
     }

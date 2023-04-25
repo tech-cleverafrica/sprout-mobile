@@ -74,6 +74,17 @@ class NfcAmountScreen extends StatelessWidget {
                     decoration: InputDecoration(
                       border: InputBorder.none,
                     ),
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if (value!.length == 0)
+                        return "Amount is required";
+                      else if (double.parse(value.split(",").join("")) == 0) {
+                        return "Invalid amount";
+                      } else if (double.parse(value.split(",").join("")) < 10) {
+                        return "Amount too small";
+                      }
+                      return null;
+                    },
                   ),
                 ),
               ],

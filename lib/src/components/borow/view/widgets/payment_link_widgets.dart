@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:sprout_mobile/src/components/borow/model/payment_link_model.dart';
 import 'package:sprout_mobile/src/components/borow/view/payment_link_details.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
@@ -20,46 +21,37 @@ class PaymentLinkCard extends StatelessWidget {
     Key? key,
     required this.theme,
     required this.isDarkMode,
-    required this.invoiceNo,
-    this.invoiceTotalPrice,
-    this.to,
-    this.from,
+    required this.description,
+    this.amount,
+    this.name,
     this.createdAt,
     this.status,
+    this.paymentLink,
   }) : super(key: key);
 
   final ThemeData theme;
   final bool isDarkMode;
-  final String invoiceNo;
-  final num? invoiceTotalPrice;
-  final String? to;
-  final String? from;
+  final String description;
+  final num? amount;
+  final String? name;
   final String? createdAt;
   final String? status;
+  final PaymentLink? paymentLink;
   @override
   Widget build(BuildContext context) {
     String? sType;
-    Color? sColor;
     Color? sBg;
     switch (status) {
       case "NOT_PAID":
         sType = "Not Paid";
-        sColor = AppColors.errorRed;
         sBg = Color(0xFFF5B7B1);
-        break;
-      case "PARTIAL_PAYMENT":
-        sType = "Partial Payment";
-        sColor = AppColors.orangeWarning;
-        sBg = Color(0xFFFFFD580);
         break;
       case "PAID":
         sType = "Paid";
-        sColor = AppColors.mainGreen;
         sBg = Color(0xFF90EE90);
         break;
       default:
         sType = "Not Paid";
-        sColor = AppColors.errorRed;
         sBg = Color(0xFFF5B7B1);
     }
 
@@ -67,7 +59,7 @@ class PaymentLinkCard extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 0),
       child: InkWell(
         onTap: () {
-          Get.to(() => PaymentLinkDetails());
+          Get.to(() => PaymentLinkDetails(), arguments: paymentLink);
           debugPrint("GOT HERE!!!");
         },
         child: Container(
@@ -93,7 +85,7 @@ class PaymentLinkCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            to!,
+                            name!,
                             style: TextStyle(
                                 fontFamily: "Mont",
                                 fontSize: 12.sp,
@@ -106,7 +98,7 @@ class PaymentLinkCard extends StatelessWidget {
                           Container(
                             width: MediaQuery.of(context).size.width * .6,
                             child: Text(
-                              invoiceNo,
+                              description,
                               style: TextStyle(
                                   fontFamily: "Mont",
                                   fontSize: 10.sp,
@@ -140,10 +132,10 @@ class PaymentLinkCard extends StatelessWidget {
                     children: [
                       Text(
                         "₦ " +
-                            (invoiceTotalPrice != null
+                            (amount != null
                                 ? oCcy
                                     .format(double.parse(
-                                        invoiceTotalPrice!.toStringAsFixed(2)))
+                                        amount!.toStringAsFixed(2)))
                                     .toString()
                                 : "0.00"),
                         style: TextStyle(

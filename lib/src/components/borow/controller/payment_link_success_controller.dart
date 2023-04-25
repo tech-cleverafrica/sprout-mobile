@@ -3,9 +3,15 @@ import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/public/services/shared_service.dart';
 
 class PaymentLinkSuccessController extends GetxController {
+  var args;
+  var paymentLink = Rxn<dynamic>();
+  RxString paymentName = "".obs;
   @override
   void onInit() {
     super.onInit();
+    args = Get.arguments;
+    paymentLink.value = args["data"];
+    paymentName.value = args["name"];
   }
 
   @override

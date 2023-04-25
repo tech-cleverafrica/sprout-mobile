@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/api/api_response.dart';
+import 'package:sprout_mobile/src/components/borow/model/payment_link_model.dart';
+import 'package:sprout_mobile/src/components/borow/service/borrow_service.dart';
+import 'package:sprout_mobile/src/components/borow/view/success_payment_link.dart';
 import 'package:sprout_mobile/src/components/invoice/model/invoice_detail_model.dart';
-import 'package:sprout_mobile/src/components/invoice/model/invoice_model.dart';
+import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
 import 'package:sprout_mobile/src/public/model/date_range.dart';
 import 'package:sprout_mobile/src/public/services/date_service.dart';
 import 'package:sprout_mobile/src/public/services/shared_service.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_formatter.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
@@ -18,18 +24,14 @@ class PaymentLinkController extends GetxController {
   final AppFormatter formatter = Get.put(AppFormatter());
   TextEditingController searchController = new TextEditingController();
 
-  TextEditingController updateCustomerNameController =
-      new TextEditingController();
-  TextEditingController updateCustomerPhoneController =
-      new TextEditingController();
-  TextEditingController updateCustomerEmailController =
-      new TextEditingController();
-  TextEditingController updateCustomerAddressController =
+  late MoneyMaskedTextController amountController =
+      new MoneyMaskedTextController();
+  TextEditingController paymentNameController = new TextEditingController();
+  TextEditingController paymentDescriptionController =
       new TextEditingController();
 
-  RxList<InvoiceRespose> paymentLinksResponse = <InvoiceRespose>[].obs;
-  RxList<Invoice> paymentLinks = <Invoice>[].obs;
-  RxList<Invoice> basePaymentLinks = <Invoice>[].obs;
+  RxList<PaymentLink> paymentLinks = <PaymentLink>[].obs;
+  RxList<PaymentLink> basePaymentLinks = <PaymentLink>[].obs;
 
   InvoiceDetail? invoiceDetail;
   RxBool isPaymentLinksLoading = false.obs;
@@ -49,36 +51,103 @@ class PaymentLinkController extends GetxController {
   RxString time = "All Time".obs;
   String statusFilter = "all";
   Map<String, dynamic> timeFilter = {"startDate": null, "endDate": null};
+  RxString errorMessage = "".obs;
 
   @override
   void onInit() {
     super.onInit();
-    Invoice none = Invoice(
-      id: "",
-      invoiceNo: "12345",
-      userID: "123rt",
-      businessInfo: null,
-      customer: null,
-      customerID: "",
-      invoiceContent: null,
-      dueDate: "",
-      invoiceDate: "",
-      note: "",
-      paymentAccountNumber: "",
-      tax: 100,
-      discount: 100,
-      subTotal: 100,
-      total: 100,
-      partialPaidAmount: 100,
-      paymentHistory: null,
-      paymentStatus: "PAID",
-      invoicePDFUrl: "sjsjsjsjs",
-      downloaded: true,
-      createdAt: "2021-10-12T17:57:51+0000",
-      updatedAt: "2021-10-12T17:57:51+0000",
-      expired: false,
-    );
-    paymentLinks.add(none);
+    amountController = formatter.getMoneyController();
+    fetchPaymentLinks();
+  }
+
+  fetchPaymentLinks() async {
+    isPaymentLinksLoading.value = true;
+    AppResponse<List<PaymentLink>> response =
+        await locator.get<BorrowService>().getPaymentLinks();
+    isPaymentLinksLoading.value = false;
+    if (response.status) {
+      paymentLinks.assignAll(response.data!);
+      basePaymentLinks.assignAll(response.data!);
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        fetchPaymentLinks();
+      }
+    }
+  }
+
+  createPaymentLink() async {
+    AppResponse<dynamic> response =
+        await locator.get<BorrowService>().createPaymentLink(buildRequest());
+    if (response.status) {
+      print(response.data);
+      pushUntil(page: SuccessfulPaymentLink(), arguments: {
+        "name": paymentNameController.text,
+        "data": response.data
+      });
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        createPaymentLink();
+      }
+    } else {
+      CustomToastNotification.show(response.message, type: ToastType.error);
+    }
+  }
+
+  filterPaymentLinks(String value) {
+    paymentLinks.value = value == ""
+        ? basePaymentLinks
+        : basePaymentLinks
+            .where((i) =>
+                i.fullName!.toLowerCase().contains(value.toLowerCase()) ||
+                i.description!.toLowerCase().contains(value.toLowerCase()))
+            .toList();
+  }
+
+  validate() {
+    if (double.parse(amountController.text.split(",").join()) >= 10 &&
+        paymentNameController.text.length > 2 &&
+        paymentDescriptionController.text.length > 5) {
+      createPaymentLink();
+    } else if (double.parse(amountController.text.split(",").join("")) == 0) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please enter a valid amount"),
+          backgroundColor: AppColors.errorRed));
+    } else if (double.parse(amountController.text.split(",").join("")) < 10) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Amount is too small"),
+          backgroundColor: AppColors.errorRed));
+    } else if (paymentNameController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Payment name is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (paymentNameController.text.length < 3) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Payment name is too short"),
+          backgroundColor: AppColors.errorRed));
+    } else if (paymentDescriptionController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Payment description is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (paymentDescriptionController.text.length < 6) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Payment description is too short"),
+          backgroundColor: AppColors.errorRed));
+    } else {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please supply all required fields"),
+          backgroundColor: AppColors.errorRed));
+    }
+  }
+
+  buildRequest() {
+    return {
+      "amount": amountController.text.split(",").join(),
+      "currency": "NGN",
+      "name": paymentNameController.text,
+      "description": paymentDescriptionController.text,
+    };
   }
 
   showStatusList(context, isDarkMode, theme) {
