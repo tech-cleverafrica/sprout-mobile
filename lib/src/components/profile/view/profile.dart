@@ -28,7 +28,6 @@ import '../../../theme/theme_service.dart';
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
 
-  bool isTapped = false;
   late ProfileController profileController;
 
   @override
@@ -305,10 +304,9 @@ class ProfileScreen extends StatelessWidget {
                     CupertinoSwitch(
                         activeColor: AppColors.primaryColor,
                         thumbColor: AppColors.white,
-                        value: isTapped,
+                        value: isDarkMode,
                         onChanged: (val) {
                           ThemeService().changeThemeMode();
-                          isTapped = !isTapped;
                         })
                   ],
                 ),
