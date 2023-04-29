@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/components/home/view/homepage.dart';
 import 'package:sprout_mobile/src/components/invoice/view/invoice.dart';
 import 'package:sprout_mobile/src/components/profile/view/profile.dart';
@@ -21,12 +22,16 @@ class BottomNav extends StatefulWidget {
 }
 
 class _BottomNavState extends State<BottomNav> {
+  final storage = GetStorage();
   int? currentTabIndex;
 
   @override
   void initState() {
     print(widget.index);
     if (widget.index != null) {
+      if (widget.index != 0) {
+        storage.write('removeAll', "1");
+      }
       setState(() {
         currentTabIndex = widget.index!;
       });
@@ -89,7 +94,12 @@ class _BottomNavState extends State<BottomNav> {
           child: InkWell(
             splashColor: AppColors.transparent,
             highlightColor: AppColors.transparent,
-            onTap: () => setState(() => currentTabIndex = position),
+            onTap: () {
+              if (position != 0) {
+                storage.write('removeAll', "1");
+              }
+              setState(() => currentTabIndex = position);
+            },
             // onTap: () {
             //   log(widget.index.toString());
             //   if (widget.index != null) {

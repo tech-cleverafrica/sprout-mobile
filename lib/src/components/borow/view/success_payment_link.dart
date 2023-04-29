@@ -92,15 +92,14 @@ class SuccessfulPaymentLink extends StatelessWidget {
                       onTap: () => Platform.isIOS
                           ? Clipboard.setData(ClipboardData(
                                   text: paymentLinkSuccessController.paymentLink
-                                      .value["data"]["data"]["payment_link"]))
+                                      .value["data"]["payment_link"]))
                               .then((value) => {
                                     CustomToastNotification.show(
                                         "Link has been copied successfully",
                                         type: ToastType.success),
                                   })
                           : FlutterClipboard.copy(paymentLinkSuccessController
-                                  .paymentLink
-                                  .value["data"]["data"]["payment_link"])
+                                  .paymentLink.value["data"]["payment_link"])
                               .then((value) => {
                                     CustomToastNotification.show(
                                         "Link has been copied successfully",
@@ -129,8 +128,8 @@ class SuccessfulPaymentLink extends StatelessWidget {
                         child: InkWell(
                       onTap: () {
                         paymentLinkSuccessController.share(
-                            paymentLinkSuccessController.paymentLink
-                                .value["data"]["data"]["payment_link"]);
+                            paymentLinkSuccessController
+                                .paymentLink.value["data"]["payment_link"]);
                       },
                       child: Container(
                         height: 50,

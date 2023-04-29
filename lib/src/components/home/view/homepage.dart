@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/components/complete-account-setup/view/document_upload.dart';
 import 'package:sprout_mobile/src/components/fund-wallet/view/fund_wallet.dart';
 import 'package:sprout_mobile/src/components/home/view/all_transactions.dart';
@@ -25,6 +26,7 @@ class HomePage extends StatelessWidget {
   late bool showInvoice = false;
   late HomeController homeController;
   late NotificationController notificationController;
+  final storage = GetStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +87,10 @@ class HomePage extends StatelessWidget {
         ),
         addVerticalSpace(16.h),
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.18,
+          height:
+              homeController.isApproved.value && !homeController.inReview.value
+                  ? MediaQuery.of(context).size.height * 0.17
+                  : MediaQuery.of(context).size.height * 0.13,
           child: ListView(
             padding: EdgeInsets.symmetric(horizontal: 24),
             shrinkWrap: true,
@@ -109,11 +114,16 @@ class HomePage extends StatelessWidget {
                     bankVisible: true,
                     buttonVisible: true,
                     showAmount: homeController.showAmount.value,
-                    onTap: () => push(page: FundWalletScreen()),
+                    onTap: () {
+                      storage.write('removeAll', "1");
+                      push(page: FundWalletScreen());
+                    },
                     setVisibility: () => {
                       homeController.showAmount.value =
                           !homeController.showAmount.value
                     },
+                    isApproved: homeController.isApproved.value,
+                    inReview: homeController.inReview.value,
                   ))),
               addHorizontalSpace(10.w),
               BalanceCard(
@@ -143,6 +153,8 @@ class HomePage extends StatelessWidget {
                   homeController.showAmount.value =
                       !homeController.showAmount.value
                 },
+                isApproved: homeController.isApproved.value,
+                inReview: homeController.inReview.value,
               ),
               // addHorizontalSpace(10.w),
               // BalanceCard(
@@ -167,8 +179,12 @@ class HomePage extends StatelessWidget {
             ],
           ),
         ),
-        addVerticalSpace(16.h),
-        getItems(isDarkMode),
+        homeController.isApproved.value && !homeController.inReview.value
+            ? addVerticalSpace(16.h)
+            : SizedBox(),
+        homeController.isApproved.value && !homeController.inReview.value
+            ? getItems(isDarkMode)
+            : SizedBox(),
         SizedBox(
           height: 16.h,
         ),
@@ -191,7 +207,9 @@ class HomePage extends StatelessWidget {
                           homeController.isApproved.value
                               ? SizedBox()
                               : Container(
-                                  width: 282.w,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.83,
+                                  // width: 282.w,
                                   height: 122.h,
                                   decoration: BoxDecoration(
                                       color: AppColors.primaryColor,
@@ -254,69 +272,69 @@ class HomePage extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                          homeController.isApproved.value
-                              ? SizedBox()
-                              : addHorizontalSpace(10.w),
-                          Container(
-                            width: homeController.isApproved.value
-                                ? MediaQuery.of(context).size.width * .825
-                                : 282.w,
-                            height: 122.h,
-                            decoration: BoxDecoration(
-                                color: AppColors.primaryColor,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Advert will be placed here",
-                                    style: TextStyle(
-                                        fontFamily: "Mont",
-                                        fontSize: 12.sp,
-                                        color: AppColors.white,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  addVerticalSpace(39.h),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(),
-                                      Container(
-                                        height: 37.h,
-                                        width: 127.w,
-                                        decoration: BoxDecoration(
-                                            color: isDarkMode
-                                                ? AppColors.black
-                                                : AppColors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        alignment: Alignment.topRight,
-                                        child: Center(
-                                            child: GestureDetector(
-                                          onTap: () => {},
-                                          child: Text(
-                                            "Advert button",
-                                            style: TextStyle(
-                                                fontFamily: "Mont",
-                                                fontSize: 13.sp,
-                                                color: isDarkMode
-                                                    ? AppColors.white
-                                                    : AppColors.black,
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        )),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          )
+                          // homeController.isApproved.value
+                          //     ? SizedBox()
+                          //     : addHorizontalSpace(10.w),
+                          // Container(
+                          //   width: homeController.isApproved.value
+                          //       ? MediaQuery.of(context).size.width * .825
+                          //       : 282.w,
+                          //   height: 122.h,
+                          //   decoration: BoxDecoration(
+                          //       color: AppColors.primaryColor,
+                          //       borderRadius: BorderRadius.circular(10)),
+                          //   child: Padding(
+                          //     padding: const EdgeInsets.all(15.0),
+                          //     child: Column(
+                          //       crossAxisAlignment: CrossAxisAlignment.start,
+                          //       mainAxisAlignment:
+                          //           MainAxisAlignment.spaceBetween,
+                          //       children: [
+                          //         Text(
+                          //           "Advert will be placed here",
+                          //           style: TextStyle(
+                          //               fontFamily: "Mont",
+                          //               fontSize: 12.sp,
+                          //               color: AppColors.white,
+                          //               fontWeight: FontWeight.w500),
+                          //         ),
+                          //         addVerticalSpace(39.h),
+                          //         Row(
+                          //           mainAxisAlignment:
+                          //               MainAxisAlignment.spaceBetween,
+                          //           children: [
+                          //             Container(),
+                          //             Container(
+                          //               height: 37.h,
+                          //               width: 127.w,
+                          //               decoration: BoxDecoration(
+                          //                   color: isDarkMode
+                          //                       ? AppColors.black
+                          //                       : AppColors.white,
+                          //                   borderRadius:
+                          //                       BorderRadius.circular(10)),
+                          //               alignment: Alignment.topRight,
+                          //               child: Center(
+                          //                   child: GestureDetector(
+                          //                 onTap: () => {},
+                          //                 child: Text(
+                          //                   "Advert button",
+                          //                   style: TextStyle(
+                          //                       fontFamily: "Mont",
+                          //                       fontSize: 13.sp,
+                          //                       color: isDarkMode
+                          //                           ? AppColors.white
+                          //                           : AppColors.black,
+                          //                       fontWeight: FontWeight.w400),
+                          //                 ),
+                          //               )),
+                          //             ),
+                          //           ],
+                          //         )
+                          //       ],
+                          //     ),
+                          //   ),
+                          // )
                         ],
                       ),
                     ),
@@ -324,134 +342,156 @@ class HomePage extends StatelessWidget {
                 ),
               )
             : SizedBox())),
-        addVerticalSpace(20.h),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Recent Transactions",
-                style: TextStyle(
-                    fontFamily: "Mont",
-                    fontSize: 12.sp,
-                    color: isDarkMode
-                        ? AppColors.inputLabelColor
-                        : AppColors.greyText,
-                    fontWeight: FontWeight.w500),
-              ),
-              InkWell(
-                onTap: () {
-                  push(
-                    page: AlltransactionScreen(),
-                    // arguments: homeController.transactions
-                  );
-                },
-                child: Text(
-                  "See All",
-                  style: TextStyle(
-                      fontFamily: "Mont",
-                      fontStyle: FontStyle.italic,
-                      decoration: TextDecoration.underline,
-                      fontSize: 12.sp,
-                      color: isDarkMode
-                          ? AppColors.inputLabelColor
-                          : AppColors.greyText,
-                      fontWeight: FontWeight.w500),
-                ),
-              )
-            ],
-          ),
-        ),
-        addVerticalSpace(24.h),
-        Obx((() => getTransactions(theme, isDarkMode))),
-        addVerticalSpace(10.h),
-        Obx((() => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: SizedBox(
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: isDarkMode ? Color(0xFF161618) : AppColors.greyBg,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
+        Obx((() =>
+            homeController.isApproved.value && !homeController.inReview.value
+                ? addVerticalSpace(20.h)
+                : SizedBox())),
+        Obx((() =>
+            homeController.isApproved.value && !homeController.inReview.value
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
+                        Text(
+                          "Recent Transactions",
+                          style: TextStyle(
+                              fontFamily: "Mont",
+                              fontSize: 12.sp,
                               color: isDarkMode
-                                  ? AppColors.black
-                                  : AppColors.white,
-                              borderRadius: BorderRadius.circular(10.0)),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding:
-                                    EdgeInsets.only(left: 8, right: 8, top: 8),
-                                child: Text("Received",
+                                  ? AppColors.inputLabelColor
+                                  : AppColors.greyText,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            push(
+                              page: AlltransactionScreen(),
+                              // arguments: homeController.transactions
+                            );
+                          },
+                          child: Text(
+                            "See All",
+                            style: TextStyle(
+                                fontFamily: "Mont",
+                                decoration: TextDecoration.underline,
+                                fontSize: 12.sp,
+                                color: isDarkMode
+                                    ? AppColors.inputLabelColor
+                                    : AppColors.greyText,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                : SizedBox())),
+        Obx((() =>
+            homeController.isApproved.value && !homeController.inReview.value
+                ? addVerticalSpace(24.h)
+                : SizedBox())),
+        Obx((() =>
+            homeController.isApproved.value && !homeController.inReview.value
+                ? getTransactions(theme, isDarkMode)
+                : SizedBox())),
+        Obx((() =>
+            homeController.isApproved.value && !homeController.inReview.value
+                ? addVerticalSpace(10.h)
+                : SizedBox())),
+        Obx((() => homeController.isApproved.value &&
+                !homeController.inReview.value
+            ? Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: SizedBox(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color:
+                            isDarkMode ? Color(0xFF161618) : AppColors.greyBg,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                color: isDarkMode
+                                    ? AppColors.black
+                                    : AppColors.white,
+                                borderRadius: BorderRadius.circular(10.0)),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 8, right: 8, top: 8),
+                                  child: Text("Received",
+                                      style: TextStyle(
+                                          color: isDarkMode
+                                              ? AppColors.inputLabelColor
+                                              : AppColors.black,
+                                          fontWeight: FontWeight.w600)),
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.42,
+                                  child: HomeChart(
+                                    color: AppColors.mainGreen,
+                                    graph: homeController.inflowGraph.value,
+                                    maxY: max(
+                                        homeController
+                                            .inflowGraph.value["maxY"],
+                                        homeController
+                                            .outflowGraph.value["maxY"]),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: isDarkMode
+                                    ? AppColors.black
+                                    : AppColors.white,
+                                borderRadius: BorderRadius.circular(10.0)),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 8, right: 8, top: 8),
+                                  child: Text(
+                                    "Spent",
                                     style: TextStyle(
                                         color: isDarkMode
                                             ? AppColors.inputLabelColor
                                             : AppColors.black,
-                                        fontWeight: FontWeight.w600)),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.42,
-                                child: HomeChart(
-                                  color: AppColors.mainGreen,
-                                  graph: homeController.inflowGraph.value,
-                                  maxY: max(
-                                      homeController.inflowGraph.value["maxY"],
-                                      homeController
-                                          .outflowGraph.value["maxY"]),
+                                        fontWeight: FontWeight.w600),
+                                  ),
                                 ),
-                              ),
-                            ],
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.42,
+                                  child: HomeChart(
+                                    color: AppColors.primaryColor,
+                                    graph: homeController.outflowGraph.value,
+                                    maxY: max(
+                                        homeController
+                                            .inflowGraph.value["maxY"],
+                                        homeController
+                                            .outflowGraph.value["maxY"]),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              color: isDarkMode
-                                  ? AppColors.black
-                                  : AppColors.white,
-                              borderRadius: BorderRadius.circular(10.0)),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding:
-                                    EdgeInsets.only(left: 8, right: 8, top: 8),
-                                child: Text(
-                                  "Spent",
-                                  style: TextStyle(
-                                      color: isDarkMode
-                                          ? AppColors.inputLabelColor
-                                          : AppColors.black,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.42,
-                                child: HomeChart(
-                                  color: AppColors.primaryColor,
-                                  graph: homeController.outflowGraph.value,
-                                  maxY: max(
-                                      homeController.inflowGraph.value["maxY"],
-                                      homeController
-                                          .outflowGraph.value["maxY"]),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ))),
+              )
+            : SizedBox())),
       ],
     );
   }

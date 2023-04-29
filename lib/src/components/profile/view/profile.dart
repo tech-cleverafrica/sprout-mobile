@@ -33,7 +33,6 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final theme = Theme.of(context);
     profileController = Get.put(ProfileController());
     return SafeArea(
       child: Scaffold(
@@ -177,114 +176,138 @@ class ProfileScreen extends StatelessWidget {
                       ? AppColors.semi_white.withOpacity(0.3)
                       : AppColors.inputLabelColor.withOpacity(0.6),
                 ),
-                addVerticalSpace(10.h),
-                Obx((() => Row(
-                      children: [
-                        Text(
-                          "Customer ID:",
-                          style: TextStyle(
-                              fontFamily: "Mont",
-                              fontSize: 13.sp,
-                              color: isDarkMode
-                                  ? AppColors.greyText
-                                  : AppColors.greyText,
-                              fontWeight: FontWeight.w400),
-                        ),
-                        addHorizontalSpace(5.w),
-                        Text(
-                          profileController.agentId.value,
-                          style: TextStyle(
-                              fontFamily: "Mont",
-                              fontSize: 13.sp,
-                              color: isDarkMode
-                                  ? AppColors.greyText
-                                  : AppColors.greyText,
-                              fontWeight: FontWeight.w700),
-                        )
-                      ],
-                    ))),
-                addVerticalSpace(5.h),
-                Obx((() => Row(
-                      children: [
-                        Text(
-                          "Account Number",
-                          style: TextStyle(
-                              fontFamily: "Mont",
-                              fontSize: 13.sp,
-                              color: isDarkMode
-                                  ? AppColors.greyText
-                                  : AppColors.greyText,
-                              fontWeight: FontWeight.w400),
-                        ),
-                        addHorizontalSpace(5.w),
-                        Text(
-                          profileController.accountNumberToUse.value,
-                          style: TextStyle(
-                              fontFamily: "Mont",
-                              fontSize: 13.sp,
-                              color: isDarkMode
-                                  ? AppColors.greyText
-                                  : AppColors.greyText,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        addHorizontalSpace(15.w),
-                        GestureDetector(
-                            onTap: () => Platform.isIOS
-                                ? Clipboard.setData(ClipboardData(
-                                        text: profileController
-                                            .accountNumberToUse.value))
-                                    .then((value) => {
-                                          CustomToastNotification.show(
-                                              "Account number has been copied successfully",
-                                              type: ToastType.success),
-                                        })
-                                : FlutterClipboard.copy(profileController
-                                        .accountNumberToUse.value)
-                                    .then((value) => {
-                                          CustomToastNotification.show(
-                                              "Account number has been copied successfully",
-                                              type: ToastType.success),
-                                        }),
-                            child: SvgPicture.asset(
-                              AppSvg.copy,
-                              color: AppColors.mainGreen,
-                              height: 14,
-                            ))
-                      ],
-                    ))),
-                addVerticalSpace(5.h),
-                Obx((() => Row(
-                      children: [
-                        Text(
-                          "Bank",
-                          style: TextStyle(
-                              fontFamily: "Mont",
-                              fontSize: 13.sp,
-                              color: isDarkMode
-                                  ? AppColors.greyText
-                                  : AppColors.greyText,
-                              fontWeight: FontWeight.w400),
-                        ),
-                        addHorizontalSpace(5.w),
-                        Text(
-                          profileController.bankToUse.value,
-                          style: TextStyle(
-                              fontFamily: "Mont",
-                              fontSize: 13.sp,
-                              color: isDarkMode
-                                  ? AppColors.greyText
-                                  : AppColors.greyText,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ],
-                    ))),
-                addVerticalSpace(10.h),
-                Divider(
-                  thickness: 0.3,
-                  color: isDarkMode
-                      ? AppColors.semi_white.withOpacity(0.3)
-                      : AppColors.inputLabelColor.withOpacity(0.6),
-                ),
+                Obx((() => profileController.isApproved.value &&
+                        !profileController.inReview.value
+                    ? addVerticalSpace(10.h)
+                    : SizedBox())),
+                Obx((() => profileController.isApproved.value &&
+                        !profileController.inReview.value
+                    ? Row(
+                        children: [
+                          Text(
+                            "Customer ID:",
+                            style: TextStyle(
+                                fontFamily: "Mont",
+                                fontSize: 13.sp,
+                                color: isDarkMode
+                                    ? AppColors.greyText
+                                    : AppColors.greyText,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          addHorizontalSpace(5.w),
+                          Text(
+                            profileController.agentId.value,
+                            style: TextStyle(
+                                fontFamily: "Mont",
+                                fontSize: 13.sp,
+                                color: isDarkMode
+                                    ? AppColors.greyText
+                                    : AppColors.greyText,
+                                fontWeight: FontWeight.w700),
+                          )
+                        ],
+                      )
+                    : SizedBox())),
+                Obx((() => profileController.isApproved.value &&
+                        !profileController.inReview.value
+                    ? addVerticalSpace(5.h)
+                    : SizedBox())),
+                Obx((() => profileController.isApproved.value &&
+                        !profileController.inReview.value
+                    ? Row(
+                        children: [
+                          Text(
+                            "Account Number",
+                            style: TextStyle(
+                                fontFamily: "Mont",
+                                fontSize: 13.sp,
+                                color: isDarkMode
+                                    ? AppColors.greyText
+                                    : AppColors.greyText,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          addHorizontalSpace(5.w),
+                          Text(
+                            profileController.accountNumberToUse.value,
+                            style: TextStyle(
+                                fontFamily: "Mont",
+                                fontSize: 13.sp,
+                                color: isDarkMode
+                                    ? AppColors.greyText
+                                    : AppColors.greyText,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          addHorizontalSpace(15.w),
+                          GestureDetector(
+                              onTap: () => Platform.isIOS
+                                  ? Clipboard.setData(ClipboardData(
+                                          text: profileController
+                                              .accountNumberToUse.value))
+                                      .then((value) => {
+                                            CustomToastNotification.show(
+                                                "Account number has been copied successfully",
+                                                type: ToastType.success),
+                                          })
+                                  : FlutterClipboard.copy(profileController
+                                          .accountNumberToUse.value)
+                                      .then((value) => {
+                                            CustomToastNotification.show(
+                                                "Account number has been copied successfully",
+                                                type: ToastType.success),
+                                          }),
+                              child: SvgPicture.asset(
+                                AppSvg.copy,
+                                color: AppColors.mainGreen,
+                                height: 14,
+                              ))
+                        ],
+                      )
+                    : SizedBox())),
+                Obx((() => profileController.isApproved.value &&
+                        !profileController.inReview.value
+                    ? addVerticalSpace(5.h)
+                    : SizedBox())),
+                Obx((() => profileController.isApproved.value &&
+                        !profileController.inReview.value
+                    ? Row(
+                        children: [
+                          Text(
+                            "Bank",
+                            style: TextStyle(
+                                fontFamily: "Mont",
+                                fontSize: 13.sp,
+                                color: isDarkMode
+                                    ? AppColors.greyText
+                                    : AppColors.greyText,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          addHorizontalSpace(5.w),
+                          Text(
+                            profileController.bankToUse.value,
+                            style: TextStyle(
+                                fontFamily: "Mont",
+                                fontSize: 13.sp,
+                                color: isDarkMode
+                                    ? AppColors.greyText
+                                    : AppColors.greyText,
+                                fontWeight: FontWeight.w700),
+                          ),
+                        ],
+                      )
+                    : SizedBox())),
+                Obx((() => profileController.isApproved.value &&
+                        !profileController.inReview.value
+                    ? addVerticalSpace(10.h)
+                    : SizedBox())),
+                Obx((() => profileController.isApproved.value &&
+                        !profileController.inReview.value
+                    ? Divider(
+                        thickness: 0.3,
+                        color: isDarkMode
+                            ? AppColors.semi_white.withOpacity(0.3)
+                            : AppColors.inputLabelColor.withOpacity(0.6),
+                      )
+                    : SizedBox())),
                 addVerticalSpace(15.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -312,7 +335,10 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 addVerticalSpace(20.h),
                 InkWell(
-                  onTap: () => Get.to(() => SecuritySettings()),
+                  onTap: () => {
+                    storage.remove("removeAll"),
+                    Get.to(() => SecuritySettings())
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -341,40 +367,52 @@ class ProfileScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                addVerticalSpace(20.h),
-                InkWell(
-                  onTap: () => Get.to(() => DownloadStatementScreen()),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          SvgPicture.asset(
-                            AppSvg.download_statement,
-                            height: 35,
-                          ),
-                          addHorizontalSpace(10.w),
-                          Text(
-                            "Download statement",
-                            style: TextStyle(
-                                color: isDarkMode
-                                    ? AppColors.white
-                                    : AppColors.greyDot,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 14.sp),
-                          )
-                        ],
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 16,
+                Obx((() => profileController.isApproved.value &&
+                        !profileController.inReview.value
+                    ? addVerticalSpace(20.h)
+                    : SizedBox())),
+                Obx((() => profileController.isApproved.value &&
+                        !profileController.inReview.value
+                    ? InkWell(
+                        onTap: () => {
+                          storage.remove("removeAll"),
+                          Get.to(() => DownloadStatementScreen())
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                SvgPicture.asset(
+                                  AppSvg.download_statement,
+                                  height: 35,
+                                ),
+                                addHorizontalSpace(10.w),
+                                Text(
+                                  "Download statement",
+                                  style: TextStyle(
+                                      color: isDarkMode
+                                          ? AppColors.white
+                                          : AppColors.greyDot,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 14.sp),
+                                )
+                              ],
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 16,
+                            )
+                          ],
+                        ),
                       )
-                    ],
-                  ),
-                ),
+                    : SizedBox())),
                 addVerticalSpace(20.h),
                 InkWell(
-                  onTap: () => Get.to(() => SupportScreen()),
+                  onTap: () => {
+                    storage.remove("removeAll"),
+                    Get.to(() => SupportScreen())
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

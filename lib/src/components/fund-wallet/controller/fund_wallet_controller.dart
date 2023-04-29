@@ -16,6 +16,7 @@ import 'package:sprout_mobile/src/components/fund-wallet/service/fund_wallet_ser
 import 'package:sprout_mobile/src/components/fund-wallet/view/fund_wallet.dart';
 import 'package:sprout_mobile/src/components/home/model/wallet_model.dart';
 import 'package:sprout_mobile/src/components/home/service/home_service.dart';
+import 'package:sprout_mobile/src/environment.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_formatter.dart';
@@ -40,6 +41,8 @@ class FundWalletController extends GetxController {
   RxString accountNumberToUse = "".obs;
   RxString bankToUse = "".obs;
   late RxDouble walletBalance = 0.0.obs;
+  RxBool isApproved = false.obs;
+  RxBool inReview = false.obs;
 
   String transactionRef = "";
   var storageBalance;
@@ -59,8 +62,6 @@ class FundWalletController extends GetxController {
     if (storageBalance != null && storageBalance != "") {
       walletBalance.value = storageBalance;
     }
-    getWallet();
-    getCards();
     fullname = StringUtils.capitalize(storage.read("firstname"));
     accountNumber = storage.read("accountNumber");
     providusAccountNumber = storage.read("providusAccount");
@@ -70,19 +71,28 @@ class FundWalletController extends GetxController {
     accountNumberToUse.value = providusAccountNumber.isEmpty
         ? wemaAccountNumber
         : providusAccountNumber;
+    String approvalStatus = storage.read("approvalStatus");
+    isApproved.value = approvalStatus == "APPROVED" ? true : false;
+    inReview.value = approvalStatus == "IN_REVIEW" ? true : false;
+    getWallet();
+    getCards();
     super.onInit();
   }
 
   getWallet() async {
-    AppResponse response = await locator.get<HomeService>().getWallet();
-    if (response.status) {
-      Wallet wallet = Wallet.fromJson(response.data);
-      walletBalance.value = wallet.data!.balance!;
-      storage.write("userBalance", walletBalance.value);
-    } else if (response.statusCode == 999) {
-      AppResponse res = await locator.get<AuthService>().refreshUserToken();
-      if (res.status) {
-        getWallet();
+    if (!isApproved.value || (isApproved.value && inReview.value)) {
+      walletBalance.value = 0.0;
+    } else {
+      AppResponse response = await locator.get<HomeService>().getWallet();
+      if (response.status) {
+        Wallet wallet = Wallet.fromJson(response.data);
+        walletBalance.value = wallet.data!.balance!;
+        storage.write("userBalance", walletBalance.value);
+      } else if (response.statusCode == 999) {
+        AppResponse res = await locator.get<AuthService>().refreshUserToken();
+        if (res.status) {
+          getWallet();
+        }
       }
     }
   }
@@ -343,20 +353,19 @@ class FundWalletController extends GetxController {
         email: email);
     final Flutterwave flutterwave = Flutterwave(
         context: context,
-        publicKey: "FLWPUBK_TEST-c9c17e8e7f23ee3e840970bc2143326d-X",
+        publicKey: Environment.flutterWaveKey,
         currency: "NGN",
         redirectUrl: "https://business.cleverafrica.com",
         txRef: transactionRef,
         amount: amountController.text.split(",").join(),
         customer: customer,
         paymentOptions: "card",
-        // paymentOptions: "ussd, card, barter, payattitude",
         customization: Customization(
             title: "Fund Wallet",
             logo:
                 "https://res.cloudinary.com/senjonnes/image/upload/v1680695198/Subtract_sjyu1o.png",
             description: "Fund Wallet"),
-        isTestMode: true);
+        isTestMode: Environment.isTestMode == "TEST");
     final ChargeResponse response = await flutterwave.charge();
     if (response.transactionId != null) {
       CustomToastNotification.show("Your wallet has been funded successfully",

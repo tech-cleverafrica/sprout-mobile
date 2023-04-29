@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/help/view/complaint.dart';
 import 'package:sprout_mobile/src/components/profile/controller/profile_controller.dart';
+import 'package:sprout_mobile/src/components/profile/controller/support_controller.dart';
 import 'package:sprout_mobile/src/public/screens/contact_us.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
@@ -17,12 +18,14 @@ class SupportScreen extends StatelessWidget {
   SupportScreen({super.key});
 
   late ProfileController profileController;
+  late SupportController supportController;
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final theme = Theme.of(context);
     profileController = Get.put(ProfileController());
+    supportController = Get.put(SupportController());
     return SafeArea(
       child: Scaffold(
         body: Padding(

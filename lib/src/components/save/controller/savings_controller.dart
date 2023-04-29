@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/save/service/savings_service.dart';
@@ -6,6 +7,7 @@ import 'package:sprout_mobile/src/utils/app_formatter.dart';
 import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
 
 class SavingsController extends GetxController {
+  final storage = GetStorage();
   final AppFormatter formatter = Get.put(AppFormatter());
   RxList<dynamic> savings = <dynamic>[].obs;
   RxList<dynamic> baseSavings = <dynamic>[].obs;
@@ -14,6 +16,8 @@ class SavingsController extends GetxController {
   RxBool showMain = false.obs;
   RxBool showAmount = true.obs;
   RxString type = "".obs;
+  RxBool isApproved = false.obs;
+  RxBool inReview = false.obs;
 
   List<String> statuses = ["All", "Partial Payment", "Paid", "Not Paid"];
   List<String> times = [
@@ -33,6 +37,9 @@ class SavingsController extends GetxController {
   @override
   void onInit() {
     fetchPlans(false);
+    String approvalStatus = storage.read("approvalStatus");
+    isApproved.value = approvalStatus == "APPROVED" ? true : false;
+    inReview.value = approvalStatus == "IN_REVIEW" ? true : false;
     super.onInit();
   }
 

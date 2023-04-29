@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/components/profile/view/change_password.dart';
 import 'package:sprout_mobile/src/components/profile/view/change_pin.dart';
 import 'package:sprout_mobile/src/components/profile/view/create_pin.dart';
@@ -22,13 +23,29 @@ class SecuritySettings extends StatefulWidget {
 }
 
 class _SecuritySettingsState extends State<SecuritySettings> {
+  final storage = GetStorage();
   bool _isFingerPrintEnabled = false;
   DBProvider sharePreference = DBProvider();
+  bool isApproved = false;
+  bool inReview = false;
+  bool hasPin = false;
 
   @override
   initState() {
     checkIsFingerPrintEnabled();
+    String approvalStatus = storage.read("approvalStatus");
+    setState(() {
+      isApproved = approvalStatus == "APPROVED" ? true : false;
+      inReview = approvalStatus == "IN_REVIEW" ? true : false;
+      hasPin = storage.read("hasPin");
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    storage.write('removeAll', "1");
+    super.dispose();
   }
 
   void checkIsFingerPrintEnabled() async {
@@ -55,52 +72,68 @@ class _SecuritySettingsState extends State<SecuritySettings> {
             children: [
               getHeader(isDarkMode),
               addVerticalSpace(15.h),
-              InkWell(
-                onTap: () {
-                  Get.to(() => CreatePin());
-                },
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      AppSvg.create_pin,
-                    ),
-                    Text(
-                      "Create PIN",
-                      style: TextStyle(
-                          fontFamily: "Mont",
-                          fontSize: 14.sp,
-                          color: isDarkMode ? AppColors.white : AppColors.black,
-                          fontWeight: FontWeight.w500),
+              isApproved && !inReview && !hasPin
+                  ? InkWell(
+                      onTap: () {
+                        Get.to(() => CreatePin());
+                      },
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            AppSvg.create_pin,
+                          ),
+                          Text(
+                            "Create PIN",
+                            style: TextStyle(
+                                fontFamily: "Mont",
+                                fontSize: 14.sp,
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.black,
+                                fontWeight: FontWeight.w500),
+                          )
+                        ],
+                      ),
                     )
-                  ],
-                ),
-              ),
-              Divider(
-                color: isDarkMode ? AppColors.white : AppColors.white,
-              ),
-              addVerticalSpace(10.h),
-              InkWell(
-                onTap: () {
-                  Get.to(() => ChangePin());
-                },
-                child: Row(
-                  children: [
-                    SvgPicture.asset(AppSvg.change_pin),
-                    Text(
-                      "Change PIN",
-                      style: TextStyle(
-                          fontFamily: "Mont",
-                          fontSize: 14.sp,
-                          color: isDarkMode ? AppColors.white : AppColors.black,
-                          fontWeight: FontWeight.w500),
+                  : SizedBox(),
+              isApproved && !inReview && !hasPin
+                  ? Divider(
+                      color: isDarkMode ? AppColors.white : AppColors.white,
                     )
-                  ],
-                ),
-              ),
-              Divider(
-                color: isDarkMode ? AppColors.white : AppColors.white,
-              ),
-              addVerticalSpace(10.h),
+                  : SizedBox(),
+              isApproved && !inReview && !hasPin
+                  ? addVerticalSpace(10.h)
+                  : SizedBox(),
+              isApproved && !inReview && hasPin
+                  ? InkWell(
+                      onTap: () {
+                        Get.to(() => ChangePin());
+                      },
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(AppSvg.change_pin),
+                          Text(
+                            "Change PIN",
+                            style: TextStyle(
+                                fontFamily: "Mont",
+                                fontSize: 14.sp,
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.black,
+                                fontWeight: FontWeight.w500),
+                          )
+                        ],
+                      ),
+                    )
+                  : SizedBox(),
+              isApproved && !inReview && hasPin
+                  ? Divider(
+                      color: isDarkMode ? AppColors.white : AppColors.white,
+                    )
+                  : SizedBox(),
+              isApproved && !inReview && hasPin
+                  ? addVerticalSpace(10.h)
+                  : SizedBox(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

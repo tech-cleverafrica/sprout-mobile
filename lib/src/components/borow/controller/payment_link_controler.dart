@@ -3,6 +3,7 @@ import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/borow/model/payment_link_model.dart';
 import 'package:sprout_mobile/src/components/borow/service/borrow_service.dart';
@@ -21,6 +22,7 @@ import 'package:sprout_mobile/src/utils/nav_function.dart';
 import '../../../api-setup/api_setup.dart';
 
 class PaymentLinkController extends GetxController {
+  final storage = GetStorage();
   final AppFormatter formatter = Get.put(AppFormatter());
   TextEditingController searchController = new TextEditingController();
 
@@ -49,7 +51,7 @@ class PaymentLinkController extends GetxController {
   ];
   RxString status = "All".obs;
   RxString time = "All Time".obs;
-  String statusFilter = "all";
+  String statusFilter = "";
   Map<String, dynamic> timeFilter = {"startDate": null, "endDate": null};
   RxString errorMessage = "".obs;
 
@@ -57,13 +59,17 @@ class PaymentLinkController extends GetxController {
   void onInit() {
     super.onInit();
     amountController = formatter.getMoneyController();
-    fetchPaymentLinks();
+    fetchPaymentLinks(false);
   }
 
-  fetchPaymentLinks() async {
-    isPaymentLinksLoading.value = true;
-    AppResponse<List<PaymentLink>> response =
-        await locator.get<BorrowService>().getPaymentLinks();
+  fetchPaymentLinks(bool refresh) async {
+    reset();
+    if (!refresh) {
+      isPaymentLinksLoading.value = true;
+    }
+    AppResponse<List<PaymentLink>> response = await locator
+        .get<BorrowService>()
+        .getPaymentLinks(statusFilter, timeFilter);
     isPaymentLinksLoading.value = false;
     if (response.status) {
       paymentLinks.assignAll(response.data!);
@@ -71,7 +77,7 @@ class PaymentLinkController extends GetxController {
     } else if (response.statusCode == 999) {
       AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
-        fetchPaymentLinks();
+        fetchPaymentLinks(refresh);
       }
     }
   }
@@ -103,6 +109,11 @@ class PaymentLinkController extends GetxController {
                 i.fullName!.toLowerCase().contains(value.toLowerCase()) ||
                 i.description!.toLowerCase().contains(value.toLowerCase()))
             .toList();
+  }
+
+  reset() {
+    searchController = new TextEditingController(text: "");
+    paymentLinks.value = basePaymentLinks;
   }
 
   validate() {
@@ -142,10 +153,12 @@ class PaymentLinkController extends GetxController {
   }
 
   buildRequest() {
+    String email = storage.read("email");
     return {
       "amount": amountController.text.split(",").join(),
       "currency": "NGN",
       "name": paymentNameController.text,
+      "email": email,
       "description": paymentDescriptionController.text,
     };
   }
@@ -206,16 +219,13 @@ class PaymentLinkController extends GetxController {
                                     pop();
                                     status.value = statuses[index];
                                     if (statuses[index] == "All") {
-                                      statusFilter = "all";
-                                    } else if (statuses[index] ==
-                                        "Partial Payment") {
-                                      statusFilter = "PARTIAL_PAYMENT";
+                                      statusFilter = "";
                                     } else if (statuses[index] == "Paid") {
-                                      statusFilter = "PAID";
+                                      statusFilter = "true";
                                     } else if (statuses[index] == "Not Paid") {
-                                      statusFilter = "NOT_PAID";
+                                      statusFilter = "false";
                                     }
-                                    // fetchUserInvoices(true);
+                                    fetchPaymentLinks(true);
                                   },
                                   child: Obx((() => Container(
                                         decoration: BoxDecoration(
@@ -354,7 +364,7 @@ class PaymentLinkController extends GetxController {
                                         "endDate": null
                                       };
                                     }
-                                    // fetchUserInvoices(true);
+                                    fetchPaymentLinks(true);
                                   },
                                   child: Obx((() => Container(
                                         decoration: BoxDecoration(

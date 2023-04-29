@@ -80,7 +80,7 @@ class AuthService {
       storage.write('terminalId', user.data!.terminalId ?? "");
       storage.write('deviceSerialNumber', user.data!.deviceSerialNumber ?? "");
       storage.write('approvalStatus', user.data!.approvalStatus ?? "");
-      storage.write('hasPin', user.data!.hasPin ?? "");
+      storage.write('hasPin', user.data!.hasPin ?? false);
       storage.write('metaMapInfo', user.data!.metaMapInfo ?? "");
 
       print(":::::::::$responseBody");

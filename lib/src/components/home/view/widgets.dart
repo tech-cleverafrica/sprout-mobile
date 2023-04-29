@@ -406,7 +406,9 @@ class BalanceCard extends StatelessWidget {
       required this.buttonVisible,
       required this.showAmount,
       required this.onTap,
-      required this.setVisibility})
+      required this.setVisibility,
+      this.isApproved = true,
+      this.inReview = false})
       : super(key: key);
 
   final bool isDarkMode;
@@ -427,6 +429,8 @@ class BalanceCard extends StatelessWidget {
   final bool showAmount;
   final VoidCallback onTap;
   final VoidCallback setVisibility;
+  final bool isApproved;
+  final bool inReview;
 
   @override
   Widget build(BuildContext context) {
@@ -582,106 +586,109 @@ class BalanceCard extends StatelessWidget {
                 )
               ],
             ),
-            addVerticalSpace(8.h),
-            Row(
-              mainAxisAlignment: bankVisible
-                  ? MainAxisAlignment.spaceBetween
-                  : MainAxisAlignment.start,
-              children: [
-                Visibility(
-                    visible: bankVisible,
-                    child: Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              bank,
-                              style: TextStyle(
-                                  fontFamily: "Mont",
-                                  fontSize: 11.sp,
-                                  fontWeight: FontWeight.w700,
-                                  color: isDarkMode
-                                      ? AppColors.white
-                                      : AppColors.black),
-                            ),
-                            Text(
-                              accountNumber,
-                              style: TextStyle(
-                                  fontFamily: "Mont",
-                                  fontSize: 11.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: isDarkMode
-                                      ? AppColors.greyText
-                                      : AppColors.deepGrey),
-                            )
-                          ],
-                        ),
-                        addHorizontalSpace(10.w),
-                        GestureDetector(
-                            onTap: () => Platform.isIOS
-                                ? Clipboard.setData(
-                                        ClipboardData(text: accountNumber))
-                                    .then((value) => {
-                                          CustomToastNotification.show(
-                                              "Account number has been copied successfully",
-                                              type: ToastType.success),
-                                        })
-                                : FlutterClipboard.copy(accountNumber)
-                                    .then((value) => {
-                                          CustomToastNotification.show(
-                                              "Account number has been copied successfully",
-                                              type: ToastType.success),
-                                        }),
-                            child: Container(
-                              color: Colors.transparent,
-                              alignment: Alignment.center,
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      AppSvg.copy,
-                                      height: 16,
-                                    ),
-                                  ]),
-                            )),
-                      ],
-                    )),
-                InkWell(
-                    onTap: onTap,
-                    child: Visibility(
-                      visible: buttonVisible,
-                      child: Container(
-                        width: 95.w,
-                        height: 24.h,
-                        decoration: BoxDecoration(
-                            color: buttonColor,
-                            borderRadius: BorderRadius.circular(5)),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+            isApproved && !inReview ? addVerticalSpace(8.h) : SizedBox(),
+            isApproved && !inReview
+                ? Row(
+                    mainAxisAlignment: bankVisible
+                        ? MainAxisAlignment.spaceBetween
+                        : MainAxisAlignment.start,
+                    children: [
+                      Visibility(
+                          visible: bankVisible,
+                          child: Row(
                             children: [
-                              Visibility(
-                                visible: iconVisible,
-                                child: Icon(
-                                  Icons.add,
-                                  color: AppColors.white,
-                                  size: 14,
-                                ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    bank,
+                                    style: TextStyle(
+                                        fontFamily: "Mont",
+                                        fontSize: 11.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: isDarkMode
+                                            ? AppColors.white
+                                            : AppColors.black),
+                                  ),
+                                  Text(
+                                    accountNumber,
+                                    style: TextStyle(
+                                        fontFamily: "Mont",
+                                        fontSize: 11.sp,
+                                        fontWeight: FontWeight.w400,
+                                        color: isDarkMode
+                                            ? AppColors.greyText
+                                            : AppColors.deepGrey),
+                                  )
+                                ],
                               ),
-                              addHorizontalSpace(5.w),
-                              Text(
-                                buttontext,
-                                style: TextStyle(
-                                    fontFamily: "Mont",
-                                    color: AppColors.white,
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w700),
-                              )
-                            ]),
-                      ),
-                    )),
-              ],
-            ),
+                              addHorizontalSpace(10.w),
+                              GestureDetector(
+                                  onTap: () => Platform.isIOS
+                                      ? Clipboard.setData(ClipboardData(
+                                              text: accountNumber))
+                                          .then((value) => {
+                                                CustomToastNotification.show(
+                                                    "Account number has been copied successfully",
+                                                    type: ToastType.success),
+                                              })
+                                      : FlutterClipboard.copy(accountNumber)
+                                          .then((value) => {
+                                                CustomToastNotification.show(
+                                                    "Account number has been copied successfully",
+                                                    type: ToastType.success),
+                                              }),
+                                  child: Container(
+                                    color: Colors.transparent,
+                                    alignment: Alignment.center,
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          SvgPicture.asset(
+                                            AppSvg.copy,
+                                            height: 16,
+                                          ),
+                                        ]),
+                                  )),
+                            ],
+                          )),
+                      InkWell(
+                          onTap: onTap,
+                          child: Visibility(
+                            visible: buttonVisible,
+                            child: Container(
+                              width: 95.w,
+                              height: 24.h,
+                              decoration: BoxDecoration(
+                                  color: buttonColor,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Visibility(
+                                      visible: iconVisible,
+                                      child: Icon(
+                                        Icons.add,
+                                        color: AppColors.white,
+                                        size: 14,
+                                      ),
+                                    ),
+                                    addHorizontalSpace(5.w),
+                                    Text(
+                                      buttontext,
+                                      style: TextStyle(
+                                          fontFamily: "Mont",
+                                          color: AppColors.white,
+                                          fontSize: 10.sp,
+                                          fontWeight: FontWeight.w700),
+                                    )
+                                  ]),
+                            ),
+                          )),
+                    ],
+                  )
+                : SizedBox(),
           ],
         ),
       ),

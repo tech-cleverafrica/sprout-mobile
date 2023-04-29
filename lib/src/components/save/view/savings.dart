@@ -62,14 +62,14 @@ class SavingsScreen extends StatelessWidget {
                                     "Save with Sprout",
                                     style: TextStyle(
                                         fontFamily: "Mont",
-                                        fontSize: 44.sp,
+                                        fontSize: 40.sp,
                                         color: AppColors.white,
                                         fontWeight: FontWeight.w900),
                                   )),
                             ),
                             addVerticalSpace(10.h),
                             Container(
-                                height: 150.h,
+                                height: 120.h,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
                                         bottomLeft: Radius.circular(10),
@@ -81,33 +81,26 @@ class SavingsScreen extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20, vertical: 10),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      Container(
-                                        width: 144.w,
-                                        child: Text(
-                                          "Lorem ipsum dolor sit amet consectetur. Placerat lorem neque risus.",
-                                          style: TextStyle(
-                                              fontFamily: "Mont",
-                                              fontSize: 12.sp,
-                                              color: AppColors.white,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                      Container(
-                                          width: 122.w,
-                                          child: CustomButton(
-                                            title: "Get Started",
-                                            color: AppColors.black,
-                                            onTap: () {
-                                              if (!savingsIncontroller
-                                                  .isSavingsLoading.value) {
-                                                savingsIncontroller
-                                                    .showMain.value = true;
-                                              }
-                                            },
-                                          ))
+                                      Obx((() => savingsIncontroller
+                                                  .isApproved.value &&
+                                              !savingsIncontroller
+                                                  .inReview.value
+                                          ? Container(
+                                              width: 125.w,
+                                              child: CustomButton(
+                                                title: "Get Started",
+                                                color: AppColors.black,
+                                                onTap: () {
+                                                  if (!savingsIncontroller
+                                                      .isSavingsLoading.value) {
+                                                    savingsIncontroller
+                                                        .showMain.value = true;
+                                                  }
+                                                },
+                                              ))
+                                          : SizedBox()))
                                     ],
                                   ),
                                 ))

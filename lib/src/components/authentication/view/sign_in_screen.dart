@@ -69,6 +69,7 @@ class SignInScreen extends StatelessWidget {
                 controller: signInController.passwordController,
                 label: "Enter Password",
                 hintText: "Your password",
+                textInputAction: TextInputAction.go,
                 fillColor: isDarkMode
                     ? AppColors.inputBackgroundColor
                     : AppColors.grey,

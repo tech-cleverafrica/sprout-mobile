@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/components/invoice/model/invoice_customer_model.dart';
 import 'package:sprout_mobile/src/components/invoice/model/invoice_detail_model.dart';
 import 'package:sprout_mobile/src/components/invoice/model/invoice_model.dart';
@@ -28,6 +29,7 @@ import '../../../public/widgets/custom_toast_notification.dart';
 import '../../../utils/helper_widgets.dart';
 
 class InvoiceController extends GetxController {
+  final storage = GetStorage();
   final AppFormatter formatter = Get.put(AppFormatter());
   TextEditingController searchController = new TextEditingController();
 
@@ -55,6 +57,8 @@ class InvoiceController extends GetxController {
   RxBool isSingleInvoiceLoading = false.obs;
   RxBool isInvoiceDisplay = true.obs;
   RxBool showMain = false.obs;
+  RxBool isApproved = false.obs;
+  RxBool inReview = false.obs;
 
   // Track the progress of a downloaded file here.
   double progress = 0;
@@ -82,6 +86,9 @@ class InvoiceController extends GetxController {
   void onInit() {
     fetchUserInvoices(false);
     fetchInvoiceCustomers();
+    String approvalStatus = storage.read("approvalStatus");
+    isApproved.value = approvalStatus == "APPROVED" ? true : false;
+    inReview.value = approvalStatus == "IN_REVIEW" ? true : false;
     super.onInit();
   }
 

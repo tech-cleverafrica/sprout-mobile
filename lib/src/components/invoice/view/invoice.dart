@@ -71,14 +71,14 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                       "Generate Invoices",
                                       style: TextStyle(
                                           fontFamily: "Mont",
-                                          fontSize: 44.sp,
+                                          fontSize: 40.sp,
                                           color: AppColors.white,
                                           fontWeight: FontWeight.w900),
                                     )),
                               ),
                               addVerticalSpace(10.h),
                               Container(
-                                  height: 150.h,
+                                  height: 120.h,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.only(
                                           bottomLeft: Radius.circular(10),
@@ -91,37 +91,31 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 10),
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        Container(
-                                          width: 122.w,
-                                          child: Text(
-                                            "Lorem ipsum dolor sit amet consectetur. Placerat lorem neque risus.",
-                                            style: TextStyle(
-                                                fontFamily: "Mont",
-                                                fontSize: 12.sp,
-                                                color: AppColors.white,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ),
-                                        Container(
-                                            width: 144.w,
-                                            child: CustomButton(
-                                              title: "Get Started",
-                                              color: AppColors.black,
-                                              onTap: () {
-                                                if (!invoiceIncontroller
-                                                        .isInvoiceLoading
-                                                        .value &&
-                                                    !invoiceIncontroller
-                                                        .isInvoiceCustomerLoading
-                                                        .value) {
-                                                  invoiceIncontroller
-                                                      .showMain.value = true;
-                                                }
-                                              },
-                                            ))
+                                        Obx((() => invoiceIncontroller
+                                                    .isApproved.value &&
+                                                !invoiceIncontroller
+                                                    .inReview.value
+                                            ? Container(
+                                                width: 144.w,
+                                                child: CustomButton(
+                                                  title: "Get Started",
+                                                  color: AppColors.black,
+                                                  onTap: () {
+                                                    if (!invoiceIncontroller
+                                                            .isInvoiceLoading
+                                                            .value &&
+                                                        !invoiceIncontroller
+                                                            .isInvoiceCustomerLoading
+                                                            .value) {
+                                                      invoiceIncontroller
+                                                          .showMain
+                                                          .value = true;
+                                                    }
+                                                  },
+                                                ))
+                                            : SizedBox()))
                                       ],
                                     ),
                                   ))

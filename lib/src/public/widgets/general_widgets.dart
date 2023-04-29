@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/components/help/view/complaint.dart';
 import 'package:sprout_mobile/src/components/home/controller/home_controller.dart';
 import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
@@ -24,7 +25,7 @@ import '../../utils/helper_widgets.dart';
 late HomeController homeController = Get.put(HomeController());
 late NotificationController notificationController =
     Get.put(NotificationController());
-List<String> routes = ["/InvoiceScreen", "/BottomNav", "/FundWalletScreen"];
+final storage = GetStorage();
 
 getHeader(bool isDarkMode, {hideHelp = false, hideNotification = false}) {
   return Padding(
@@ -35,15 +36,14 @@ getHeader(bool isDarkMode, {hideHelp = false, hideNotification = false}) {
         Row(
           children: [
             InkWell(
-                onTap: () => {
-                      print(Get.currentRoute),
-                      if (routes.contains(Get.currentRoute))
-                        {
-                          {pushUntil(page: BottomNav())}
-                        }
-                      else
-                        {pop()}
-                    },
+                onTap: () {
+                  String? remove = storage.read("removeAll");
+                  if (remove == "1") {
+                    storage.remove("removeAll");
+                    pushUntil(page: BottomNav());
+                  } else
+                    pop();
+                },
                 child: Container(
                   padding: EdgeInsets.only(right: 5, bottom: 5, top: 5),
                   child: SvgPicture.asset(

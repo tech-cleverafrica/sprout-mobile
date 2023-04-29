@@ -64,8 +64,6 @@ class HomeController extends GetxController {
         (e) => transactions.add(Transactions.fromJson(e)),
       );
     }
-    getWallet();
-    loadTransactions();
     fullname = StringUtils.capitalize(storage.read("firstname"));
     abbreviation = StringUtils.capitalize(storage.read("firstname")[0]) +
         StringUtils.capitalize(storage.read("lastname")[0]);
@@ -80,20 +78,26 @@ class HomeController extends GetxController {
     String approvalStatus = storage.read("approvalStatus");
     isApproved.value = approvalStatus == "APPROVED" ? true : false;
     inReview.value = approvalStatus == "IN_REVIEW" ? true : false;
+    loadTransactions();
+    getWallet();
     getDashboardGraph();
     super.onInit();
   }
 
   getWallet() async {
-    AppResponse response = await locator.get<HomeService>().getWallet();
-    if (response.status) {
-      Wallet wallet = Wallet.fromJson(response.data);
-      walletBalance.value = wallet.data!.balance!;
-      storage.write("userBalance", walletBalance.value);
-    } else if (response.statusCode == 999) {
-      AppResponse res = await locator.get<AuthService>().refreshUserToken();
-      if (res.status) {
-        getWallet();
+    if (!isApproved.value || (isApproved.value && inReview.value)) {
+      walletBalance.value = 0.0;
+    } else {
+      AppResponse response = await locator.get<HomeService>().getWallet();
+      if (response.status) {
+        Wallet wallet = Wallet.fromJson(response.data);
+        walletBalance.value = wallet.data!.balance!;
+        storage.write("userBalance", walletBalance.value);
+      } else if (response.statusCode == 999) {
+        AppResponse res = await locator.get<AuthService>().refreshUserToken();
+        if (res.status) {
+          getWallet();
+        }
       }
     }
   }
@@ -104,36 +108,45 @@ class HomeController extends GetxController {
     } else {
       isTransactionLoading.value = true;
     }
-    AppResponse<List<Transactions>> transactionsResponse =
-        await locator.get<HomeService>().getTransactions();
-    isTransactionLoading.value = false;
-    if (transactionsResponse.status) {
+    if (!isApproved.value || (isApproved.value && inReview.value)) {
+      isTransactionLoading.value = false;
       transactions.clear();
-      transactions.assignAll(transactionsResponse.data);
-      storage.write(
-          "transactionResponse", jsonEncode(transactionsResponse.data!));
-    } else if (transactionsResponse.statusCode == 999) {
-      AppResponse res = await locator.get<AuthService>().refreshUserToken();
-      if (res.status) {
-        loadTransactions();
+    } else {
+      AppResponse<List<Transactions>> transactionsResponse =
+          await locator.get<HomeService>().getTransactions();
+      isTransactionLoading.value = false;
+      if (transactionsResponse.status) {
+        transactions.clear();
+        transactions.assignAll(transactionsResponse.data);
+        storage.write(
+            "transactionResponse", jsonEncode(transactionsResponse.data!));
+      } else if (transactionsResponse.statusCode == 999) {
+        AppResponse res = await locator.get<AuthService>().refreshUserToken();
+        if (res.status) {
+          loadTransactions();
+        }
       }
     }
   }
 
   getDashboardGraph() async {
-    isGraphLoading.value = true;
-    AppResponse<dynamic> response =
-        await locator.get<HomeService>().getDashboardGraph();
-    isGraphLoading.value = false;
-    if (response.status) {
-      dynamic inflowData = response.data['data']['inflow'];
-      dynamic outflowData = response.data['data']['outflow'];
-      inflowGraph.value = setGraph(inflowData, "amount");
-      outflowGraph.value = setGraph(outflowData, "amount");
-    } else if (response.statusCode == 999) {
-      AppResponse res = await locator.get<AuthService>().refreshUserToken();
-      if (res.status) {
-        getDashboardGraph();
+    if (!isApproved.value || (isApproved.value && inReview.value)) {
+      isGraphLoading.value = false;
+    } else {
+      isGraphLoading.value = true;
+      AppResponse<dynamic> response =
+          await locator.get<HomeService>().getDashboardGraph();
+      isGraphLoading.value = false;
+      if (response.status) {
+        dynamic inflowData = response.data['data']['inflow'];
+        dynamic outflowData = response.data['data']['outflow'];
+        inflowGraph.value = setGraph(inflowData, "amount");
+        outflowGraph.value = setGraph(outflowData, "amount");
+      } else if (response.statusCode == 999) {
+        AppResponse res = await locator.get<AuthService>().refreshUserToken();
+        if (res.status) {
+          getDashboardGraph();
+        }
       }
     }
   }

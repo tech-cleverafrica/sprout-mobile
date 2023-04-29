@@ -32,9 +32,40 @@ class BorrowRepositoryImpl implements BorrowRepository {
   }
 
   @override
-  getPaymentLinks() async {
+  getPaymentLinks(String statusFilter, Map<String, dynamic> timeFilter) async {
+    print("HERE1");
+    print("HERE2");
+    print("HERE3");
+    print("HERE4");
+    print("HERE5");
+    print(statusFilter);
+    print("HERE1");
+    print("HERE2");
+    print("HERE3");
+    print("HERE4");
+    print("HERE5");
     try {
-      return await api.dio.get(paymentLinksUrl);
+      return await api.dio.get(
+        timeFilter['startDate'] != null &&
+                timeFilter['endDate'] != null &&
+                statusFilter != ""
+            ? paymentLinksUrl +
+                "?paid=" +
+                statusFilter +
+                "&startDate=" +
+                timeFilter['startDate'] +
+                "&endDate=" +
+                timeFilter['endDate']
+            : timeFilter['startDate'] != null && timeFilter['endDate'] != null
+                ? paymentLinksUrl +
+                    "?startDate=" +
+                    timeFilter['startDate'] +
+                    "&endDate=" +
+                    timeFilter['endDate']
+                : statusFilter != ""
+                    ? paymentLinksUrl + "?paid=" + statusFilter
+                    : paymentLinksUrl,
+      );
     } on DioError catch (e) {
       return api.handleError(e);
     } catch (e) {

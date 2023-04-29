@@ -28,6 +28,8 @@ class ProfileController extends GetxController {
   final picker = ImagePicker();
   late File profilePicture;
   RxBool uploadingProfilePicture = false.obs;
+  RxBool isApproved = false.obs;
+  RxBool inReview = false.obs;
 
   @override
   void onInit() {
@@ -46,6 +48,9 @@ class ProfileController extends GetxController {
         : providusAccountNumber.value;
     agentId.value = storage.read("agentId") ?? "";
     profileImage.value = storage.read("profilePicture") ?? "";
+    String approvalStatus = storage.read("approvalStatus");
+    isApproved.value = approvalStatus == "APPROVED" ? true : false;
+    inReview.value = approvalStatus == "IN_REVIEW" ? true : false;
   }
 
   @override

@@ -13,6 +13,7 @@ import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
 import 'package:sprout_mobile/src/utils/global_function.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../utils/helper_widgets.dart';
 
@@ -199,14 +200,25 @@ class PaymentLinkDetails extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.65,
-                      child: Text(
-                        paymentLinkDetailsController
-                            .paymentLink.value!.paymentLinkUrl!,
-                        style: TextStyle(
-                            color:
-                                isDarkMode ? AppColors.white : AppColors.black),
+                    InkWell(
+                      onTap: () async {
+                        if (await canLaunchUrl(Uri.parse(
+                            paymentLinkDetailsController
+                                .paymentLink.value!.paymentLinkUrl!))) {
+                          await launchUrl(Uri.parse(paymentLinkDetailsController
+                              .paymentLink.value!.paymentLinkUrl!));
+                        }
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.65,
+                        child: Text(
+                          paymentLinkDetailsController
+                              .paymentLink.value!.paymentLinkUrl!,
+                          style: TextStyle(
+                              color: isDarkMode
+                                  ? AppColors.white
+                                  : AppColors.black),
+                        ),
                       ),
                     ),
                     InkWell(

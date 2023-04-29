@@ -33,6 +33,7 @@ class DownloadStatementController extends GetxController {
 
   @override
   void onClose() {
+    storage.write('removeAll', "1");
     super.onClose();
   }
 

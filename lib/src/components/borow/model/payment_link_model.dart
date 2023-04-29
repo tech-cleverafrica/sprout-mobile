@@ -52,6 +52,7 @@ class PaymentLink {
   String? status;
   String? settledBy;
   String? subAccount;
+  String? businessName;
   String? transactionTime;
   String? createdAt;
   String? updatedAt;
@@ -81,6 +82,7 @@ class PaymentLink {
     this.status,
     this.settledBy,
     this.subAccount,
+    this.businessName,
     this.transactionTime,
     this.createdAt,
     this.updatedAt,
@@ -111,6 +113,7 @@ class PaymentLink {
     status = json['status'];
     settledBy = json['settledBy'];
     subAccount = json['subAccount'];
+    businessName = json['businessName'];
     transactionTime = json['transactionTime'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
@@ -142,6 +145,7 @@ class PaymentLink {
     data['status'] = this.status;
     data['settledBy'] = this.settledBy;
     data['subAccount'] = this.subAccount;
+    data['businessName'] = this.businessName;
     data['transactionTime'] = this.transactionTime;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;

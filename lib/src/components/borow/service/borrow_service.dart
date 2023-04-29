@@ -41,11 +41,11 @@ class BorrowService {
     return AppResponse(false, statusCode, responseBody);
   }
 
-  Future<AppResponse<List<PaymentLink>>> getPaymentLinks() async {
-    CustomLoader.show();
-    Response response =
-        await locator.get<BorrowRepositoryImpl>().getPaymentLinks();
-    CustomLoader.dismiss();
+  Future<AppResponse<List<PaymentLink>>> getPaymentLinks(
+      String statusFilter, Map<String, dynamic> timeFilter) async {
+    Response response = await locator
+        .get<BorrowRepositoryImpl>()
+        .getPaymentLinks(statusFilter, timeFilter);
     int statusCode = response.statusCode ?? 000;
 
     Map<String, dynamic> responseBody = response.data;

@@ -75,7 +75,8 @@ const String cardsUrl = "bank-account/api/v1/card/list";
 const String fundWalletWithNewCardUrl =
     "bank-account/api/v1/card/initiate/direct-debit";
 const String paymentLinksUrl = "bank-account/api/v1/payment-link/list";
-const String createPaymentLinkUrl = "bank-account/api/v1/payment-link/create";
+const String createPaymentLinkUrl =
+    "bank-account/api/v1/payment-link/standard-checkout/create";
 const String paymentLinkUrl = "bank-account/api/v1/payment-link/";
 
 //savings
