@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
+import 'package:sprout_mobile/src/components/save/model/savings_model.dart';
 import 'package:sprout_mobile/src/components/save/service/savings_service.dart';
 import 'package:sprout_mobile/src/utils/app_formatter.dart';
 import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
@@ -9,8 +10,8 @@ import 'package:sprout_mobile/src/components/authentication/service/auth_service
 class SavingsController extends GetxController {
   final storage = GetStorage();
   final AppFormatter formatter = Get.put(AppFormatter());
-  RxList<dynamic> savings = <dynamic>[].obs;
-  RxList<dynamic> baseSavings = <dynamic>[].obs;
+  RxList<Savings> savings = <Savings>[].obs;
+  RxList<Savings> baseSavings = <Savings>[].obs;
 
   RxBool isSavingsLoading = false.obs;
   RxBool showMain = false.obs;
@@ -51,6 +52,9 @@ class SavingsController extends GetxController {
     isSavingsLoading.value = false;
     if (response.status) {
       print(response.data);
+      savings.assignAll(response.data!);
+      baseSavings.assignAll(response.data!);
+      print(savings[0].portfolioName);
     } else if (response.statusCode == 999) {
       AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/home/view/widgets.dart';
 import 'package:sprout_mobile/src/components/save/controller/savings_controller.dart';
 import 'package:sprout_mobile/src/components/save/view/all_savings.dart';
 import 'package:sprout_mobile/src/components/save/view/locked_funds.dart';
@@ -496,40 +497,6 @@ class SavingsScreen extends StatelessWidget {
                                               ),
                                             ),
                                           ),
-                                          addVerticalSpace(24.h),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "Savings History",
-                                                style: TextStyle(
-                                                    fontFamily: "Mont",
-                                                    fontSize: 12.sp,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: AppColors.greyText),
-                                              ),
-                                              InkWell(
-                                                onTap: () {
-                                                  Get.to(
-                                                      () => AllSavingsScreen());
-                                                },
-                                                child: Text(
-                                                  "See All",
-                                                  style: TextStyle(
-                                                      fontStyle:
-                                                          FontStyle.italic,
-                                                      fontFamily: "Mont",
-                                                      fontSize: 12.sp,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: AppColors.greyText,
-                                                      decoration: TextDecoration
-                                                          .underline),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
                                         ],
                                       ),
                                     ],
@@ -537,47 +504,97 @@ class SavingsScreen extends StatelessWidget {
                                 : SizedBox())),
                             addVerticalSpace(20.h),
                             Obx((() => savingsIncontroller.savings.isEmpty
-                                    ? Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.5,
-                                        child: Center(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Image.asset(AppImages.emoty),
-                                              addVerticalSpace(10.h),
-                                              Container(
-                                                width: 200.w,
-                                                child: Text(
-                                                  "No history yet. Click on “Start New Savings” at the top to get started",
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontFamily: "Mont",
-                                                      fontSize: 12.sp,
-                                                      color:
-                                                          AppColors.greyText),
-                                                ),
-                                              )
-                                            ],
+                                ? Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.5,
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Image.asset(AppImages.emoty),
+                                          addVerticalSpace(10.h),
+                                          Container(
+                                            width: 200.w,
+                                            child: Text(
+                                              "No history yet. Click on “Start New Savings” at the top to get started",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontFamily: "Mont",
+                                                  fontSize: 12.sp,
+                                                  color: AppColors.greyText),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                : Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Savings History",
+                                            style: TextStyle(
+                                                fontFamily: "Mont",
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.w400,
+                                                color: AppColors.greyText),
                                           ),
-                                        ),
-                                      )
-                                    : Container()
-                                //  ListView.builder(
-                                //     itemCount: 4,
-                                //     shrinkWrap: true,
-                                //     physics: NeverScrollableScrollPhysics(),
-                                //     itemBuilder: ((context, index) {
-                                //       return HistoryCard(
-                                //           theme: theme,
-                                //           isDarkMode: isDarkMode,
-                                //           text: "Housing");
-                                //     }))
-                                )),
+                                          InkWell(
+                                            onTap: () {
+                                              Get.to(() => AllSavingsScreen());
+                                            },
+                                            child: Text(
+                                              "See All",
+                                              style: TextStyle(
+                                                  fontFamily: "Mont",
+                                                  fontSize: 12.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: AppColors.greyText,
+                                                  decoration:
+                                                      TextDecoration.underline),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      addVerticalSpace(12.h),
+                                      ListView.builder(
+                                          itemCount: savingsIncontroller
+                                              .savings.length,
+                                          shrinkWrap: true,
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          itemBuilder: ((context, index) {
+                                            return SavingsCard(
+                                              theme: theme,
+                                              isDarkMode: isDarkMode,
+                                              name: savingsIncontroller
+                                                      .savings[index]
+                                                      .portfolioName ??
+                                                  "",
+                                              startingAmount:
+                                                  savingsIncontroller
+                                                      .savings[index]
+                                                      .startAmount,
+                                              currentAmount: savingsIncontroller
+                                                  .savings[index].currentAmount,
+                                              expectedInterest:
+                                                  savingsIncontroller
+                                                      .savings[index]
+                                                      .expectedInterest,
+                                              startDate: savingsIncontroller
+                                                  .savings[index].startDate,
+                                              maturityDate: savingsIncontroller
+                                                  .savings[index].maturityDate,
+                                            );
+                                          }))
+                                    ],
+                                  ))),
                           ],
                         ),
                       ),

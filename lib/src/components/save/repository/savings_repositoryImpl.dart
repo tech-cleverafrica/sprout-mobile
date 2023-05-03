@@ -34,7 +34,7 @@ class SavingsRepositoryImpl implements SavingsRepository {
 
   createSavings(requestBody) async {
     try {
-      return await api.dio.post(savingsUrl, data: requestBody);
+      return await api.dio.post(createSavingsUrl, data: requestBody);
     } on DioError catch (e) {
       return api.handleError(e);
     }

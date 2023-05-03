@@ -83,7 +83,7 @@ const String paymentLinkUrl = "bank-account/api/v1/payment-link/";
 const String plansUrl = "target-savings/api/v1/savings/view";
 const String rateOptionsUrl = "target-savings/api/v1/savings/rate";
 const String savingsSummaryUrl = "target-savings/api/v1/savings/summary";
-const String savingsUrl = "target-savings/api/v1/savings/create";
+const String createSavingsUrl = "target-savings/api/v1/savings/create";
 
 apiResponse(String? message, [String? responseCode]) {
   return {

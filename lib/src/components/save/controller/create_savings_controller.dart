@@ -106,7 +106,13 @@ class CreateSavingsController extends GetxController {
         await locator.get<SavingsService>().getSavingsSummary(requestBody);
     if (response.status) {
       SavingsSummary savingsSummary = SavingsSummary.fromJson(response.data);
-      Get.to(() => SavingsSummaryScreen(), arguments: savingsSummary);
+      if (savingsSummary.data!.tenure! >= 30) {
+        Get.to(() => SavingsSummaryScreen(), arguments: savingsSummary);
+      } else {
+        CustomToastNotification.show(
+            "Tenure can not be less 30 days. Please adjust Target Amount, Recurring Amount or Frequency",
+            type: ToastType.error);
+      }
     } else if (response.statusCode == 999) {
       AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {

@@ -1,17 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
+import 'package:sprout_mobile/src/components/save/model/savings_model.dart';
 import 'package:sprout_mobile/src/components/save/repository/savings_repositoryImpl.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
 
 class SavingsService {
-  Future<AppResponse<dynamic>> getPlans() async {
+  Future<AppResponse<List<Savings>>> getPlans() async {
     Response response = await locator.get<SavingsRepositoryImpl>().getPlans();
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
     if (statusCode >= 200 && statusCode <= 300) {
       print("vvv$responseBody");
-      return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
+      return AppResponse<List<Savings>>(true, statusCode, responseBody,
+          Savings.getList(responseBody["data"]));
     }
     return AppResponse(false, statusCode, responseBody);
   }

@@ -283,6 +283,162 @@ class HistoryCard extends StatelessWidget {
   }
 }
 
+class SavingsCard extends StatelessWidget {
+  const SavingsCard({
+    Key? key,
+    required this.theme,
+    required this.isDarkMode,
+    this.name,
+    this.startingAmount,
+    this.currentAmount,
+    this.expectedInterest,
+    this.startDate,
+    this.maturityDate,
+  }) : super(key: key);
+
+  final ThemeData theme;
+  final String? name;
+  final bool isDarkMode;
+  final num? startingAmount;
+  final num? currentAmount;
+  final num? expectedInterest;
+  final String? startDate;
+  final String? maturityDate;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 0),
+      child: Container(
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset(
+                      AppSvg.send,
+                      color: AppColors.mainGreen,
+                      height: 18,
+                      width: 18,
+                    ),
+                    addHorizontalSpace(5.w),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          name!,
+                          style: TextStyle(
+                              fontFamily: "Mont",
+                              fontSize: 10.sp,
+                              color: isDarkMode
+                                  ? AppColors.white
+                                  : AppColors.black,
+                              fontWeight: FontWeight.w700),
+                        ),
+                        addVerticalSpace(5.h),
+                        Container(
+                          width: MediaQuery.of(context).size.width * .5,
+                          child: Text(
+                            "Start Date: " +
+                                DateFormat('dd-MM-yyyy')
+                                    .format(localDate(startDate!)),
+                            style: TextStyle(
+                                fontFamily: "Mont",
+                                fontSize: 9.sp,
+                                color: AppColors.inputLabelColor,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                        addVerticalSpace(5.h),
+                        Container(
+                          width: MediaQuery.of(context).size.width * .5,
+                          child: Text(
+                            "Maturity Date: " +
+                                (maturityDate == null
+                                    ? "-"
+                                    : DateFormat('dd-MM-yyyy')
+                                        .format(localDate(maturityDate!))),
+                            style: TextStyle(
+                                fontFamily: "Mont",
+                                fontSize: 9.sp,
+                                color: AppColors.inputLabelColor,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      "₦ " +
+                          (currentAmount != null
+                              ? oCcy
+                                  .format(double.parse(
+                                      currentAmount!.toStringAsFixed(2)))
+                                  .toString()
+                              : "0.00"),
+                      style: TextStyle(
+                          fontFamily: "Mont",
+                          fontSize: 14.sp,
+                          color: AppColors.mainGreen,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    addVerticalSpace(5.h),
+                    Text(
+                      "Initial: ₦ " +
+                          (startingAmount != null
+                              ? oCcy
+                                  .format(double.parse(
+                                      startingAmount!.toStringAsFixed(2)))
+                                  .toString()
+                              : "0.00"),
+                      style: TextStyle(
+                          fontFamily: "Mont",
+                          fontSize: 9.sp,
+                          color: AppColors.inputLabelColor,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    addVerticalSpace(5.h),
+                    Text(
+                      "Interest: ₦ " +
+                          (expectedInterest != null
+                              ? oCcy
+                                  .format(
+                                      double.parse(expectedInterest.toString()))
+                                  .toString()
+                              : "0.00"),
+                      style: TextStyle(
+                          fontFamily: "Mont",
+                          fontSize: 9.sp,
+                          color: AppColors.inputLabelColor,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                )
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Divider(
+                thickness: .4,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 getItems(isDark) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 24),

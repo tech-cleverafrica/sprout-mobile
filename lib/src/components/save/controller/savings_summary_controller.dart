@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/save/controller/create_savings_controller.dart';
-import 'package:sprout_mobile/src/components/save/model/savings_model.dart';
+import 'package:sprout_mobile/src/components/save/model/saving_model.dart';
 import 'package:sprout_mobile/src/components/save/model/savings_summary_model.dart';
 import 'package:sprout_mobile/src/components/save/service/savings_service.dart';
 import 'package:sprout_mobile/src/components/save/view/savings_approval_screen.dart';
@@ -45,9 +45,9 @@ class SavingsSummaryController extends GetxController {
     AppResponse<dynamic> response =
         await locator.get<SavingsService>().createSavings(requestBody);
     if (response.status) {
-      Savings savings = Savings.fromJson(response.data);
+      Saving saving = Saving.fromJson(response.data);
       Get.to(() => SavingsApprovalScreen(
-            savings: savings,
+            saving: saving,
           ));
     } else if (response.statusCode == 999) {
       AppResponse res = await locator.get<AuthService>().refreshUserToken();

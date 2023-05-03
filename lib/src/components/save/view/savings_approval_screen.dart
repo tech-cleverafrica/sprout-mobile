@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
-import 'package:sprout_mobile/src/components/save/model/savings_model.dart';
+import 'package:sprout_mobile/src/components/save/model/saving_model.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
@@ -14,12 +14,12 @@ import 'package:sprout_mobile/src/utils/nav_function.dart';
 class SavingsApprovalScreen extends StatelessWidget {
   const SavingsApprovalScreen({
     super.key,
-    required this.savings,
+    required this.saving,
     this.heading = "Successful",
   });
 
   final String heading;
-  final Savings savings;
+  final Saving saving;
 
   @override
   Widget build(BuildContext context) {

@@ -584,7 +584,8 @@ class HomePage extends StatelessWidget {
                 child: HistoryCard(
                   theme: theme,
                   isDarkMode: isDarkMode,
-                  transactionType: homeController.transactions[index].type!,
+                  transactionType:
+                      homeController.transactions[index].type ?? "",
                   transactionAmount:
                       homeController.transactions[index].transactionAmount!,
                   createdAt: homeController.transactions[index].createdAt,
