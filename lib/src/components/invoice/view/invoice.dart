@@ -98,7 +98,10 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                                 !invoiceIncontroller
                                                     .inReview.value
                                             ? Container(
-                                                width: 144.w,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.78,
                                                 child: CustomButton(
                                                   title: "Get Started",
                                                   color: AppColors.black,

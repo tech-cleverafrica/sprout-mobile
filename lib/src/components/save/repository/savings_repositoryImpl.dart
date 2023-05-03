@@ -23,4 +23,20 @@ class SavingsRepositoryImpl implements SavingsRepository {
       return api.handleError(e);
     }
   }
+
+  getSavingsSummary(requestBody) async {
+    try {
+      return await api.dio.post(savingsSummaryUrl, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    }
+  }
+
+  createSavings(requestBody) async {
+    try {
+      return await api.dio.post(savingsUrl, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    }
+  }
 }

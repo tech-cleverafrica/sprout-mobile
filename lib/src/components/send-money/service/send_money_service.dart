@@ -20,7 +20,7 @@ class SendMoneyService {
           Beneficiary.getList(responseBody["data"]));
     }
 
-    return AppResponse(false, statusCode, {});
+    return AppResponse(false, statusCode, responseBody);
   }
 
   Future<AppResponse<dynamic>> getBanks() async {

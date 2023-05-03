@@ -87,6 +87,9 @@ class SignInController extends GetxController {
       modelName = await DeviceInformation.deviceModel;
       manufacturer = await DeviceInformation.deviceManufacturer;
       deviceId = await DeviceInformation.deviceIMEINumber;
+      print(modelName);
+      print(manufacturer);
+      print(deviceId);
     } on PlatformException catch (e) {
       platformVersion = '${e.message}';
     }
@@ -173,7 +176,7 @@ class SignInController extends GetxController {
   onPasswordChanged(String? val) => signInRequestModel.password = val;
 
   buildRequestModel(username, password) {
-    return {"username": username, "password": password};
+    return {"username": username.toString().trim(), "password": password};
   }
 
   validate() {

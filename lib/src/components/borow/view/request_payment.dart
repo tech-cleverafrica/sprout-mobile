@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -81,6 +82,19 @@ class RequestPayment extends StatelessWidget {
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
+                ),
+                CustomTextFormField(
+                  controller: paymentLinkController.senderEmailController,
+                  label: "Email",
+                  fillColor: isDarkMode
+                      ? AppColors.inputBackgroundColor
+                      : AppColors.grey,
+                  hintText: "davejossy9@gmail.com",
+                  textInputAction: TextInputAction.next,
+                  textInputType: TextInputType.emailAddress,
+                  validator: (value) => EmailValidator.validate(value ?? "")
+                      ? null
+                      : "Please enter a valid email",
                 ),
                 CustomTextFormField(
                   controller:

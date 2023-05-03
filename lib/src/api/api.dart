@@ -133,11 +133,19 @@ class Api {
           logout(code: 401);
         } else if (e.response?.data.runtimeType == String ||
             e.error.toString().contains("422")) {
-          response = Response(
-              data: apiResponse(e.response?.data?["errors"]["account"][0],
-                  e.response?.data?["responseCode"]),
-              statusCode: e.response?.statusCode ?? 000,
-              requestOptions: RequestOptions(path: ''));
+          try {
+            response = Response(
+                data: apiResponse(e.response?.data?["errors"]["account"][0],
+                    e.response?.data?["responseCode"]),
+                statusCode: e.response?.statusCode ?? 000,
+                requestOptions: RequestOptions(path: ''));
+          } catch (err) {
+            response = Response(
+                data: apiResponse(e.response?.data?["errors"][0],
+                    e.response?.data?["responseCode"]),
+                statusCode: e.response?.statusCode ?? 000,
+                requestOptions: RequestOptions(path: ''));
+          }
         } else {
           debugPrint("came in here");
           if (e.response?.data?["data"].runtimeType == String) {

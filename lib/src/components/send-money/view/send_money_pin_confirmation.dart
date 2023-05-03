@@ -243,7 +243,6 @@ class _SendMoneyPinPageState extends State<SendMoneyPinPage> {
       strPin += e;
     });
     if (pinIndex == 4) {
-      print(strPin);
       await sendMoneyController.makeTransafer(strPin).then((value) => {
             if (value == false)
               {

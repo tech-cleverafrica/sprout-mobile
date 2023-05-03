@@ -191,15 +191,16 @@ class FundWalletController extends GetxController {
         DateTime.now().hour.toString() +
         DateTime.now().minute.toString() +
         DateTime.now().second.toString();
-    transactionRef = "CLV$id$suffix".toUpperCase();
+    transactionRef = "CLV-WALLET-TOPUP$id$suffix".toUpperCase();
     return card.value?.id == "00"
         ? {
             "amount": amountController.text.split(",").join(),
-            "txRef": "CLV$id$suffix".toUpperCase(),
+            "txRef": transactionRef,
+            "saveCard": false
           }
         : {
             "amount": amountController.text.split(",").join(),
-            "txRef": "CLV$id$suffix".toUpperCase(),
+            "txRef": transactionRef,
             "cardToken": card.value?.token,
           };
   }

@@ -3,7 +3,6 @@ import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/borow/model/payment_link_model.dart';
 import 'package:sprout_mobile/src/components/borow/service/borrow_service.dart';
@@ -22,13 +21,14 @@ import 'package:sprout_mobile/src/utils/nav_function.dart';
 import '../../../api-setup/api_setup.dart';
 
 class PaymentLinkController extends GetxController {
-  final storage = GetStorage();
   final AppFormatter formatter = Get.put(AppFormatter());
   TextEditingController searchController = new TextEditingController();
 
   late MoneyMaskedTextController amountController =
       new MoneyMaskedTextController();
   TextEditingController paymentNameController = new TextEditingController();
+  final TextEditingController senderEmailController =
+      new TextEditingController();
   TextEditingController paymentDescriptionController =
       new TextEditingController();
 
@@ -79,6 +79,9 @@ class PaymentLinkController extends GetxController {
       if (res.status) {
         fetchPaymentLinks(refresh);
       }
+    } else {
+      CustomToastNotification.show(response.message, type: ToastType.error);
+      pop();
     }
   }
 
@@ -86,7 +89,6 @@ class PaymentLinkController extends GetxController {
     AppResponse<dynamic> response =
         await locator.get<BorrowService>().createPaymentLink(buildRequest());
     if (response.status) {
-      print(response.data);
       pushUntil(page: SuccessfulPaymentLink(), arguments: {
         "name": paymentNameController.text,
         "data": response.data
@@ -117,8 +119,13 @@ class PaymentLinkController extends GetxController {
   }
 
   validate() {
+    String pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
     if (double.parse(amountController.text.split(",").join()) >= 10 &&
         paymentNameController.text.length > 2 &&
+        senderEmailController.text.isNotEmpty &&
+        (regex.hasMatch(senderEmailController.text)) &&
         paymentDescriptionController.text.length > 5) {
       createPaymentLink();
     } else if (double.parse(amountController.text.split(",").join("")) == 0) {
@@ -137,6 +144,10 @@ class PaymentLinkController extends GetxController {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("Payment name is too short"),
           backgroundColor: AppColors.errorRed));
+    } else if (!(regex.hasMatch(senderEmailController.text))) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please enter a valid email"),
+          backgroundColor: AppColors.errorRed));
     } else if (paymentDescriptionController.text.isEmpty) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("Payment description is required"),
@@ -153,12 +164,11 @@ class PaymentLinkController extends GetxController {
   }
 
   buildRequest() {
-    String email = storage.read("email");
     return {
       "amount": amountController.text.split(",").join(),
       "currency": "NGN",
       "name": paymentNameController.text,
-      "email": email,
+      "email": senderEmailController.text,
       "description": paymentDescriptionController.text,
     };
   }

@@ -335,10 +335,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 addVerticalSpace(20.h),
                 InkWell(
-                  onTap: () => {
-                    storage.remove("removeAll"),
-                    Get.to(() => SecuritySettings())
-                  },
+                  onTap: () => Get.to(() => SecuritySettings()),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -374,10 +371,7 @@ class ProfileScreen extends StatelessWidget {
                 Obx((() => profileController.isApproved.value &&
                         !profileController.inReview.value
                     ? InkWell(
-                        onTap: () => {
-                          storage.remove("removeAll"),
-                          Get.to(() => DownloadStatementScreen())
-                        },
+                        onTap: () => Get.to(() => DownloadStatementScreen()),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -409,10 +403,7 @@ class ProfileScreen extends StatelessWidget {
                     : SizedBox())),
                 addVerticalSpace(20.h),
                 InkWell(
-                  onTap: () => {
-                    storage.remove("removeAll"),
-                    Get.to(() => SupportScreen())
-                  },
+                  onTap: () => Get.to(() => SupportScreen()),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

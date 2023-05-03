@@ -287,6 +287,9 @@ class SendMoneyController extends GetxController {
       if (res.status) {
         loadBeneficiary();
       }
+    } else {
+      CustomToastNotification.show(response.message, type: ToastType.error);
+      pop();
     }
   }
 
@@ -294,7 +297,6 @@ class SendMoneyController extends GetxController {
     AppResponse<dynamic> response =
         await locator.get<SendMoneyService>().getBanks();
     if (response.status) {
-      print(response.data["data"]);
       var banks = response.data["data"];
       List<dynamic> _banks = [];
       List<dynamic> _bankCodes = [];
@@ -315,12 +317,14 @@ class SendMoneyController extends GetxController {
       bankList.addAll(__banks);
       baseBankList.addAll(__banks);
       bankCode.addAll(__bankCodes);
-      print(bankList);
     } else if (response.statusCode == 999) {
       AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         getBanks();
       }
+    } else {
+      CustomToastNotification.show(response.message, type: ToastType.error);
+      pop();
     }
   }
 
@@ -427,7 +431,6 @@ class SendMoneyController extends GetxController {
                               child: GestureDetector(
                                 onTap: () {
                                   pop();
-                                  print(bankList[index]);
                                   beneficiaryBank.value = bankList[index];
                                   selectedBankCode.value = bankCode[
                                       bankList.indexOf(beneficiaryBank.value)];

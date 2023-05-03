@@ -8,6 +8,7 @@ import 'package:sprout_mobile/src/components/authentication/service/auth_service
 import 'package:sprout_mobile/src/public/model/date_range.dart';
 import 'package:sprout_mobile/src/public/services/date_service.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
+import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 import '../model/transactions_model.dart';
 
@@ -65,6 +66,9 @@ class TransactionsController extends GetxController {
       if (res.status) {
         loadTransactions();
       }
+    } else {
+      pop();
+      CustomToastNotification.show(response.message, type: ToastType.error);
     }
   }
 

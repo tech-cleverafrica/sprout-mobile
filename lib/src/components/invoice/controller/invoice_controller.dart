@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
 import 'package:sprout_mobile/src/components/invoice/model/invoice_customer_model.dart';
 import 'package:sprout_mobile/src/components/invoice/model/invoice_detail_model.dart';
 import 'package:sprout_mobile/src/components/invoice/model/invoice_model.dart';
@@ -109,6 +110,10 @@ class InvoiceController extends GetxController {
       if (res.status) {
         fetchUserInvoices(refresh);
       }
+    } else {
+      CustomToastNotification.show(invoiceResponse.message,
+          type: ToastType.error);
+      pushUntil(page: BottomNav());
     }
   }
 

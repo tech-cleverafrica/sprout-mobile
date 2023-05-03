@@ -23,6 +23,7 @@ class DownloadStatementController extends GetxController {
 
   @override
   void onInit() {
+    storage.remove("removeAll");
     super.onInit();
   }
 

@@ -73,7 +73,6 @@ class InvoiceCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           Get.to(() => InvoiceDetails(), arguments: invoice);
-          debugPrint("GOT HERE!!!");
         },
         child: Container(
           width: double.infinity,

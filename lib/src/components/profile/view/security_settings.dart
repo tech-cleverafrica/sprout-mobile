@@ -32,6 +32,7 @@ class _SecuritySettingsState extends State<SecuritySettings> {
 
   @override
   initState() {
+    storage.remove("removeAll");
     checkIsFingerPrintEnabled();
     String approvalStatus = storage.read("approvalStatus");
     setState(() {

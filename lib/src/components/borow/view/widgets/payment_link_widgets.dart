@@ -60,7 +60,6 @@ class PaymentLinkCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           Get.to(() => PaymentLinkDetails(), arguments: paymentLink);
-          debugPrint("GOT HERE!!!");
         },
         child: Container(
           width: double.infinity,

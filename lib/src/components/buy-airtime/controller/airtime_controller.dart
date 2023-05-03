@@ -56,6 +56,9 @@ class AirtimeController extends GetxController {
       if (res.status) {
         getBillers();
       }
+    } else {
+      pop();
+      CustomToastNotification.show(response.message, type: ToastType.error);
     }
   }
 
@@ -83,6 +86,8 @@ class AirtimeController extends GetxController {
       if (res.status) {
         getPackages();
       }
+    } else {
+      CustomToastNotification.show(response.message, type: ToastType.error);
     }
   }
 

@@ -27,7 +27,6 @@ class _BottomNavState extends State<BottomNav> {
 
   @override
   void initState() {
-    print(widget.index);
     if (widget.index != null) {
       if (widget.index != 0) {
         storage.write('removeAll', "1");

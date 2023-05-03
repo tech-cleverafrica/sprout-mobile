@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:sprout_mobile/src/components/invoice/controller/invoice_controller.dart';
@@ -34,6 +35,7 @@ import '../../../public/widgets/custom_toast_notification.dart';
 import '../../../utils/app_colors.dart';
 
 class CreateInvoiceController extends GetxController {
+  final storage = GetStorage();
   final AppFormatter formatter = Get.put(AppFormatter());
   TextEditingController customerNameController = new TextEditingController();
   TextEditingController customerPhoneController = new TextEditingController();
@@ -87,6 +89,7 @@ class CreateInvoiceController extends GetxController {
     fetchInvoiceBusinessInfo();
     loadCustomers(false);
     super.onInit();
+    storage.remove("removeAll");
   }
 
   @override
@@ -96,6 +99,7 @@ class CreateInvoiceController extends GetxController {
 
   @override
   void onClose() {
+    storage.write('removeAll', "1");
     super.onClose();
   }
 
@@ -132,6 +136,9 @@ class CreateInvoiceController extends GetxController {
       if (res.status) {
         fetchInvoiceBusinessInfo();
       }
+    } else {
+      CustomToastNotification.show(response.message, type: ToastType.error);
+      pop();
     }
   }
 

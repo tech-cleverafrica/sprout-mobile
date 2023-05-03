@@ -136,11 +136,9 @@ class _SignUpCreateLoginState extends State<SignUpCreateLogin> {
                   height: 150,
                   onSuccess: () {
                     signUpController.matched = true;
-                    print("MATCHED");
                   },
                   onFail: () {
                     signUpController.matched = false;
-                    print("NOT MATCHED");
                   },
                 ),
                 addVerticalSpace(16.h),

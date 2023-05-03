@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/pay-bills/model/biller_group_model.dart';
 import 'package:sprout_mobile/src/components/pay-bills/service/pay_bills_service.dart';
 import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
+import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 import '../../../api-setup/api_setup.dart';
 import '../../../api/api_response.dart';
@@ -30,6 +32,9 @@ class PayBillsController extends GetxController {
       if (res.status) {
         getBillerGroups();
       }
+    } else {
+      pop();
+      CustomToastNotification.show(response.message, type: ToastType.error);
     }
   }
 

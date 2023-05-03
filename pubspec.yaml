@@ -58,7 +58,7 @@ dependencies:
   email_validator: ^2.1.17
   # pspdfkit_flutter: ^3.5.1
   
-  # device_info_plus: ^6.0.0
+  device_info_plus: ^3.2.4
 
 
 

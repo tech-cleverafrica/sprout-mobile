@@ -26,7 +26,7 @@ class InvoiceService {
           Invoice.getList(responseBody["data"]));
     }
 
-    return AppResponse(false, statusCode, {});
+    return AppResponse(false, statusCode, responseBody);
   }
 
   Future<AppResponse<InvoiceDetail>> getInvoice(String invoiceId) async {
@@ -40,7 +40,7 @@ class InvoiceService {
       return AppResponse<InvoiceDetail>(
           true, statusCode, responseBody, responseBody);
     }
-    return AppResponse(false, statusCode, {});
+    return AppResponse(false, statusCode, responseBody);
   }
 
   Future<AppResponse<List<InvoiceCustomer>>> getInvoiceCustomer() async {
@@ -55,7 +55,7 @@ class InvoiceService {
           InvoiceCustomer.getList(responseBody["data"]));
     }
 
-    return AppResponse(false, statusCode, {});
+    return AppResponse(false, statusCode, responseBody);
   }
 
   Future<AppResponse<dynamic>> addCustomer(
@@ -106,7 +106,7 @@ class InvoiceService {
           true, statusCode, responseBody, responseBody["data"]);
     }
 
-    return AppResponse(false, statusCode, {});
+    return AppResponse(false, statusCode, responseBody);
   }
 
   Future<AppResponse<InvoiceBusinessInfo>> uploadInvoiceBusinessLogo(
@@ -243,7 +243,7 @@ class InvoiceService {
       print("vvv$responseBody");
       return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
     }
-    return AppResponse(false, statusCode, {});
+    return AppResponse(false, statusCode, responseBody);
   }
 
   Future<AppResponse<dynamic>> sendInvoice(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/components/invoice/controller/invoice_controller.dart';
 import 'package:sprout_mobile/src/components/invoice/service/invoice_service.dart';
 import 'package:sprout_mobile/src/components/authentication/service/auth_service.dart';
@@ -11,6 +12,7 @@ import '../../../public/widgets/custom_toast_notification.dart';
 import '../../../utils/app_colors.dart';
 
 class CustomerController extends GetxController {
+  final storage = GetStorage();
   final TextEditingController customerNameController =
       new TextEditingController();
   final TextEditingController customerPhoneController =
@@ -102,6 +104,7 @@ class CustomerController extends GetxController {
   void onInit() {
     invoiceController = Get.put(InvoiceController());
     super.onInit();
+    storage.remove("removeAll");
   }
 
   @override
@@ -112,5 +115,6 @@ class CustomerController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+    storage.write('removeAll', "1");
   }
 }

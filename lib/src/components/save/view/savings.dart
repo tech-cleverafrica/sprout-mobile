@@ -5,7 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/save/controller/savings_controller.dart';
 import 'package:sprout_mobile/src/components/save/view/all_savings.dart';
-import 'package:sprout_mobile/src/components/save/view/new_savings.dart';
+import 'package:sprout_mobile/src/components/save/view/locked_funds.dart';
+import 'package:sprout_mobile/src/components/save/view/target_savings.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
@@ -88,7 +89,10 @@ class SavingsScreen extends StatelessWidget {
                                               !savingsIncontroller
                                                   .inReview.value
                                           ? Container(
-                                              width: 125.w,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.78,
                                               child: CustomButton(
                                                 title: "Get Started",
                                                 color: AppColors.black,
@@ -294,10 +298,10 @@ class SavingsScreen extends StatelessWidget {
                                                                         if (savingsIncontroller.type.value ==
                                                                             "LOCK") {
                                                                           Get.to(() =>
-                                                                              NewSavingsScreen());
+                                                                              LockedFundsScreen());
                                                                         } else {
                                                                           Get.to(() =>
-                                                                              NewSavingsScreen());
+                                                                              TargetSavingsScreen());
                                                                         }
                                                                       },
                                                                     ),

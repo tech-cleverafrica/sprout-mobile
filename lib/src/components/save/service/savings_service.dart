@@ -13,8 +13,7 @@ class SavingsService {
       print("vvv$responseBody");
       return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
     }
-
-    return AppResponse(false, statusCode, {});
+    return AppResponse(false, statusCode, responseBody);
   }
 
   Future<AppResponse<dynamic>> getRateOptions() async {
@@ -28,7 +27,37 @@ class SavingsService {
       print("vvv$responseBody");
       return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
     }
+    return AppResponse(false, statusCode, responseBody);
+  }
 
-    return AppResponse(false, statusCode, {});
+  Future<AppResponse<dynamic>> getSavingsSummary(
+      Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
+    Response response = await locator
+        .get<SavingsRepositoryImpl>()
+        .getSavingsSummary(requestBody);
+    CustomLoader.dismiss();
+    int statusCode = response.statusCode ?? 000;
+    Map<String, dynamic> responseBody = response.data;
+    if (statusCode >= 200 && statusCode <= 300) {
+      print("vvv$responseBody");
+      return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
+    }
+    return AppResponse(false, statusCode, responseBody);
+  }
+
+  Future<AppResponse<dynamic>> createSavings(
+      Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
+    Response response =
+        await locator.get<SavingsRepositoryImpl>().createSavings(requestBody);
+    CustomLoader.dismiss();
+    int statusCode = response.statusCode ?? 000;
+    Map<String, dynamic> responseBody = response.data;
+    if (statusCode >= 200 && statusCode <= 300) {
+      print("vvv$responseBody");
+      return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
+    }
+    return AppResponse(false, statusCode, responseBody);
   }
 }

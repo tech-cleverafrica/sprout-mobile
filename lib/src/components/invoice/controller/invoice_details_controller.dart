@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/invoice/controller/invoice_controller.dart';
@@ -19,6 +20,7 @@ import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 class InvoiceDetailsController extends GetxController {
+  final storage = GetStorage();
   var args;
   var invoice = Rxn<Invoice>();
   RxDouble amountDue = 0.0.obs;
@@ -46,6 +48,7 @@ class InvoiceDetailsController extends GetxController {
     computeAmountDue();
     setStatus();
     invoiceController = Get.put(InvoiceController());
+    storage.remove("removeAll");
   }
 
   @override
@@ -56,6 +59,7 @@ class InvoiceDetailsController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+    storage.write('removeAll', "1");
   }
 
   computeAmountDue() {
