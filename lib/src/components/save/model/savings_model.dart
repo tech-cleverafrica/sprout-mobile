@@ -52,6 +52,7 @@ class Savings {
   num? tenure;
   bool? rollover;
   String? status;
+  bool? visible;
   String? createdAt;
   String? updatedAt;
 
@@ -76,6 +77,7 @@ class Savings {
     this.tenure,
     this.rollover,
     this.status,
+    this.visible,
     this.createdAt,
     this.updatedAt,
   });
@@ -101,6 +103,7 @@ class Savings {
     tenure = json['tenure'];
     rollover = json['rollover'];
     status = json['status'];
+    visible = json['visible'] ?? true;
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
   }
@@ -127,6 +130,7 @@ class Savings {
     data['tenure'] = this.tenure;
     data['rollover'] = this.rollover;
     data['status'] = this.status;
+    data['visible'] = this.visible;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     return data;

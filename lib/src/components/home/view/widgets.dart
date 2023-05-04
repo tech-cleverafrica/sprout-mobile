@@ -289,9 +289,9 @@ class SavingsCard extends StatelessWidget {
     required this.theme,
     required this.isDarkMode,
     this.name,
-    this.startingAmount,
-    this.currentAmount,
-    this.expectedInterest,
+    this.amount,
+    this.savingsType,
+    this.interestAccrued,
     this.startDate,
     this.maturityDate,
   }) : super(key: key);
@@ -299,14 +299,27 @@ class SavingsCard extends StatelessWidget {
   final ThemeData theme;
   final String? name;
   final bool isDarkMode;
-  final num? startingAmount;
-  final num? currentAmount;
-  final num? expectedInterest;
+  final num? amount;
+  final String? savingsType;
+  final num? interestAccrued;
   final String? startDate;
   final String? maturityDate;
 
   @override
   Widget build(BuildContext context) {
+    var f = NumberFormat('#,##0.00########', 'en_Us');
+    String? sType;
+    switch (savingsType) {
+      case "TARGET":
+        sType = "Target Savings";
+        break;
+      case "LOCKED":
+        sType = "Locked Funds";
+        break;
+      default:
+        sType = "Target Savings";
+    }
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 0),
       child: Container(
@@ -380,10 +393,9 @@ class SavingsCard extends StatelessWidget {
                   children: [
                     Text(
                       "₦ " +
-                          (currentAmount != null
-                              ? oCcy
-                                  .format(double.parse(
-                                      currentAmount!.toStringAsFixed(2)))
+                          (amount != null
+                              ? f
+                                  .format(double.parse(amount!.toString()))
                                   .toString()
                               : "0.00"),
                       style: TextStyle(
@@ -394,13 +406,7 @@ class SavingsCard extends StatelessWidget {
                     ),
                     addVerticalSpace(5.h),
                     Text(
-                      "Initial: ₦ " +
-                          (startingAmount != null
-                              ? oCcy
-                                  .format(double.parse(
-                                      startingAmount!.toStringAsFixed(2)))
-                                  .toString()
-                              : "0.00"),
+                      "Type: " + sType,
                       style: TextStyle(
                           fontFamily: "Mont",
                           fontSize: 9.sp,
@@ -409,11 +415,11 @@ class SavingsCard extends StatelessWidget {
                     ),
                     addVerticalSpace(5.h),
                     Text(
-                      "Interest: ₦ " +
-                          (expectedInterest != null
-                              ? oCcy
+                      "Interest Accrued: ₦ " +
+                          (interestAccrued != null
+                              ? f
                                   .format(
-                                      double.parse(expectedInterest.toString()))
+                                      double.parse(interestAccrued.toString()))
                                   .toString()
                               : "0.00"),
                       style: TextStyle(

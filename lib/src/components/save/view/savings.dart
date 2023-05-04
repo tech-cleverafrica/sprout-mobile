@@ -7,6 +7,7 @@ import 'package:sprout_mobile/src/components/home/view/widgets.dart';
 import 'package:sprout_mobile/src/components/save/controller/savings_controller.dart';
 import 'package:sprout_mobile/src/components/save/view/all_savings.dart';
 import 'package:sprout_mobile/src/components/save/view/locked_funds.dart';
+import 'package:sprout_mobile/src/components/save/view/savings_details.dart';
 import 'package:sprout_mobile/src/components/save/view/target_savings.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
@@ -32,7 +33,6 @@ class SavingsScreen extends StatelessWidget {
     final theme = Theme.of(context);
     return SafeArea(
         child: Obx((() => savingsIncontroller.savings.isEmpty &&
-                !savingsIncontroller.showMain.value &&
                 !savingsIncontroller.isSavingsLoading.value
             ? Scaffold(
                 body: Padding(
@@ -398,110 +398,110 @@ class SavingsScreen extends StatelessWidget {
                                 )
                               ],
                             ),
-                            Obx((() => savingsIncontroller.savings.isNotEmpty
-                                ? Column(
-                                    children: [
-                                      addVerticalSpace(20.h),
-                                      Row(
-                                        children: [
-                                          Container(
-                                            width: 86.w,
-                                            height: 94.h,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              color: isDarkMode
-                                                  ? AppColors.greyDot
-                                                  : AppColors.greyBg,
-                                            ),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 12,
-                                                      horizontal: 15),
-                                              child: Column(
-                                                children: [
-                                                  SvgPicture.asset(
-                                                    AppSvg.swap,
-                                                    color: isDarkMode
-                                                        ? AppColors.white
-                                                        : AppColors.black,
-                                                  ),
-                                                  addVerticalSpace(15.h),
-                                                  Container(
-                                                    width: 60,
-                                                    child: Text(
-                                                      "Top Up Savings",
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontFamily: "Mont",
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          color: isDarkMode
-                                                              ? AppColors.white
-                                                              : AppColors.black,
-                                                          fontSize: 10.sp),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          addHorizontalSpace(10.w),
-                                          Container(
-                                            width: 86.w,
-                                            height: 94.h,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              color: isDarkMode
-                                                  ? AppColors.greyDot
-                                                  : AppColors.greyBg,
-                                            ),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 12,
-                                                      horizontal: 15),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  SvgPicture.asset(
-                                                    AppSvg.invoice,
-                                                    color: isDarkMode
-                                                        ? AppColors.white
-                                                        : AppColors.black,
-                                                  ),
-                                                  addVerticalSpace(15.h),
-                                                  Container(
-                                                    width: 70,
-                                                    child: Text(
-                                                      "Roll Over",
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontFamily: "Mont",
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          color: isDarkMode
-                                                              ? AppColors.white
-                                                              : AppColors.black,
-                                                          fontSize: 10.sp),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  )
-                                : SizedBox())),
+                            // Obx((() => savingsIncontroller.savings.isNotEmpty
+                            //     ? Column(
+                            //         children: [
+                            //           addVerticalSpace(20.h),
+                            //           Row(
+                            //             children: [
+                            //               Container(
+                            //                 width: 86.w,
+                            //                 height: 94.h,
+                            //                 decoration: BoxDecoration(
+                            //                   borderRadius:
+                            //                       BorderRadius.circular(10),
+                            //                   color: isDarkMode
+                            //                       ? AppColors.greyDot
+                            //                       : AppColors.greyBg,
+                            //                 ),
+                            //                 child: Padding(
+                            //                   padding:
+                            //                       const EdgeInsets.symmetric(
+                            //                           vertical: 12,
+                            //                           horizontal: 15),
+                            //                   child: Column(
+                            //                     children: [
+                            //                       SvgPicture.asset(
+                            //                         AppSvg.swap,
+                            //                         color: isDarkMode
+                            //                             ? AppColors.white
+                            //                             : AppColors.black,
+                            //                       ),
+                            //                       addVerticalSpace(15.h),
+                            //                       Container(
+                            //                         width: 60,
+                            //                         child: Text(
+                            //                           "Top Up Savings",
+                            //                           textAlign:
+                            //                               TextAlign.center,
+                            //                           style: TextStyle(
+                            //                               fontFamily: "Mont",
+                            //                               fontWeight:
+                            //                                   FontWeight.w700,
+                            //                               color: isDarkMode
+                            //                                   ? AppColors.white
+                            //                                   : AppColors.black,
+                            //                               fontSize: 10.sp),
+                            //                         ),
+                            //                       ),
+                            //                     ],
+                            //                   ),
+                            //                 ),
+                            //               ),
+                            //               addHorizontalSpace(10.w),
+                            //               Container(
+                            //                 width: 86.w,
+                            //                 height: 94.h,
+                            //                 decoration: BoxDecoration(
+                            //                   borderRadius:
+                            //                       BorderRadius.circular(10),
+                            //                   color: isDarkMode
+                            //                       ? AppColors.greyDot
+                            //                       : AppColors.greyBg,
+                            //                 ),
+                            //                 child: Padding(
+                            //                   padding:
+                            //                       const EdgeInsets.symmetric(
+                            //                           vertical: 12,
+                            //                           horizontal: 15),
+                            //                   child: Column(
+                            //                     crossAxisAlignment:
+                            //                         CrossAxisAlignment.center,
+                            //                     mainAxisAlignment:
+                            //                         MainAxisAlignment.center,
+                            //                     children: [
+                            //                       SvgPicture.asset(
+                            //                         AppSvg.invoice,
+                            //                         color: isDarkMode
+                            //                             ? AppColors.white
+                            //                             : AppColors.black,
+                            //                       ),
+                            //                       addVerticalSpace(15.h),
+                            //                       Container(
+                            //                         width: 70,
+                            //                         child: Text(
+                            //                           "Roll Over",
+                            //                           textAlign:
+                            //                               TextAlign.center,
+                            //                           style: TextStyle(
+                            //                               fontFamily: "Mont",
+                            //                               fontWeight:
+                            //                                   FontWeight.w700,
+                            //                               color: isDarkMode
+                            //                                   ? AppColors.white
+                            //                                   : AppColors.black,
+                            //                               fontSize: 10.sp),
+                            //                         ),
+                            //                       ),
+                            //                     ],
+                            //                   ),
+                            //                 ),
+                            //               ),
+                            //             ],
+                            //           ),
+                            //         ],
+                            //       )
+                            //     : SizedBox())),
                             addVerticalSpace(20.h),
                             Obx((() => savingsIncontroller.savings.isEmpty
                                 ? Container(
@@ -545,21 +545,21 @@ class SavingsScreen extends StatelessWidget {
                                                 fontWeight: FontWeight.w400,
                                                 color: AppColors.greyText),
                                           ),
-                                          InkWell(
-                                            onTap: () {
-                                              Get.to(() => AllSavingsScreen());
-                                            },
-                                            child: Text(
-                                              "See All",
-                                              style: TextStyle(
-                                                  fontFamily: "Mont",
-                                                  fontSize: 12.sp,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: AppColors.greyText,
-                                                  decoration:
-                                                      TextDecoration.underline),
-                                            ),
-                                          ),
+                                          // InkWell(
+                                          //   onTap: () {
+                                          //     Get.to(() => AllSavingsScreen());
+                                          //   },
+                                          //   child: Text(
+                                          //     "See All",
+                                          //     style: TextStyle(
+                                          //         fontFamily: "Mont",
+                                          //         fontSize: 12.sp,
+                                          //         fontWeight: FontWeight.w500,
+                                          //         color: AppColors.greyText,
+                                          //         decoration:
+                                          //             TextDecoration.underline),
+                                          //   ),
+                                          // ),
                                         ],
                                       ),
                                       addVerticalSpace(12.h),
@@ -570,28 +570,40 @@ class SavingsScreen extends StatelessWidget {
                                           physics:
                                               NeverScrollableScrollPhysics(),
                                           itemBuilder: ((context, index) {
-                                            return SavingsCard(
-                                              theme: theme,
-                                              isDarkMode: isDarkMode,
-                                              name: savingsIncontroller
-                                                      .savings[index]
-                                                      .portfolioName ??
-                                                  "",
-                                              startingAmount:
-                                                  savingsIncontroller
-                                                      .savings[index]
-                                                      .startAmount,
-                                              currentAmount: savingsIncontroller
-                                                  .savings[index].currentAmount,
-                                              expectedInterest:
-                                                  savingsIncontroller
-                                                      .savings[index]
-                                                      .expectedInterest,
-                                              startDate: savingsIncontroller
-                                                  .savings[index].startDate,
-                                              maturityDate: savingsIncontroller
-                                                  .savings[index].maturityDate,
-                                            );
+                                            return InkWell(
+                                                onTap: () => push(
+                                                    page:
+                                                        SavingsDetailsScreen(),
+                                                    arguments:
+                                                        savingsIncontroller
+                                                            .savings[index]),
+                                                child: SavingsCard(
+                                                  theme: theme,
+                                                  isDarkMode: isDarkMode,
+                                                  name: savingsIncontroller
+                                                          .savings[index]
+                                                          .portfolioName ??
+                                                      "",
+                                                  amount: savingsIncontroller
+                                                          .savings[index]
+                                                          .currentAmount! +
+                                                      savingsIncontroller
+                                                          .savings[index]
+                                                          .interestAccrued!,
+                                                  savingsType:
+                                                      savingsIncontroller
+                                                          .savings[index].type,
+                                                  interestAccrued:
+                                                      savingsIncontroller
+                                                          .savings[index]
+                                                          .interestAccrued,
+                                                  startDate: savingsIncontroller
+                                                      .savings[index].startDate,
+                                                  maturityDate:
+                                                      savingsIncontroller
+                                                          .savings[index]
+                                                          .maturityDate,
+                                                ));
                                           }))
                                     ],
                                   ))),
