@@ -19,6 +19,7 @@ class SavingsController extends GetxController {
   RxString type = "".obs;
   RxBool isApproved = false.obs;
   RxBool inReview = false.obs;
+  RxDouble total = 0.0.obs;
 
   @override
   void onInit() {
@@ -38,12 +39,23 @@ class SavingsController extends GetxController {
     if (response.status) {
       savings.assignAll(response.data!);
       baseSavings.assignAll(response.data!);
+      computeTotal();
     } else if (response.statusCode == 999) {
       AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         fetchPlans(refresh);
       }
     }
+  }
+
+  computeTotal() {
+    num currentAmount = 0;
+    num interestAccrued = 0;
+    baseSavings.forEach((e) {
+      currentAmount += e.currentAmount!;
+      interestAccrued += e.interestAccrued!;
+    });
+    total.value = (currentAmount + interestAccrued).toDouble();
   }
 
   @override

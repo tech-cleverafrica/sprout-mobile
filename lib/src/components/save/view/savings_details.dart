@@ -3,9 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:sprout_mobile/src/components/save/controller/savings_details_controller.dart';
+import 'package:sprout_mobile/src/components/save/view/top_up_savings.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/global_function.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
+import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 import '../../../utils/app_colors.dart';
 
@@ -70,7 +72,13 @@ class SavingsDetailsScreen extends StatelessWidget {
                                 ? Row(
                                     children: [
                                       InkWell(
-                                        onTap: () async {},
+                                        onTap: () async {
+                                          push(
+                                              page: TopUpSavingsScreen(),
+                                              arguments:
+                                                  savingsDetailsController
+                                                      .savings.value);
+                                        },
                                         child: Container(
                                             height: 32.h,
                                             decoration: BoxDecoration(

@@ -62,4 +62,19 @@ class SavingsService {
     }
     return AppResponse(false, statusCode, responseBody);
   }
+
+  Future<AppResponse<dynamic>> createTopUp(
+      Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
+    Response response =
+        await locator.get<SavingsRepositoryImpl>().createTopUp(requestBody);
+    CustomLoader.dismiss();
+    int statusCode = response.statusCode ?? 000;
+    Map<String, dynamic> responseBody = response.data;
+    if (statusCode >= 200 && statusCode <= 300) {
+      print("vvv$responseBody");
+      return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
+    }
+    return AppResponse(false, statusCode, responseBody);
+  }
 }

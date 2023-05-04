@@ -28,9 +28,9 @@ class TargetSavingsScreen extends StatelessWidget {
                 createSavingsController.validateTargetSavings();
               }),
         ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-          child: SingleChildScrollView(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

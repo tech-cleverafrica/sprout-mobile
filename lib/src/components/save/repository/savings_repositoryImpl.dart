@@ -39,4 +39,12 @@ class SavingsRepositoryImpl implements SavingsRepository {
       return api.handleError(e);
     }
   }
+
+  createTopUp(requestBody) async {
+    try {
+      return await api.dio.post(topUpSavingsUrl, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    }
+  }
 }

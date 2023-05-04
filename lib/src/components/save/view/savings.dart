@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:sprout_mobile/src/components/home/view/widgets.dart';
 import 'package:sprout_mobile/src/components/save/controller/savings_controller.dart';
-import 'package:sprout_mobile/src/components/save/view/all_savings.dart';
 import 'package:sprout_mobile/src/components/save/view/locked_funds.dart';
 import 'package:sprout_mobile/src/components/save/view/savings_details.dart';
 import 'package:sprout_mobile/src/components/save/view/target_savings.dart';
@@ -25,6 +25,7 @@ class SavingsScreen extends StatelessWidget {
   SavingsScreen({super.key});
 
   late SavingsController savingsIncontroller;
+  var f = NumberFormat('#,##0.00########', 'en_Us');
 
   @override
   Widget build(BuildContext context) {
@@ -118,10 +119,10 @@ class SavingsScreen extends StatelessWidget {
               )
             : !savingsIncontroller.isSavingsLoading.value
                 ? Scaffold(
-                    body: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 24),
-                      child: SingleChildScrollView(
+                    body: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 24),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -347,7 +348,7 @@ class SavingsScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            addVerticalSpace(15.h),
+                            addVerticalSpace(10.h),
                             Row(
                               children: [
                                 Padding(
@@ -356,7 +357,9 @@ class SavingsScreen extends StatelessWidget {
                                       : EdgeInsets.only(top: 10),
                                   child: Text(
                                     (savingsIncontroller.showAmount.value
-                                        ? currencySymbol + "0.00"
+                                        ? currencySymbol +
+                                            f.format(
+                                                savingsIncontroller.total.value)
                                         : "******"),
                                     style: TextStyle(
                                         fontFamily: "Mont",

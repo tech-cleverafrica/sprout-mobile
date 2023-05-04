@@ -84,6 +84,7 @@ const String plansUrl = "target-savings/api/v1/savings/view";
 const String rateOptionsUrl = "target-savings/api/v1/savings/rate";
 const String savingsSummaryUrl = "target-savings/api/v1/savings/summary";
 const String createSavingsUrl = "target-savings/api/v1/savings/create";
+const String topUpSavingsUrl = "target-savings/api/v1/savings/top-up";
 
 apiResponse(String? message, [String? responseCode]) {
   return {

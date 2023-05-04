@@ -31,10 +31,8 @@ class AllSavingsController extends GetxController {
     AppResponse response = await locator.get<SavingsService>().getPlans();
     isSavingsLoading.value = false;
     if (response.status) {
-      print(response.data);
       savings.assignAll(response.data!);
       baseSavings.assignAll(response.data!);
-      print(savings[0].portfolioName);
     } else if (response.statusCode == 999) {
       AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:sprout_mobile/src/components/save/controller/create_savings_controller.dart';
+import 'package:sprout_mobile/src/components/save/controller/top_up_savings_controller.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 
 // ignore: must_be_immutable
-class LockedFundsScreen extends StatelessWidget {
-  LockedFundsScreen({super.key});
+class TopUpSavingsScreen extends StatelessWidget {
+  TopUpSavingsScreen({super.key});
 
-  late CreateSavingsController createSavingsController;
+  late TopUpSavingsController topUpSavingsController;
 
   @override
   Widget build(BuildContext context) {
-    createSavingsController = Get.put(CreateSavingsController());
+    topUpSavingsController = Get.put(TopUpSavingsController());
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
       child: Scaffold(
@@ -23,9 +23,9 @@ class LockedFundsScreen extends StatelessWidget {
           padding: EdgeInsets.only(left: 24, right: 24, bottom: 24),
           child: DecisionButton(
               isDarkMode: isDarkMode,
-              buttonText: "Continue",
+              buttonText: "Top Up",
               onTap: () {
-                createSavingsController.validateLockedFunds();
+                topUpSavingsController.validateTopUp();
               }),
         ),
         body: SingleChildScrollView(
@@ -37,9 +37,10 @@ class LockedFundsScreen extends StatelessWidget {
                 getHeader(isDarkMode),
                 addVerticalSpace(15.h),
                 CustomTextFormField(
-                  controller: createSavingsController.savingsNameController,
-                  label: "Name your Savings",
+                  controller: topUpSavingsController.savingsNameController,
+                  label: "Savings Name",
                   hintText: "Enter Savings Name",
+                  enabled: false,
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
@@ -53,9 +54,13 @@ class LockedFundsScreen extends StatelessWidget {
                   textInputAction: TextInputAction.next,
                 ),
                 CustomTextFormField(
-                  controller: createSavingsController.savingsAmountController,
-                  label: "How much do you want to save?",
-                  hintText: "Enter Amount",
+                  controller: topUpSavingsController.topUpAmountController,
+                  label: "How much do you want to top up with?",
+                  hintText: "Enter Top Up Amount",
+                  enabled: topUpSavingsController.savingsDetailsController
+                          .savings.value!.currentAmount! >=
+                      topUpSavingsController
+                          .savingsDetailsController.savings.value!.startAmount!,
                   textInputType: TextInputType.phone,
                   textInputAction: TextInputAction.next,
                   fillColor: isDarkMode
@@ -63,85 +68,60 @@ class LockedFundsScreen extends StatelessWidget {
                       : AppColors.grey,
                   validator: (value) {
                     if (value!.length == 0)
-                      return "Savings amount is required";
+                      return "Tup up amount is required";
                     else if (double.parse(value.split(",").join("")) == 0) {
-                      return "Invalid savings amount";
-                    } else if (double.parse(value.split(",").join("")) < 5000) {
-                      return "Savings amount should be minimum of NGN 5,000";
+                      return "Invalid top up amount";
+                    } else if (double.parse(value.split(",").join("")) < 100) {
+                      return "Top up amount should be minimum of NGN 100";
                     }
                     return null;
                   },
                 ),
                 GestureDetector(
                     onTap: () {
-                      createSavingsController.showTenureList(
+                      topUpSavingsController.showPaymentTypeList(
                           context, isDarkMode);
                     },
                     child: Obx((() => CustomTextFormField(
-                        controller: createSavingsController.tenureController,
-                        label: "How long do you want to save for?",
-                        hintText: createSavingsController.tenure.value == null
-                            ? "Select Tenure"
-                            : createSavingsController.tenure.value["name"],
+                        controller:
+                            topUpSavingsController.paymentTypeController,
+                        label: "Payment Type",
+                        hintText: topUpSavingsController.paymentType.value == ''
+                            ? "Select Payment Type"
+                            : topUpSavingsController.paymentType.value,
                         enabled: false,
                         fillColor: isDarkMode
                             ? AppColors.inputBackgroundColor
                             : AppColors.grey,
                         hintTextStyle:
-                            createSavingsController.tenure.value == null
+                            topUpSavingsController.paymentType.value == ''
                                 ? null
                                 : TextStyle(
                                     color: isDarkMode
                                         ? AppColors.white
                                         : AppColors.black,
                                     fontWeight: FontWeight.w600))))),
-                GestureDetector(
-                    onTap: () {
-                      createSavingsController.showPaymentTypeList(
-                          context, isDarkMode);
-                    },
-                    child: Obx((() =>
-                        CustomTextFormField(
-                            controller:
-                                createSavingsController.paymentTypeController,
-                            label: "Payment Type",
-                            hintText:
-                                createSavingsController.paymentType.value == ''
-                                    ? "Select Payment Type"
-                                    : createSavingsController.paymentType.value,
-                            enabled: false,
-                            fillColor: isDarkMode
-                                ? AppColors.inputBackgroundColor
-                                : AppColors.grey,
-                            hintTextStyle:
-                                createSavingsController.paymentType.value == ''
-                                    ? null
-                                    : TextStyle(
-                                        color: isDarkMode
-                                            ? AppColors.white
-                                            : AppColors.black,
-                                        fontWeight: FontWeight.w600))))),
-                Obx((() => createSavingsController.paymentType.value == "CARD"
+                Obx((() => topUpSavingsController.paymentType.value == "CARD"
                     ? GestureDetector(
                         onTap: () {
-                          createSavingsController.showCardList(
+                          topUpSavingsController.showCardList(
                               context, isDarkMode);
                         },
                         child: Obx((() => CustomTextFormField(
-                            controller: createSavingsController.cardController,
+                            controller: topUpSavingsController.cardController,
                             label: "Select Card",
-                            hintText: createSavingsController.card.value == null
+                            hintText: topUpSavingsController.card.value == null
                                 ? "Select Card"
-                                : createSavingsController.card.value!.pan! +
+                                : topUpSavingsController.card.value!.pan! +
                                     " - " +
-                                    createSavingsController
+                                    topUpSavingsController
                                         .card.value!.provider!,
                             enabled: false,
                             fillColor: isDarkMode
                                 ? AppColors.inputBackgroundColor
                                 : AppColors.grey,
                             hintTextStyle:
-                                createSavingsController.card.value == null
+                                topUpSavingsController.card.value == null
                                     ? null
                                     : TextStyle(
                                         color: isDarkMode

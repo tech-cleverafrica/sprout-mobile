@@ -11,6 +11,8 @@ import 'package:sprout_mobile/src/components/authentication/service/auth_service
 import 'package:sprout_mobile/src/components/home/model/transactions_model.dart';
 import 'package:sprout_mobile/src/components/home/model/wallet_model.dart';
 import 'package:sprout_mobile/src/components/home/service/home_service.dart';
+import 'package:sprout_mobile/src/components/save/model/savings_model.dart';
+import 'package:sprout_mobile/src/components/save/service/savings_service.dart';
 import 'package:sprout_mobile/src/utils/app_formatter.dart';
 
 class HomeController extends GetxController {
@@ -27,6 +29,7 @@ class HomeController extends GetxController {
   RxString accountNumberToUse = "".obs;
   RxString bankToUse = "".obs;
   RxDouble walletBalance = 0.0.obs;
+  RxDouble savingsBalance = 0.0.obs;
 
   RxList<TransactionsResponse> transactionsResponse =
       <TransactionsResponse>[].obs;
@@ -37,8 +40,10 @@ class HomeController extends GetxController {
   RxBool isApproved = false.obs;
   RxBool inReview = false.obs;
   RxBool showAmount = true.obs;
+  RxBool showSavingsAmount = true.obs;
 
   var storageBalance;
+  var storageSavingsBalance;
   var storageTransactions;
 
   var inflowGraph = Rxn<dynamic>();
@@ -54,9 +59,13 @@ class HomeController extends GetxController {
     inflowGraph.value = dummyGraph();
     outflowGraph.value = dummyGraph();
     storageBalance = storage.read("userBalance");
+    storageSavingsBalance = storage.read("savingsBalance");
     storageTransactions = storage.read("transactionResponse");
     if (storageBalance != null && storageBalance != "") {
       walletBalance.value = storageBalance;
+    }
+    if (storageSavingsBalance != null && storageSavingsBalance != "") {
+      savingsBalance.value = storageSavingsBalance;
     }
     if (storageTransactions != null && storageTransactions != "") {
       transactions.value = [];
@@ -80,6 +89,7 @@ class HomeController extends GetxController {
     inReview.value = approvalStatus == "IN_REVIEW" ? true : false;
     loadTransactions();
     getWallet();
+    fetchPlans();
     getDashboardGraph();
     super.onInit();
   }
@@ -100,6 +110,29 @@ class HomeController extends GetxController {
         }
       }
     }
+  }
+
+  fetchPlans() async {
+    AppResponse response = await locator.get<SavingsService>().getPlans();
+    if (response.status) {
+      computeTotal(response.data!);
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        fetchPlans();
+      }
+    }
+  }
+
+  computeTotal(List<Savings> savings) {
+    num currentAmount = 0;
+    num interestAccrued = 0;
+    savings.forEach((e) {
+      currentAmount += e.currentAmount!;
+      interestAccrued += e.interestAccrued!;
+    });
+    savingsBalance.value = (currentAmount + interestAccrued).toDouble();
+    storage.write("savingsBalance", savingsBalance.value);
   }
 
   loadTransactions() async {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:sprout_mobile/src/components/complete-account-setup/view/document_upload.dart';
 import 'package:sprout_mobile/src/components/fund-wallet/view/fund_wallet.dart';
 import 'package:sprout_mobile/src/components/home/view/all_transactions.dart';
@@ -26,6 +27,7 @@ class HomePage extends StatelessWidget {
   late bool showInvoice = false;
   late HomeController homeController;
   late NotificationController notificationController;
+  var f = NumberFormat('#,##0.00########', 'en_Us');
   final storage = GetStorage();
 
   @override
@@ -126,36 +128,36 @@ class HomePage extends StatelessWidget {
                     inReview: homeController.inReview.value,
                   ))),
               addHorizontalSpace(10.w),
-              BalanceCard(
-                isDarkMode: isDarkMode,
-                flag: AppSvg.nigeria,
-                currency: "Naira",
-                title: "Savings Balance",
-                symbol: "N",
-                naira: "19,260.00",
-                kobo: "",
-                bank: "Providus Bank",
-                accountNumber: "0087642335",
-                buttontext: "Details",
-                buttonColor: AppColors.black,
-                copyVisible: false,
-                iconVisible: false,
-                bankVisible: false,
-                buttonVisible: true,
-                showAmount: homeController.showAmount.value,
-                onTap: () => {
-                  pushUntil(
-                      page: BottomNav(
-                    index: 1,
-                  )),
-                },
-                setVisibility: () => {
-                  homeController.showAmount.value =
-                      !homeController.showAmount.value
-                },
-                isApproved: homeController.isApproved.value,
-                inReview: homeController.inReview.value,
-              ),
+              Obx((() => BalanceCard(
+                    isDarkMode: isDarkMode,
+                    flag: AppSvg.nigeria,
+                    currency: "Naira",
+                    title: "Savings Balance",
+                    symbol: currencySymbol,
+                    naira: f.format(homeController.savingsBalance.value),
+                    kobo: "",
+                    bank: "",
+                    accountNumber: "",
+                    buttontext: "Details",
+                    buttonColor: AppColors.black,
+                    copyVisible: false,
+                    iconVisible: false,
+                    bankVisible: false,
+                    buttonVisible: true,
+                    showAmount: homeController.showSavingsAmount.value,
+                    onTap: () => {
+                      pushUntil(
+                          page: BottomNav(
+                        index: 1,
+                      )),
+                    },
+                    setVisibility: () => {
+                      homeController.showSavingsAmount.value =
+                          !homeController.showSavingsAmount.value
+                    },
+                    isApproved: homeController.isApproved.value,
+                    inReview: homeController.inReview.value,
+                  ))),
               // addHorizontalSpace(10.w),
               // BalanceCard(
               //   isDarkMode: isDarkMode,
