@@ -24,98 +24,106 @@ class SavingsApprovalScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              AppColors.mainGreen,
-              AppColors.black,
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-          image: DecorationImage(
-              image: AssetImage("assets/images/rough_background.png"),
-              fit: BoxFit.cover)),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.2,
+    return WillPopScope(
+        onWillPop: () {
+          pushUntil(
+              page: BottomNav(
+            index: 0,
+          ));
+          return Future.value(true);
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  AppColors.mainGreen,
+                  AppColors.black,
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
-              Container(
-                  height: 150.h,
-                  width: 150.w,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color(0xFFD9D9D9).withOpacity(0.4)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(0.0),
-                    child: SvgPicture.asset(
-                      AppSvg.mark,
-                      color: AppColors.white,
-                    ),
-                  )),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.03,
-              ),
-              Container(
-                  child: Text(
-                heading,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: AppColors.white,
-                    fontFamily: "Mont",
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.w700),
-              )),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.01,
-              ),
-              Container(
-                  child: Text(
-                message,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontFamily: "Mont",
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.white),
-              )),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.25,
-              ),
-              Row(
+              image: DecorationImage(
+                  image: AssetImage("assets/images/rough_background.png"),
+                  fit: BoxFit.cover)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: Container(
-                      child: CustomButton(
-                          title: "Back To Savings",
-                          onTap: () {
-                            pushUntil(
-                                page: BottomNav(
-                              index: 1,
-                            ));
-                          }),
-                    ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.2,
                   ),
+                  Container(
+                      height: 150.h,
+                      width: 150.w,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xFFD9D9D9).withOpacity(0.4)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(0.0),
+                        child: SvgPicture.asset(
+                          AppSvg.mark,
+                          color: AppColors.white,
+                        ),
+                      )),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                  ),
+                  Container(
+                      child: Text(
+                    heading,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: AppColors.white,
+                        fontFamily: "Mont",
+                        fontSize: 22.sp,
+                        fontWeight: FontWeight.w700),
+                  )),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.01,
+                  ),
+                  Container(
+                      child: Text(
+                    message,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: "Mont",
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.white),
+                  )),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.25,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          child: CustomButton(
+                              title: "Back To Savings",
+                              onTap: () {
+                                pushUntil(
+                                    page: BottomNav(
+                                  index: 1,
+                                ));
+                              }),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                  ),
+                  Image.asset(
+                    AppImages.sprout_dark,
+                    height: 27.h,
+                  )
                 ],
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.03,
-              ),
-              Image.asset(
-                AppImages.sprout_dark,
-                height: 27.h,
-              )
-            ],
+            ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

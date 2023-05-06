@@ -25,146 +25,157 @@ class SuccessfulInvoice extends StatelessWidget {
   Widget build(BuildContext context) {
     invoiceSuccessController = Get.put(InvoiceSuccessController());
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    return Container(
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              AppColors.mainGreen,
-              AppColors.black,
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-          image: DecorationImage(
-              image: AssetImage("assets/images/rough_background.png"),
-              fit: BoxFit.cover)),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
+    return WillPopScope(
+        onWillPop: () {
+          pushUntil(
+              page: BottomNav(
+            index: 0,
+          ));
+          return Future.value(true);
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  AppColors.mainGreen,
+                  AppColors.black,
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+              image: DecorationImage(
+                  image: AssetImage("assets/images/rough_background.png"),
+                  fit: BoxFit.cover)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                addVerticalSpace(60.h),
-                Text(
-                  "Successful",
-                  style: TextStyle(
-                      color: AppColors.white,
-                      fontFamily: "Mont",
-                      fontSize: 22.sp,
-                      fontWeight: FontWeight.w700),
-                ),
-                addVerticalSpace(26.h),
-                Container(
-                    height: 220.h,
-                    width: 250.w,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color(0xFFD9D9D9).withOpacity(0.2)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: SvgPicture.asset(
-                        AppSvg.mark,
-                        color: AppColors.white,
-                      ),
-                    )),
-                addVerticalSpace(20.h),
-                Obx((() => Container(
-                    width: MediaQuery.of(context).size.width * 0.7,
-                    child: Text(
-                      "You have successfully created an invoice for " +
-                          invoiceSuccessController
-                              .invoice.value!.customer!.fullName!,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: "Mont",
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.white),
-                    )))),
-                addVerticalSpace(20.w),
-                Container(
-                    width: 160,
-                    child: CustomButton(
-                      height: 50,
-                      title: "Send Invoice",
-                      onTap: () {
-                        invoiceSuccessController.showUpdateModal(
-                            context, isDarkMode);
-                      },
-                    ))
-              ],
-            ),
-            Column(
-              children: [
-                Row(
+                Column(
                   children: [
-                    Container(
-                      width: 246.w,
-                      child: CustomButton(
-                          title: "Back To Invoices",
-                          onTap: () {
-                            pushUntil(
-                                page: BottomNav(
-                              index: 2,
-                            ));
-                          }),
+                    addVerticalSpace(60.h),
+                    Text(
+                      "Successful",
+                      style: TextStyle(
+                          color: AppColors.white,
+                          fontFamily: "Mont",
+                          fontSize: 22.sp,
+                          fontWeight: FontWeight.w700),
                     ),
-                    addHorizontalSpace(8.w),
-                    Expanded(
-                        child: InkWell(
-                      onTap: () async {
-                        var tempDir = await getTemporaryDirectory();
-                        if (invoiceSuccessController.invoiceUrl.value != "") {
-                          invoiceSuccessController.download(
-                              Dio(),
-                              invoiceSuccessController.invoiceUrl.value,
-                              tempDir.path +
-                                  "/" +
-                                  invoiceSuccessController.invoice.value!.id! +
-                                  ".pdf");
-                          pop();
-                        } else {
-                          invoiceSuccessController
-                              .downloadInvoice(
-                                  invoiceSuccessController.invoice.value!.id!)
-                              .then((value) => {
-                                    if (value != null)
-                                      {
-                                        invoiceSuccessController.download(
-                                            Dio(),
-                                            value,
-                                            tempDir.path +
-                                                "/" +
-                                                invoiceSuccessController
-                                                    .invoice.value!.id! +
-                                                ".pdf"),
-                                        pop()
-                                      }
-                                  });
-                        }
-                      },
-                      child: Container(
-                        height: 50,
+                    addVerticalSpace(26.h),
+                    Container(
+                        height: 220.h,
+                        width: 250.w,
                         decoration: BoxDecoration(
-                            color: AppColors.inputBackgroundColor,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Center(child: SvgPicture.asset(AppSvg.share)),
-                      ),
-                    ))
+                            shape: BoxShape.circle,
+                            color: Color(0xFFD9D9D9).withOpacity(0.2)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: SvgPicture.asset(
+                            AppSvg.mark,
+                            color: AppColors.white,
+                          ),
+                        )),
+                    addVerticalSpace(20.h),
+                    Obx((() => Container(
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        child: Text(
+                          "You have successfully created an invoice for " +
+                              invoiceSuccessController
+                                  .invoice.value!.customer!.fullName!,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: "Mont",
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.white),
+                        )))),
+                    addVerticalSpace(20.w),
+                    Container(
+                        width: 160,
+                        child: CustomButton(
+                          height: 50,
+                          title: "Send Invoice",
+                          onTap: () {
+                            invoiceSuccessController.showUpdateModal(
+                                context, isDarkMode);
+                          },
+                        ))
                   ],
                 ),
-                addVerticalSpace(20.h),
-                Image.asset(
-                  AppImages.sprout_dark,
-                  height: 24.h,
-                ),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 246.w,
+                          child: CustomButton(
+                              title: "Back To Invoices",
+                              onTap: () {
+                                pushUntil(
+                                    page: BottomNav(
+                                  index: 2,
+                                ));
+                              }),
+                        ),
+                        addHorizontalSpace(8.w),
+                        Expanded(
+                            child: InkWell(
+                          onTap: () async {
+                            var tempDir = await getTemporaryDirectory();
+                            if (invoiceSuccessController.invoiceUrl.value !=
+                                "") {
+                              invoiceSuccessController.download(
+                                  Dio(),
+                                  invoiceSuccessController.invoiceUrl.value,
+                                  tempDir.path +
+                                      "/" +
+                                      invoiceSuccessController
+                                          .invoice.value!.id! +
+                                      ".pdf");
+                              pop();
+                            } else {
+                              invoiceSuccessController
+                                  .downloadInvoice(invoiceSuccessController
+                                      .invoice.value!.id!)
+                                  .then((value) => {
+                                        if (value != null)
+                                          {
+                                            invoiceSuccessController.download(
+                                                Dio(),
+                                                value,
+                                                tempDir.path +
+                                                    "/" +
+                                                    invoiceSuccessController
+                                                        .invoice.value!.id! +
+                                                    ".pdf"),
+                                            pop()
+                                          }
+                                      });
+                            }
+                          },
+                          child: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                                color: AppColors.inputBackgroundColor,
+                                borderRadius: BorderRadius.circular(10)),
+                            child:
+                                Center(child: SvgPicture.asset(AppSvg.share)),
+                          ),
+                        ))
+                      ],
+                    ),
+                    addVerticalSpace(20.h),
+                    Image.asset(
+                      AppImages.sprout_dark,
+                      height: 24.h,
+                    ),
+                  ],
+                )
               ],
-            )
-          ],
-        ),
-      ),
-    );
+            ),
+          ),
+        ));
   }
 }

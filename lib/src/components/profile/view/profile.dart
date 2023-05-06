@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
 import 'package:sprout_mobile/src/components/profile/controller/profile_controller.dart';
 import 'package:sprout_mobile/src/components/profile/view/download_statement.dart';
 import 'package:sprout_mobile/src/components/profile/view/security_settings.dart';
@@ -35,6 +36,14 @@ class ProfileScreen extends StatelessWidget {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     profileController = Get.put(ProfileController());
     return SafeArea(
+        child: WillPopScope(
+      onWillPop: () {
+        pushUntil(
+            page: BottomNav(
+          index: 0,
+        ));
+        return Future.value(true);
+      },
       child: Scaffold(
         body: SingleChildScrollView(
           child: Padding(
@@ -619,6 +628,6 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ));
   }
 }

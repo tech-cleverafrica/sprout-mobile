@@ -28,124 +28,132 @@ class SendMoneyApprovalScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              AppColors.mainGreen,
-              AppColors.black,
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-          image: DecorationImage(
-              image: AssetImage("assets/images/rough_background.png"),
-              fit: BoxFit.cover)),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.2,
+    return WillPopScope(
+        onWillPop: () {
+          pushUntil(
+              page: BottomNav(
+            index: 0,
+          ));
+          return Future.value(true);
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  AppColors.mainGreen,
+                  AppColors.black,
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
-              Container(
-                  height: 150.h,
-                  width: 150.w,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color(0xFFD9D9D9).withOpacity(0.4)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(0.0),
-                    child: SvgPicture.asset(
-                      AppSvg.mark,
-                      color: AppColors.white,
-                    ),
-                  )),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.03,
-              ),
-              Container(
-                  child: Text(
-                heading,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: AppColors.white,
-                    fontFamily: "Mont",
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.w700),
-              )),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.01,
-              ),
-              Container(
-                  child: Text(
-                messages,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontFamily: "Mont",
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.white),
-              )),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.3,
-              ),
-              Row(
+              image: DecorationImage(
+                  image: AssetImage("assets/images/rough_background.png"),
+                  fit: BoxFit.cover)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    width: 246.w,
-                    child: CustomButton(
-                        title: "Back To Home",
-                        onTap: () {
-                          push(page: BottomNav());
-                        }),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.2,
                   ),
-                  addHorizontalSpace(8.w),
-                  Expanded(
-                      child: InkWell(
-                    onTap: () async {
-                      final pdfFile =
-                          await locator.get<PdfService>().generateReceipt(
-                                trans.transactionAmount.toString(),
-                                trans.type.toString(),
-                                trans.beneficiaryAccountNumber.toString(),
-                                trans.beneficiaryName.toString(),
-                                trans.beneficiaryBankName.toString(),
-                                trans.ref.toString(),
-                                trans.sessionID.toString(),
-                                trans.transactionFee.toString(),
-                                trans.createdAt.toString(),
-                                trans.narration.toString(),
-                                trans.rrn.toString(),
-                                trans.type == "CASH_OUT",
-                                trans.responseMessage.toString(),
-                              );
-                      await locator.get<SharedService>().shareFile(pdfFile);
-                    },
-                    child: Container(
-                      height: 50,
+                  Container(
+                      height: 150.h,
+                      width: 150.w,
                       decoration: BoxDecoration(
-                          color: AppColors.inputBackgroundColor,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Center(child: SvgPicture.asset(AppSvg.share)),
-                    ),
-                  ))
+                          shape: BoxShape.circle,
+                          color: Color(0xFFD9D9D9).withOpacity(0.4)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(0.0),
+                        child: SvgPicture.asset(
+                          AppSvg.mark,
+                          color: AppColors.white,
+                        ),
+                      )),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                  ),
+                  Container(
+                      child: Text(
+                    heading,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: AppColors.white,
+                        fontFamily: "Mont",
+                        fontSize: 22.sp,
+                        fontWeight: FontWeight.w700),
+                  )),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.01,
+                  ),
+                  Container(
+                      child: Text(
+                    messages,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: "Mont",
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.white),
+                  )),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.3,
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        width: 246.w,
+                        child: CustomButton(
+                            title: "Back To Home",
+                            onTap: () {
+                              push(page: BottomNav());
+                            }),
+                      ),
+                      addHorizontalSpace(8.w),
+                      Expanded(
+                          child: InkWell(
+                        onTap: () async {
+                          final pdfFile =
+                              await locator.get<PdfService>().generateReceipt(
+                                    trans.transactionAmount.toString(),
+                                    trans.type.toString(),
+                                    trans.beneficiaryAccountNumber.toString(),
+                                    trans.beneficiaryName.toString(),
+                                    trans.beneficiaryBankName.toString(),
+                                    trans.ref.toString(),
+                                    trans.sessionID.toString(),
+                                    trans.transactionFee.toString(),
+                                    trans.createdAt.toString(),
+                                    trans.narration.toString(),
+                                    trans.rrn.toString(),
+                                    trans.type == "CASH_OUT",
+                                    trans.responseMessage.toString(),
+                                  );
+                          await locator.get<SharedService>().shareFile(pdfFile);
+                        },
+                        child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                              color: AppColors.inputBackgroundColor,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Center(child: SvgPicture.asset(AppSvg.share)),
+                        ),
+                      ))
+                    ],
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                  ),
+                  Image.asset(
+                    AppImages.sprout_dark,
+                    height: 27.h,
+                  )
                 ],
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.03,
-              ),
-              Image.asset(
-                AppImages.sprout_dark,
-                height: 27.h,
-              )
-            ],
+            ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }
