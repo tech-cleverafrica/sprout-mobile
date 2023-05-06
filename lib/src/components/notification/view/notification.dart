@@ -12,15 +12,12 @@ class NotificationScreen extends StatelessWidget {
   NotificationScreen({super.key});
 
   late NotificationController notificationController;
-  List<dynamic> _notifications = [];
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final theme = Theme.of(context);
     notificationController = Get.put(NotificationController());
-    notificationController.getNotifications();
-    _notifications = notificationController.notifications;
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -31,7 +28,7 @@ class NotificationScreen extends StatelessWidget {
               children: [
                 getHeader(isDarkMode, hideNotification: true),
                 addVerticalSpace(35.h),
-                ListView.builder(
+                Obx((() => ListView.builder(
                     itemCount: notificationController.size.value,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
@@ -45,8 +42,10 @@ class NotificationScreen extends StatelessWidget {
                         child: NotificationCard(
                           theme: theme,
                           isDarkMode: isDarkMode,
-                          date: _notifications[index]["date"],
-                          notification: _notifications[index]["body"],
+                          date: notificationController
+                              .notifications.value[index]["date"],
+                          notification: notificationController
+                              .notifications.value[index]["body"],
                           select: () => {},
                         ),
                         background: Container(
@@ -59,7 +58,7 @@ class NotificationScreen extends StatelessWidget {
                           ),
                         ),
                       );
-                    }))
+                    }))))
               ],
             ),
           ),

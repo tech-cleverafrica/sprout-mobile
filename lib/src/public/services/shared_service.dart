@@ -30,6 +30,21 @@ class SharedService {
     return AppResponse(false, statusCode, responseBody);
   }
 
+  Future<AppResponse<dynamic>> addNotificationID(
+      Map<String, dynamic> requestBody) async {
+    Response response = await locator
+        .get<SharedRepositoryImpl>()
+        .addNotificationID(requestBody);
+    print(response);
+    int statusCode = response.statusCode ?? 000;
+    Map<String, dynamic> responseBody = response.data;
+    if (response.data["status"]) {
+      print(":::::::::$responseBody");
+      return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
+    }
+    return AppResponse(false, statusCode, responseBody);
+  }
+
   String validateFileSize(File file, int maxSize) {
     final bytes = file.readAsBytesSync().lengthInBytes;
     final kb = bytes / 1024;

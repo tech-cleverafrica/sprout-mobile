@@ -468,31 +468,35 @@ class ProfileScreen extends StatelessWidget {
                     )
                   ],
                 ),
-                // addVerticalSpace(20.h),
-                // InkWell(
-                //   onTap: () => {},
-                //   child: Padding(
-                //     padding: const EdgeInsets.only(left: 10),
-                //     child: Row(
-                //       children: [
-                //         Image.asset(
-                //           AppImages.rateApp,
-                //           height: 25,
-                //         ),
-                //         addHorizontalSpace(10.w),
-                //         Text(
-                //           "Rate App",
-                //           style: TextStyle(
-                //               color: isDarkMode
-                //                   ? AppColors.white
-                //                   : AppColors.greyDot,
-                //               fontWeight: FontWeight.w700,
-                //               fontSize: 14.sp),
-                //         )
-                //       ],
-                //     ),
-                //   ),
-                // ),
+                addVerticalSpace(20.h),
+                InkWell(
+                  onTap: () => {profileController.rateUs()},
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: AppColors.orangeLight,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Image.asset(
+                          AppImages.rateApp,
+                          height: 25,
+                        ),
+                      ),
+                      addHorizontalSpace(10.w),
+                      Text(
+                        "Rate App",
+                        style: TextStyle(
+                            color: isDarkMode
+                                ? AppColors.white
+                                : AppColors.greyDot,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14.sp),
+                      )
+                    ],
+                  ),
+                ),
                 addVerticalSpace(50.h),
                 InkWell(
                   onTap: () => {
@@ -598,17 +602,18 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 addVerticalSpace(50.h),
-                Center(
-                  child: Text(
-                    "V.S.1.0.0",
-                    style: TextStyle(
-                        fontFamily: "Mont",
-                        fontSize: 13.sp,
-                        color:
-                            isDarkMode ? AppColors.white : AppColors.greyText,
-                        fontWeight: FontWeight.w700),
-                  ),
-                )
+                Obx((() => Center(
+                      child: Text(
+                        "V " + profileController.version.value,
+                        style: TextStyle(
+                            fontFamily: "Mont",
+                            fontSize: 13.sp,
+                            color: isDarkMode
+                                ? AppColors.white
+                                : AppColors.greyText,
+                            fontWeight: FontWeight.w700),
+                      ),
+                    )))
               ],
             ),
           ),

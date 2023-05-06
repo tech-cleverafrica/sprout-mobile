@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sprout_mobile/src/components/notification/controller/notification_controller.dart';
 import 'package:sprout_mobile/src/components/onboarding/onboarding.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -10,8 +11,12 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with WidgetsBindingObserver {
+  final NotificationController notificationController =
+      Get.put(NotificationController());
   initialize(BuildContext context) async {
+    WidgetsBinding.instance.addObserver(this);
     WidgetsFlutterBinding.ensureInitialized();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? firstTime = prefs.getBool('first_time');
@@ -33,6 +38,23 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     initialize(context);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+      case AppLifecycleState.resumed:
+        SharedPreferences.getInstance().then((prefs) => {prefs.reload()});
+        notificationController.getNotifications();
+        break;
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.paused:
+      case AppLifecycleState.detached:
+        SharedPreferences.getInstance().then((prefs) => {prefs.reload()});
+        notificationController.getNotifications();
+        break;
+    }
   }
 
   @override

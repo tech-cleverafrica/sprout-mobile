@@ -22,13 +22,11 @@ class PayBillsService {
         await locator.get<PayBillsRepositoryImpl>().getBillerGroups();
     int statusCode = response.statusCode ?? 000;
     Map<String, dynamic> responseBody = response.data;
-    print("JUST THERE");
     if (response.data["status"] == "success") {
       print(":::::::::$responseBody");
       return AppResponse<List<BillerGroup>>(true, statusCode, responseBody,
           BillerGroup.getList(responseBody["responseData"]));
     } else if (statusCode == 999 && canLogin) {
-      print("WE DEY REFRESH TOKEN");
       await locator.get<AuthService>().refreshUserToken();
     }
     return AppResponse(false, statusCode, responseBody);

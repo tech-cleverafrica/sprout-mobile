@@ -5,6 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
+import 'package:sprout_mobile/src/components/notification/controller/notification_controller.dart';
+import 'package:sprout_mobile/src/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/src/repository/preference_repository.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
@@ -15,6 +17,8 @@ class PushNotificationService {
   late FirebaseMessaging _fcm;
   final PreferenceRepository preferenceRepository =
       Get.put(PreferenceRepository());
+  final NotificationController notificationController =
+      Get.put(NotificationController());
 
   Future initialise() async {
     // Firebase.
@@ -67,7 +71,6 @@ class PushNotificationService {
                   isDismissible: true,
                 )
               });
-      preferenceRepository.setBooleanPref(NEW_NOTIFICATION, true);
     } else if (message.data['title'] != null && message.data['body'] != null) {
       Future.delayed(
           const Duration(milliseconds: 2000),
@@ -82,27 +85,8 @@ class PushNotificationService {
                   isDismissible: true,
                 )
               });
-      preferenceRepository.setBooleanPref(NEW_NOTIFICATION, true);
     }
   }
-
-  // Future<http.Response> addNotificationID(
-  //     BuildContext context, String id) async {
-  //   String url = Provider.of<AppState>(context, listen: false).notificationUrl;
-  //   String token = Provider.of<AppState>(context, listen: false).token;
-  //   http.Response res;
-  //   var response = await http.post(
-  //     Uri.parse(url + 'notification/register'),
-  //     headers: {
-  //       "Authorization": "Bearer " + token,
-  //       "Connection": "keep-alive",
-  //       "Content-type": "application/json"
-  //     },
-  //     body: jsonEncode({"deviceID": id}),
-  //   );
-  //   res = response;
-  //   return res;
-  // }
 }
 
 Future _myBackgroundMessageHandler(RemoteMessage message) async {
@@ -116,7 +100,6 @@ Future _saveNotification(RemoteMessage message) async {
 
   // if (await storage.containsKey(key: "notifications") == true) {
   if (await preferenceRepository.getKeyBoolean(NOTIFICATIONS)) {
-    print(message);
     Future<String> notifications =
         preferenceRepository.getStringPref(NOTIFICATIONS);
     _notifications = jsonDecode(await notifications);
@@ -135,7 +118,7 @@ Future _saveNotification(RemoteMessage message) async {
       _notifications.insert(0, notification);
       preferenceRepository.setStringPref(
           NOTIFICATIONS, jsonEncode(_notifications));
-      preferenceRepository.setBooleanPref(NEW_NOTIFICATION, true);
+      notificationController.getNotifications();
     }
   } else {
     if (message.notification != null &&
@@ -152,7 +135,7 @@ Future _saveNotification(RemoteMessage message) async {
       _notifications.insert(0, notification);
       preferenceRepository.setStringPref(
           NOTIFICATIONS, jsonEncode(_notifications));
-      preferenceRepository.setBooleanPref(NEW_NOTIFICATION, true);
+      notificationController.getNotifications();
     }
   }
 }

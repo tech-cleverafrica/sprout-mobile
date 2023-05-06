@@ -29,4 +29,12 @@ class SharedRepositoryImpl implements SharedRepository {
       e.printError();
     }
   }
+
+  addNotificationID(requestBody) async {
+    try {
+      return await api.dio.post(notificationUrl, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    }
+  }
 }

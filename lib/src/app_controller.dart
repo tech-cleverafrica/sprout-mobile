@@ -46,26 +46,29 @@ class AppController extends GetxController {
   }
 
   void startTimer() async {
-    print("STARTED");
-    checkTimerLogic();
     bool isLoggedIn = await preferenceRepository.getBooleanPref(IS_LOGGED_IN);
-    // String? expiresTime = await repository.getInSharedPreference(expiresIn);
-    // DateTime tokenExpiryTime = dateUtil.customDateTimeParser(expiresTime!);
-    // DateTime tokenExpiryTimeMinusOneMinute =
-    //     tokenExpiryTime.subtract(Duration(minutes: 1));
-    // debugPrint(" it will expire in$expiresIn");
-    // debugPrint("$tokenExpiryTime");
-    // debugPrint("$tokenExpiryTimeMinusOneMinute");
-    // if (isLoggedIn && DateTime.now().isAfter(tokenExpiryTimeMinusOneMinute)) {
-    //   String? accessToken =
-    //       await repository.getInSharedPreference(accessTokenKey);
-    //   authService.refreshUserToken();
-    // } else {
-    //   checkTimerLogic();
-    // }
+    if (isLoggedIn) {
+      print("STARTED");
+      checkTimerLogic();
+      // String? expiresTime = await repository.getInSharedPreference(expiresIn);
+      // DateTime tokenExpiryTime = dateUtil.customDateTimeParser(expiresTime!);
+      // DateTime tokenExpiryTimeMinusOneMinute =
+      //     tokenExpiryTime.subtract(Duration(minutes: 1));
+      // debugPrint(" it will expire in$expiresIn");
+      // debugPrint("$tokenExpiryTime");
+      // debugPrint("$tokenExpiryTimeMinusOneMinute");
+      // if (isLoggedIn && DateTime.now().isAfter(tokenExpiryTimeMinusOneMinute)) {
+      //   String? accessToken =
+      //       await repository.getInSharedPreference(accessTokenKey);
+      //   authService.refreshUserToken();
+      // } else {
+      //   checkTimerLogic();
+      // }
 
-    // idleness logout after 5mins
-    _timer = Timer(Duration(seconds: 300), logOut);
+      // idleness logout after 5mins
+      print(isLoggedIn);
+      _timer = Timer(Duration(seconds: 300), logOut);
+    }
   }
 
   logOut() async {

@@ -86,6 +86,9 @@ const String savingsSummaryUrl = "target-savings/api/v1/savings/summary";
 const String createSavingsUrl = "target-savings/api/v1/savings/create";
 const String topUpSavingsUrl = "target-savings/api/v1/savings/top-up";
 
+//notification
+const String notificationUrl = "notification/api/v1/notification/register";
+
 apiResponse(String? message, [String? responseCode]) {
   return {
     "status": false,

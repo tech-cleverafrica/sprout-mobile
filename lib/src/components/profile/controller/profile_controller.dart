@@ -4,6 +4,8 @@ import 'package:basic_utils/basic_utils.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:open_store/open_store.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/authentication/view/sign_in_screen.dart';
@@ -30,6 +32,10 @@ class ProfileController extends GetxController {
   RxBool uploadingProfilePicture = false.obs;
   RxBool isApproved = false.obs;
   RxBool inReview = false.obs;
+  RxString appName = "".obs;
+  RxString packageName = "".obs;
+  RxString version = "".obs;
+  RxString buildNumber = "".obs;
 
   @override
   void onInit() {
@@ -51,6 +57,7 @@ class ProfileController extends GetxController {
     String approvalStatus = storage.read("approvalStatus");
     isApproved.value = approvalStatus == "APPROVED" ? true : false;
     inReview.value = approvalStatus == "IN_REVIEW" ? true : false;
+    getAppInfo();
   }
 
   @override
@@ -117,5 +124,23 @@ class ProfileController extends GetxController {
 
   buildRequestModel(url) {
     return {"profilePicture": url};
+  }
+
+  rateUs() {
+    OpenStore.instance.open(
+      appStoreId: '284815942',
+      appStoreIdMacOS: '284815942',
+      // androidAppBundleId: 'com.clever.sprout',
+      androidAppBundleId: 'com.clever.clevermoni',
+    );
+  }
+
+  getAppInfo() {
+    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+      appName.value = packageInfo.appName;
+      packageName.value = packageInfo.packageName;
+      version.value = packageInfo.version;
+      buildNumber.value = packageInfo.buildNumber;
+    });
   }
 }

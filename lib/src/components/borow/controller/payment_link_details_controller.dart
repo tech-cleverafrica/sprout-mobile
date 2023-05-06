@@ -13,7 +13,6 @@ class PaymentLinkDetailsController extends GetxController {
     super.onInit();
     args = Get.arguments;
     paymentLink.value = args;
-    print(paymentLink.value!.fullName!);
     setStatus();
   }
 

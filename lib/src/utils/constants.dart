@@ -9,5 +9,4 @@ final String expiresInKey = "EXPIRES_IN";
 final String refreshTokenKey = "REFRESH_TOKEN";
 final String accessTokenKey = "ACCESS_TOKEN";
 const String NOTIFICATION_ID = "notification_id";
-const String NEW_NOTIFICATION = "new_notification";
 const String NOTIFICATIONS = "notifications";

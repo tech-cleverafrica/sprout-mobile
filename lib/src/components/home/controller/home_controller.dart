@@ -13,10 +13,15 @@ import 'package:sprout_mobile/src/components/home/model/wallet_model.dart';
 import 'package:sprout_mobile/src/components/home/service/home_service.dart';
 import 'package:sprout_mobile/src/components/save/model/savings_model.dart';
 import 'package:sprout_mobile/src/components/save/service/savings_service.dart';
+import 'package:sprout_mobile/src/public/services/shared_service.dart';
+import 'package:sprout_mobile/src/repository/preference_repository.dart';
 import 'package:sprout_mobile/src/utils/app_formatter.dart';
+import 'package:sprout_mobile/src/utils/constants.dart';
 
 class HomeController extends GetxController {
   final storage = GetStorage();
+  final PreferenceRepository preferenceRepository =
+      Get.put(PreferenceRepository());
   RxBool isInvoice = false.obs;
   final AppFormatter formatter = Get.put(AppFormatter());
 
@@ -91,6 +96,7 @@ class HomeController extends GetxController {
     getWallet();
     fetchPlans();
     getDashboardGraph();
+    addNotificationID();
     super.onInit();
   }
 
@@ -112,6 +118,23 @@ class HomeController extends GetxController {
     }
   }
 
+  addNotificationID() async {
+    String? notificationId =
+        await preferenceRepository.getStringPref(NOTIFICATION_ID);
+    String? id = jsonDecode(notificationId);
+    if (id != "" && id != null) {
+      AppResponse response = await locator
+          .get<SharedService>()
+          .addNotificationID(buildRequestModel(id));
+      if (response.statusCode == 999) {
+        AppResponse res = await locator.get<AuthService>().refreshUserToken();
+        if (res.status) {
+          addNotificationID();
+        }
+      }
+    }
+  }
+
   fetchPlans() async {
     AppResponse response = await locator.get<SavingsService>().getPlans();
     if (response.status) {
@@ -122,6 +145,12 @@ class HomeController extends GetxController {
         fetchPlans();
       }
     }
+  }
+
+  buildRequestModel(String id) {
+    return {
+      "deviceID": id,
+    };
   }
 
   computeTotal(List<Savings> savings) {

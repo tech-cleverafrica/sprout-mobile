@@ -59,7 +59,8 @@ dependencies:
   # pspdfkit_flutter: ^3.5.1
   
   device_info_plus: ^3.2.4
-
+  open_store: ^0.4.0
+  package_info_plus: ^1.4.2
 
 
 dev_dependencies:
