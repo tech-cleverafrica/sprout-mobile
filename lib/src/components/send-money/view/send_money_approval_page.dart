@@ -49,9 +49,9 @@ class SendMoneyApprovalScreen extends StatelessWidget {
               image: DecorationImage(
                   image: AssetImage("assets/images/rough_background.png"),
                   fit: BoxFit.cover)),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-            child: SingleChildScrollView(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

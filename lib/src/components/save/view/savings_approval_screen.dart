@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
-import 'package:sprout_mobile/src/components/save/model/saving_model.dart';
-import 'package:sprout_mobile/src/components/save/model/savings_model.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
@@ -28,7 +26,7 @@ class SavingsApprovalScreen extends StatelessWidget {
         onWillPop: () {
           pushUntil(
               page: BottomNav(
-            index: 0,
+            index: 1,
           ));
           return Future.value(true);
         },
@@ -45,9 +43,9 @@ class SavingsApprovalScreen extends StatelessWidget {
               image: DecorationImage(
                   image: AssetImage("assets/images/rough_background.png"),
                   fit: BoxFit.cover)),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-            child: SingleChildScrollView(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

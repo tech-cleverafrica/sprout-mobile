@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
 import 'package:sprout_mobile/src/components/invoice/controller/invoice_success_controller.dart';
-import 'package:sprout_mobile/src/components/invoice/view/invoice.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 import '../../../public/widgets/custom_button.dart';
@@ -29,7 +28,7 @@ class SuccessfulInvoice extends StatelessWidget {
         onWillPop: () {
           pushUntil(
               page: BottomNav(
-            index: 0,
+            index: 2,
           ));
           return Future.value(true);
         },

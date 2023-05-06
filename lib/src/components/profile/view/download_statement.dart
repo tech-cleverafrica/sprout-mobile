@@ -29,72 +29,69 @@ class DownloadStatementScreen extends StatelessWidget {
             },
           ),
         ),
-        body: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  getHeader(isDarkMode),
-                  addVerticalSpace(15.h),
-                  // CustomTextFormField(
-                  //     label: "Choose account",
-                  //     hintText: "Sprout Naira Account",
-                  //     enabled: false,
-                  //     fillColor: isDarkMode
-                  //         ? AppColors.inputBackgroundColor
-                  //         : AppColors.grey,
-                  //     hintTextStyle: TextStyle(
-                  //       fontWeight: FontWeight.w700,
-                  //       color: isDarkMode ? AppColors.white : AppColors.black,
-                  //     )),
-                  InkWell(
-                    onTap: () => downloadStatementController.selectStartDate(),
-                    child: Obx((() => CustomTextFormField(
-                        controller:
-                            downloadStatementController.startDateController,
-                        label: "Start date",
-                        enabled: false,
-                        hintText: downloadStatementController.startDate.value,
-                        fillColor: isDarkMode
-                            ? AppColors.inputBackgroundColor
-                            : AppColors.grey,
-                        textInputAction: TextInputAction.next,
-                        hintTextStyle:
-                            downloadStatementController.startDate.value ==
-                                    "YYYY / MM / DAY"
-                                ? null
-                                : TextStyle(
-                                    color: isDarkMode
-                                        ? AppColors.white
-                                        : AppColors.black,
-                                    fontWeight: FontWeight.w600)))),
-                  ),
-                  addHorizontalSpace(10.w),
-                  InkWell(
-                      onTap: () => downloadStatementController.selectEndDate(),
-                      child: Obx((() => CustomTextFormField(
-                          controller:
-                              downloadStatementController.endDateController,
-                          label: "End date",
-                          enabled: false,
-                          hintText: downloadStatementController.endDate.value,
-                          fillColor: isDarkMode
-                              ? AppColors.inputBackgroundColor
-                              : AppColors.grey,
-                          textInputAction: TextInputAction.next,
-                          hintTextStyle:
-                              downloadStatementController.endDate.value ==
-                                      "YYYY / MM / DAY"
-                                  ? null
-                                  : TextStyle(
-                                      color: isDarkMode
-                                          ? AppColors.white
-                                          : AppColors.black,
-                                      fontWeight: FontWeight.w600))))),
-                ],
+        body: SingleChildScrollView(
+            child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              getHeader(isDarkMode),
+              addVerticalSpace(15.h),
+              // CustomTextFormField(
+              //     label: "Choose account",
+              //     hintText: "Sprout Naira Account",
+              //     enabled: false,
+              //     fillColor: isDarkMode
+              //         ? AppColors.inputBackgroundColor
+              //         : AppColors.grey,
+              //     hintTextStyle: TextStyle(
+              //       fontWeight: FontWeight.w700,
+              //       color: isDarkMode ? AppColors.white : AppColors.black,
+              //     )),
+              InkWell(
+                onTap: () => downloadStatementController.selectStartDate(),
+                child: Obx((() => CustomTextFormField(
+                    controller: downloadStatementController.startDateController,
+                    label: "Start date",
+                    enabled: false,
+                    hintText: downloadStatementController.startDate.value,
+                    fillColor: isDarkMode
+                        ? AppColors.inputBackgroundColor
+                        : AppColors.grey,
+                    textInputAction: TextInputAction.next,
+                    hintTextStyle: downloadStatementController
+                                .startDate.value ==
+                            "YYYY / MM / DAY"
+                        ? null
+                        : TextStyle(
+                            color:
+                                isDarkMode ? AppColors.white : AppColors.black,
+                            fontWeight: FontWeight.w600)))),
               ),
-            )),
+              addHorizontalSpace(10.w),
+              InkWell(
+                  onTap: () => downloadStatementController.selectEndDate(),
+                  child: Obx((() => CustomTextFormField(
+                      controller: downloadStatementController.endDateController,
+                      label: "End date",
+                      enabled: false,
+                      hintText: downloadStatementController.endDate.value,
+                      fillColor: isDarkMode
+                          ? AppColors.inputBackgroundColor
+                          : AppColors.grey,
+                      textInputAction: TextInputAction.next,
+                      hintTextStyle:
+                          downloadStatementController.endDate.value ==
+                                  "YYYY / MM / DAY"
+                              ? null
+                              : TextStyle(
+                                  color: isDarkMode
+                                      ? AppColors.white
+                                      : AppColors.black,
+                                  fontWeight: FontWeight.w600))))),
+            ],
+          ),
+        )),
       ),
     );
   }

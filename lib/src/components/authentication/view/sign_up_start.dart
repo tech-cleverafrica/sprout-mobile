@@ -24,88 +24,91 @@ class SignUpStart extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          child: SingleChildScrollView(
+        body: SingleChildScrollView(
+          child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               child: Container(
-            height: MediaQuery.of(context).size.height * 0.9,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
+                height: MediaQuery.of(context).size.height * 0.9,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Center(
-                        child: Image.asset(
-                      isDarkMode
-                          ? AppImages.sprout_dark
-                          : AppImages.sprout_light,
-                      height: 27.h,
-                    )),
-                    addVerticalSpace(30.h),
-                    TypeCard(
-                      isDarkMode: isDarkMode,
-                      text:
-                          "I do not have a registered business name, LLC or partnership.",
-                      index: 1,
+                    Column(
+                      children: [
+                        Center(
+                            child: Image.asset(
+                          isDarkMode
+                              ? AppImages.sprout_dark
+                              : AppImages.sprout_light,
+                          height: 27.h,
+                        )),
+                        addVerticalSpace(30.h),
+                        TypeCard(
+                          isDarkMode: isDarkMode,
+                          text:
+                              "I do not have a registered business name, LLC or partnership.",
+                          index: 1,
+                        ),
+                        addVerticalSpace(10.h),
+                        TypeCard(
+                          isDarkMode: isDarkMode,
+                          text:
+                              "I do not have a registered business name, LLC or partnership.",
+                          index: 2,
+                        ),
+                        addVerticalSpace(10.h),
+                        TypeCard(
+                          isDarkMode: isDarkMode,
+                          text:
+                              "I do not have a registered business name, LLC or partnership.",
+                          index: 3,
+                        ),
+                        addVerticalSpace(10.h),
+                        TypeCard(
+                          isDarkMode: isDarkMode,
+                          text:
+                              "I do not have a registered business name, LLC or partnership.",
+                          index: 4,
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.05,
+                        ),
+                        Obx((() => signUpController.currentIndex.value != 0
+                            ? DecisionButton(
+                                isDarkMode: isDarkMode,
+                                buttonText: "Continue",
+                                onTap: (() =>
+                                    Get.to(() => SignupPersonalScreen())))
+                            : SizedBox())),
+                      ],
                     ),
-                    addVerticalSpace(10.h),
-                    TypeCard(
-                      isDarkMode: isDarkMode,
-                      text:
-                          "I do not have a registered business name, LLC or partnership.",
-                      index: 2,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Already have an account?",
+                          style: TextStyle(
+                              fontFamily: "Mont",
+                              fontSize: 13.sp,
+                              color: isDarkMode
+                                  ? AppColors.white
+                                  : AppColors.black,
+                              fontWeight: FontWeight.w700),
+                        ),
+                        addHorizontalSpace(10.w),
+                        Container(
+                            width: 130,
+                            child: CustomButton(
+                              title: "Login",
+                              onTap: () {
+                                Get.to(() => SignInScreen());
+                              },
+                            ))
+                      ],
                     ),
-                    addVerticalSpace(10.h),
-                    TypeCard(
-                      isDarkMode: isDarkMode,
-                      text:
-                          "I do not have a registered business name, LLC or partnership.",
-                      index: 3,
-                    ),
-                    addVerticalSpace(10.h),
-                    TypeCard(
-                      isDarkMode: isDarkMode,
-                      text:
-                          "I do not have a registered business name, LLC or partnership.",
-                      index: 4,
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.05,
-                    ),
-                    Obx((() => signUpController.currentIndex.value != 0
-                        ? DecisionButton(
-                            isDarkMode: isDarkMode,
-                            buttonText: "Continue",
-                            onTap: (() => Get.to(() => SignupPersonalScreen())))
-                        : SizedBox())),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Already have an account?",
-                      style: TextStyle(
-                          fontFamily: "Mont",
-                          fontSize: 13.sp,
-                          color: isDarkMode ? AppColors.white : AppColors.black,
-                          fontWeight: FontWeight.w700),
-                    ),
-                    addHorizontalSpace(10.w),
-                    Container(
-                        width: 130,
-                        child: CustomButton(
-                          title: "Login",
-                          onTap: () {
-                            Get.to(() => SignInScreen());
-                          },
-                        ))
-                  ],
-                ),
-              ],
-            ),
-          )),
+              )),
         ),
       ),
     );

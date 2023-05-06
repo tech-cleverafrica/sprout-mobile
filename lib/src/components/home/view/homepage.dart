@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
@@ -12,6 +13,8 @@ import 'package:sprout_mobile/src/components/home/view/home_chart.dart';
 import 'package:sprout_mobile/src/components/home/view/transaction_details.dart';
 import 'package:sprout_mobile/src/components/home/view/widgets.dart';
 import 'package:sprout_mobile/src/components/notification/controller/notification_controller.dart';
+import 'package:sprout_mobile/src/components/profile/controller/profile_controller.dart';
+import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_loader.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
@@ -27,6 +30,7 @@ class HomePage extends StatelessWidget {
   late bool showInvoice = false;
   late HomeController homeController;
   late NotificationController notificationController;
+  late ProfileController profileController;
   var f = NumberFormat('#,##0.00########', 'en_Us');
   final storage = GetStorage();
 
@@ -36,8 +40,10 @@ class HomePage extends StatelessWidget {
     final theme = Theme.of(context);
     homeController = Get.put(HomeController());
     notificationController = Get.put(NotificationController());
-
+    profileController = Get.put(ProfileController());
     return SafeArea(
+        child: WillPopScope(
+      onWillPop: _onWillPop,
       child: Scaffold(
         body: RefreshIndicator(
           onRefresh: homeController.refreshData,
@@ -55,7 +61,85 @@ class HomePage extends StatelessWidget {
               ])),
         ),
       ),
-    );
+    ));
+  }
+
+  Future<bool> _onWillPop() async {
+    final isDarkMode = Theme.of(Get.context!).brightness == Brightness.dark;
+    return await showDialog(
+            context: Get.context!,
+            barrierDismissible: true,
+            builder: ((context) {
+              return Dialog(
+                backgroundColor:
+                    isDarkMode ? AppColors.blackBg : AppColors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.35,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 20),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            InkWell(
+                                onTap: () => Get.back(),
+                                child: SvgPicture.asset(
+                                  AppSvg.cancel,
+                                  height: 20,
+                                ))
+                          ],
+                        ),
+                        addVerticalSpace(25.h),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: Text(
+                            "Are you sure you want to logout?",
+                            style: TextStyle(
+                                fontFamily: "Mont",
+                                fontSize: 14.sp,
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.black,
+                                fontWeight: FontWeight.w600),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Column(
+                          children: [
+                            addVerticalSpace(30.h),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: CustomButton(
+                                title: "Yes",
+                                onTap: () {
+                                  pop();
+                                  profileController.logout();
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: CustomButton(
+                                title: "Cancel",
+                                onTap: () {
+                                  pop();
+                                },
+                                color: AppColors.red,
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            })) ??
+        false;
   }
 
   getHomeDisplay(isDarkMode, theme, context) {
