@@ -1,8 +1,11 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
-import 'package:sprout_mobile/src/api/api_constant.dart';
 import 'package:sprout_mobile/src/components/authentication/model/response_model.dart';
 import 'package:sprout_mobile/src/components/authentication/view/sign_up_create_login.dart';
 import 'package:sprout_mobile/src/components/authentication/view/sign_up_personal2.dart';
@@ -21,6 +24,7 @@ import '../../../utils/global_function.dart';
 import '../service/auth_service.dart';
 
 class SignUpController extends GetxController {
+  final storage = GetStorage();
   TextEditingController firstnameController = new TextEditingController();
   TextEditingController lastNameController = new TextEditingController();
   TextEditingController genderController = new TextEditingController();
@@ -51,6 +55,7 @@ class SignUpController extends GetxController {
   late String email;
   late String phone;
   late String password;
+  late String deviceId = '';
 
   TextEditingController otpController = new TextEditingController();
 
@@ -101,12 +106,25 @@ class SignUpController extends GetxController {
 
   @override
   void onInit() {
+    _deviceInfo();
     super.onInit();
   }
 
   @override
   void onReady() {
     super.onReady();
+  }
+
+  Future _deviceInfo() async {
+    var info = jsonDecode(storage.read("deviceInfo"));
+    if (info != null && info != "") {
+      if (Platform.isAndroid) {
+        deviceId = info['androidId'];
+      } else if (Platform.isIOS) {
+        deviceId = info['identifierForVendor'];
+      }
+    }
+    print(deviceId);
   }
 
   buildSignUpRequest() {
@@ -125,7 +143,7 @@ class SignUpController extends GetxController {
       "state": state.trim(),
       "refferalCode": referral.trim(),
       "otp": otpController.text.trim(),
-      "agentDeviceId": "767867yuj778",
+      "agentDeviceId": deviceId,
     };
   }
 
@@ -136,7 +154,11 @@ class SignUpController extends GetxController {
   }
 
   buildRequestModel() {
-    return {"username": email.trim(), "password": password.trim()};
+    return {
+      "username": email.trim(),
+      "password": password.trim(),
+      "agentDeviceId": deviceId,
+    };
   }
 
   validatePersonalDetails() {

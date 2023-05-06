@@ -1,9 +1,9 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -12,7 +12,6 @@ import 'package:sprout_mobile/src/components/authentication/model/response_model
 import 'package:sprout_mobile/src/repository/preference_repository.dart';
 import 'package:sprout_mobile/src/utils/app_images.dart';
 import 'package:sprout_mobile/src/utils/constants.dart';
-import 'package:device_information/device_information.dart';
 import '../../../api-setup/api_setup.dart';
 import '../../../api/api_response.dart';
 import '../../../app.dart';
@@ -36,7 +35,7 @@ class SignInController extends GetxController {
       SignInRequestModel.login(username: "", password: "", agentDeviceId: '');
   bool isFaceId = false;
   bool hasBiometrics = false;
-  late String platformVersion, modelName = '', manufacturer = '', deviceId = '';
+  late String deviceId = '';
 
   final PreferenceRepository preferenceRepository =
       Get.put(PreferenceRepository());
@@ -48,7 +47,7 @@ class SignInController extends GetxController {
     emailController.text =
         await preferenceRepository.getStringPref("storedMail");
     _checkBiometricType();
-    initPlatformState();
+    _deviceInfo();
     fullname.value = StringUtils.capitalize(storage.read("firstname") ?? "");
     super.onInit();
   }
@@ -78,32 +77,16 @@ class SignInController extends GetxController {
     }
   }
 
-  Future<void> initPlatformState() async {
-    // Platform messages may fail,
-    // so we use a try/catch PlatformException.
-    try {
-      platformVersion = await DeviceInformation.platformVersion;
-
-      modelName = await DeviceInformation.deviceModel;
-      manufacturer = await DeviceInformation.deviceManufacturer;
-      deviceId = await DeviceInformation.deviceIMEINumber;
-      print(modelName);
-      print(manufacturer);
-      print(deviceId);
-    } on PlatformException catch (e) {
-      platformVersion = '${e.message}';
+  Future _deviceInfo() async {
+    var info = jsonDecode(storage.read("deviceInfo"));
+    if (info != null && info != "") {
+      if (Platform.isAndroid) {
+        deviceId = info['androidId'];
+      } else if (Platform.isIOS) {
+        deviceId = info['identifierForVendor'];
+      }
     }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    // if (!mounted) return;
-
-    platformVersion = "Running on :$platformVersion";
-    modelName = "$modelName-$manufacturer";
-    manufacturer = manufacturer;
-    log("Model Name is :::$modelName");
-    log("Device name is :::$manufacturer");
+    print(deviceId);
   }
 
   Widget getBiometricIcon(bool isDark) {
@@ -176,7 +159,11 @@ class SignInController extends GetxController {
   onPasswordChanged(String? val) => signInRequestModel.password = val;
 
   buildRequestModel(username, password) {
-    return {"username": username.toString().trim(), "password": password};
+    return {
+      "username": username.toString().trim(),
+      "password": password,
+      "agentDeviceId": deviceId,
+    };
   }
 
   validate() {
