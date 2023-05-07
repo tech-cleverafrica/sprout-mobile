@@ -43,7 +43,8 @@ class SavingsScreen extends StatelessWidget {
               return Future.value(true);
             },
             child: Obx((() => savingsIncontroller.savings.isEmpty &&
-                    !savingsIncontroller.isSavingsLoading.value
+                    !savingsIncontroller.isSavingsLoading.value &&
+                    !savingsIncontroller.showMain.value
                 ? Scaffold(
                     body: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -130,7 +131,8 @@ class SavingsScreen extends StatelessWidget {
                       ),
                     ),
                   )
-                : !savingsIncontroller.isSavingsLoading.value
+                : !savingsIncontroller.isSavingsLoading.value &&
+                        savingsIncontroller.showMain.value
                     ? Scaffold(
                         body: SingleChildScrollView(
                           child: Padding(
