@@ -1,7 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:sprout_mobile/src/utils/app_colors.dart';
-import 'package:sprout_mobile/src/utils/helper_widgets.dart';
 
 class HomeChart extends StatefulWidget {
   const HomeChart(

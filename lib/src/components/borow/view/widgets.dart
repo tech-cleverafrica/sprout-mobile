@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/src/utils/nav_function.dart';
 
 import '../../../utils/app_colors.dart';
-import '../../../utils/app_svgs.dart';
-import '../../../utils/helper_widgets.dart';
 
 class CardlessFeedback extends StatelessWidget {
   CardlessFeedback({

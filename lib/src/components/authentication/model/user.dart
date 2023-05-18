@@ -1,6 +1,6 @@
 class User {
   bool? status;
-  Null? responseCode;
+  Null responseCode;
   String? message;
   Data? data;
 
@@ -40,7 +40,7 @@ class Data {
   String? profilePicture;
   String? utilityBill;
   String? identityCard;
-  Null? roleGroup;
+  Null roleGroup;
   List<String>? roles;
   String? userType;
   String? gender;
@@ -68,7 +68,7 @@ class Data {
   String? lastLogin;
   String? aggregatorId;
   int? numberOfChangeTransactionPinAttempts;
-  Null? metaMapInfo;
+  Null metaMapInfo;
   String? fullName;
   bool? changeTransactionAttemptsExceeded;
   int? remainingChangeTransactionPinAttempts;

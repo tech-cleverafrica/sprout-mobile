@@ -72,9 +72,9 @@ class IssuesSubCategory {
   }
 
   static getList(List<dynamic>? json) {
-    List<Map<String, dynamic>> sub_category =
+    List<Map<String, dynamic>> subCategory =
         List<Map<String, dynamic>>.from(json ?? []);
-    return List.generate(sub_category.length,
-        (index) => IssuesSubCategory.fromJson(sub_category[index]));
+    return List.generate(subCategory.length,
+        (index) => IssuesSubCategory.fromJson(subCategory[index]));
   }
 }

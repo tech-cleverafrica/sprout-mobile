@@ -751,7 +751,7 @@ class PdfService {
   }
 
   static bool isNumeric(String s) {
-    if (s == null) {
+    if (s == "") {
       return false;
     }
     return double.tryParse(s) != null;

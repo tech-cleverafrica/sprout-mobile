@@ -17,8 +17,8 @@ Future<List> initBiometricAuthentication(BuildContext context) async {
     // useErrorDialogs: false,
     // stickyAuth: true
 
-    final List<BiometricType> availableBiometrics =
-        await localAuth.getAvailableBiometrics();
+    // final List<BiometricType> availableBiometrics =
+    //     await localAuth.getAvailableBiometrics();
 
     // if (availableBiometrics.isNotEmpty) {
     //   // Some biometrics are enrolled.
@@ -96,7 +96,7 @@ Future<DateTime?> showRangeDatePicker(
           ),
           textButtonTheme: TextButtonThemeData(
             style: TextButton.styleFrom(
-              primary: AppColors.mainGreen, // button text color
+              foregroundColor: AppColors.mainGreen, // button text color
             ),
           ),
         ),

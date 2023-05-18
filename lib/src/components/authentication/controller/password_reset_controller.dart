@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pw_validator/Utilities/Validator.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/src/components/authentication/view/password_reset.dart';
 import 'package:sprout_mobile/src/components/authentication/view/sign_in_screen.dart';
@@ -24,7 +23,6 @@ class PasswordResetController extends GetxController {
 
   @override
   void onReady() {
-    // TODO: implement onReady
     super.onReady();
   }
 

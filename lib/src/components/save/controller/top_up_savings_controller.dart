@@ -13,7 +13,6 @@ import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/fund-wallet/model/customer_card_model.dart';
 import 'package:sprout_mobile/src/components/fund-wallet/service/fund_wallet_service.dart';
 import 'package:sprout_mobile/src/components/save/controller/savings_details_controller.dart';
-import 'package:sprout_mobile/src/components/save/model/savings_model.dart';
 import 'package:sprout_mobile/src/components/save/service/savings_service.dart';
 import 'package:sprout_mobile/src/components/save/view/savings_approval_screen.dart';
 import 'package:sprout_mobile/src/environment.dart';

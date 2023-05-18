@@ -11,7 +11,6 @@ import '../../utils/app_images.dart';
 import '../../utils/app_svgs.dart';
 import '../../utils/helper_widgets.dart';
 import '../widgets/custom_button.dart';
-import 'package:get/get.dart';
 
 class ApprovalScreen extends StatelessWidget {
   const ApprovalScreen({

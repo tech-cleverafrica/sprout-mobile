@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/save/controller/create_savings_controller.dart';
-import 'package:sprout_mobile/src/components/save/model/saving_model.dart';
 import 'package:sprout_mobile/src/components/save/model/savings_summary_model.dart';
 import 'package:sprout_mobile/src/components/save/service/savings_service.dart';
 import 'package:sprout_mobile/src/components/save/view/savings_approval_screen.dart';
@@ -46,7 +45,6 @@ class SavingsSummaryController extends GetxController {
     AppResponse<dynamic> response =
         await locator.get<SavingsService>().createSavings(requestBody);
     if (response.status) {
-      Saving saving = Saving.fromJson(response.data);
       pushUntil(
           page: SavingsApprovalScreen(
         message: "You have successfully saved money for " +

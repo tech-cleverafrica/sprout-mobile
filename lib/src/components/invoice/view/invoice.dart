@@ -413,7 +413,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
       );
     } else {
       return ListView.builder(
-          itemCount: invoiceIncontroller.invoiceCustomer.value.length,
+          itemCount: invoiceIncontroller.invoiceCustomer.length,
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
@@ -436,7 +436,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                             width: 80.w,
                             child: Text(
                               invoiceIncontroller
-                                  .invoiceCustomer.value[index].fullName!,
+                                  .invoiceCustomer[index].fullName!,
                               style: TextStyle(
                                   fontFamily: "Mont",
                                   fontWeight: FontWeight.w700,
@@ -451,8 +451,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                           Container(
                             width: 80.w,
                             child: Text(
-                              invoiceIncontroller
-                                  .invoiceCustomer.value[index].phone!,
+                              invoiceIncontroller.invoiceCustomer[index].phone!,
                               style: TextStyle(
                                   fontFamily: "Mont",
                                   fontWeight: FontWeight.w500,
@@ -467,8 +466,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                           Container(
                             width: 100.w,
                             child: Text(
-                              invoiceIncontroller
-                                  .invoiceCustomer.value[index].email!,
+                              invoiceIncontroller.invoiceCustomer[index].email!,
                               style: TextStyle(
                                 fontFamily: "Mont",
                                 fontWeight: FontWeight.w700,
@@ -551,7 +549,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
       );
     } else {
       return ListView.builder(
-          itemCount: invoiceIncontroller.invoice.value.length,
+          itemCount: invoiceIncontroller.invoice.length,
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {

@@ -291,10 +291,6 @@ class _OTPScreenState extends State<OTPScreen> {
     else if (pinIndex < 4) pinIndex++;
     setPin(pinIndex, text);
     currentPin[pinIndex - 1] = text;
-    String strPin = "";
-    currentPin.forEach((e) {
-      strPin += e;
-    });
     if (pinIndex == 4) {
       log(":::::::::: navigation here");
     }

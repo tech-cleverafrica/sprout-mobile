@@ -44,27 +44,27 @@ class InvoiceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String? sType;
-    Color? sColor;
+    // Color? sColor;
     Color? sBg;
     switch (status) {
       case "NOT_PAID":
         sType = "Not Paid";
-        sColor = AppColors.errorRed;
+        // sColor = AppColors.errorRed;
         sBg = Color(0xFFF5B7B1);
         break;
       case "PARTIAL_PAYMENT":
         sType = "Partial Payment";
-        sColor = AppColors.orangeWarning;
+        // sColor = AppColors.orangeWarning;
         sBg = Color(0xFFFFFD580);
         break;
       case "PAID":
         sType = "Paid";
-        sColor = AppColors.mainGreen;
+        // sColor = AppColors.mainGreen;
         sBg = Color(0xFF90EE90);
         break;
       default:
         sType = "Not Paid";
-        sColor = AppColors.errorRed;
+        // sColor = AppColors.errorRed;
         sBg = Color(0xFFF5B7B1);
     }
 

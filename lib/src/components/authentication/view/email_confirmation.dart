@@ -20,7 +20,6 @@ class EmailConfirmation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     passwordResetController = Get.put(PasswordResetController());
-    final theme = Theme.of(context);
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
       child: Scaffold(

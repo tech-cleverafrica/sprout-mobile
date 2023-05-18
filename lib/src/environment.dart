@@ -1,3 +1,5 @@
+/// This takes care of the environment variables based on where the app is pointing to
+
 class Environment {
   static const environment = String.fromEnvironment(
     'ENVIRONMENT',
