@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -57,6 +59,8 @@ class SendMoneyController extends GetxController {
   late MoneyMaskedTextController amountController =
       new MoneyMaskedTextController(
           initialValue: 0, decimalSeparator: ".", thousandSeparator: ",");
+
+  Timer? debounce;
 
   @override
   void onInit() {
@@ -329,11 +333,15 @@ class SendMoneyController extends GetxController {
   }
 
   filterBanks(String value) {
-    bankList.value = value == ""
-        ? baseBankList
-        : baseBankList
-            .where((i) => i!.toLowerCase().contains(value.toLowerCase()))
-            .toList();
+    if (debounce?.isActive ?? false) debounce?.cancel();
+    debounce = Timer(const Duration(milliseconds: 1000), () {
+      bankList.value = value == ""
+          ? baseBankList
+          : baseBankList
+              .where((i) => i!.toLowerCase().contains(value.toLowerCase()))
+              .toList();
+      FocusScope.of(Get.context!).requestFocus(new FocusNode());
+    });
   }
 
   filterBeneficiaries(String value) {
@@ -433,7 +441,7 @@ class SendMoneyController extends GetxController {
                                   pop();
                                   beneficiaryBank.value = bankList[index];
                                   selectedBankCode.value = bankCode[
-                                      bankList.indexOf(beneficiaryBank.value)];
+                                      baseBankList.indexOf(bankList[index])];
                                   canResolve.value = true;
                                   showBeneficiary.value = false;
                                   newBeneficiaryName.value = "";

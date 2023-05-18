@@ -28,7 +28,7 @@ class SuccessfulInvoice extends StatelessWidget {
         onWillPop: () {
           pushUntil(
               page: BottomNav(
-            index: 2,
+            index: 1,
           ));
           return Future.value(true);
         },
@@ -114,7 +114,7 @@ class SuccessfulInvoice extends StatelessWidget {
                               onTap: () {
                                 pushUntil(
                                     page: BottomNav(
-                                  index: 2,
+                                  index: 1,
                                 ));
                               }),
                         ),

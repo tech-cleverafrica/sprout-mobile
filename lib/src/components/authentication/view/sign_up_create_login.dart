@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -99,18 +100,25 @@ class _SignUpCreateLoginState extends State<SignUpCreateLogin> {
                 CustomTextFormField(
                   controller: signUpController.phoneController,
                   label: "Phone Number",
+                  hintText: "Enter Phone Number",
+                  maxLength: 11,
+                  showCounterText: false,
+                  maxLengthEnforced: true,
                   fillColor: isDarkMode
                       ? AppColors.inputBackgroundColor
                       : AppColors.grey,
-                  hintText: "Enter Phone Number",
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'^[0-9]*$'))
+                  ],
+                  textInputAction: TextInputAction.next,
+                  textInputType: TextInputType.phone,
                   validator: (value) {
                     if (value!.length == 0)
-                      return "Phone Number is required";
+                      return "Phone number is required";
                     else if (value.length < 11)
-                      return "Phone Number must be 11 digits";
+                      return "Phone number should be 11 digits";
                     return null;
                   },
-                  textInputAction: TextInputAction.next,
                 ),
                 CustomTextFormPasswordField(
                   controller: signUpController.passwordController,

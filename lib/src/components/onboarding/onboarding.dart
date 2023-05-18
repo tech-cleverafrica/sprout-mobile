@@ -131,7 +131,7 @@ class _OnboardingState extends State<Onboarding> {
                           Container(
                             width: 271.w,
                             child: Text(
-                                "Send money, request money pay bills seamlessly",
+                                "Send money, request money and pay bills seamlessly",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontFamily: "Mont",

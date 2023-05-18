@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:sprout_mobile/src/components/help/view/complaint.dart';
 import 'package:sprout_mobile/src/components/home/view/homepage.dart';
 import 'package:sprout_mobile/src/components/invoice/view/invoice.dart';
 import 'package:sprout_mobile/src/components/profile/view/profile.dart';
-import 'package:sprout_mobile/src/components/save/view/savings.dart';
 import 'package:sprout_mobile/src/utils/app_svgs.dart';
 
 import '../../../utils/app_colors.dart';
@@ -45,10 +45,16 @@ class _BottomNavState extends State<BottomNav> {
 
   List bottomNavPages = [
     HomePage(),
-    SavingsScreen(),
     InvoiceScreen(),
+    ComplaintScreen(),
     ProfileScreen()
   ];
+  // List bottomNavPages = [
+  //   HomePage(),
+  //   SavingsScreen(),
+  //   InvoiceScreen(),
+  //   ProfileScreen()
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -70,14 +76,24 @@ class _BottomNavState extends State<BottomNav> {
               children: <Widget>[
                 buildMaterialButton(
                     "Home", AppSvg.home, AppSvg.home_filled, 0, isDarkMode),
-                // buildMaterialButton("Cards", AppSvg.cards, AppSvg.cards, 1),
                 buildMaterialButton(
-                    "Savings", AppSvg.savings, AppSvg.savings, 1, isDarkMode),
+                    "Invoice", AppSvg.invoice, AppSvg.invoice, 1, isDarkMode),
                 buildMaterialButton(
-                    "Invoice", AppSvg.invoice, AppSvg.invoice, 2, isDarkMode),
+                    "Help", AppSvg.upload, AppSvg.upload, 2, isDarkMode),
                 buildMaterialButton(
                     "Manage", AppSvg.profile, AppSvg.profile, 3, isDarkMode),
               ],
+              // children: <Widget>[
+              //   buildMaterialButton(
+              //       "Home", AppSvg.home, AppSvg.home_filled, 0, isDarkMode),
+              //   // buildMaterialButton("Cards", AppSvg.cards, AppSvg.cards, 1),
+              //   buildMaterialButton(
+              //       "Savings", AppSvg.savings, AppSvg.savings, 1, isDarkMode),
+              //   buildMaterialButton(
+              //       "Invoice", AppSvg.invoice, AppSvg.invoice, 2, isDarkMode),
+              //   buildMaterialButton(
+              //       "Manage", AppSvg.profile, AppSvg.profile, 3, isDarkMode),
+              // ],
             ),
           ),
         ),

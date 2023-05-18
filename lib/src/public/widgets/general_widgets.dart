@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:sprout_mobile/src/components/help/view/complaint.dart';
 import 'package:sprout_mobile/src/components/home/controller/home_controller.dart';
 import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
 import 'package:sprout_mobile/src/components/invoice/view/invoice.dart';
@@ -83,18 +82,18 @@ getHeader(bool isDarkMode, {hideHelp = false, hideNotification = false}) {
         ),
         Row(
           children: [
-            !hideHelp
-                ? InkWell(
-                    onTap: () => Get.to(() => ComplaintScreen()),
-                    child: SvgPicture.asset(
-                      AppSvg.upload,
-                      height: 18,
-                      color: isDarkMode ? AppColors.white : AppColors.black,
-                    ))
-                : SizedBox(),
-            !hideHelp && !hideNotification
-                ? addHorizontalSpace(24.w)
-                : SizedBox(),
+            // !hideHelp
+            //     ? InkWell(
+            //         onTap: () => Get.to(() => ComplaintScreen()),
+            //         child: SvgPicture.asset(
+            //           AppSvg.upload,
+            //           height: 18,
+            //           color: isDarkMode ? AppColors.white : AppColors.black,
+            //         ))
+            //     : SizedBox(),
+            // !hideHelp && !hideNotification
+            //     ? addHorizontalSpace(24.w)
+            //     : SizedBox(),
             !hideNotification
                 ? InkWell(
                     onTap: () => Get.to(() => NotificationScreen()),

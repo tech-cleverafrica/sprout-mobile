@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sprout_mobile/src/components/help/controller/help_controller.dart';
 import 'package:sprout_mobile/src/components/help/model/issues_model.dart';
 import 'package:sprout_mobile/src/components/help/model/issues_sub_category_model.dart';
+import 'package:sprout_mobile/src/components/home/view/bottom_nav.dart';
 import 'package:sprout_mobile/src/public/screens/contact_us.dart';
 import 'package:sprout_mobile/src/components/help/view/complaint_tab.dart';
 import 'package:sprout_mobile/src/components/help/view/dispense_error.dart';
@@ -30,6 +31,14 @@ class ComplaintScreen extends StatelessWidget {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     helpController = Get.put(HelpController());
     return SafeArea(
+        child: WillPopScope(
+      onWillPop: () {
+        pushUntil(
+            page: BottomNav(
+          index: 0,
+        ));
+        return Future.value(true);
+      },
       child: Scaffold(
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
@@ -41,7 +50,7 @@ class ComplaintScreen extends StatelessWidget {
               addVerticalSpace(16.h),
               Container(
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.8,
+                height: MediaQuery.of(context).size.height * 0.75,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -381,7 +390,7 @@ class ComplaintScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ));
   }
 
   void reopenedCallback(Issues issue, BuildContext context) {

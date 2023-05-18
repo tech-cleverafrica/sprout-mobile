@@ -283,7 +283,7 @@ class SubmitComplaintScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                                "POS Withdrawal: Decline Transactions but the caardholder is debited",
+                                "POS Withdrawal: Decline Transactions but the cardholder is debited",
                                 style: Theme.of(context).textTheme.headline6),
                             addVerticalSpace(15.h),
                             Text("Please follow the steps below",

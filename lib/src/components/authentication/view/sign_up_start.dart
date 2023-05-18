@@ -53,21 +53,20 @@ class SignUpStart extends StatelessWidget {
                         TypeCard(
                           isDarkMode: isDarkMode,
                           text:
-                              "I do not have a registered business name, LLC or partnership.",
+                              "I run a business, but do not need a current business account.",
                           index: 2,
                         ),
                         addVerticalSpace(10.h),
                         TypeCard(
                           isDarkMode: isDarkMode,
-                          text:
-                              "I do not have a registered business name, LLC or partnership.",
+                          text: "I have a registered business name.",
                           index: 3,
                         ),
                         addVerticalSpace(10.h),
                         TypeCard(
                           isDarkMode: isDarkMode,
                           text:
-                              "I do not have a registered business name, LLC or partnership.",
+                              "I have a limited liability company or partnership.",
                           index: 4,
                         ),
                         SizedBox(
@@ -169,12 +168,13 @@ class TypeCard extends StatelessWidget {
                   ),
                   addHorizontalSpace(11.5.w),
                   Container(
-                    width: 180.w,
+                    width: MediaQuery.of(context).size.width * .65,
                     child: Text(
                       text,
                       style: TextStyle(
                           fontFamily: "Mont",
                           fontSize: 13.sp,
+                          height: 2,
                           color: index != signUpController.currentIndex.value
                               ? isDarkMode
                                   ? AppColors.grey
