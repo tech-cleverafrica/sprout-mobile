@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/src/api-setup/api_setup.dart';
 import 'package:sprout_mobile/src/api/api_response.dart';
 import 'package:sprout_mobile/src/components/help/service/help_service.dart';
@@ -14,7 +13,7 @@ import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart'
 import 'package:sprout_mobile/src/utils/app_colors.dart';
 
 class PendingIssuesController extends GetxController {
-  final storage = GetStorage();
+  // final storage = GetStorage();
   TextEditingController descriptionController = new TextEditingController();
   Issues? args;
   Rxn issue = Rxn<Issues>();
@@ -30,7 +29,7 @@ class PendingIssuesController extends GetxController {
     setDescription(issue.value);
     addFiles(issue.value);
     super.onInit();
-    storage.remove("removeAll");
+    // storage.remove("removeAll");
   }
 
   @override
@@ -41,7 +40,7 @@ class PendingIssuesController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    storage.write('removeAll', "1");
+    // storage.write('removeAll', "1");
   }
 
   void setDescription(Issues issue) {

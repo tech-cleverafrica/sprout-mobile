@@ -25,7 +25,7 @@ class ResolvedIssuesController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    storage.remove("removeAll");
+    // storage.remove("removeAll");
   }
 
   @override
@@ -36,7 +36,7 @@ class ResolvedIssuesController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    storage.write('removeAll', "1");
+    // storage.write('removeAll', "1");
   }
 
   void setDescription(Issues issue) {

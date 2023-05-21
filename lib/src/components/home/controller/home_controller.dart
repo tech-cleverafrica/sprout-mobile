@@ -94,7 +94,7 @@ class HomeController extends GetxController {
     inReview.value = approvalStatus == "IN_REVIEW" ? true : false;
     loadTransactions();
     getWallet();
-    // fetchPlans();
+    fetchPlans();
     getDashboardGraph();
     addNotificationID();
     super.onInit();

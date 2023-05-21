@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:sprout_mobile/src/components/help/view/complaint.dart';
 import 'package:sprout_mobile/src/components/notification/view/notification.dart';
 import 'package:sprout_mobile/src/public/widgets/custom_toast_notification.dart';
 
@@ -55,16 +56,16 @@ getHomeHeader(bool isDarkMode, abbreviation, int size) {
         ),
         Row(
           children: [
-            // InkWell(
-            //   onTap: () => Get.to(() => ComplaintScreen()),
-            //   child: SvgPicture.asset(
-            //     AppSvg.upload,
-            //     height: 18,
-            //     width: 20,
-            //     color: isDarkMode ? AppColors.white : AppColors.black,
-            //   ),
-            // ),
-            // addHorizontalSpace(24.w),
+            InkWell(
+              onTap: () => Get.to(() => ComplaintScreen()),
+              child: SvgPicture.asset(
+                AppSvg.upload,
+                height: 18,
+                width: 20,
+                color: isDarkMode ? AppColors.white : AppColors.black,
+              ),
+            ),
+            addHorizontalSpace(24.w),
             InkWell(
                 onTap: () => Get.to(() => NotificationScreen()),
                 child: size == 0
@@ -596,8 +597,8 @@ class BalanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.89,
-      // width: 279.w,
+      // width: MediaQuery.of(context).size.width * 0.89,
+      width: 279.w,
       decoration: BoxDecoration(
           color: isDarkMode ? AppColors.balanceCardDark : AppColors.card,
           borderRadius: BorderRadius.circular(14)),

@@ -43,7 +43,7 @@ class PostComplaintController extends GetxController {
   void onInit() {
     super.onInit();
     file = null;
-    storage.remove("removeAll");
+    // storage.remove("removeAll");
   }
 
   @override
@@ -54,7 +54,7 @@ class PostComplaintController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    storage.write('removeAll', "1");
+    // storage.write('removeAll', "1");
   }
 
   void setDescription(Issues issue) {
