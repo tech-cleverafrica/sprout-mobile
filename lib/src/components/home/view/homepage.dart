@@ -711,6 +711,7 @@ class HomePage extends StatelessWidget {
                       homeController.transactions[index].type == "CASH_OUT" ||
                           homeController.transactions[index].type ==
                               "WALLET_TOP_UP",
+                  successful: true,
                   narration: homeController.transactions[index].type ==
                               "DEPOSIT" ||
                           homeController.transactions[index].type ==

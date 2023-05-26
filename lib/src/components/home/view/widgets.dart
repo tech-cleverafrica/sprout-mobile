@@ -109,6 +109,7 @@ class HistoryCard extends StatelessWidget {
     this.tfFee,
     this.commission,
     this.incoming,
+    this.successful,
     this.narration,
   }) : super(key: key);
 
@@ -121,6 +122,7 @@ class HistoryCard extends StatelessWidget {
   final num? tfFee;
   final commission;
   final bool? incoming;
+  final bool? successful;
   final String? narration;
 
   @override
@@ -171,7 +173,8 @@ class HistoryCard extends StatelessWidget {
                                       transactionType == "WALLET_TOP_UP"
                                   ? AppSvg.swap
                                   : AppSvg.send,
-                      color: incoming! ? AppColors.mainGreen : AppColors.red,
+                      color: successful! ? AppColors.mainGreen : AppColors.red,
+                      // color: incoming! ? AppColors.mainGreen : AppColors.red,
                       height: 18,
                       width: 18,
                     ),
@@ -233,7 +236,8 @@ class HistoryCard extends StatelessWidget {
                           fontFamily: "Mont",
                           fontSize: 9.sp,
                           color:
-                              incoming! ? AppColors.mainGreen : AppColors.red,
+                              successful! ? AppColors.mainGreen : AppColors.red,
+                          // color: incoming! ? AppColors.mainGreen : AppColors.red,
                           fontWeight: FontWeight.w500),
                     ),
                     addVerticalSpace(5.h),
@@ -523,13 +527,25 @@ class itemOptions extends StatelessWidget {
             InkWell(
               onTap: onTap,
               child: Container(
-                decoration: BoxDecoration(shape: BoxShape.circle, color: color),
-                child: Padding(
-                  padding: const EdgeInsets.all(25.0),
+                // decoration: BoxDecoration(shape: BoxShape.circle, color: color),
+                decoration: BoxDecoration(
+                    color: color, borderRadius: BorderRadius.circular(12)),
+                child: Container(
+                  height: 60.h,
+                  width: 60.w,
                   child: SvgPicture.asset(svg,
-                      height: 20.h, width: 20.w, color: iconColor),
+                      height: 20.h,
+                      width: 20.w,
+                      color: iconColor,
+                      fit: BoxFit.scaleDown),
                   // color: isDark ? AppColors.white : AppColors.black),
                 ),
+                // child: Padding(
+                //   padding: const EdgeInsets.all(25.0),
+                //   child: SvgPicture.asset(svg,
+                //       height: 20.h, width: 20.w, color: iconColor),
+                //   // color: isDark ? AppColors.white : AppColors.black),
+                // ),
               ),
             ),
             addVerticalSpace(4.h),

@@ -587,7 +587,7 @@ class ResolvedIssueScreen extends StatelessWidget {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5),
                               ),
-                              backgroundColor: AppColors.successGreen,
+                              backgroundColor: AppColors.mainGreen,
                               padding: EdgeInsets.symmetric(vertical: 10),
                             ),
                             onPressed: () => {

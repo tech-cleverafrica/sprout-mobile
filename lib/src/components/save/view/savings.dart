@@ -131,8 +131,10 @@ class SavingsScreen extends StatelessWidget {
                       ),
                     ),
                   )
-                : !savingsIncontroller.isSavingsLoading.value &&
-                        savingsIncontroller.showMain.value
+                : ((!savingsIncontroller.isSavingsLoading.value &&
+                            savingsIncontroller.showMain.value) ||
+                        (!savingsIncontroller.isSavingsLoading.value &&
+                            savingsIncontroller.savings.isNotEmpty))
                     ? Scaffold(
                         body: SingleChildScrollView(
                           child: Padding(

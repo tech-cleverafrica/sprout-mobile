@@ -210,6 +210,8 @@ class AlltransactionScreen extends StatelessWidget {
                                                 "CASH_OUT" ||
                                             trxCtrl.transactions[index].type ==
                                                 "WALLET_TOP_UP",
+                                        successful:
+                                            trxCtrl.status == 'successful',
                                         narration: trxCtrl.transactions[index]
                                                         .type ==
                                                     "DEPOSIT" ||
