@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:sprout_mobile/src/api-setup/api_setup.dart';
-import 'package:sprout_mobile/src/app.dart';
+import 'package:sprout_mobile/api-setup/api_setup.dart';
+import 'package:sprout_mobile/app.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
