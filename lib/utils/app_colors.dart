@@ -7,7 +7,8 @@ class AppColors {
   static const Color semi_white = Color(0xFFFDFDFD);
   static const Color black = Color(0xFF000000);
   static const Color blackBg = Color(0xFF0D0D0D);
-  static const Color mainGreen = Color(0xFF00DAAC);
+  static const Color mainGreen = Color(0xFF10AE5A);
+  // static const Color mainGreen = Color(0xFF00DAAC);
   static const Color greyText = Color(0xFF8D8D8D);
   static const Color greyDot = Color(0xFF222222);
   static const Color grey = Color(0xFFF2F2F2);

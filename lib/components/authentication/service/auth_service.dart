@@ -156,7 +156,7 @@ class AuthService {
     int statusCode = response.statusCode ?? 000;
 
     Map<String, dynamic> responseBody = response.data;
-    if (response.data["status"]) {
+    if (response.data["responseCode"] == "00") {
       print(":::::::::$responseBody");
       return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
     }

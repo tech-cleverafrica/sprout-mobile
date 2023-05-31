@@ -475,7 +475,7 @@ class HomePage extends StatelessWidget {
                               fontSize: 12.sp,
                               color: isDarkMode
                                   ? AppColors.inputLabelColor
-                                  : AppColors.greyText,
+                                  : AppColors.inputBackgroundColor,
                               fontWeight: FontWeight.w500),
                         ),
                         InkWell(
@@ -493,7 +493,7 @@ class HomePage extends StatelessWidget {
                                 fontSize: 12.sp,
                                 color: isDarkMode
                                     ? AppColors.inputLabelColor
-                                    : AppColors.greyText,
+                                    : AppColors.inputBackgroundColor,
                                 fontWeight: FontWeight.w500),
                           ),
                         )

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -54,8 +55,15 @@ class DocumentUpload extends StatelessWidget {
                     maxLengthEnforced: true,
                     showCounterText: false,
                     required: true,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'^[0-9]*$'))
+                    ],
+                    textInputAction: TextInputAction.next,
+                    textInputType: TextInputType.phone,
                     validator: (value) {
-                      if (value?.length != 11)
+                      if (value!.length == 0)
+                        return "BVN is required";
+                      else if (value.length < 11)
                         return "BVN must be ${11} digits";
                       return null;
                     },

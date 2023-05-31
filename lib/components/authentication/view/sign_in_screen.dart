@@ -38,13 +38,13 @@ class SignInScreen extends StatelessWidget {
                 height: 30.h,
               )),
               SizedBox(
-                height: 24.h,
+                height: 64.h,
               ),
-              Center(
+              Container(
                 child: Obx((() => Text(
                       signInController.fullname.value != ""
-                          ? "Welcome Back, " + signInController.fullname.value
-                          : "Welcome Back",
+                          ? "Welcome back, " + signInController.fullname.value
+                          : "Welcome back",
                       style: TextStyle(
                           fontFamily: "Mont",
                           fontSize: 20.sp,
@@ -59,15 +59,15 @@ class SignInScreen extends StatelessWidget {
               ),
               CustomTextFormField(
                 controller: signInController.emailController,
-                label: "Enter Email Address",
-                hintText: "Your Email",
+                label: "Enter email address",
+                hintText: "Your email",
                 fillColor: isDarkMode
                     ? AppColors.inputBackgroundColor
                     : AppColors.grey,
               ),
               CustomTextFormPasswordField(
                 controller: signInController.passwordController,
-                label: "Enter Password",
+                label: "Enter password",
                 hintText: "Your password",
                 textInputAction: TextInputAction.go,
                 fillColor: isDarkMode
@@ -85,7 +85,7 @@ class SignInScreen extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.only(left: 20, bottom: 20),
                       child: Text(
-                        'Forgot Password?',
+                        'Forgot password?',
                         style: TextStyle(
                             fontFamily: "Mont",
                             fontSize: 12.sp,

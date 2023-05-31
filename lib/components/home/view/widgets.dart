@@ -201,7 +201,9 @@ class HistoryCard extends StatelessWidget {
                             style: TextStyle(
                                 fontFamily: "Mont",
                                 fontSize: 9.sp,
-                                color: AppColors.inputLabelColor,
+                                color: isDarkMode
+                                    ? AppColors.inputLabelColor
+                                    : AppColors.inputBackgroundColor,
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
@@ -213,7 +215,9 @@ class HistoryCard extends StatelessWidget {
                             style: TextStyle(
                                 fontFamily: "Mont",
                                 fontSize: 9.sp,
-                                color: AppColors.greyText,
+                                color: isDarkMode
+                                    ? AppColors.inputLabelColor
+                                    : AppColors.inputBackgroundColor,
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
@@ -252,7 +256,9 @@ class HistoryCard extends StatelessWidget {
                       style: TextStyle(
                           fontFamily: "Mont",
                           fontSize: 9.sp,
-                          color: AppColors.inputLabelColor,
+                          color: isDarkMode
+                              ? AppColors.inputLabelColor
+                              : AppColors.inputBackgroundColor,
                           fontWeight: FontWeight.w500),
                     ),
                     addVerticalSpace(5.h),
@@ -267,7 +273,9 @@ class HistoryCard extends StatelessWidget {
                       style: TextStyle(
                           fontFamily: "Mont",
                           fontSize: 9.sp,
-                          color: AppColors.inputLabelColor,
+                          color: isDarkMode
+                              ? AppColors.inputLabelColor
+                              : AppColors.inputBackgroundColor,
                           fontWeight: FontWeight.w500),
                     ),
                   ],
@@ -531,8 +539,8 @@ class itemOptions extends StatelessWidget {
                 decoration: BoxDecoration(
                     color: color, borderRadius: BorderRadius.circular(12)),
                 child: Container(
-                  height: 60.h,
-                  width: 60.w,
+                  height: 72.h,
+                  width: 72.w,
                   child: SvgPicture.asset(svg,
                       height: 20.h,
                       width: 20.w,
@@ -554,7 +562,7 @@ class itemOptions extends StatelessWidget {
               style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontFamily: "Mont",
-                  fontSize: 10.sp,
+                  fontSize: 11.sp,
                   color: isDark ? AppColors.white : AppColors.black),
             )
           ],

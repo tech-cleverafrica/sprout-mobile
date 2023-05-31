@@ -4,6 +4,7 @@ import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/components/authentication/controller/signup_controller.dart';
+import 'package:sprout_mobile/public/screens/contact_us.dart';
 import 'package:sprout_mobile/public/widgets/custom_text_form_password_field.dart';
 import 'package:sprout_mobile/public/widgets/general_widgets.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
@@ -61,11 +62,16 @@ class _SignUpCreateLoginState extends State<SignUpCreateLogin> {
                         ),
                       ),
                     ),
-                    Image.asset(
-                      AppImages.question,
-                      height: 20,
-                      color: isDarkMode ? AppColors.white : AppColors.black,
-                    ),
+                    InkWell(
+                      onTap: () {
+                        showPopUp(context, isDarkMode, theme);
+                      },
+                      child: Image.asset(
+                        AppImages.question,
+                        height: 20,
+                        color: isDarkMode ? AppColors.white : AppColors.black,
+                      ),
+                    )
                   ],
                 ),
                 addVerticalSpace(20.h),
@@ -175,6 +181,17 @@ class _SignUpCreateLoginState extends State<SignUpCreateLogin> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  showPopUp(context, isDarkMode, theme) {
+    showDialog(
+      context: (context),
+      builder: (BuildContext context) => ContactUs(
+        heading: "Contact Customer Support",
+        title: "0817-9435-965",
+        phone: "+2348179435965",
       ),
     );
   }

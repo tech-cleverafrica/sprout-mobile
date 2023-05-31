@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/components/authentication/controller/signup_controller.dart';
+import 'package:sprout_mobile/public/screens/contact_us.dart';
 
 import 'package:sprout_mobile/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/public/widgets/general_widgets.dart';
@@ -54,11 +55,16 @@ class SignupPersonalScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Image.asset(
-                    AppImages.question,
-                    height: 20,
-                    color: isDarkMode ? AppColors.white : AppColors.black,
-                  ),
+                  InkWell(
+                    onTap: () {
+                      showPopUp(context, isDarkMode, theme);
+                    },
+                    child: Image.asset(
+                      AppImages.question,
+                      height: 20,
+                      color: isDarkMode ? AppColors.white : AppColors.black,
+                    ),
+                  )
                 ],
               ),
               addVerticalSpace(20.h),
@@ -168,6 +174,17 @@ class SignupPersonalScreen extends StatelessWidget {
           ),
         ),
       )),
+    );
+  }
+
+  showPopUp(context, isDarkMode, theme) {
+    showDialog(
+      context: (context),
+      builder: (BuildContext context) => ContactUs(
+        heading: "Contact Customer Support",
+        title: "0817-9435-965",
+        phone: "+2348179435965",
+      ),
     );
   }
 }
