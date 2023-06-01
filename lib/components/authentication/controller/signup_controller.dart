@@ -314,7 +314,14 @@ class SignUpController extends GetxController {
   }
 
   selectDob() async {
-    pickedStartDate = await showRangeDatePicker();
+    pickedStartDate = await showRangeDatePicker(
+        firstDate: DateTime(DateTime.now().year - 100),
+        lastDate: pickedStartDate == null
+            ? DateTime(DateTime.now().year - 18, 12, 31)
+            : pickedStartDate,
+        initialDate: pickedStartDate == null
+            ? DateTime(DateTime.now().year - 18, 12, 31)
+            : pickedStartDate);
     if (pickedStartDate != null) {
       birthDate.value = DateFormat('yyyy-MM-dd').format(pickedStartDate!);
     }

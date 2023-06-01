@@ -97,6 +97,7 @@ class HomeController extends GetxController {
     fetchPlans();
     getDashboardGraph();
     addNotificationID();
+    storage.remove("removeAll");
     super.onInit();
   }
 

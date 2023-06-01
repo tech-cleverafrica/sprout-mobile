@@ -56,7 +56,7 @@ class ElectricityScreen extends StatelessWidget {
                             BillsCard(
                               title: billersController.billers[index].name,
                               subTitle: "Disco Payment",
-                              image: AppImages.logo_icon,
+                              image: AppImages.energy,
                               onTap: () {
                                 push(
                                     page: SelectElectricityPackageScreen(),

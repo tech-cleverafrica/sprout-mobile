@@ -57,4 +57,5 @@ class AppImages {
   static const String rateApp = path + "rate-app.png";
   static const String account_light = path + "account-light.png";
   static const String account_white = path + "account-white.png";
+  static const String energy = path + "energy.png";
 }
