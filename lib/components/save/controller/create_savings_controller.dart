@@ -280,7 +280,7 @@ class CreateSavingsController extends GetxController {
     return {
       "savingsAmount": savingsAmountController.text.split(",").join(),
       "startDate": DateTime.now().toIso8601String().split("T")[0],
-      "tenure": tenure.value!.tenure,
+      "tenure": double.parse(tenure.value!.tenure).toInt().toString(),
       "type": "LOCKED",
     };
   }
@@ -603,8 +603,9 @@ class CreateSavingsController extends GetxController {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                tenures[index]
-                                                        .tenure
+                                                double.parse(tenures[index]
+                                                            .tenure)
+                                                        .toInt()
                                                         .toString() +
                                                     " days",
                                                 style: TextStyle(

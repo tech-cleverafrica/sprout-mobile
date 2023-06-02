@@ -34,10 +34,10 @@ class SavingsRateResponse {
 
 class SavingsRate {
   var id;
-  num? tenure;
-  num? target;
-  num? locked;
-  num? fixed;
+  var tenure;
+  var target;
+  var locked;
+  var fixed;
   String? created_at;
   String? updated_at;
 
