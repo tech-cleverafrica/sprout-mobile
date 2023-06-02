@@ -53,7 +53,7 @@ class Transactions {
   double? postBalance;
   num? walletHistoryID;
   num? walletID;
-  num? walletActionAt;
+  var walletActionAt;
   String? narration;
   String? providerReference;
   String? uniqueTransactionID;

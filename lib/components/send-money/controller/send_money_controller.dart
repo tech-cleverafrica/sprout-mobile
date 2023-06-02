@@ -125,6 +125,7 @@ class SendMoneyController extends GetxController {
         : {
             "accountNumber": accountNumberController.text,
             "amount": amountController.text,
+            "bankCode": selectedBankCode.value,
             "beneficiaryBankName": beneficiaryBank.value,
             "beneficiaryName": isNewTransfer.value
                 ? newBeneficiaryName.value
@@ -578,7 +579,7 @@ class SendMoneyController extends GetxController {
                                     showSaver.value = false;
                                     isNewTransfer.value = false;
                                     selectedBankCode.value =
-                                        beneficiary[index].id!;
+                                        beneficiary[index].bankCode!;
                                     beneficiaryAccountNumber.value =
                                         beneficiary[index].accountNumber!;
                                     accountNumberController.text =

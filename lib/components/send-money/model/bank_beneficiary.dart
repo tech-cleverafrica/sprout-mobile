@@ -38,6 +38,7 @@ class Beneficiary {
   String? beneficiaryBank;
   String? beneficiaryName;
   String? accountNumber;
+  String? bankCode;
 
   Beneficiary(
       {this.id,
@@ -45,7 +46,8 @@ class Beneficiary {
       this.nickname,
       this.beneficiaryBank,
       this.beneficiaryName,
-      this.accountNumber});
+      this.accountNumber,
+      this.bankCode});
 
   Beneficiary.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -54,6 +56,7 @@ class Beneficiary {
     beneficiaryBank = json['beneficiaryBank'];
     beneficiaryName = json['beneficiaryName'];
     accountNumber = json['accountNumber'];
+    bankCode = json['bankCode'];
   }
 
   Map<String, dynamic> toJson() {
@@ -64,6 +67,7 @@ class Beneficiary {
     data['beneficiaryBank'] = this.beneficiaryBank;
     data['beneficiaryName'] = this.beneficiaryName;
     data['accountNumber'] = this.accountNumber;
+    data['bankCode'] = this.bankCode;
     return data;
   }
 

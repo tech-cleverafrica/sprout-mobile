@@ -38,6 +38,8 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
     initialize(context);
+    SharedPreferences.getInstance().then((prefs) => {prefs.reload()});
+    notificationController.getNotifications();
   }
 
   @override

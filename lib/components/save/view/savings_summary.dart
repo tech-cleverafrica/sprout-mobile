@@ -98,34 +98,134 @@ class SavingsSummaryScreen extends StatelessWidget {
                                     addVerticalSpace(20.h),
                                   ],
                                 ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Interest Rate:",
-                                style: titleStyle(),
-                              ),
-                              Text(
-                                savingsSummaryController.summary.value!.data!
-                                            .interestRate !=
-                                        null
-                                    ? savingsSummaryController
-                                            .summary.value!.data!.tenure
-                                            .toString() +
-                                        (savingsSummaryController.summary.value!
-                                                    .data!.tenure! >
-                                                1
-                                            ? " days at "
-                                            : " day at") +
-                                        savingsSummaryController
-                                            .summary.value!.data!.interestRate
-                                            .toString() +
-                                        "% per annum"
-                                    : "-",
-                                style: detailStyle(isDarkMode),
-                              )
-                            ],
-                          ),
+                          savingsSummaryController.summary.value!.data!.type ==
+                                  "TARGET"
+                              ? Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Tenure:",
+                                          style: titleStyle(),
+                                        ),
+                                        Text(
+                                          savingsSummaryController
+                                                      .summary
+                                                      .value!
+                                                      .data!
+                                                      .interestRate !=
+                                                  null
+                                              ? savingsSummaryController.summary
+                                                      .value!.data!.tenure
+                                                      .toString() +
+                                                  (savingsSummaryController
+                                                              .summary
+                                                              .value!
+                                                              .data!
+                                                              .tenure! >
+                                                          1
+                                                      ? " days"
+                                                      : " day")
+                                              : "-",
+                                          style: detailStyle(isDarkMode),
+                                        )
+                                      ],
+                                    ),
+                                    addVerticalSpace(20.h),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Interest Rate:",
+                                          style: titleStyle(),
+                                        ),
+                                        Text(
+                                          savingsSummaryController
+                                                      .summary
+                                                      .value!
+                                                      .data!
+                                                      .interestRate !=
+                                                  null
+                                              ? savingsSummaryController
+                                                      .summary
+                                                      .value!
+                                                      .data!
+                                                      .interestRate!
+                                                      .toString() +
+                                                  "% per annum"
+                                              : "-",
+                                          style: detailStyle(isDarkMode),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                )
+                              : Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Tenure:",
+                                          style: titleStyle(),
+                                        ),
+                                        Text(
+                                          savingsSummaryController
+                                                      .summary
+                                                      .value!
+                                                      .data!
+                                                      .interestRate !=
+                                                  null
+                                              ? savingsSummaryController.summary
+                                                      .value!.data!.tenure
+                                                      .toString() +
+                                                  (savingsSummaryController
+                                                              .summary
+                                                              .value!
+                                                              .data!
+                                                              .tenure! >
+                                                          1
+                                                      ? " days"
+                                                      : " day")
+                                              : "-",
+                                          style: detailStyle(isDarkMode),
+                                        )
+                                      ],
+                                    ),
+                                    addVerticalSpace(20.h),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Interest Rate:",
+                                          style: titleStyle(),
+                                        ),
+                                        Text(
+                                          savingsSummaryController
+                                                      .summary
+                                                      .value!
+                                                      .data!
+                                                      .interestRate !=
+                                                  null
+                                              ? savingsSummaryController
+                                                      .summary
+                                                      .value!
+                                                      .data!
+                                                      .interestRate!
+                                                      .toString() +
+                                                  "% per annum"
+                                              : "-",
+                                          style: detailStyle(isDarkMode),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
                           addVerticalSpace(20.h),
                           Column(
                             children: [
@@ -224,7 +324,7 @@ class SavingsSummaryScreen extends StatelessWidget {
                       }))),
                   Expanded(
                       child: Text(
-                          "By checking this box, I agree that I have read and understood the terms and conditions set forth in. Read more",
+                          "By checking this box, I agree that I have read and understood the terms and conditions and consent to the indemnity agreement.",
                           style: TextStyle(
                               fontFamily: "Mont",
                               fontSize: 12.sp,

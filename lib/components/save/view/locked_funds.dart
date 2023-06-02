@@ -82,7 +82,9 @@ class LockedFundsScreen extends StatelessWidget {
                         label: "How long do you want to save for?",
                         hintText: createSavingsController.tenure.value == null
                             ? "Select Tenure"
-                            : createSavingsController.tenure.value["name"],
+                            : createSavingsController.tenure.value!.tenure
+                                    .toString() +
+                                " days",
                         enabled: false,
                         fillColor: isDarkMode
                             ? AppColors.inputBackgroundColor

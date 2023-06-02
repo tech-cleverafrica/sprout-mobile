@@ -12,6 +12,7 @@ import 'package:sprout_mobile/api-setup/api_setup.dart';
 import 'package:sprout_mobile/api/api_response.dart';
 import 'package:sprout_mobile/components/fund-wallet/model/customer_card_model.dart';
 import 'package:sprout_mobile/components/fund-wallet/service/fund_wallet_service.dart';
+import 'package:sprout_mobile/components/save/model/savings_rate_model.dart';
 import 'package:sprout_mobile/components/save/model/savings_summary_model.dart';
 import 'package:sprout_mobile/components/save/service/savings_service.dart';
 import 'package:sprout_mobile/components/save/view/savings_summary.dart';
@@ -47,15 +48,8 @@ class CreateSavingsController extends GetxController {
   RxString frequency = "".obs;
   RxList<String> paymentTypes = <String>['WALLET', 'CARD'].obs;
   RxString paymentType = "".obs;
-  RxList<dynamic> tenures = <dynamic>[
-    {"name": '30 days', "value": 30},
-    {"name": '60 days', "value": 60},
-    {"name": '90 days', "value": 90},
-    {"name": '180 days', "value": 180},
-    {"name": '270 days', "value": 270},
-    {"name": '360 days', "value": 360},
-  ].obs;
-  var tenure = Rxn<dynamic>();
+  RxList<SavingsRate> tenures = <SavingsRate>[].obs;
+  var tenure = Rxn<SavingsRate>();
   RxList<CustomerCard> cards = <CustomerCard>[].obs;
   var card = Rxn<CustomerCard>();
   var cardData;
@@ -93,10 +87,25 @@ class CreateSavingsController extends GetxController {
       );
       cards.assignAll(response.data!);
       cards.insert(0, none);
+      getRateOptions();
     } else if (response.statusCode == 999) {
       AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
         getCards();
+      }
+    }
+  }
+
+  getRateOptions() async {
+    CustomLoader.show();
+    AppResponse response = await locator.get<SavingsService>().getRateOptions();
+    CustomLoader.dismiss();
+    if (response.status) {
+      tenures.assignAll(response.data!);
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        getRateOptions();
       }
     }
   }
@@ -271,7 +280,7 @@ class CreateSavingsController extends GetxController {
     return {
       "savingsAmount": savingsAmountController.text.split(",").join(),
       "startDate": DateTime.now().toIso8601String().split("T")[0],
-      "tenure": tenure.value["value"],
+      "tenure": tenure.value!.tenure,
       "type": "LOCKED",
     };
   }
@@ -594,16 +603,18 @@ class CreateSavingsController extends GetxController {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                tenures[index]["name"],
+                                                tenures[index]
+                                                        .tenure
+                                                        .toString() +
+                                                    " days",
                                                 style: TextStyle(
                                                     fontFamily: "Mont",
                                                     fontSize: 12.sp,
                                                     fontWeight: tenure.value !=
                                                                 null &&
-                                                            tenure.value[
-                                                                    "name"] ==
+                                                            tenure.value!.id ==
                                                                 tenures[index]
-                                                                    ["name"]
+                                                                    .id
                                                         ? FontWeight.w700
                                                         : FontWeight.w600,
                                                     color: isDarkMode
@@ -611,11 +622,24 @@ class CreateSavingsController extends GetxController {
                                                         : AppColors
                                                             .primaryColor),
                                               ),
+                                              Text(
+                                                tenures[index]
+                                                        .locked
+                                                        .toString() +
+                                                    "% per annum",
+                                                style: TextStyle(
+                                                    fontFamily: "Mont",
+                                                    fontSize: 10.sp,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: isDarkMode
+                                                        ? AppColors.white
+                                                        : AppColors.black),
+                                              )
                                             ],
                                           ),
                                           tenure.value != null &&
-                                                  tenure.value['name'] ==
-                                                      tenures[index]['name']
+                                                  tenure.value!.id ==
+                                                      tenures[index].id
                                               ? SvgPicture.asset(
                                                   AppSvg.mark_green,
                                                   height: 20,
