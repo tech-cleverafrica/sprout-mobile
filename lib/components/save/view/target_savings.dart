@@ -155,7 +155,10 @@ class TargetSavingsScreen extends StatelessWidget {
                                 : createSavingsController.card.value!.pan! +
                                     " - " +
                                     createSavingsController
-                                        .card.value!.provider!,
+                                        .card.value!.expiryMonth! +
+                                    "/" +
+                                    createSavingsController
+                                        .card.value!.expiryYear!,
                             enabled: false,
                             fillColor: isDarkMode
                                 ? AppColors.inputBackgroundColor
