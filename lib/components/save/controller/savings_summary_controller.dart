@@ -101,9 +101,7 @@ class SavingsSummaryController extends GetxController {
           .join(),
       "sourceType": createSavingsController.paymentType.value,
       "startDate": DateTime.now().toIso8601String().split("T")[0],
-      "tenure": double.parse(createSavingsController.tenure.value!.tenure)
-          .toInt()
-          .toString(),
+      "tenure": createSavingsController.tenure.value!.tenure,
       "type": "LOCKED",
       "cardToken": createSavingsController.paymentType.value == "WALLET"
           ? ""

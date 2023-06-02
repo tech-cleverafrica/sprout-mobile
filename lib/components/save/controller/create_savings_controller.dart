@@ -119,7 +119,7 @@ class CreateSavingsController extends GetxController {
         Get.to(() => SavingsSummaryScreen(), arguments: savingsSummary);
       } else {
         CustomToastNotification.show(
-            "Tenure can not be less 30 days. Please adjust Target Amount, Recurring Amount or Frequency",
+            "Tenor can not be less 30 days. Please adjust Target Amount, Recurring Amount or Frequency",
             type: ToastType.error);
       }
     } else if (response.statusCode == 999) {
@@ -280,7 +280,7 @@ class CreateSavingsController extends GetxController {
     return {
       "savingsAmount": savingsAmountController.text.split(",").join(),
       "startDate": DateTime.now().toIso8601String().split("T")[0],
-      "tenure": double.parse(tenure.value!.tenure).toInt().toString(),
+      "tenure": tenure.value!.tenure,
       "type": "LOCKED",
     };
   }
@@ -556,7 +556,7 @@ class CreateSavingsController extends GetxController {
                             padding: EdgeInsets.symmetric(
                                 vertical: 10.h, horizontal: 20.w),
                             child: Text(
-                              "Select Tenure",
+                              "Select Tenor",
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                   fontFamily: "Mont",
@@ -603,9 +603,8 @@ class CreateSavingsController extends GetxController {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                double.parse(tenures[index]
-                                                            .tenure)
-                                                        .toInt()
+                                                tenures[index]
+                                                        .tenure
                                                         .toString() +
                                                     " days",
                                                 style: TextStyle(
@@ -625,8 +624,8 @@ class CreateSavingsController extends GetxController {
                                               ),
                                               Text(
                                                 tenures[index]
-                                                        .locked
-                                                        .toString() +
+                                                        .locked!
+                                                        .toStringAsFixed(2) +
                                                     "% per annum",
                                                 style: TextStyle(
                                                     fontFamily: "Mont",

@@ -107,7 +107,7 @@ class SavingsSummaryScreen extends StatelessWidget {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "Tenure:",
+                                          "Tenor:",
                                           style: titleStyle(),
                                         ),
                                         Text(
@@ -154,7 +154,7 @@ class SavingsSummaryScreen extends StatelessWidget {
                                                       .value!
                                                       .data!
                                                       .interestRate!
-                                                      .toString() +
+                                                      .toStringAsFixed(2) +
                                                   "% per annum"
                                               : "-",
                                           style: detailStyle(isDarkMode),
@@ -170,7 +170,7 @@ class SavingsSummaryScreen extends StatelessWidget {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "Tenure:",
+                                          "Tenor:",
                                           style: titleStyle(),
                                         ),
                                         Text(
@@ -217,7 +217,7 @@ class SavingsSummaryScreen extends StatelessWidget {
                                                       .value!
                                                       .data!
                                                       .interestRate!
-                                                      .toString() +
+                                                      .toStringAsFixed(2) +
                                                   "% per annum"
                                               : "-",
                                           style: detailStyle(isDarkMode),
