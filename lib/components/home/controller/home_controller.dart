@@ -94,8 +94,6 @@ class HomeController extends GetxController {
     inReview.value = approvalStatus == "IN_REVIEW" ? true : false;
     loadTransactions();
     getWallet();
-    fetchPlans();
-    getDashboardGraph();
     addNotificationID();
     storage.remove("removeAll");
     super.onInit();
@@ -183,6 +181,7 @@ class HomeController extends GetxController {
         transactions.assignAll(transactionsResponse.data);
         storage.write(
             "transactionResponse", jsonEncode(transactionsResponse.data!));
+        getDashboardGraph();
       } else if (transactionsResponse.statusCode == 999) {
         AppResponse res = await locator.get<AuthService>().refreshUserToken();
         if (res.status) {
@@ -193,23 +192,20 @@ class HomeController extends GetxController {
   }
 
   getDashboardGraph() async {
-    if (!isApproved.value || (isApproved.value && inReview.value)) {
-      isGraphLoading.value = false;
-    } else {
-      isGraphLoading.value = true;
-      AppResponse<dynamic> response =
-          await locator.get<HomeService>().getDashboardGraph();
-      isGraphLoading.value = false;
-      if (response.status) {
-        dynamic inflowData = response.data['data']['inflow'];
-        dynamic outflowData = response.data['data']['outflow'];
-        inflowGraph.value = setGraph(inflowData, "amount");
-        outflowGraph.value = setGraph(outflowData, "amount");
-      } else if (response.statusCode == 999) {
-        AppResponse res = await locator.get<AuthService>().refreshUserToken();
-        if (res.status) {
-          getDashboardGraph();
-        }
+    isGraphLoading.value = true;
+    AppResponse<dynamic> response =
+        await locator.get<HomeService>().getDashboardGraph();
+    isGraphLoading.value = false;
+    if (response.status) {
+      dynamic inflowData = response.data['data']['inflow'];
+      dynamic outflowData = response.data['data']['outflow'];
+      inflowGraph.value = setGraph(inflowData, "amount");
+      outflowGraph.value = setGraph(outflowData, "amount");
+      fetchPlans();
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        getDashboardGraph();
       }
     }
   }

@@ -761,7 +761,11 @@ class CreateSavingsController extends GetxController {
                                               ),
                                               cards[index].id != "00"
                                                   ? Text(
-                                                      cards[index].provider!,
+                                                      cards[index]
+                                                              .expiryMonth! +
+                                                          "/" +
+                                                          cards[index]
+                                                              .expiryYear!,
                                                       style: TextStyle(
                                                           fontFamily: "Mont",
                                                           fontSize: 10.sp,
