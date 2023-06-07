@@ -492,7 +492,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy>
                               ),
                               addVerticalSpace(15.h),
                               Text(
-                                "Our website and mobile applications may contain links to other websites not subject to this Privacy Policy. When you access those websites, they may collect your personal information in accordance with their privacy and data collection policies. We are not responsible for the data collected by these third parties and you are advised to study their privacy policies before you make use of their servic",
+                                "Our website and mobile applications may contain links to other websites not subject to this Privacy Policy. When you access those websites, they may collect your personal information in accordance with their privacy and data collection policies. We are not responsible for the data collected by these third parties and you are advised to study their privacy policies before you make use of their service",
                                 style: TextStyle(
                                   color: isDarkMode
                                       ? AppColors.white

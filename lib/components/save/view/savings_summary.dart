@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -23,6 +24,7 @@ class SavingsSummaryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     savingsSummaryController = Get.put(SavingsSummaryController());
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -323,15 +325,68 @@ class SavingsSummaryScreen extends StatelessWidget {
                         savingsSummaryController.isChecked.value = val ?? false;
                       }))),
                   Expanded(
-                      child: Text(
-                          "By checking this box, I agree that I have read and understood the terms and conditions and consent to the indemnity agreement.",
-                          style: TextStyle(
+                      child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                            text:
+                                "By checking this box, I agree that I have read and understood the ",
+                            style: TextStyle(
+                                fontFamily: "Mont",
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w700,
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.black)),
+                        TextSpan(
+                            text: "terms and conditions",
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () => savingsSummaryController
+                                  .showSavingsTermsAndCondition(
+                                      context, isDarkMode, theme),
+                            style: TextStyle(
+                              color: isDarkMode
+                                  ? AppColors.mainGreen
+                                  : AppColors.primaryColor,
                               fontFamily: "Mont",
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w700,
+                            )),
+                        TextSpan(
+                            text: " and consent to the ",
+                            style: TextStyle(
+                                fontFamily: "Mont",
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w700,
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.black)),
+                        TextSpan(
+                            text: "indemnity agreement",
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () => savingsSummaryController
+                                  .showSavingsTermsAndCondition(
+                                      context, isDarkMode, theme),
+                            style: TextStyle(
                               color: isDarkMode
-                                  ? AppColors.white
-                                  : AppColors.black)))
+                                  ? AppColors.mainGreen
+                                  : AppColors.primaryColor,
+                              fontFamily: "Mont",
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w700,
+                            )),
+                        TextSpan(
+                            text: ".",
+                            style: TextStyle(
+                                fontFamily: "Mont",
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w700,
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.black)),
+                      ],
+                    ),
+                  ))
                 ],
               ),
               addVerticalSpace(34.h),

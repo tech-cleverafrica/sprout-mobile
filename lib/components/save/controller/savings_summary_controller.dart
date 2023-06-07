@@ -6,6 +6,7 @@ import 'package:sprout_mobile/components/save/controller/create_savings_controll
 import 'package:sprout_mobile/components/save/model/savings_summary_model.dart';
 import 'package:sprout_mobile/components/save/service/savings_service.dart';
 import 'package:sprout_mobile/components/save/view/savings_approval_screen.dart';
+import 'package:sprout_mobile/public/screens/savings_terms_and_condition.dart';
 import 'package:sprout_mobile/public/widgets/custom_toast_notification.dart';
 import 'package:sprout_mobile/utils/app_colors.dart';
 import 'package:sprout_mobile/utils/app_formatter.dart';
@@ -108,5 +109,12 @@ class SavingsSummaryController extends GetxController {
           : createSavingsController.card.value!.token,
       "rollover": false,
     };
+  }
+
+  showSavingsTermsAndCondition(context, isDarkMode, theme) {
+    showDialog(
+      context: (context),
+      builder: (BuildContext context) => SavingsTermsAndCondition(),
+    );
   }
 }
