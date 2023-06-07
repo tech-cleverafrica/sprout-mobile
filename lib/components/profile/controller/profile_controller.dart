@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:basic_utils/basic_utils.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,6 +11,8 @@ import 'package:sprout_mobile/api-setup/api_setup.dart';
 import 'package:sprout_mobile/api/api_response.dart';
 import 'package:sprout_mobile/components/authentication/view/sign_in_screen.dart';
 import 'package:sprout_mobile/components/profile/service/profile_service.dart';
+import 'package:sprout_mobile/public/screens/privacy_policy.dart';
+import 'package:sprout_mobile/public/screens/terms_and_condition.dart';
 import 'package:sprout_mobile/public/services/shared_service.dart';
 import 'package:sprout_mobile/public/widgets/custom_toast_notification.dart';
 import 'package:sprout_mobile/components/authentication/service/auth_service.dart';
@@ -142,5 +145,21 @@ class ProfileController extends GetxController {
       version.value = packageInfo.version;
       buildNumber.value = packageInfo.buildNumber;
     });
+  }
+
+  showTermsAndCondition(context, isDarkMode, theme) {
+    showDialog(
+      context: (context),
+      builder: (BuildContext context) => TermsAndCondition(
+        phone: "+2348179435965",
+      ),
+    );
+  }
+
+  showPrivacyPolicy(context, isDarkMode, theme) {
+    showDialog(
+      context: (context),
+      builder: (BuildContext context) => PrivacyPolicy(),
+    );
   }
 }

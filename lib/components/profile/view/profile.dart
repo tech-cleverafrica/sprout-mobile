@@ -34,6 +34,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
     profileController = Get.put(ProfileController());
     return SafeArea(
         child: WillPopScope(
@@ -442,40 +443,60 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 addVerticalSpace(20.h),
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      AppSvg.privacy,
-                      height: 35,
-                    ),
-                    addHorizontalSpace(10.w),
-                    Text(
-                      "Terms & Condition",
-                      style: TextStyle(
-                          color:
-                              isDarkMode ? AppColors.white : AppColors.greyDot,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 14.sp),
-                    )
-                  ],
+                InkWell(
+                  onTap: () => profileController.showTermsAndCondition(
+                      context, isDarkMode, theme),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                            AppSvg.privacy,
+                            height: 35,
+                          ),
+                          addHorizontalSpace(10.w),
+                          Text(
+                            "Terms & Condition",
+                            style: TextStyle(
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.greyDot,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 14.sp),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 addVerticalSpace(20.h),
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      AppSvg.privacy,
-                      height: 35,
-                    ),
-                    addHorizontalSpace(10.w),
-                    Text(
-                      "Privacy Policy",
-                      style: TextStyle(
-                          color:
-                              isDarkMode ? AppColors.white : AppColors.greyDot,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 14.sp),
-                    )
-                  ],
+                InkWell(
+                  onTap: () => profileController.showPrivacyPolicy(
+                      context, isDarkMode, theme),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                            AppSvg.privacy,
+                            height: 35,
+                          ),
+                          addHorizontalSpace(10.w),
+                          Text(
+                            "Privacy Policy",
+                            style: TextStyle(
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.greyDot,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 14.sp),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 addVerticalSpace(20.h),
                 InkWell(

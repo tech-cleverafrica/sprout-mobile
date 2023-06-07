@@ -83,7 +83,7 @@ class _OnboardingState extends State<Onboarding> {
                           Container(
                             width: 271.w,
                             child: Text(
-                                "Access all business payment solutions like contactless pos, scheduled payments, transfers",
+                                "Access business payment solutions like contactless POS, scheduled payments, and transfers",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontFamily: "Mont",
@@ -130,7 +130,7 @@ class _OnboardingState extends State<Onboarding> {
                           Container(
                             width: 271.w,
                             child: Text(
-                                "Send money, request money and pay bills seamlessly",
+                                "Send money, request money, and pay bills seamlessly",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontFamily: "Mont",
@@ -177,7 +177,7 @@ class _OnboardingState extends State<Onboarding> {
                           Container(
                             width: 271.w,
                             child: Text(
-                                "We comply with all guideline by regulators to protect your funds",
+                                "We comply with all guidelines by regulators to protect your funds",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontFamily: "Mont",
@@ -225,7 +225,7 @@ class _OnboardingState extends State<Onboarding> {
                         Container(
                           width: 271.w,
                           child: Text(
-                              "Access all business payment solutions like contactless pos, scheduled payments, transfers",
+                              "Enjoy cheaper charges and no maintenance fees",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontFamily: "Mont",
