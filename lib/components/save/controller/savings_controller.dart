@@ -58,6 +58,14 @@ class SavingsController extends GetxController {
     total.value = (currentAmount + interestAccrued).toDouble();
   }
 
+  Future<void> refreshData() async {
+    try {
+      fetchPlans(true);
+    } catch (err) {
+      rethrow;
+    }
+  }
+
   @override
   void onReady() {
     super.onReady();
