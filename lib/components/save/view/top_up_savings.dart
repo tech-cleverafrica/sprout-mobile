@@ -57,10 +57,10 @@ class TopUpSavingsScreen extends StatelessWidget {
                   controller: topUpSavingsController.topUpAmountController,
                   label: "How much do you want to top up with?",
                   hintText: "Enter Top Up Amount",
-                  enabled: topUpSavingsController.savingsDetailsController
-                          .savings.value!.currentAmount! >=
-                      topUpSavingsController
-                          .savingsDetailsController.savings.value!.startAmount!,
+                  // enabled: topUpSavingsController.savingsDetailsController
+                  //         .savings.value!.currentAmount! >=
+                  //     topUpSavingsController
+                  //         .savingsDetailsController.savings.value!.startAmount!,
                   textInputType: TextInputType.phone,
                   textInputAction: TextInputAction.next,
                   fillColor: isDarkMode

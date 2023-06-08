@@ -49,14 +49,14 @@ class TopUpSavingsController extends GetxController {
     savingsDetailsController = Get.put(SavingsDetailsController());
     savingsNameController = new TextEditingController(
         text: savingsDetailsController.savings.value!.portfolioName);
-    if (savingsDetailsController.savings.value!.currentAmount! <
-        savingsDetailsController.savings.value!.startAmount!) {
-      topUpAmountController = new MoneyMaskedTextController(
-          initialValue:
-              savingsDetailsController.savings.value!.targetAmount!.toDouble(),
-          decimalSeparator: ".",
-          thousandSeparator: ",");
-    }
+    // if (savingsDetailsController.savings.value!.currentAmount! <
+    //     savingsDetailsController.savings.value!.startAmount!) {
+    //   topUpAmountController = new MoneyMaskedTextController(
+    //       initialValue:
+    //           savingsDetailsController.savings.value!.targetAmount!.toDouble(),
+    //       decimalSeparator: ".",
+    //       thousandSeparator: ",");
+    // }
     getCards();
     super.onInit();
   }
