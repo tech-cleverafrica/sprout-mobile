@@ -21,14 +21,14 @@ List<UnbordingContent> contents = [
       // image: 'images/delevery.svg',
       discription:
           "We comply with all guideline by regulators to protect your funds imagine icon that depicts safety"),
-  // UnbordingContent(
-  //     title: 'Secured Service',
-  //     // image: 'images/delevery.svg',
-  //     discription:
-  //         "We comply with all guideline by regulators to protect your funds imagine icon that depicts safety"),
-  // UnbordingContent(
-  //     title: 'Here  for business',
-  //     // image: 'images/reward.svg',
-  //     discription:
-  //         "Access all business payment solutions like contactless pos, scheduled payments, transfers"),
+  UnbordingContent(
+      title: 'Secured Service',
+      // image: 'images/delevery.svg',
+      discription:
+          "We comply with all guideline by regulators to protect your funds imagine icon that depicts safety"),
+  UnbordingContent(
+      title: 'Here  for business',
+      // image: 'images/reward.svg',
+      discription:
+          "Access all business payment solutions like contactless pos, scheduled payments, transfers"),
 ];
