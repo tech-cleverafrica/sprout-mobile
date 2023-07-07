@@ -7,6 +7,7 @@ import 'package:sprout_mobile/components/pay-bills/model/biller_model.dart';
 import 'package:sprout_mobile/components/pay-bills/model/biller_package_model.dart';
 import 'package:sprout_mobile/components/pay-bills/service/pay_bills_service.dart';
 import 'package:sprout_mobile/components/authentication/service/auth_service.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/widgets/custom_loader.dart';
 import 'package:sprout_mobile/public/widgets/custom_toast_notification.dart';
 import 'package:sprout_mobile/utils/app_colors.dart';
@@ -107,7 +108,7 @@ class PackagesController extends GetxController {
   Future<dynamic> validateDisco() async {
     if (double.parse(amountController.value!.text.split(",").join()) > 0 &&
         double.parse(amountController.value!.text.split(",").join()) <=
-            200000 &&
+            MAXIMUM_DISCO_AMOUNT &&
         phoneNumberController.text.length == 11 &&
         digitController.text.isNotEmpty) {
       String route = getLookupRoute();
@@ -120,7 +121,8 @@ class PackagesController extends GetxController {
           backgroundColor: AppColors.errorRed));
     } else if (double.parse(amountController.value!.text.split(",").join()) <
             1 ||
-        double.parse(amountController.value!.text.split(",").join()) > 200000) {
+        double.parse(amountController.value!.text.split(",").join()) >
+            MAXIMUM_DISCO_AMOUNT) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("Invalid amount"),
           backgroundColor: AppColors.errorRed));
@@ -147,12 +149,12 @@ class PackagesController extends GetxController {
   Future<dynamic> validateCable() async {
     if ((double.parse(amountController.value!.text.split(",").join()) > 0 &&
             double.parse(amountController.value!.text.split(",").join()) <=
-                200000 &&
+                MAXIMUM_CABLE_AMOUNT &&
             digitController.text.isNotEmpty &&
             biller.value!.slug != "SHOWMAX") ||
         (double.parse(amountController.value!.text.split(",").join()) > 0 &&
             double.parse(amountController.value!.text.split(",").join()) <=
-                200000 &&
+                MAXIMUM_CABLE_AMOUNT &&
             beneficiaryNameController.text.isNotEmpty &&
             digitController.text.isNotEmpty &&
             biller.value!.slug == "SHOWMAX" &&
@@ -177,7 +179,8 @@ class PackagesController extends GetxController {
           backgroundColor: AppColors.errorRed));
     } else if (double.parse(amountController.value!.text.split(",").join()) <
             1 ||
-        double.parse(amountController.value!.text.split(",").join()) > 200000) {
+        double.parse(amountController.value!.text.split(",").join()) >
+            MAXIMUM_CABLE_AMOUNT) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("Invalid amount"),
           backgroundColor: AppColors.errorRed));
@@ -201,12 +204,12 @@ class PackagesController extends GetxController {
   Future<dynamic> validateData() async {
     if ((double.parse(amountController.value!.text.split(",").join()) > 0 &&
             double.parse(amountController.value!.text.split(",").join()) <=
-                200000 &&
+                MAXIMUM_DATA_AMOUNT &&
             digitController.text.isNotEmpty &&
             biller.value!.slug != "SPECTRANET") ||
         (double.parse(amountController.value!.text.split(",").join()) > 0 &&
             double.parse(amountController.value!.text.split(",").join()) <=
-                200000 &&
+                MAXIMUM_DATA_AMOUNT &&
             beneficiaryNameController.text.isNotEmpty &&
             digitController.text.isNotEmpty &&
             biller.value!.slug == "SPECTRANET" &&
@@ -231,7 +234,8 @@ class PackagesController extends GetxController {
           backgroundColor: AppColors.errorRed));
     } else if (double.parse(amountController.value!.text.split(",").join()) <
             1 ||
-        double.parse(amountController.value!.text.split(",").join()) > 200000) {
+        double.parse(amountController.value!.text.split(",").join()) >
+            MAXIMUM_DATA_AMOUNT) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("Invalid amount"),
           backgroundColor: AppColors.errorRed));
@@ -255,7 +259,7 @@ class PackagesController extends GetxController {
   Future<dynamic> validateBetting() async {
     if (double.parse(amountController.value!.text.split(",").join()) > 0 &&
         double.parse(amountController.value!.text.split(",").join()) <=
-            200000 &&
+            MAXIMUM_BETTING_AMOUNT &&
         digitController.text.isNotEmpty) {
       String route = getLookupRoute();
       var response = await lookup(buildLookupRequestModel(), route);
@@ -267,7 +271,8 @@ class PackagesController extends GetxController {
           backgroundColor: AppColors.errorRed));
     } else if (double.parse(amountController.value!.text.split(",").join()) <
             1 ||
-        double.parse(amountController.value!.text.split(",").join()) > 200000) {
+        double.parse(amountController.value!.text.split(",").join()) >
+            MAXIMUM_BETTING_AMOUNT) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("Invalid amount"),
           backgroundColor: AppColors.errorRed));

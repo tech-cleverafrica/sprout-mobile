@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/components/buy-airtime/controller/airtime_controller.dart';
 import 'package:sprout_mobile/components/buy-airtime/view/airtime_payment_pin_confirmation.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/public/widgets/custom_loader.dart';
 import 'package:sprout_mobile/public/widgets/custom_text_form_field.dart';
@@ -296,8 +297,9 @@ class BuyAirtimeScreen extends StatelessWidget {
                                       return "Amount is greater than wallet balance";
                                     } else if (double.parse(
                                             value.split(",").join("")) >
-                                        100000) {
-                                      return "Maximum amount is 100,000";
+                                        MAXIMUM_AIRTIME_AMOUNT) {
+                                      return "Maximum amount is " +
+                                          MAXIMUM_AIRTIME_STRING;
                                     }
                                     return null;
                                   },

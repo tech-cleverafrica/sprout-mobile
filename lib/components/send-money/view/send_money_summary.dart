@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:sprout_mobile/components/send-money/view/send_money_pin_confirmation.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/utils/global_function.dart';
 import 'package:sprout_mobile/utils/nav_function.dart';
 
@@ -121,7 +122,7 @@ class SendMoneySummaryScreen extends StatelessWidget {
                             style: titleStyle(),
                           ),
                           Text(
-                            currencySymbol + "20.00",
+                            currencySymbol + TRANSFER_CHARGE,
                             style: detailStyle(isDarkMode),
                           )
                         ],
@@ -132,7 +133,7 @@ class SendMoneySummaryScreen extends StatelessWidget {
               ),
               addVerticalSpace(16.h),
               Text(
-                  "Please ensure the details entered are correct before proceeding with this transfer as Clever Digital Limited will not be responsible for recall of funds transferred in error. Thank You.",
+                  "Please ensure the details entered are correct before proceeding with this transfer as $APP_COMPANY_NAME will not be responsible for recall of funds transferred in error. Thank You.",
                   style: TextStyle(
                     fontFamily: "Mont",
                     color: isDarkMode

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/components/save/controller/top_up_savings_controller.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/utils/app_colors.dart';
@@ -71,8 +72,9 @@ class TopUpSavingsScreen extends StatelessWidget {
                       return "Tup up amount is required";
                     else if (double.parse(value.split(",").join("")) == 0) {
                       return "Invalid top up amount";
-                    } else if (double.parse(value.split(",").join("")) < 100) {
-                      return "Top up amount should be minimum of NGN 100";
+                    } else if (double.parse(value.split(",").join("")) <
+                        TOPUP_MINIMUM_AMOUNT) {
+                      return "Top up amount should be minimum of NGN $TOPUP_MINIMUM_AMOUNT_STRING";
                     }
                     return null;
                   },

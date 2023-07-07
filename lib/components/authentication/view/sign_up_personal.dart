@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/components/authentication/controller/signup_controller.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/screens/contact_us.dart';
 
 import 'package:sprout_mobile/public/widgets/custom_text_form_field.dart';
@@ -181,9 +182,9 @@ class SignupPersonalScreen extends StatelessWidget {
     showDialog(
       context: (context),
       builder: (BuildContext context) => ContactUs(
-        heading: "Contact Customer Support",
-        title: "0817-9435-965",
-        phone: "+2348179435965",
+        heading: APP_CUSTOMER_SUPPORT_HEADING,
+        title: APP_CUSTOMER_SUPPORT_PHONE_NUMBER_TITLE,
+        phone: APP_CUSTOMER_SUPPORT_PHONE_NUMBER,
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/utils/helper_widgets.dart';
 
@@ -204,7 +205,7 @@ class SendToBank extends StatelessWidget {
                                 return "Invalid amount";
                               } else if (double.parse(
                                       value.split(",").join("")) <
-                                  10) {
+                                  MINIMUM_TRANSFER_AMOUNT) {
                                 return "Amount too small";
                               } else if (double.parse(value.split(",").join()) >
                                   double.parse(sendMoneyController.userBalance
@@ -214,8 +215,8 @@ class SendToBank extends StatelessWidget {
                                 return "Amount is greater than wallet balance";
                               } else if (double.parse(
                                       value.split(",").join("")) >
-                                  450000) {
-                                return "Maximum amount is 450,000";
+                                  MAXIMUM_TRANSFER_AMOUNT) {
+                                return "Maximum amount is $MAXIMUM_TRANSFER_AMOUNT_STRING";
                               }
                               return null;
                             },

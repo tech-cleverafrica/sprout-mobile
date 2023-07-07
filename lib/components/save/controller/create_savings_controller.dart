@@ -16,6 +16,7 @@ import 'package:sprout_mobile/components/save/model/savings_rate_model.dart';
 import 'package:sprout_mobile/components/save/model/savings_summary_model.dart';
 import 'package:sprout_mobile/components/save/service/savings_service.dart';
 import 'package:sprout_mobile/components/save/view/savings_summary.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/environment.dart';
 import 'package:sprout_mobile/public/widgets/custom_loader.dart';
 import 'package:sprout_mobile/public/widgets/custom_toast_notification.dart';
@@ -44,9 +45,9 @@ class CreateSavingsController extends GetxController {
   TextEditingController tenureController = new TextEditingController();
   TextEditingController cardController = new TextEditingController();
 
-  RxList<String> frequencies = <String>['DAILY', 'WEEKLY', 'MONTHLY'].obs;
+  RxList<String> frequencies = <String>[...SAVINGS_FREQUENCY].obs;
   RxString frequency = "".obs;
-  RxList<String> paymentTypes = <String>['WALLET', 'CARD'].obs;
+  RxList<String> paymentTypes = <String>[...SAVINGS_PAYMENT_TYPE].obs;
   RxString paymentType = "".obs;
   RxList<SavingsRate> tenures = <SavingsRate>[].obs;
   var tenure = Rxn<SavingsRate>();
@@ -115,11 +116,11 @@ class CreateSavingsController extends GetxController {
         await locator.get<SavingsService>().getSavingsSummary(requestBody);
     if (response.status) {
       SavingsSummary savingsSummary = SavingsSummary.fromJson(response.data);
-      if (savingsSummary.data!.tenure! >= 30) {
+      if (savingsSummary.data!.tenure! >= SAVINGS_TENOR) {
         Get.to(() => SavingsSummaryScreen(), arguments: savingsSummary);
       } else {
         CustomToastNotification.show(
-            "Tenor can not be less 30 days. Please adjust Target Amount, Recurring Amount or Frequency",
+            "Tenor can not be less $SAVINGS_TENOR_STRING days. Please adjust Target Amount, Recurring Amount or Frequency",
             type: ToastType.error);
       }
     } else if (response.statusCode == 999) {
@@ -151,9 +152,10 @@ class CreateSavingsController extends GetxController {
 
   Future<dynamic> validateTargetSavings() async {
     if (savingsNameController.text.length > 1 &&
-        (double.parse(targetAmountController.text.split(",").join()) >= 1000 &&
+        (double.parse(targetAmountController.text.split(",").join()) >=
+                TARGET_SAVINGS_TARGET_AMOUNT &&
             double.parse(startingAmountController.text.split(",").join()) >=
-                100) &&
+                TARGET_SAVINGS_STARTING_AMOUNT) &&
         frequency.value.isNotEmpty &&
         paymentType.value.isNotEmpty &&
         ((paymentType.value == "CARD" && card.value != null) ||
@@ -173,9 +175,10 @@ class CreateSavingsController extends GetxController {
           content: Text("Please enter a valid target amount"),
           backgroundColor: AppColors.errorRed));
     } else if (double.parse(targetAmountController.text.split(",").join("")) <
-        1000) {
+        TARGET_SAVINGS_TARGET_AMOUNT) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-          content: Text("Target amount should be minimum of NGN 1,000"),
+          content: Text(
+              "Target amount should be minimum of NGN $TARGET_SAVINGS_TARGET_AMOUNT_STRING"),
           backgroundColor: AppColors.errorRed));
     } else if (double.parse(
             startingAmountController.text.split(",").join("")) ==
@@ -184,9 +187,10 @@ class CreateSavingsController extends GetxController {
           content: Text("Please enter a valid recurring amount"),
           backgroundColor: AppColors.errorRed));
     } else if (double.parse(startingAmountController.text.split(",").join("")) <
-        100) {
+        TARGET_SAVINGS_STARTING_AMOUNT) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-          content: Text("Recurring amount should be minimum of NGN 100"),
+          content: Text(
+              "Recurring amount should be minimum of NGN $TARGET_SAVINGS_STARTING_AMOUNT_STRING"),
           backgroundColor: AppColors.errorRed));
     } else if (frequency.value.isEmpty) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
@@ -210,7 +214,8 @@ class CreateSavingsController extends GetxController {
 
   Future<dynamic> validateLockedFunds() async {
     if (savingsNameController.text.length > 1 &&
-        double.parse(savingsAmountController.text.split(",").join()) >= 5000 &&
+        double.parse(savingsAmountController.text.split(",").join()) >=
+            LOCKED_FUND_SAVINGS_AMOUNT &&
         tenure.value != null &&
         paymentType.value.isNotEmpty &&
         ((paymentType.value == "CARD" && card.value != null) ||
@@ -230,9 +235,10 @@ class CreateSavingsController extends GetxController {
           content: Text("Please enter a valid savings amount"),
           backgroundColor: AppColors.errorRed));
     } else if (double.parse(savingsAmountController.text.split(",").join("")) <
-        5000) {
+        LOCKED_FUND_SAVINGS_AMOUNT) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-          content: Text("Savings amount should be minimum of NGN 5,000"),
+          content: Text(
+              "Savings amount should be minimum of NGN $LOCKED_FUND_SAVINGS_AMOUNT_STRING"),
           backgroundColor: AppColors.errorRed));
     } else if (tenure.value == null) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
@@ -815,17 +821,16 @@ class CreateSavingsController extends GetxController {
     final Flutterwave flutterwave = Flutterwave(
         context: context,
         publicKey: Environment.flutterWaveKey,
-        currency: "NGN",
-        redirectUrl: "https://business.cleverafrica.com",
+        currency: FLUTTERWAVE_FUND_WALLET_CURRENCY,
+        redirectUrl: FLUTTERWAVE_PAYMENT_REDIRECT_URL,
         txRef: transactionRef,
-        amount: "100.00",
+        amount: FLUTTERWAVE_PAYMENT_BASE_AMOUNT,
         customer: customer,
-        paymentOptions: "card",
+        paymentOptions: FLUTTERWAVE_FUND_WALLET_PAYMENT_OPTIONS,
         customization: Customization(
-            title: "Fund Wallet",
-            logo:
-                "https://res.cloudinary.com/senjonnes/image/upload/v1680695198/Subtract_sjyu1o.png",
-            description: "Fund Wallet"),
+            title: FLUTTERWAVE_FUND_WALLET_TITLE,
+            logo: FLUTTERWAVE_FUND_WALLET_LOGO,
+            description: FLUTTERWAVE_FUND_WALLET_DESCRIPTION),
         isTestMode: Environment.isTestMode == "TEST");
     final ChargeResponse response = await flutterwave.charge();
     if (response.transactionId != null) {

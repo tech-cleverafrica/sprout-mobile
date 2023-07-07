@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
+import 'package:sprout_mobile/config/Config.dart';
 
 var oCcy = new NumberFormat("#,##0.00", "en_US");
 
@@ -642,12 +643,12 @@ class PdfService {
           WidgetSpan(
               child: Row(children: [
             UrlLink(
-                child: Text("support@cleverafrica.com",
+                child: Text(APP_CUSTOMER_SUPPORT_EMAIL,
                     style: TextStyle(
                         font: customFont,
                         decoration: TextDecoration.underline,
                         color: PdfColors.blue)),
-                destination: "mailto:support@cleverafrica.com"),
+                destination: "mailto:$APP_CUSTOMER_SUPPORT_EMAIL"),
           ])),
           WidgetSpan(
               child:
@@ -658,12 +659,12 @@ class PdfService {
           WidgetSpan(
               child: Row(children: [
             UrlLink(
-                child: Text("0817 943 5965",
+                child: Text(APP_CUSTOMER_SUPPORT_PHONE_NUMBER_TITLE,
                     style: TextStyle(
                         font: customFont,
                         decoration: TextDecoration.underline,
                         color: PdfColors.blue)),
-                destination: "tel:08179435965"),
+                destination: "tel:$APP_CUSTOMER_SUPPORT_PHONE_NUMBER"),
           ])),
         ])),
       );

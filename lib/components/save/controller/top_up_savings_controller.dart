@@ -15,6 +15,7 @@ import 'package:sprout_mobile/components/fund-wallet/service/fund_wallet_service
 import 'package:sprout_mobile/components/save/controller/savings_details_controller.dart';
 import 'package:sprout_mobile/components/save/service/savings_service.dart';
 import 'package:sprout_mobile/components/save/view/savings_approval_screen.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/environment.dart';
 import 'package:sprout_mobile/public/widgets/custom_loader.dart';
 import 'package:sprout_mobile/public/widgets/custom_toast_notification.dart';
@@ -36,7 +37,7 @@ class TopUpSavingsController extends GetxController {
   TextEditingController paymentTypeController = new TextEditingController();
   TextEditingController cardController = new TextEditingController();
 
-  RxList<String> paymentTypes = <String>['WALLET', 'CARD'].obs;
+  RxList<String> paymentTypes = <String>[...SAVINGS_PAYMENT_TYPE].obs;
   RxString paymentType = "".obs;
 
   RxList<CustomerCard> cards = <CustomerCard>[].obs;
@@ -124,7 +125,8 @@ class TopUpSavingsController extends GetxController {
   }
 
   Future<dynamic> validateTopUp() async {
-    if ((double.parse(topUpAmountController.text.split(",").join()) >= 100) &&
+    if ((double.parse(topUpAmountController.text.split(",").join()) >=
+            TOPUP_MINIMUM_AMOUNT) &&
         paymentType.value.isNotEmpty &&
         ((paymentType.value == "CARD" && card.value != null) ||
             paymentType.value == "WALLET")) {
@@ -135,9 +137,10 @@ class TopUpSavingsController extends GetxController {
           content: Text("Please enter a valid top up amount"),
           backgroundColor: AppColors.errorRed));
     } else if (double.parse(topUpAmountController.text.split(",").join("")) <
-        1000) {
+        TOPUP_MINIMUM_AMOUNT) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-          content: Text("Top up amount should be minimum of NGN 100"),
+          content: Text(
+              "Top up amount should be minimum of NGN $TOPUP_MINIMUM_AMOUNT_STRING"),
           backgroundColor: AppColors.errorRed));
     } else if (paymentType.value.isEmpty) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
@@ -464,17 +467,16 @@ class TopUpSavingsController extends GetxController {
     final Flutterwave flutterwave = Flutterwave(
         context: context,
         publicKey: Environment.flutterWaveKey,
-        currency: "NGN",
-        redirectUrl: "https://business.cleverafrica.com",
+        currency: FLUTTERWAVE_FUND_WALLET_CURRENCY,
+        redirectUrl: FLUTTERWAVE_PAYMENT_REDIRECT_URL,
         txRef: transactionRef,
-        amount: "100.00",
+        amount: FLUTTERWAVE_PAYMENT_BASE_AMOUNT,
         customer: customer,
-        paymentOptions: "card",
+        paymentOptions: FLUTTERWAVE_FUND_WALLET_PAYMENT_OPTIONS,
         customization: Customization(
-            title: "Fund Wallet",
-            logo:
-                "https://res.cloudinary.com/senjonnes/image/upload/v1680695198/Subtract_sjyu1o.png",
-            description: "Fund Wallet"),
+            title: FLUTTERWAVE_FUND_WALLET_TITLE,
+            logo: FLUTTERWAVE_FUND_WALLET_LOGO,
+            description: FLUTTERWAVE_FUND_WALLET_DESCRIPTION),
         isTestMode: Environment.isTestMode == "TEST");
     final ChargeResponse response = await flutterwave.charge();
     if (response.transactionId != null) {

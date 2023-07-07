@@ -12,6 +12,7 @@ import 'package:sprout_mobile/components/send-money/model/bank_beneficiary.dart'
 import 'package:sprout_mobile/components/send-money/service/send_money_service.dart';
 import 'package:sprout_mobile/components/authentication/service/auth_service.dart';
 import 'package:sprout_mobile/components/send-money/view/send_money_summary.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/utils/app_svgs.dart';
 import 'package:sprout_mobile/utils/nav_function.dart';
@@ -167,18 +168,20 @@ class SendMoneyController extends GetxController {
     if ((!isNewTransfer.value &&
             showBeneficiary.value &&
             accountNumberController.text.isNotEmpty &&
-            (double.parse(amountController.text.split(",").join()) >= 10 &&
+            (double.parse(amountController.text.split(",").join()) >=
+                    MINIMUM_TRANSFER_AMOUNT &&
                 double.parse(amountController.text.split(",").join()) <=
-                    450000 &&
+                    MAXIMUM_TRANSFER_AMOUNT &&
                 double.parse(amountController.text.split(",").join()) <=
                     double.parse(userBalance.toString().split(",").join())) &&
             purposeController.text.isNotEmpty) ||
         (isNewTransfer.value &&
             showBeneficiary.value &&
             accountNumberController.text.isNotEmpty &&
-            (double.parse(amountController.text.split(",").join()) >= 10 &&
+            (double.parse(amountController.text.split(",").join()) >=
+                    MINIMUM_TRANSFER_AMOUNT &&
                 double.parse(amountController.text.split(",").join()) <=
-                    450000 &&
+                    MAXIMUM_TRANSFER_AMOUNT &&
                 double.parse(amountController.text.split(",").join()) <=
                     double.parse(userBalance.toString().split(",").join())) &&
             purposeController.text.isNotEmpty &&
@@ -221,7 +224,8 @@ class SendMoneyController extends GetxController {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("Please enter a valid amount"),
           backgroundColor: AppColors.errorRed));
-    } else if (double.parse(amountController.text.split(",").join("")) < 10) {
+    } else if (double.parse(amountController.text.split(",").join("")) <
+        MINIMUM_TRANSFER_AMOUNT) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("Amount is too small"),
           backgroundColor: AppColors.errorRed));
@@ -231,9 +235,9 @@ class SendMoneyController extends GetxController {
           content: Text("Amount is greater than wallet balance"),
           backgroundColor: AppColors.errorRed));
     } else if (double.parse(amountController.text.split(",").join("")) >
-        450000) {
+        MAXIMUM_TRANSFER_AMOUNT) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-          content: Text("Maximum amount is 450,000"),
+          content: Text("Maximum amount is $MAXIMUM_TRANSFER_AMOUNT"),
           backgroundColor: AppColors.errorRed));
     } else if (purposeController.text.isEmpty) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(

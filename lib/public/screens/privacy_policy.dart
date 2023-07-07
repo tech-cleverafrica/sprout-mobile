@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sprout_mobile/utils/helper_widgets.dart';
@@ -662,11 +663,11 @@ class _PrivacyPolicyState extends State<PrivacyPolicy>
                                           height: 1.5,
                                         )),
                                     TextSpan(
-                                        text: "admin@cleverafrica.com",
+                                        text: COMPANY_EMAIL,
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = () => launcher.launchUrl(
                                               Uri.parse(
-                                                  "mailto:admin@cleverafrica.com")),
+                                                  "mailto:$COMPANY_EMAIL")),
                                         style: TextStyle(
                                           color: isDarkMode
                                               ? AppColors.mainGreen

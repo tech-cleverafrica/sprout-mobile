@@ -5,6 +5,7 @@ import 'package:sprout_mobile/components/help/controller/help_controller.dart';
 import 'package:sprout_mobile/components/help/model/issues_model.dart';
 import 'package:sprout_mobile/components/help/model/issues_sub_category_model.dart';
 import 'package:sprout_mobile/components/home/view/bottom_nav.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/screens/contact_us.dart';
 import 'package:sprout_mobile/components/help/view/complaint_tab.dart';
 import 'package:sprout_mobile/components/help/view/dispense_error.dart';
@@ -189,9 +190,9 @@ class ComplaintScreen extends StatelessWidget {
                             onTap: () => showDialog(
                               context: (context),
                               builder: (BuildContext context) => ContactUs(
-                                heading: "Can't find your issue?",
-                                title: "0817-9435-965",
-                                phone: "+2348179435965",
+                                heading: APP_ISSUE_SUPPORT_HEADING,
+                                title: APP_CUSTOMER_SUPPORT_PHONE_NUMBER_TITLE,
+                                phone: APP_CUSTOMER_SUPPORT_PHONE_NUMBER,
                               ),
                             ),
                             child: Container(
@@ -199,7 +200,7 @@ class ComplaintScreen extends StatelessWidget {
                               width: double.infinity,
                               alignment: Alignment.center,
                               child: Text(
-                                "Can't find your issue? Click Here.",
+                                APP_ISSUE_NOT_FOUND,
                                 style: TextStyle(
                                   color: isDarkMode
                                       ? AppColors.white
@@ -274,9 +275,9 @@ class ComplaintScreen extends StatelessWidget {
                             onTap: () => showDialog(
                               context: (context),
                               builder: (BuildContext context) => ContactUs(
-                                heading: "Can't find your issue?",
-                                title: "0817-9435-965",
-                                phone: "+2348179435965",
+                                heading: APP_ISSUE_SUPPORT_HEADING,
+                                title: APP_CUSTOMER_SUPPORT_PHONE_NUMBER_TITLE,
+                                phone: APP_CUSTOMER_SUPPORT_PHONE_NUMBER,
                               ),
                             ),
                             child: Container(
@@ -284,7 +285,7 @@ class ComplaintScreen extends StatelessWidget {
                               width: double.infinity,
                               alignment: Alignment.center,
                               child: Text(
-                                "Can't find your issue? Click Here.",
+                                APP_ISSUE_NOT_FOUND,
                                 style: TextStyle(
                                   color: isDarkMode
                                       ? AppColors.white
@@ -362,9 +363,9 @@ class ComplaintScreen extends StatelessWidget {
                             onTap: () => showDialog(
                               context: (context),
                               builder: (BuildContext context) => ContactUs(
-                                heading: "Can't find your issue?",
-                                title: "0817-9435-965",
-                                phone: "+2348179435965",
+                                heading: APP_ISSUE_SUPPORT_HEADING,
+                                title: APP_CUSTOMER_SUPPORT_PHONE_NUMBER_TITLE,
+                                phone: APP_CUSTOMER_SUPPORT_PHONE_NUMBER,
                               ),
                             ),
                             child: Container(
@@ -372,7 +373,7 @@ class ComplaintScreen extends StatelessWidget {
                               width: double.infinity,
                               alignment: Alignment.center,
                               child: Text(
-                                "Can't find your issue? Click Here.",
+                                APP_ISSUE_NOT_FOUND,
                                 style: TextStyle(
                                   color: isDarkMode
                                       ? AppColors.white

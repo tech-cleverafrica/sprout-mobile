@@ -6,6 +6,7 @@ import 'package:sprout_mobile/components/authentication/view/sign_in_screen.dart
 import 'package:sprout_mobile/components/authentication/view/sign_up_start.dart';
 import 'package:sprout_mobile/components/notification/service/notification_service.dart';
 import 'package:sprout_mobile/components/onboarding/onboarding_content_model.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/services/device_service.dart';
 import 'package:sprout_mobile/utils/app_colors.dart';
 import 'package:sprout_mobile/utils/app_images.dart';
@@ -66,8 +67,7 @@ class _OnboardingState extends State<Onboarding> {
                           ),
                           Container(
                             width: 305.w,
-                            child: Text(
-                                "One app for all your payments and business needs",
+                            child: Text(APP_ONBOARDING_TITLE_1,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontFamily: "Mont",
@@ -82,8 +82,7 @@ class _OnboardingState extends State<Onboarding> {
                           ),
                           Container(
                             width: 271.w,
-                            child: Text(
-                                "Access business payment solutions like contactless POS, scheduled payments, and transfers",
+                            child: Text(APP_ONBOARDING_DESCRIPTION_1,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontFamily: "Mont",
@@ -114,7 +113,7 @@ class _OnboardingState extends State<Onboarding> {
                           ),
                           Container(
                             width: 305.w,
-                            child: Text("Banking that sorts your lifestyle",
+                            child: Text(APP_ONBOARDING_TITLE_2,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontFamily: "Mont",
@@ -129,8 +128,7 @@ class _OnboardingState extends State<Onboarding> {
                           ),
                           Container(
                             width: 271.w,
-                            child: Text(
-                                "Send money, request money, and pay bills seamlessly",
+                            child: Text(APP_ONBOARDING_DESCRIPTION_2,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontFamily: "Mont",
@@ -161,7 +159,7 @@ class _OnboardingState extends State<Onboarding> {
                           ),
                           Container(
                             width: 305.w,
-                            child: Text("Secured Service",
+                            child: Text(APP_ONBOARDING_TITLE_3,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontFamily: "Mont",
@@ -176,8 +174,7 @@ class _OnboardingState extends State<Onboarding> {
                           ),
                           Container(
                             width: 271.w,
-                            child: Text(
-                                "We comply with all guidelines by regulators to protect your funds",
+                            child: Text(APP_ONBOARDING_DESCRIPTION_3,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontFamily: "Mont",
@@ -209,7 +206,7 @@ class _OnboardingState extends State<Onboarding> {
                         ),
                         Container(
                           width: 305.w,
-                          child: Text("Here for business",
+                          child: Text(APP_ONBOARDING_TITLE_4,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontFamily: "Mont",
@@ -224,8 +221,7 @@ class _OnboardingState extends State<Onboarding> {
                         ),
                         Container(
                           width: 271.w,
-                          child: Text(
-                              "Enjoy cheaper charges and no maintenance fees",
+                          child: Text(APP_ONBOARDING_DESCRIPTION_4,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontFamily: "Mont",

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sprout_mobile/components/notification/controller/notification_controller.dart';
 import 'package:sprout_mobile/components/onboarding/onboarding.dart';
+import 'package:sprout_mobile/utils/app_images.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -72,8 +73,8 @@ class _SplashScreenState extends State<SplashScreen>
                 height: 180.0.h,
                 width: 120.w,
                 image: AssetImage(isDarkMode
-                    ? "assets/images/sprout-by-clever-light.png"
-                    : "assets/images/sprout-by-clever.png"),
+                    ? AppImages.sproutByCleverLight
+                    : AppImages.sproutByClever),
                 // image: AssetImage(isDarkMode
                 //     ? "assets/images/logo-light.png"
                 //     : "assets/images/logo-dark.png"),

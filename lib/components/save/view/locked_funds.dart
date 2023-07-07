@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/components/save/controller/create_savings_controller.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/utils/app_colors.dart';
@@ -66,8 +67,9 @@ class LockedFundsScreen extends StatelessWidget {
                       return "Savings amount is required";
                     else if (double.parse(value.split(",").join("")) == 0) {
                       return "Invalid savings amount";
-                    } else if (double.parse(value.split(",").join("")) < 5000) {
-                      return "Savings amount should be minimum of NGN 5,000";
+                    } else if (double.parse(value.split(",").join("")) <
+                        LOCKED_FUND_SAVINGS_AMOUNT) {
+                      return "Savings amount should be minimum of NGN $LOCKED_FUND_SAVINGS_AMOUNT_STRING";
                     }
                     return null;
                   },

@@ -9,6 +9,7 @@ import 'package:sprout_mobile/components/invoice/controller/invoice_controller.d
 import 'package:sprout_mobile/components/invoice/model/invoice_model.dart';
 import 'package:sprout_mobile/components/invoice/service/invoice_service.dart';
 import 'package:sprout_mobile/components/authentication/service/auth_service.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/public/widgets/custom_toast_notification.dart';
@@ -83,7 +84,7 @@ class InvoiceDetailsController extends GetxController {
       "invoiceID": invoice.value?.id,
       "message": "Dear " +
           invoice.value!.customer!.fullName! +
-          ", \n\nAn invoice has been generated for you by Crossover.\n\nPlease click on the button below to view the invoice\n       \nBest regards,\nClever Digital Limited. \n      ",
+          ", \n\nAn invoice has been generated for you by Crossover.\n\nPlease click on the button below to view the invoice\n       \nBest regards,\n$APP_COMPANY_NAME. \n      ",
       "subject": invoice.value?.note,
       "to": invoice.value?.customer?.email
     };

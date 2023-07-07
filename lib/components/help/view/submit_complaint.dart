@@ -9,6 +9,7 @@ import 'package:sprout_mobile/components/help/controller/help_controller.dart';
 import 'package:sprout_mobile/components/help/controller/post_complaint_controller.dart';
 import 'package:sprout_mobile/components/help/model/issues_model.dart';
 import 'package:sprout_mobile/components/help/model/issues_sub_category_model.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/public/widgets/custom_multiline_text_form_field.dart';
 import 'package:sprout_mobile/public/widgets/custom_text_form_field.dart';
@@ -97,7 +98,7 @@ class SubmitComplaintScreen extends StatelessWidget {
                           ? CustomMultilineTextFormField(
                               controller: pCC.descriptionController,
                               maxLines: 6,
-                              maxLength: 500,
+                              maxLength: ISSUE_DESCRIPTION_MAXIMUM_LENGTH,
                               maxLengthEnforced: true,
                               label: "Please give us details of the issue",
                               hintText: "Enter issue description",
@@ -105,7 +106,8 @@ class SubmitComplaintScreen extends StatelessWidget {
                               validator: (value) {
                                 if (value!.length == 0)
                                   return "Issue description cannot be empty";
-                                else if (value.length < 20)
+                                else if (value.length <
+                                    ISSUE_DESCRIPTION_MINIMUM_LENGTH)
                                   return "Issue description is too short";
                                 return null;
                               },

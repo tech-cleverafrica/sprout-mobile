@@ -9,6 +9,7 @@ import 'package:sprout_mobile/components/help/controller/pending_issues_controll
 import 'package:sprout_mobile/components/help/model/issues_model.dart';
 import 'package:sprout_mobile/components/help/view/clever_comment.dart';
 import 'package:sprout_mobile/components/help/view/issue_heading.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/widgets/custom_multiline_text_form_field.dart';
 import 'package:sprout_mobile/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/utils/app_colors.dart';
@@ -199,7 +200,7 @@ class PendingIssueScreen extends StatelessWidget {
                     CustomMultilineTextFormField(
                       controller: pendingIssuesController.descriptionController,
                       maxLines: 4,
-                      maxLength: 500,
+                      maxLength: ISSUE_DESCRIPTION_MAXIMUM_LENGTH,
                       maxLengthEnforced: true,
                       label: null,
                       hintText: "Enter issue description",
@@ -207,7 +208,8 @@ class PendingIssueScreen extends StatelessWidget {
                       validator: (value) {
                         if (value!.length == 0)
                           return "Issue description cannot be empty";
-                        else if (value.length < 20)
+                        else if (value.length <
+                            ISSUE_DESCRIPTION_MINIMUM_LENGTH)
                           return "Issue description is too short";
                         return null;
                       },

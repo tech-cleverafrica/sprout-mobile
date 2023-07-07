@@ -6,6 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:sprout_mobile/components/notification/controller/notification_controller.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/repository/preference_repository.dart';
 import 'package:get/get.dart';
@@ -51,7 +52,7 @@ class PushNotificationService {
     String? token = await _fcm.getToken();
     print("FirebaseMessaging token: $token");
     preferenceRepository.setStringPref(NOTIFICATION_ID, jsonEncode(token));
-    _fcm.subscribeToTopic('sprout');
+    _fcm.subscribeToTopic(NOTIFICATION_TOPIC);
   }
 
   _popupNotification(RemoteMessage message) async {

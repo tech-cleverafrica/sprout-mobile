@@ -1,3 +1,5 @@
+import 'package:sprout_mobile/config/Config.dart';
+
 class UnbordingContent {
   //String? image;
   String title;
@@ -12,23 +14,11 @@ class UnbordingContent {
 
 List<UnbordingContent> contents = [
   UnbordingContent(
-      title: 'One app for all your payments and business needs',
-      // image: 'images/quality.svg',
-      discription:
-          "Access all business payment solutions like contactless pos, scheduled payments, transfers"),
+      title: APP_ONBOARDING_TITLE_1, discription: APP_ONBOARDING_DESCRIPTION_1),
   UnbordingContent(
-      title: 'Banking that sorts your lifestyle',
-      // image: 'images/delevery.svg',
-      discription:
-          "We comply with all guideline by regulators to protect your funds imagine icon that depicts safety"),
+      title: APP_ONBOARDING_TITLE_2, discription: APP_ONBOARDING_DESCRIPTION_2),
   UnbordingContent(
-      title: 'Secured Service',
-      // image: 'images/delevery.svg',
-      discription:
-          "We comply with all guideline by regulators to protect your funds imagine icon that depicts safety"),
+      title: APP_ONBOARDING_TITLE_3, discription: APP_ONBOARDING_DESCRIPTION_3),
   UnbordingContent(
-      title: 'Here  for business',
-      // image: 'images/reward.svg',
-      discription:
-          "Access all business payment solutions like contactless pos, scheduled payments, transfers"),
+      title: APP_ONBOARDING_TITLE_4, discription: APP_ONBOARDING_DESCRIPTION_4),
 ];

@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/components/pay-bills/model/biller_model.dart';
 import 'package:sprout_mobile/components/pay-bills/model/biller_package_model.dart';
 import 'package:sprout_mobile/components/pay-bills/service/pay_bills_service.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/widgets/custom_toast_notification.dart';
 import 'package:sprout_mobile/components/authentication/service/auth_service.dart';
 import 'package:sprout_mobile/utils/app_colors.dart';
@@ -123,7 +124,7 @@ class AirtimeController extends GetxController {
   Future<dynamic> validateAirtime() async {
     if (double.parse(amountController.value!.text.split(",").join()) > 0 &&
         double.parse(amountController.value!.text.split(",").join()) <=
-            100000 &&
+            MAXIMUM_AIRTIME_AMOUNT &&
         phoneNumberController.text.length == 11) {
       String route = "airtime/customer-lookup";
       var response = await lookup(buildLookupRequestModel(), route);
@@ -135,7 +136,8 @@ class AirtimeController extends GetxController {
           backgroundColor: AppColors.errorRed));
     } else if (double.parse(amountController.value!.text.split(",").join()) <
             1 ||
-        double.parse(amountController.value!.text.split(",").join()) > 100000) {
+        double.parse(amountController.value!.text.split(",").join()) >
+            MAXIMUM_AIRTIME_AMOUNT) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("Invalid amount"),
           backgroundColor: AppColors.errorRed));
@@ -145,9 +147,9 @@ class AirtimeController extends GetxController {
           content: Text("Amount is greater than wallet balance"),
           backgroundColor: AppColors.errorRed));
     } else if (double.parse(amountController.value!.text.split(",").join("")) >
-        100000) {
+        MAXIMUM_AIRTIME_AMOUNT) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-          content: Text("Maximum amount is 450,000"),
+          content: Text("Maximum amount is " + MAXIMUM_AIRTIME_STRING),
           backgroundColor: AppColors.errorRed));
     } else if (phoneNumberController.text.isEmpty) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(

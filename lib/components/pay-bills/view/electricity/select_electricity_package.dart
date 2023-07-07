@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/components/pay-bills/controller/packages_controller.dart';
 import 'package:sprout_mobile/components/pay-bills/view/bills_summary.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/utils/app_colors.dart';
 import 'package:sprout_mobile/utils/global_function.dart';
@@ -91,8 +92,9 @@ class SelectElectricityPackageScreen extends StatelessWidget {
                                 1) {
                               return "Invalid amount";
                             } else if (double.parse(value.split(",").join("")) >
-                                200000) {
-                              return "Maximum amount is 200,000";
+                                MAXIMUM_DISCO_AMOUNT) {
+                              return "Maximum amount is " +
+                                  MAXIMUM_DISCO_AMOUNT_STRING;
                             }
                             return null;
                           },
@@ -100,7 +102,7 @@ class SelectElectricityPackageScreen extends StatelessWidget {
                                 if (double.parse(value.split(",").join("")) <
                                         1 ||
                                     double.parse(value.split(",").join("")) >
-                                        200000)
+                                        MAXIMUM_DISCO_AMOUNT)
                                   {
                                     packagesController.showField.value = false,
                                   }

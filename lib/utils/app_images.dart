@@ -58,4 +58,7 @@ class AppImages {
   static const String account_light = path + "account-light.png";
   static const String account_white = path + "account-white.png";
   static const String energy = path + "energy.png";
+  static const String faceId = path + "faceId.png";
+  static const String sproutByCleverLight = path + "sprout-by-clever-light.png";
+  static const String sproutByClever = path + "sprout-by-clever.png";
 }

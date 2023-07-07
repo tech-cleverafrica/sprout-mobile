@@ -16,6 +16,7 @@ import 'package:sprout_mobile/components/fund-wallet/service/fund_wallet_service
 import 'package:sprout_mobile/components/fund-wallet/view/fund_wallet.dart';
 import 'package:sprout_mobile/components/home/model/wallet_model.dart';
 import 'package:sprout_mobile/components/home/service/home_service.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/environment.dart';
 import 'package:sprout_mobile/public/widgets/custom_toast_notification.dart';
 import 'package:sprout_mobile/utils/app_colors.dart';
@@ -129,8 +130,10 @@ class FundWalletController extends GetxController {
   }
 
   Future<dynamic> validateFields() async {
-    if ((double.parse(amountController.text.split(",").join()) >= 10 &&
-        double.parse(amountController.text.split(",").join()) <= 450000)) {
+    if ((double.parse(amountController.text.split(",").join()) >=
+            MINIMUM_FUND_WALLET_AMOUNT &&
+        double.parse(amountController.text.split(",").join()) <=
+            MAXIMUM_FUND_WALLET_AMOUNT)) {
       // if ((double.parse(amountController.text.split(",").join()) >= 10 &&
       //         double.parse(amountController.text.split(",").join()) <= 450000) &&
       //     card.value != null) {
@@ -140,14 +143,16 @@ class FundWalletController extends GetxController {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("Please enter a valid amount"),
           backgroundColor: AppColors.errorRed));
-    } else if (double.parse(amountController.text.split(",").join("")) < 10) {
+    } else if (double.parse(amountController.text.split(",").join("")) <
+        MINIMUM_FUND_WALLET_AMOUNT) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("Amount is too small"),
           backgroundColor: AppColors.errorRed));
     } else if (double.parse(amountController.text.split(",").join("")) >
-        450000) {
+        MAXIMUM_FUND_WALLET_AMOUNT) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-          content: Text("Maximum amount is 450,000"),
+          content:
+              Text("Maximum amount is " + MAXIMUM_FUND_WALLET_AMOUNT_STRING),
           backgroundColor: AppColors.errorRed));
       // } else if (card.value == null) {
       //   ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
@@ -355,17 +360,16 @@ class FundWalletController extends GetxController {
     final Flutterwave flutterwave = Flutterwave(
         context: context,
         publicKey: Environment.flutterWaveKey,
-        currency: "NGN",
-        redirectUrl: "https://business.cleverafrica.com",
+        currency: FLUTTERWAVE_FUND_WALLET_CURRENCY,
+        redirectUrl: FLUTTERWAVE_PAYMENT_REDIRECT_URL,
         txRef: transactionRef,
         amount: amountController.text.split(",").join(),
         customer: customer,
-        paymentOptions: "card",
+        paymentOptions: FLUTTERWAVE_FUND_WALLET_PAYMENT_OPTIONS,
         customization: Customization(
-            title: "Fund Wallet",
-            logo:
-                "https://res.cloudinary.com/senjonnes/image/upload/v1680695198/Subtract_sjyu1o.png",
-            description: "Fund Wallet"),
+            title: FLUTTERWAVE_FUND_WALLET_TITLE,
+            logo: FLUTTERWAVE_FUND_WALLET_LOGO,
+            description: FLUTTERWAVE_FUND_WALLET_DESCRIPTION),
         isTestMode: Environment.isTestMode == "TEST");
     final ChargeResponse response = await flutterwave.charge();
     if (response.transactionId != null) {

@@ -9,6 +9,7 @@ import 'package:sprout_mobile/api-setup/api_setup.dart';
 import 'package:sprout_mobile/api/api_response.dart';
 import 'package:sprout_mobile/components/invoice/model/invoice_model.dart';
 import 'package:sprout_mobile/components/invoice/service/invoice_service.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/services/shared_service.dart';
 import 'package:sprout_mobile/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/public/widgets/custom_text_form_field.dart';
@@ -131,7 +132,7 @@ class InvoiceSuccessController extends GetxController {
     emailBodyController = TextEditingController(
         text: "Dear " +
             invoice.value!.customer!.fullName! +
-            ", \n\nAn invoice has been generated for you by Crossover.\n\nPlease click on the button below to view the invoice\n       \nBest regards,\nClever Digital Limited. \n      ");
+            ", \n\nAn invoice has been generated for you by $APP_NAME.\n\nPlease click on the button below to view the invoice\n       \nBest regards,\n$APP_COMPANY_NAME. \n      ");
     showModalBottomSheet(
         backgroundColor: AppColors.transparent,
         context: context,

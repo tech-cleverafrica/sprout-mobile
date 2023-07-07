@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:sprout_mobile/components/pay-bills/controller/payment_controller.dart';
 import 'package:sprout_mobile/components/pay-bills/view/bills_payment_pin_confirmation.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/widgets/general_widgets.dart';
 
 import '../../../public/widgets/custom_button.dart';
@@ -206,7 +207,7 @@ class BillSummaryPage extends StatelessWidget {
               ),
               addVerticalSpace(16.h),
               Text(
-                  "Please ensure the details entered are correct before proceeding with this transfer as Clever Digital Ltd will not be responsible for recall of funds transferred in error. Thank You.",
+                  "Please ensure the details entered are correct before proceeding with this transfer as $APP_COMPANY_NAME will not be responsible for recall of funds transferred in error. Thank You.",
                   style: TextStyle(
                     fontFamily: "Mont",
                     color: isDarkMode

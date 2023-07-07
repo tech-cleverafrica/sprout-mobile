@@ -11,6 +11,7 @@ import 'package:sprout_mobile/api-setup/api_setup.dart';
 import 'package:sprout_mobile/api/api_response.dart';
 import 'package:sprout_mobile/components/authentication/view/sign_in_screen.dart';
 import 'package:sprout_mobile/components/profile/service/profile_service.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/screens/privacy_policy.dart';
 import 'package:sprout_mobile/public/screens/terms_and_condition.dart';
 import 'package:sprout_mobile/public/services/shared_service.dart';
@@ -131,10 +132,10 @@ class ProfileController extends GetxController {
 
   rateUs() {
     OpenStore.instance.open(
-      appStoreId: '284815942',
-      appStoreIdMacOS: '284815942',
+      appStoreId: APP_STORE_ID,
+      appStoreIdMacOS: APP_STORE_ID_MAC_OS,
       // androidAppBundleId: 'com.clever.sprout',
-      androidAppBundleId: 'com.clever.clevermoni',
+      androidAppBundleId: APP_BUNDLE_ID,
     );
   }
 
@@ -151,7 +152,7 @@ class ProfileController extends GetxController {
     showDialog(
       context: (context),
       builder: (BuildContext context) => TermsAndCondition(
-        phone: "+2348179435965",
+        phone: APP_CUSTOMER_SUPPORT_PHONE_NUMBER,
       ),
     );
   }

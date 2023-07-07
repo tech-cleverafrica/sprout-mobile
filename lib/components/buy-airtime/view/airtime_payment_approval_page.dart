@@ -47,7 +47,7 @@ class AirtimePaymentApprovalScreen extends StatelessWidget {
                 end: Alignment.bottomCenter,
               ),
               image: DecorationImage(
-                  image: AssetImage("assets/images/rough_background.png"),
+                  image: AssetImage(AppImages.rough_background),
                   fit: BoxFit.cover)),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),

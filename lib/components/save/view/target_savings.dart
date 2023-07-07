@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sprout_mobile/components/save/controller/create_savings_controller.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/utils/app_colors.dart';
@@ -66,8 +67,9 @@ class TargetSavingsScreen extends StatelessWidget {
                       return "Target amount is required";
                     else if (double.parse(value.split(",").join("")) == 0) {
                       return "Invalid target amount";
-                    } else if (double.parse(value.split(",").join("")) < 1000) {
-                      return "Target amount should be minimum of NGN 1,000";
+                    } else if (double.parse(value.split(",").join("")) <
+                        TARGET_SAVINGS_TARGET_AMOUNT) {
+                      return "Target amount should be minimum of NGN $TARGET_SAVINGS_TARGET_AMOUNT_STRING";
                     }
                     return null;
                   },
@@ -86,8 +88,9 @@ class TargetSavingsScreen extends StatelessWidget {
                       return "Recurring amount is required";
                     else if (double.parse(value.split(",").join("")) == 0) {
                       return "Invalid recurring amount";
-                    } else if (double.parse(value.split(",").join("")) < 100) {
-                      return "Recurring amount should be minimum of NGN 100";
+                    } else if (double.parse(value.split(",").join("")) <
+                        TARGET_SAVINGS_STARTING_AMOUNT) {
+                      return "Recurring amount should be minimum of NGN $TARGET_SAVINGS_STARTING_AMOUNT_STRING";
                     }
                     return null;
                   },

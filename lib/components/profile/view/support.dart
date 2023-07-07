@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:sprout_mobile/components/help/view/complaint.dart';
 import 'package:sprout_mobile/components/profile/controller/profile_controller.dart';
 import 'package:sprout_mobile/components/profile/controller/support_controller.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/screens/contact_us.dart';
 import 'package:sprout_mobile/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/utils/app_colors.dart';
@@ -115,9 +116,9 @@ class SupportScreen extends StatelessWidget {
     showDialog(
       context: (context),
       builder: (BuildContext context) => ContactUs(
-        heading: "Contact Customer Support",
-        title: "0817-9435-965",
-        phone: "+2348179435965",
+        heading: APP_CUSTOMER_SUPPORT_HEADING,
+        title: APP_CUSTOMER_SUPPORT_PHONE_NUMBER_TITLE,
+        phone: APP_CUSTOMER_SUPPORT_PHONE_NUMBER,
       ),
     );
   }

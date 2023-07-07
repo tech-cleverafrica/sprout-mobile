@@ -6,6 +6,7 @@ import 'package:sprout_mobile/api-setup/api_setup.dart';
 import 'package:sprout_mobile/api/api_response.dart';
 import 'package:sprout_mobile/components/help/service/help_service.dart';
 import 'package:sprout_mobile/components/authentication/service/auth_service.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/model/file_model.dart';
 import 'package:sprout_mobile/components/help/model/issues_model.dart';
 import 'package:sprout_mobile/public/services/shared_service.dart';
@@ -78,8 +79,8 @@ class PendingIssuesController extends GetxController {
 
   Future<Issues?> validate(Issues issue) async {
     if (descriptionController.text.isNotEmpty &&
-        descriptionController.text.length >= 20 &&
-        descriptionController.text.length <= 500) {
+        descriptionController.text.length >= ISSUE_DESCRIPTION_MINIMUM_LENGTH &&
+        descriptionController.text.length <= ISSUE_DESCRIPTION_MAXIMUM_LENGTH) {
       List<String> supportingDocuments =
           await locator.get<SharedService>().allFilesUrl(files);
       Issues? returneedIssue = await updateIssue(
@@ -90,13 +91,17 @@ class PendingIssuesController extends GetxController {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("Issue description cannot be empty"),
           backgroundColor: AppColors.errorRed));
-    } else if (descriptionController.text.length < 20) {
+    } else if (descriptionController.text.length <
+        ISSUE_DESCRIPTION_MINIMUM_LENGTH) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text("Issue description is too short"),
           backgroundColor: AppColors.errorRed));
-    } else if (descriptionController.text.length > 500) {
+    } else if (descriptionController.text.length >
+        ISSUE_DESCRIPTION_MAXIMUM_LENGTH) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-          content: Text("Issue description should be more than 500 characters"),
+          content: Text("Issue description should be more than " +
+              ISSUE_DESCRIPTION_MAXIMUM_LENGTH_STRING +
+              " characters"),
           backgroundColor: AppColors.errorRed));
     } else {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(

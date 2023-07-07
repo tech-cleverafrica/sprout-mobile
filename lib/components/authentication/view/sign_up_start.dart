@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:sprout_mobile/components/authentication/controller/signup_controller.dart';
 import 'package:sprout_mobile/components/authentication/view/sign_in_screen.dart';
 import 'package:sprout_mobile/components/authentication/view/sign_up_personal.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/widgets/custom_button.dart';
 import 'package:sprout_mobile/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/utils/app_colors.dart';
@@ -43,32 +44,17 @@ class SignUpStart extends StatelessWidget {
                           height: 27.h,
                         )),
                         addVerticalSpace(30.h),
-                        TypeCard(
-                          isDarkMode: isDarkMode,
-                          text:
-                              "I do not have a registered business name, LLC or partnership.",
-                          index: 1,
-                        ),
-                        addVerticalSpace(10.h),
-                        TypeCard(
-                          isDarkMode: isDarkMode,
-                          text:
-                              "I run a business, but do not need a current business account.",
-                          index: 2,
-                        ),
-                        addVerticalSpace(10.h),
-                        TypeCard(
-                          isDarkMode: isDarkMode,
-                          text: "I have a registered business name.",
-                          index: 3,
-                        ),
-                        addVerticalSpace(10.h),
-                        TypeCard(
-                          isDarkMode: isDarkMode,
-                          text:
-                              "I have a limited liability company or partnership.",
-                          index: 4,
-                        ),
+                        for (int i = 0; i < SIGN_UP_OPTIONS.length; i++)
+                          Column(children: [
+                            TypeCard(
+                              isDarkMode: isDarkMode,
+                              text: SIGN_UP_OPTIONS[i],
+                              index: i + 1,
+                            ),
+                            i < SIGN_UP_OPTIONS.length - 1
+                                ? addVerticalSpace(10.h)
+                                : SizedBox(),
+                          ]),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.05,
                         ),

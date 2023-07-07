@@ -109,7 +109,7 @@ class SignInController extends GetxController {
           height: 50.h,
           padding: EdgeInsets.all(10),
           child: Image.asset(
-            "assets/images/faceId.png",
+            AppImages.faceId,
             color: isDark ? AppColors.white : AppColors.black,
           ),
         ),

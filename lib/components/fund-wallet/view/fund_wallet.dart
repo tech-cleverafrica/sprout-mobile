@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sprout_mobile/components/fund-wallet/controller/fund_wallet_controller.dart';
 import 'package:sprout_mobile/components/fund-wallet/view/widget.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/widgets/custom_text_form_field.dart';
 import 'package:sprout_mobile/public/widgets/custom_toast_notification.dart';
 import 'package:sprout_mobile/public/widgets/general_widgets.dart';
@@ -262,11 +263,12 @@ void fundFromCard(BuildContext context) {
                                 0) {
                               return "Invalid amount";
                             } else if (double.parse(value.split(",").join("")) <
-                                10) {
+                                MINIMUM_FUND_WALLET_AMOUNT) {
                               return "Amount too small";
                             } else if (double.parse(value.split(",").join("")) >
-                                450000) {
-                              return "Maximum amount is 450,000";
+                                MAXIMUM_FUND_WALLET_AMOUNT) {
+                              return "Maximum amount is " +
+                                  MAXIMUM_FUND_WALLET_AMOUNT_STRING;
                             }
                             return null;
                           },
