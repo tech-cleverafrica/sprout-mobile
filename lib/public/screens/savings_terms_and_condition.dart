@@ -1,9 +1,7 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:sprout_mobile/utils/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sprout_mobile/utils/helper_widgets.dart';
-import 'package:url_launcher/url_launcher.dart' as launcher;
 import 'package:get/get.dart';
 
 class SavingsTermsAndCondition extends StatefulWidget {
