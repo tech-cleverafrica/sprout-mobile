@@ -1,0 +1,853 @@
+import 'package:basic_utils/basic_utils.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:flutterwave_standard/core/flutterwave.dart';
+import 'package:flutterwave_standard/models/requests/customer.dart';
+import 'package:flutterwave_standard/models/requests/customizations.dart';
+import 'package:flutterwave_standard/models/responses/charge_response.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:sprout_mobile/api-setup/api_setup.dart';
+import 'package:sprout_mobile/api/api_response.dart';
+import 'package:sprout_mobile/components/fund-wallet/model/customer_card_model.dart';
+import 'package:sprout_mobile/components/fund-wallet/service/fund_wallet_service.dart';
+import 'package:sprout_mobile/components/save/model/savings_rate_model.dart';
+import 'package:sprout_mobile/components/save/model/savings_summary_model.dart';
+import 'package:sprout_mobile/components/save/service/savings_service.dart';
+import 'package:sprout_mobile/components/save/view/savings_summary.dart';
+import 'package:sprout_mobile/config/Config.dart';
+import 'package:sprout_mobile/environment.dart';
+import 'package:sprout_mobile/public/widgets/custom_loader.dart';
+import 'package:sprout_mobile/public/widgets/custom_toast_notification.dart';
+import 'package:sprout_mobile/utils/app_colors.dart';
+import 'package:sprout_mobile/utils/app_formatter.dart';
+import 'package:sprout_mobile/components/authentication/service/auth_service.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sprout_mobile/utils/app_svgs.dart';
+import 'package:sprout_mobile/utils/nav_function.dart';
+
+class CreateSavingsController extends GetxController {
+  final storage = GetStorage();
+  final AppFormatter formatter = Get.put(AppFormatter());
+  TextEditingController savingsNameController = new TextEditingController();
+  late MoneyMaskedTextController targetAmountController =
+      new MoneyMaskedTextController(
+          initialValue: 0, decimalSeparator: ".", thousandSeparator: ",");
+  late MoneyMaskedTextController startingAmountController =
+      new MoneyMaskedTextController(
+          initialValue: 0, decimalSeparator: ".", thousandSeparator: ",");
+  late MoneyMaskedTextController savingsAmountController =
+      new MoneyMaskedTextController(
+          initialValue: 0, decimalSeparator: ".", thousandSeparator: ",");
+  TextEditingController paymentTypeController = new TextEditingController();
+  TextEditingController frequencyController = new TextEditingController();
+  TextEditingController tenureController = new TextEditingController();
+  TextEditingController cardController = new TextEditingController();
+
+  RxList<String> frequencies = <String>[...SAVINGS_FREQUENCY].obs;
+  RxString frequency = "".obs;
+  RxList<String> paymentTypes = <String>[...SAVINGS_PAYMENT_TYPE].obs;
+  RxString paymentType = "".obs;
+  RxList<SavingsRate> tenures = <SavingsRate>[].obs;
+  var tenure = Rxn<SavingsRate>();
+  RxList<CustomerCard> cards = <CustomerCard>[].obs;
+  var card = Rxn<CustomerCard>();
+  var cardData;
+  String transactionRef = "";
+
+  @override
+  void onInit() {
+    storage.remove("removeAll");
+    getCards();
+    super.onInit();
+  }
+
+  getCards() async {
+    CustomLoader.show();
+    AppResponse<List<CustomerCard>> response =
+        await locator.get<FundWalletService>().getCards();
+    CustomLoader.dismiss();
+    if (response.status) {
+      cards.clear();
+      CustomerCard none = CustomerCard(
+        id: "00",
+        userID: "",
+        agentID: "",
+        pan: "Use New Card",
+        cardHash: "",
+        expiryMonth: "",
+        expiryYear: "",
+        issuingCountry: "",
+        token: "",
+        scheme: "",
+        status: "",
+        provider: "",
+        createdAt: "",
+        updatedAt: "",
+      );
+      cards.assignAll(response.data!);
+      cards.insert(0, none);
+      getRateOptions();
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        getCards();
+      }
+    }
+  }
+
+  getRateOptions() async {
+    CustomLoader.show();
+    AppResponse response = await locator.get<SavingsService>().getRateOptions();
+    CustomLoader.dismiss();
+    if (response.status) {
+      tenures.assignAll(response.data!);
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        getRateOptions();
+      }
+    }
+  }
+
+  Future getSavingsSummary(Map<String, dynamic> requestBody) async {
+    AppResponse<dynamic> response =
+        await locator.get<SavingsService>().getSavingsSummary(requestBody);
+    if (response.status) {
+      SavingsSummary savingsSummary = SavingsSummary.fromJson(response.data);
+      if (savingsSummary.data!.tenure! >= SAVINGS_TENOR) {
+        Get.to(() => SavingsSummaryScreen(), arguments: savingsSummary);
+      } else {
+        CustomToastNotification.show(
+            "Tenor can not be less $SAVINGS_TENOR_STRING days. Please adjust Target Amount, Recurring Amount or Frequency",
+            type: ToastType.error);
+      }
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        getSavingsSummary(requestBody);
+      }
+    } else {
+      CustomToastNotification.show(response.message, type: ToastType.error);
+    }
+  }
+
+  Future fundWalletWithNewCard() async {
+    AppResponse response = await locator
+        .get<FundWalletService>()
+        .fundWalletWithNewCard(buildBeneficiaryModel());
+    if (response.status) {
+      cardData = response.data;
+      handlePaymentInitialization(Get.context!);
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        fundWalletWithNewCard();
+      }
+    } else {
+      CustomToastNotification.show(response.message, type: ToastType.error);
+    }
+  }
+
+  Future<dynamic> validateTargetSavings() async {
+    if (savingsNameController.text.length > 1 &&
+        (double.parse(targetAmountController.text.split(",").join()) >=
+                TARGET_SAVINGS_TARGET_AMOUNT &&
+            double.parse(startingAmountController.text.split(",").join()) >=
+                TARGET_SAVINGS_STARTING_AMOUNT) &&
+        frequency.value.isNotEmpty &&
+        paymentType.value.isNotEmpty &&
+        ((paymentType.value == "CARD" && card.value != null) ||
+            paymentType.value == "WALLET")) {
+      getSavingsSummary(buildTargetSavingsSummaryModel());
+    } else if (savingsNameController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Savings name is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (savingsNameController.text.length < 2) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Savings name is too short"),
+          backgroundColor: AppColors.errorRed));
+    } else if (double.parse(targetAmountController.text.split(",").join("")) ==
+        0) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please enter a valid target amount"),
+          backgroundColor: AppColors.errorRed));
+    } else if (double.parse(targetAmountController.text.split(",").join("")) <
+        TARGET_SAVINGS_TARGET_AMOUNT) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text(
+              "Target amount should be minimum of NGN $TARGET_SAVINGS_TARGET_AMOUNT_STRING"),
+          backgroundColor: AppColors.errorRed));
+    } else if (double.parse(
+            startingAmountController.text.split(",").join("")) ==
+        0) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please enter a valid recurring amount"),
+          backgroundColor: AppColors.errorRed));
+    } else if (double.parse(startingAmountController.text.split(",").join("")) <
+        TARGET_SAVINGS_STARTING_AMOUNT) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text(
+              "Recurring amount should be minimum of NGN $TARGET_SAVINGS_STARTING_AMOUNT_STRING"),
+          backgroundColor: AppColors.errorRed));
+    } else if (frequency.value.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Freqency is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (paymentType.value.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Payment type is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (paymentType.value == "CARD" && card.value == null) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please select a card or add a new one"),
+          backgroundColor: AppColors.errorRed));
+    } else {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please supply all required fields"),
+          backgroundColor: AppColors.errorRed));
+    }
+    return null;
+  }
+
+  Future<dynamic> validateLockedFunds() async {
+    if (savingsNameController.text.length > 1 &&
+        double.parse(savingsAmountController.text.split(",").join()) >=
+            LOCKED_FUND_SAVINGS_AMOUNT &&
+        tenure.value != null &&
+        paymentType.value.isNotEmpty &&
+        ((paymentType.value == "CARD" && card.value != null) ||
+            paymentType.value == "WALLET")) {
+      getSavingsSummary(buildLockedFundsSummaryModel());
+    } else if (savingsNameController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Savings name is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (savingsNameController.text.length < 2) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Savings name is too short"),
+          backgroundColor: AppColors.errorRed));
+    } else if (double.parse(savingsAmountController.text.split(",").join("")) ==
+        0) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please enter a valid savings amount"),
+          backgroundColor: AppColors.errorRed));
+    } else if (double.parse(savingsAmountController.text.split(",").join("")) <
+        LOCKED_FUND_SAVINGS_AMOUNT) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text(
+              "Savings amount should be minimum of NGN $LOCKED_FUND_SAVINGS_AMOUNT_STRING"),
+          backgroundColor: AppColors.errorRed));
+    } else if (tenure.value == null) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Tenure is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (paymentType.value.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Payment type is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (paymentType.value == "CARD" && card.value == null) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please select a card or add a new one"),
+          backgroundColor: AppColors.errorRed));
+    } else {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please supply all required fields"),
+          backgroundColor: AppColors.errorRed));
+    }
+    return null;
+  }
+
+  buildBeneficiaryModel() {
+    String id = storage.read("userId");
+    String suffix = DateTime.now().year.toString() +
+        DateTime.now().month.toString() +
+        DateTime.now().day.toString() +
+        DateTime.now().hour.toString() +
+        DateTime.now().minute.toString() +
+        DateTime.now().second.toString();
+    transactionRef = "CLV-SAVINGS$id$suffix".toUpperCase();
+    return {"amount": "100.00", "txRef": transactionRef, "saveCard": true};
+  }
+
+  buildTargetSavingsSummaryModel() {
+    return {
+      "savingsAmount": targetAmountController.text.split(",").join(),
+      "startDate": DateTime.now().toIso8601String().split("T")[0],
+      "startingAmount": startingAmountController.text.split(",").join(),
+      "debitFrequency": frequency.value,
+      "type": "TARGET",
+    };
+  }
+
+  buildLockedFundsSummaryModel() {
+    return {
+      "savingsAmount": savingsAmountController.text.split(",").join(),
+      "startDate": DateTime.now().toIso8601String().split("T")[0],
+      "tenure": tenure.value!.tenure,
+      "type": "LOCKED",
+    };
+  }
+
+  showFrequencyList(context, isDarkMode) {
+    return showModalBottomSheet(
+        backgroundColor: AppColors.transparent,
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return FractionallySizedBox(
+            heightFactor: 0.4,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: isDarkMode ? AppColors.greyDot : AppColors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              child: Container(
+                  child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 17.h,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10.h, horizontal: 20.w),
+                            child: Text(
+                              "Select Frequency",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  fontFamily: "Mont",
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: isDarkMode
+                                      ? AppColors.mainGreen
+                                      : AppColors.primaryColor),
+                            ),
+                          )
+                        ]),
+                  ),
+                  Obx((() => Expanded(
+                      child: ListView.builder(
+                          itemCount: frequencies.length,
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: ((context, index) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.h, horizontal: 20.w),
+                              child: GestureDetector(
+                                onTap: () {
+                                  pop();
+                                  frequency.value = frequencies[index];
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: isDarkMode
+                                          ? AppColors.inputBackgroundColor
+                                          : AppColors.grey,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 15.w, vertical: 16.h),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                frequencies[index],
+                                                style: TextStyle(
+                                                    fontFamily: "Mont",
+                                                    fontSize: 12.sp,
+                                                    fontWeight: frequency
+                                                                    .value !=
+                                                                "" &&
+                                                            frequency.value ==
+                                                                frequencies[
+                                                                    index]
+                                                        ? FontWeight.w700
+                                                        : FontWeight.w600,
+                                                    color: isDarkMode
+                                                        ? AppColors.mainGreen
+                                                        : AppColors
+                                                            .primaryColor),
+                                              ),
+                                            ],
+                                          ),
+                                          frequency.value != "" &&
+                                                  frequency.value ==
+                                                      frequencies[index]
+                                              ? SvgPicture.asset(
+                                                  AppSvg.mark_green,
+                                                  height: 20,
+                                                  color: isDarkMode
+                                                      ? AppColors.mainGreen
+                                                      : AppColors.primaryColor,
+                                                )
+                                              : SizedBox()
+                                        ],
+                                      )),
+                                ),
+                              ),
+                            );
+                          }))))),
+                ],
+              )),
+            ),
+          );
+        });
+  }
+
+  showPaymentTypeList(context, isDarkMode) {
+    return showModalBottomSheet(
+        backgroundColor: AppColors.transparent,
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return FractionallySizedBox(
+            heightFactor: 0.3,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: isDarkMode ? AppColors.greyDot : AppColors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              child: Container(
+                  child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 17.h,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10.h, horizontal: 20.w),
+                            child: Text(
+                              "Select Payment Type",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  fontFamily: "Mont",
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: isDarkMode
+                                      ? AppColors.mainGreen
+                                      : AppColors.primaryColor),
+                            ),
+                          )
+                        ]),
+                  ),
+                  Obx((() => Expanded(
+                      child: ListView.builder(
+                          itemCount: paymentTypes.length,
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: ((context, index) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.h, horizontal: 20.w),
+                              child: GestureDetector(
+                                onTap: () {
+                                  pop();
+                                  paymentType.value = paymentTypes[index];
+                                  card.value = null;
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: isDarkMode
+                                          ? AppColors.inputBackgroundColor
+                                          : AppColors.grey,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 15.w, vertical: 16.h),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                paymentTypes[index],
+                                                style: TextStyle(
+                                                    fontFamily: "Mont",
+                                                    fontSize: 12.sp,
+                                                    fontWeight: paymentType
+                                                                    .value !=
+                                                                "" &&
+                                                            paymentType.value ==
+                                                                paymentTypes[
+                                                                    index]
+                                                        ? FontWeight.w700
+                                                        : FontWeight.w600,
+                                                    color: isDarkMode
+                                                        ? AppColors.mainGreen
+                                                        : AppColors
+                                                            .primaryColor),
+                                              ),
+                                            ],
+                                          ),
+                                          paymentType.value != "" &&
+                                                  paymentType.value ==
+                                                      paymentTypes[index]
+                                              ? SvgPicture.asset(
+                                                  AppSvg.mark_green,
+                                                  height: 20,
+                                                  color: isDarkMode
+                                                      ? AppColors.mainGreen
+                                                      : AppColors.primaryColor,
+                                                )
+                                              : SizedBox()
+                                        ],
+                                      )),
+                                ),
+                              ),
+                            );
+                          }))))),
+                ],
+              )),
+            ),
+          );
+        });
+  }
+
+  showTenureList(context, isDarkMode) {
+    return showModalBottomSheet(
+        backgroundColor: AppColors.transparent,
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return FractionallySizedBox(
+            heightFactor: 0.5,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: isDarkMode ? AppColors.greyDot : AppColors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              child: Container(
+                  child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 17.h,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10.h, horizontal: 20.w),
+                            child: Text(
+                              "Select Tenor",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  fontFamily: "Mont",
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: isDarkMode
+                                      ? AppColors.mainGreen
+                                      : AppColors.primaryColor),
+                            ),
+                          )
+                        ]),
+                  ),
+                  Obx((() => Expanded(
+                      child: ListView.builder(
+                          itemCount: tenures.length,
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: ((context, index) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.h, horizontal: 20.w),
+                              child: GestureDetector(
+                                onTap: () {
+                                  pop();
+                                  tenure.value = tenures[index];
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: isDarkMode
+                                          ? AppColors.inputBackgroundColor
+                                          : AppColors.grey,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 15.w, vertical: 16.h),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                tenures[index]
+                                                        .tenure
+                                                        .toString() +
+                                                    " days",
+                                                style: TextStyle(
+                                                    fontFamily: "Mont",
+                                                    fontSize: 12.sp,
+                                                    fontWeight: tenure.value !=
+                                                                null &&
+                                                            tenure.value!.id ==
+                                                                tenures[index]
+                                                                    .id
+                                                        ? FontWeight.w700
+                                                        : FontWeight.w600,
+                                                    color: isDarkMode
+                                                        ? AppColors.mainGreen
+                                                        : AppColors
+                                                            .primaryColor),
+                                              ),
+                                              Text(
+                                                tenures[index]
+                                                        .locked!
+                                                        .toStringAsFixed(2) +
+                                                    "% per annum",
+                                                style: TextStyle(
+                                                    fontFamily: "Mont",
+                                                    fontSize: 10.sp,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: isDarkMode
+                                                        ? AppColors.white
+                                                        : AppColors.black),
+                                              )
+                                            ],
+                                          ),
+                                          tenure.value != null &&
+                                                  tenure.value!.id ==
+                                                      tenures[index].id
+                                              ? SvgPicture.asset(
+                                                  AppSvg.mark_green,
+                                                  height: 20,
+                                                  color: isDarkMode
+                                                      ? AppColors.mainGreen
+                                                      : AppColors.primaryColor,
+                                                )
+                                              : SizedBox()
+                                        ],
+                                      )),
+                                ),
+                              ),
+                            );
+                          }))))),
+                ],
+              )),
+            ),
+          );
+        });
+  }
+
+  showCardList(context, isDarkMode) {
+    return showModalBottomSheet(
+        backgroundColor: AppColors.transparent,
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return FractionallySizedBox(
+            heightFactor: 0.5,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: isDarkMode ? AppColors.greyDot : AppColors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              child: Container(
+                  child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 17.h,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10.h, horizontal: 20.w),
+                            child: Text(
+                              "Select Card",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  fontFamily: "Mont",
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: isDarkMode
+                                      ? AppColors.mainGreen
+                                      : AppColors.primaryColor),
+                            ),
+                          )
+                        ]),
+                  ),
+                  Obx((() => Expanded(
+                      child: ListView.builder(
+                          itemCount: cards.length,
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: ((context, index) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.h, horizontal: 20.w),
+                              child: GestureDetector(
+                                onTap: () {
+                                  pop();
+                                  if (cards[index].id == "00") {
+                                    card.value = null;
+                                    fundWalletWithNewCard();
+                                  } else {
+                                    card.value = cards[index];
+                                  }
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: isDarkMode
+                                          ? AppColors.inputBackgroundColor
+                                          : AppColors.grey,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 15.w, vertical: 16.h),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                cards[index].pan!,
+                                                style: TextStyle(
+                                                    fontFamily: "Mont",
+                                                    fontSize: 12.sp,
+                                                    fontWeight: card.value
+                                                                    ?.id !=
+                                                                "" &&
+                                                            card.value?.id ==
+                                                                cards[index].id
+                                                        ? FontWeight.w700
+                                                        : FontWeight.w600,
+                                                    color: isDarkMode
+                                                        ? AppColors.mainGreen
+                                                        : AppColors
+                                                            .primaryColor),
+                                              ),
+                                              cards[index].id != "00"
+                                                  ? Text(
+                                                      cards[index]
+                                                              .expiryMonth! +
+                                                          "/" +
+                                                          cards[index]
+                                                              .expiryYear!,
+                                                      style: TextStyle(
+                                                          fontFamily: "Mont",
+                                                          fontSize: 10.sp,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: isDarkMode
+                                                              ? AppColors.white
+                                                              : AppColors
+                                                                  .black),
+                                                    )
+                                                  : SizedBox(),
+                                            ],
+                                          ),
+                                          card.value?.id != "" &&
+                                                  card.value?.id ==
+                                                      cards[index].id
+                                              ? SvgPicture.asset(
+                                                  AppSvg.mark_green,
+                                                  height: 20,
+                                                  color: isDarkMode
+                                                      ? AppColors.mainGreen
+                                                      : AppColors.primaryColor,
+                                                )
+                                              : SizedBox()
+                                        ],
+                                      )),
+                                ),
+                              ),
+                            );
+                          }))))),
+                ],
+              )),
+            ),
+          );
+        });
+  }
+
+  handlePaymentInitialization(BuildContext context) async {
+    String firstname = StringUtils.capitalize(storage.read("firstname"));
+    String lastname = StringUtils.capitalize(storage.read("lastname"));
+    String phoneNumber = storage.read("phoneNumber");
+    String email = storage.read("email");
+    final Customer customer = Customer(
+        name: firstname + " " + lastname,
+        phoneNumber: phoneNumber,
+        email: email);
+    final Flutterwave flutterwave = Flutterwave(
+        context: context,
+        publicKey: Environment.flutterWaveKey,
+        currency: FLUTTERWAVE_FUND_WALLET_CURRENCY,
+        redirectUrl: FLUTTERWAVE_PAYMENT_REDIRECT_URL,
+        txRef: transactionRef,
+        amount: FLUTTERWAVE_PAYMENT_BASE_AMOUNT,
+        customer: customer,
+        paymentOptions: FLUTTERWAVE_FUND_WALLET_PAYMENT_OPTIONS,
+        customization: Customization(
+            title: FLUTTERWAVE_FUND_WALLET_TITLE,
+            logo: FLUTTERWAVE_FUND_WALLET_LOGO,
+            description: FLUTTERWAVE_FUND_WALLET_DESCRIPTION),
+        isTestMode: Environment.isTestMode == "TEST");
+    final ChargeResponse response = await flutterwave.charge();
+    if (response.transactionId != null) {
+      getCards();
+    } else {
+      CustomToastNotification.show(response.status!, type: ToastType.error);
+    }
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+  }
+
+  @override
+  void onClose() {
+    storage.write('removeAll', "1");
+    super.onClose();
+  }
+}
