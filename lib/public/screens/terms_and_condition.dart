@@ -964,7 +964,7 @@ class _TermsAndConditionState extends State<TermsAndCondition>
                                           fontWeight: FontWeight.w600,
                                           height: 1.5,
                                           fontSize: 15.sp,
-                                          fontFamily: 'Mont',
+                                          fontFamily: 'DMSans',
                                         ),
                                       ),
                                       TextSpan(
@@ -978,7 +978,7 @@ class _TermsAndConditionState extends State<TermsAndCondition>
                                                 : AppColors.primaryColor,
                                             height: 1.5,
                                             fontSize: 14.sp,
-                                            fontFamily: 'Mont',
+                                            fontFamily: 'DMSans',
                                           )),
                                       TextSpan(
                                         text: "Contact Us",
@@ -989,7 +989,7 @@ class _TermsAndConditionState extends State<TermsAndCondition>
                                           color: isDarkMode
                                               ? AppColors.mainGreen
                                               : AppColors.primaryColor,
-                                          fontFamily: 'Mont',
+                                          fontFamily: 'DMSans',
                                           fontWeight: FontWeight.w600,
                                           fontSize: 14.sp,
                                         ),

@@ -22,12 +22,12 @@ class IssueHeading extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                    color: isDarkMode
-                        ? AppColors.white
-                        : Color.fromRGBO(29, 30, 31, 1),
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      color: isDarkMode
+                          ? AppColors.white
+                          : Color.fromRGBO(29, 30, 31, 1),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "Mont"),
                 ),
                 SizedBox(
                   width: 5,
@@ -37,12 +37,12 @@ class IssueHeading extends StatelessWidget {
                   child: Text(
                     subtitle,
                     style: TextStyle(
-                      color: isDarkMode
-                          ? AppColors.white
-                          : Color.fromRGBO(29, 30, 31, 1),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w300,
-                    ),
+                        color: isDarkMode
+                            ? AppColors.white
+                            : Color.fromRGBO(29, 30, 31, 1),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w300,
+                        fontFamily: "Mont"),
                   ),
                 )
               ],

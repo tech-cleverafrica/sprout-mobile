@@ -61,4 +61,8 @@ class AppImages {
   static const String faceId = path + "faceId.png";
   static const String sproutByCleverLight = path + "sprout-by-clever-light.png";
   static const String sproutByClever = path + "sprout-by-clever.png";
+  static const String smartphone = path + "smartphone.png";
+  static const String bill = path + "bill.png";
+  static const String invoiceIcon = path + "invoice.png";
+  static const String sendMail = path + "send-mail.png";
 }

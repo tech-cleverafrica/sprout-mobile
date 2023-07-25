@@ -90,6 +90,11 @@ flutter:
           weight: 400
         - asset: assets/fonts/Montserrat-SemiBold.ttf
           weight: 600
+         
+    - family: Neue
+      fonts:
+        - asset: assets/fonts/NeueMontreal-Regular.otf
+        - asset: assets/fonts/NeueMontreal-Bold.otf
      
   #
   # For details regarding fonts from package dependencies,

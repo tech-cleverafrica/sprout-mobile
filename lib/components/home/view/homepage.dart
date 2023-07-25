@@ -55,7 +55,8 @@ class HomePage extends StatelessWidget {
                 Obx((() => getHomeHeader(
                     isDarkMode,
                     homeController.abbreviation,
-                    notificationController.size.value))),
+                    notificationController.size.value,
+                    homeController.fullname))),
                 addVerticalSpace(16.h),
                 getHomeDisplay(isDarkMode, theme, context)
               ])),
@@ -147,155 +148,147 @@ class HomePage extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Row(
-            children: [
-              Text(
-                "Hi",
-                style: TextStyle(
-                  color: isDarkMode ? AppColors.white : AppColors.black,
-                  fontFamily: "Mont",
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              addHorizontalSpace(5.w),
-              Text(homeController.fullname,
-                  style: TextStyle(
-                    color: isDarkMode ? AppColors.white : AppColors.black,
-                    fontFamily: "Mont",
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w700,
-                  )),
-            ],
-          ),
-        ),
-        addVerticalSpace(16.h),
+        addVerticalSpace(10.h),
+        Obx((() => homeController.showWalletBalanceCard.value
+            ? Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: InkWell(
+                  onTap: () => homeController.showSavingsCard(),
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: isDarkMode
+                            ? AppColors.balanceCardDark
+                            : AppColors.white,
+                        borderRadius: BorderRadius.circular(14.21),
+                        border: Border.all(
+                            color: isDarkMode
+                                ? AppColors.balanceCardBorder
+                                : AppColors.balanceCardBorderLight,
+                            width: 0.7)),
+                    child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Center(
+                          child: Text("Click to view savings balance",
+                              style: TextStyle(
+                                  color: AppColors.blackBg,
+                                  fontWeight: FontWeight.w500)),
+                        )),
+                  ),
+                ))
+            : SizedBox())),
+        addVerticalSpace(6.h),
         SizedBox(
-          height:
-              homeController.isApproved.value && !homeController.inReview.value
-                  ? MediaQuery.of(context).size.height * 0.17
-                  : MediaQuery.of(context).size.height * 0.13,
-          child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: 24),
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            children: [
-              // Obx((() => BalanceCard(
-              //       isDarkMode: isDarkMode,
-              //       flag: AppSvg.nigeria,
-              //       currency: "Naira",
-              //       title: "Available Balance",
-              //       symbol: currencySymbol,
-              //       naira: homeController.formatter
-              //           .formatAsMoney(homeController.walletBalance.value),
-              //       kobo: "",
-              //       bank: homeController.bankToUse.value,
-              //       accountNumber: homeController.accountNumberToUse.value,
-              //       buttontext: "Fund Account",
-              //       buttonColor: AppColors.black,
-              //       copyVisible: true,
-              //       iconVisible: true,
-              //       bankVisible: true,
-              //       buttonVisible: true,
-              //       showAmount: homeController.showAmount.value,
-              //       onTap: () {
-              //         storage.write('removeAll', "1");
-              //         push(page: FundWalletScreen());
-              //       },
-              //       setVisibility: () => {
-              //         homeController.showAmount.value =
-              //             !homeController.showAmount.value
-              //       },
-              //       isApproved: homeController.isApproved.value,
-              //       inReview: homeController.inReview.value,
-              //     ))),
-              Obx((() => BalanceCard(
-                    isDarkMode: isDarkMode,
-                    flag: AppSvg.nigeria,
-                    currency: "Naira",
-                    title: "Available Balance",
-                    symbol: currencySymbol,
-                    naira: homeController.formatter
-                        .formatAsMoney(homeController.walletBalance.value),
-                    kobo: "",
-                    bank: homeController.bankToUse.value,
-                    accountNumber: homeController.accountNumberToUse.value,
-                    buttontext: "Fund Account",
-                    buttonColor: AppColors.black,
-                    copyVisible: true,
-                    iconVisible: true,
-                    bankVisible: true,
-                    buttonVisible: true,
-                    showAmount: homeController.showAmount.value,
-                    onTap: () {
-                      storage.write('removeAll', "1");
-                      push(page: FundWalletScreen());
-                    },
-                    setVisibility: () => {
-                      homeController.showAmount.value =
-                          !homeController.showAmount.value
-                    },
-                    isApproved: homeController.isApproved.value,
-                    inReview: homeController.inReview.value,
-                  ))),
-              addHorizontalSpace(10.w),
-              Obx((() => BalanceCard(
-                    isDarkMode: isDarkMode,
-                    flag: AppSvg.nigeria,
-                    currency: "Naira",
-                    title: "Savings Balance",
-                    symbol: currencySymbol,
-                    naira: f.format(homeController.savingsBalance.value),
-                    kobo: "",
-                    bank: "",
-                    accountNumber: "",
-                    buttontext: "Details",
-                    buttonColor: AppColors.black,
-                    copyVisible: false,
-                    iconVisible: false,
-                    bankVisible: false,
-                    buttonVisible: true,
-                    showAmount: homeController.showSavingsAmount.value,
-                    onTap: () => {
-                      pushUntil(
-                          page: BottomNav(
-                        index: 1,
-                      )),
-                    },
-                    setVisibility: () => {
-                      homeController.showSavingsAmount.value =
-                          !homeController.showSavingsAmount.value
-                    },
-                    isApproved: homeController.isApproved.value,
-                    inReview: homeController.inReview.value,
-                  ))),
-              // addHorizontalSpace(10.w),
-              // BalanceCard(
-              //   isDarkMode: isDarkMode,
-              //   flag: AppSvg.usa,
-              //   currency: "USD",
-              //   title: "Account Balance",
-              //   symbol: 'N',
-              //   naira: "19,260",
-              //   kobo: "00",
-              //   bank: "Providus Bank",
-              //   accountNumber: "0087642335",
-              //   buttontext: "Details",
-              //   buttonColor: AppColors.black,
-              //   copyVisible: false,
-              //   iconVisible: false,
-              //   bankVisible: false,
-              //   buttonVisible: false,
-              // showAmount: homeController.showAmount.value,
-              //   onTap: () => {},
-              // )
-            ],
-          ),
+          width: double.infinity,
+          child: Obx((() => Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: homeController.showWalletBalanceCard.value
+                    ? BalanceCard(
+                        isDarkMode: isDarkMode,
+                        flag: AppSvg.nigeria,
+                        currency: "Naira",
+                        title: "Wallet Balance",
+                        symbol: currencySymbol,
+                        naira: homeController.formatter
+                            .formatAsMoney(homeController.walletBalance.value),
+                        kobo: "",
+                        bank: homeController.bankToUse.value,
+                        accountNumber: homeController.accountNumberToUse.value,
+                        buttontext: "Fund wallet",
+                        buttonColor: isDarkMode
+                            ? AppColors.darkPurple
+                            : AppColors.lightPurple,
+                        buttonBorder:
+                            isDarkMode ? AppColors.purple : AppColors.white,
+                        copyVisible: true,
+                        iconVisible: true,
+                        bankVisible: true,
+                        buttonVisible: true,
+                        showAmount: homeController.showAmount.value,
+                        onTap: () {
+                          storage.write('removeAll', "1");
+                          push(page: FundWalletScreen());
+                        },
+                        setVisibility: () => {
+                          homeController.showAmount.value =
+                              !homeController.showAmount.value
+                        },
+                        isApproved: homeController.isApproved.value,
+                        inReview: homeController.inReview.value,
+                      )
+                    : BalanceCard(
+                        isDarkMode: isDarkMode,
+                        flag: AppSvg.nigeria,
+                        currency: "Naira",
+                        title: "Savings Balance",
+                        symbol: currencySymbol,
+                        naira: f.format(homeController.savingsBalance.value),
+                        kobo: "",
+                        bank: homeController.bankToUse.value,
+                        accountNumber: homeController.accountNumberToUse.value,
+                        buttontext: "Details",
+                        buttonColor: isDarkMode
+                            ? AppColors.darkPurple
+                            : AppColors.lightPurple,
+                        buttonBorder:
+                            isDarkMode ? AppColors.purple : AppColors.white,
+                        copyVisible: true,
+                        iconVisible: false,
+                        bankVisible: true,
+                        buttonVisible: true,
+                        showAmount: homeController.showSavingsAmount.value,
+                        onTap: () => {
+                          pushUntil(
+                              page: BottomNav(
+                            index: 1,
+                          )),
+                        },
+                        setVisibility: () => {
+                          homeController.showSavingsAmount.value =
+                              !homeController.showSavingsAmount.value
+                        },
+                        isApproved: homeController.isApproved.value,
+                        inReview: homeController.inReview.value,
+                      ),
+              ))),
         ),
+        Obx((() => !homeController.showWalletBalanceCard.value
+            ? Column(
+                children: [
+                  addVerticalSpace(6.h),
+                  Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: InkWell(
+                        onTap: () => homeController.showWalletCard(),
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              color: isDarkMode
+                                  ? AppColors.balanceCardDark
+                                  : AppColors.white,
+                              borderRadius: BorderRadius.circular(14.21),
+                              border: Border.all(
+                                  color: isDarkMode
+                                      ? AppColors.balanceCardBorder
+                                      : AppColors.balanceCardBorderLight,
+                                  width: 0.7)),
+                          child: Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Center(
+                                child: Text(
+                                  "Click to view wallet balance",
+                                  style: TextStyle(
+                                      color: AppColors.blackBg,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              )),
+                        ),
+                      ))
+                ],
+              )
+            : SizedBox())),
         homeController.isApproved.value && !homeController.inReview.value
-            ? addVerticalSpace(16.h)
+            ? addVerticalSpace(20.h)
             : SizedBox(),
         homeController.isApproved.value && !homeController.inReview.value
             ? getItems(isDarkMode)
@@ -472,31 +465,45 @@ class HomePage extends StatelessWidget {
                           "Recent Transactions",
                           style: TextStyle(
                               fontFamily: "Mont",
-                              fontSize: 12.sp,
+                              fontSize: 13.sp,
                               color: isDarkMode
-                                  ? AppColors.inputLabelColor
+                                  ? AppColors.white
                                   : AppColors.inputBackgroundColor,
-                              fontWeight: FontWeight.w500),
+                              fontWeight: FontWeight.w600),
                         ),
                         InkWell(
-                          onTap: () {
-                            push(
-                              page: AlltransactionScreen(),
-                              // arguments: homeController.transactions
-                            );
-                          },
-                          child: Text(
-                            "See All",
-                            style: TextStyle(
-                                fontFamily: "Mont",
-                                decoration: TextDecoration.underline,
-                                fontSize: 12.sp,
-                                color: isDarkMode
-                                    ? AppColors.inputLabelColor
-                                    : AppColors.inputBackgroundColor,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        )
+                            onTap: () {
+                              push(
+                                page: AlltransactionScreen(),
+                                // arguments: homeController.transactions
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: isDarkMode
+                                      ? AppColors.balanceCardDark
+                                      : AppColors.card,
+                                  borderRadius: BorderRadius.circular(14.21),
+                                  border: Border.all(
+                                      color: AppColors.balanceCardBorder,
+                                      width: 0.7)),
+                              child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 4),
+                                  child: Center(
+                                    child: Text(
+                                      "See All",
+                                      style: TextStyle(
+                                          fontFamily: "Mont",
+                                          // decoration: TextDecoration.underline,
+                                          fontSize: 11.sp,
+                                          color: isDarkMode
+                                              ? AppColors.inputLabelColor
+                                              : AppColors.inputBackgroundColor,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  )),
+                            ))
                       ],
                     ),
                   )
@@ -608,73 +615,6 @@ class HomePage extends StatelessWidget {
               )
             : SizedBox())),
       ],
-    );
-  }
-
-  getDisplaySwitch(bool isDarkMode) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Row(
-        children: [
-          InkWell(
-            onTap: () {
-              // setState(() {
-              //   showInvoice = false;
-              // });
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: isDarkMode ? AppColors.greyDot : AppColors.grey),
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: 8, bottom: 8, right: 10, left: 10),
-                  child: Text(
-                    "Account",
-                    style: TextStyle(
-                        fontFamily: "Mont",
-                        fontSize: 14.sp,
-                        color: isDarkMode
-                            ? AppColors.white
-                            : AppColors.primaryColor,
-                        fontWeight: FontWeight.w700),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              // setState(() {
-              //   showInvoice = true;
-              // });
-            },
-            child: Container(
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(10)),
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        top: 8, bottom: 8, right: 10, left: 10),
-                    child: Text(
-                      "Invoice",
-                      style: TextStyle(
-                          fontFamily: "Mont",
-                          fontSize: 14.sp,
-                          color:
-                              isDarkMode ? AppColors.grey : AppColors.greyText,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 

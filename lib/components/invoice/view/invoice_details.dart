@@ -492,7 +492,7 @@ class InvoiceDetails extends StatelessWidget {
                                 child: Text(
                                   "$currencySymbol${invoiceController.formatter.formatAsMoney(double.parse(invoiceDetailsController.invoice.value!.invoiceContent![index].itemUnitPrice.toString()))}",
                                   style: TextStyle(
-                                      fontFamily: "Monts",
+                                      fontFamily: "Mont",
                                       fontSize: 10.sp,
                                       fontWeight: FontWeight.w700,
                                       color: isDarkMode
@@ -506,7 +506,7 @@ class InvoiceDetails extends StatelessWidget {
                                 child: Text(
                                   "$currencySymbol${invoiceController.formatter.formatAsMoney(double.parse(invoiceDetailsController.invoice.value!.invoiceContent![index].itemTotalPrice.toString()))}",
                                   style: TextStyle(
-                                      fontFamily: "Monts",
+                                      fontFamily: "Mont",
                                       fontSize: 10.sp,
                                       fontWeight: FontWeight.w700,
                                       color: isDarkMode
