@@ -6,9 +6,12 @@ class AppColors {
   static const Color white = Color(0xFFFFFFFF);
   static const Color semi_white = Color(0xFFFDFDFD);
   static const Color black = Color(0xFF000000);
+  static const Color darkPurple = Color(0xFF02001C);
+  static const Color purple = Color(0xFFA788FF);
   static const Color blackBg = Color(0xFF0D0D0D);
   static const Color mainGreen = Color(0xFF10AE5A);
-  // static const Color mainGreen = Color(0xFF00DAAC);
+  static const Color transGreen = Color(0xFF3CBB00);
+  static const Color transIconGreen = Color(0xFF00DAAC);
   static const Color greyText = Color(0xFF8D8D8D);
   static const Color greyDot = Color(0xFF222222);
   static const Color grey = Color(0xFFF2F2F2);
@@ -18,7 +21,9 @@ class AppColors {
   static const Color inputBackgroundColor = Color(0xFF1c1c1c);
   static const Color red = Colors.red;
   static const Color deepOrange = Color(0xFFFF5C00);
-  static const Color balanceCardDark = Color(0xFF161618);
+  static const Color balanceCardDark = Color(0xFF101010);
+  static const Color balanceCardBorder = Color.fromRGBO(255, 255, 255, 0.15);
+  static const Color balanceCardBorderLight = Color.fromRGBO(30, 30, 30, 0.15);
 
   static const Color shadowGrey = Color(0xFF111111);
   static const Color transparent = Color(0x00000000);
@@ -32,5 +37,6 @@ class AppColors {
   static const Color lightGrey = Color(0xFFF5F4F8);
   static const Color lightGreyBg = Color(0xFFF4F4F6);
   static const Color greyBg = Color(0xFFF5F5F5);
+  static const Color lightPurple = Color(0xFFECE6FD);
   static const Color hoverBlack = Color.fromRGBO(31, 38, 48, 1);
 }

@@ -12,6 +12,7 @@ import 'package:intl/intl.dart';
 import 'package:sprout_mobile/components/help/view/complaint.dart';
 import 'package:sprout_mobile/components/notification/view/notification.dart';
 import 'package:sprout_mobile/public/widgets/custom_toast_notification.dart';
+import 'package:sprout_mobile/utils/app_images.dart';
 
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_svgs.dart';
@@ -27,32 +28,59 @@ DateTime localDate(String date) {
   return DateTime.parse(date).toLocal();
 }
 
-getHomeHeader(bool isDarkMode, abbreviation, int size) {
+getHomeHeader(bool isDarkMode, abbreviation, int size, String fullName) {
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 24),
+    padding: const EdgeInsets.only(left: 18, right: 24),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Container(
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: isDarkMode
-                  ? AppColors.greyDot
-                  : Color.fromRGBO(61, 2, 230, 0.1)),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Center(
-              child: Text(
-                abbreviation,
-                style: TextStyle(
-                    fontFamily: "Mont",
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w700,
-                    color:
-                        isDarkMode ? AppColors.white : AppColors.primaryColor),
+        Row(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: isDarkMode
+                      ? AppColors.greyDot
+                      : Color.fromRGBO(61, 2, 230, 0.1)),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Center(
+                  child: Text(
+                    abbreviation,
+                    style: TextStyle(
+                        fontFamily: "Mont",
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w700,
+                        color: isDarkMode
+                            ? AppColors.white
+                            : AppColors.primaryColor),
+                  ),
+                ),
               ),
             ),
-          ),
+            addHorizontalSpace(5.w),
+            Row(
+              children: [
+                Text(
+                  "Hi",
+                  style: TextStyle(
+                    color: isDarkMode ? AppColors.white : AppColors.black,
+                    fontFamily: "Mont",
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                addHorizontalSpace(5.w),
+                Text(fullName + ",",
+                    style: TextStyle(
+                      color: isDarkMode ? AppColors.white : AppColors.black,
+                      fontFamily: "Mont",
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w700,
+                    )),
+              ],
+            ),
+          ],
         ),
         Row(
           children: [
@@ -173,7 +201,9 @@ class HistoryCard extends StatelessWidget {
                                       transactionType == "WALLET_TOP_UP"
                                   ? AppSvg.swap
                                   : AppSvg.send,
-                      color: successful! ? AppColors.mainGreen : AppColors.red,
+                      color: successful!
+                          ? AppColors.transIconGreen
+                          : AppColors.red,
                       // color: incoming! ? AppColors.mainGreen : AppColors.red,
                       height: 18,
                       width: 18,
@@ -186,11 +216,11 @@ class HistoryCard extends StatelessWidget {
                           tType,
                           style: TextStyle(
                               fontFamily: "Mont",
-                              fontSize: 10.sp,
+                              fontSize: 12.sp,
                               color: isDarkMode
                                   ? AppColors.white
                                   : AppColors.black,
-                              fontWeight: FontWeight.w700),
+                              fontWeight: FontWeight.w600),
                         ),
                         addVerticalSpace(5.h),
                         Container(
@@ -200,21 +230,21 @@ class HistoryCard extends StatelessWidget {
                                 .format(localDate(createdAt!)),
                             style: TextStyle(
                                 fontFamily: "Mont",
-                                fontSize: 9.sp,
+                                fontSize: 10.sp,
                                 color: isDarkMode
                                     ? AppColors.inputLabelColor
                                     : AppColors.inputBackgroundColor,
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
-                        addVerticalSpace(10.h),
+                        addVerticalSpace(8.h),
                         Container(
                           width: MediaQuery.of(context).size.width * .5,
                           child: Text(
                             narration?.split("_").join(" ") ?? "",
                             style: TextStyle(
                                 fontFamily: "Mont",
-                                fontSize: 9.sp,
+                                fontSize: 10.sp,
                                 color: isDarkMode
                                     ? AppColors.inputLabelColor
                                     : AppColors.inputBackgroundColor,
@@ -238,9 +268,10 @@ class HistoryCard extends StatelessWidget {
                               : "0.00"),
                       style: TextStyle(
                           fontFamily: "Mont",
-                          fontSize: 9.sp,
-                          color:
-                              successful! ? AppColors.mainGreen : AppColors.red,
+                          fontSize: 12.sp,
+                          color: successful!
+                              ? AppColors.transGreen
+                              : AppColors.red,
                           // color: incoming! ? AppColors.mainGreen : AppColors.red,
                           fontWeight: FontWeight.w500),
                     ),
@@ -255,7 +286,7 @@ class HistoryCard extends StatelessWidget {
                               : "0.00"),
                       style: TextStyle(
                           fontFamily: "Mont",
-                          fontSize: 9.sp,
+                          fontSize: 10.sp,
                           color: isDarkMode
                               ? AppColors.inputLabelColor
                               : AppColors.inputBackgroundColor,
@@ -272,7 +303,7 @@ class HistoryCard extends StatelessWidget {
                               : "0.00"),
                       style: TextStyle(
                           fontFamily: "Mont",
-                          fontSize: 9.sp,
+                          fontSize: 10.sp,
                           color: isDarkMode
                               ? AppColors.inputLabelColor
                               : AppColors.inputBackgroundColor,
@@ -459,46 +490,42 @@ class SavingsCard extends StatelessWidget {
 
 getItems(isDark) {
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 24),
+    padding: const EdgeInsets.symmetric(horizontal: 32),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         itemOptions(
           isDark: isDark,
-          iconColor: AppColors.mainGreen,
-          color: isDark ? AppColors.greyDot : AppColors.grey,
+          color: isDark ? AppColors.greyDot : AppColors.white,
           title: "Send",
-          svg: AppSvg.send,
+          img: AppImages.sendMail,
           onTap: () {
             Get.to(() => SendMoney());
           },
         ),
         itemOptions(
           isDark: isDark,
-          iconColor: AppColors.primaryColor,
-          color: isDark ? AppColors.greyDot : AppColors.grey,
+          color: isDark ? AppColors.greyDot : AppColors.white,
           title: "Payments",
-          svg: AppSvg.swap,
+          img: AppImages.invoiceIcon,
           onTap: () {
             Get.to(() => BorrowScren());
           },
         ),
         itemOptions(
           isDark: isDark,
-          iconColor: AppColors.orangeWarning,
-          color: isDark ? AppColors.greyDot : AppColors.grey,
+          color: isDark ? AppColors.greyDot : AppColors.white,
           title: "Pay Bills",
-          svg: AppSvg.bill,
+          img: AppImages.bill,
           onTap: () {
             Get.to(() => PayBillsScreen());
           },
         ),
         itemOptions(
           isDark: isDark,
-          iconColor: AppColors.red,
-          color: isDark ? AppColors.greyDot : AppColors.grey,
+          color: isDark ? AppColors.greyDot : AppColors.white,
           title: "Buy Airtime",
-          svg: AppSvg.airtime,
+          img: AppImages.smartphone,
           onTap: () {
             Get.to(() => BuyAirtimeScreen());
           },
@@ -512,16 +539,15 @@ getItems(isDark) {
 class itemOptions extends StatelessWidget {
   itemOptions(
       {Key? key,
-      required this.iconColor,
       required this.color,
-      required this.svg,
+      required this.img,
       required this.title,
       required this.onTap,
       required this.isDark})
       : super(key: key);
-  final Color iconColor;
+  // final Color iconColor;
   final Color color;
-  final String svg;
+  final String img;
   final String title;
   final bool isDark;
   final VoidCallback onTap;
@@ -535,25 +561,16 @@ class itemOptions extends StatelessWidget {
             InkWell(
               onTap: onTap,
               child: Container(
-                // decoration: BoxDecoration(shape: BoxShape.circle, color: color),
+                height: 45.h,
+                width: 45.w,
                 decoration: BoxDecoration(
-                    color: color, borderRadius: BorderRadius.circular(12)),
-                child: Container(
-                  height: 72.h,
-                  width: 72.w,
-                  child: SvgPicture.asset(svg,
-                      height: 20.h,
-                      width: 20.w,
-                      color: iconColor,
-                      fit: BoxFit.scaleDown),
-                  // color: isDark ? AppColors.white : AppColors.black),
+                  color: color,
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                      color: AppColors.balanceCardBorderLight,
+                      width: isDark ? 0 : 1),
                 ),
-                // child: Padding(
-                //   padding: const EdgeInsets.all(25.0),
-                //   child: SvgPicture.asset(svg,
-                //       height: 20.h, width: 20.w, color: iconColor),
-                //   // color: isDark ? AppColors.white : AppColors.black),
-                // ),
+                child: Center(child: Image.asset(img, height: 16)),
               ),
             ),
             addVerticalSpace(4.h),
@@ -585,6 +602,7 @@ class BalanceCard extends StatelessWidget {
       required this.bank,
       required this.buttontext,
       required this.buttonColor,
+      required this.buttonBorder,
       required this.accountNumber,
       required this.bankVisible,
       required this.iconVisible,
@@ -608,6 +626,7 @@ class BalanceCard extends StatelessWidget {
   final String buttontext;
   final String accountNumber;
   final Color buttonColor;
+  final Color buttonBorder;
   final bool iconVisible;
   final bool bankVisible;
   final bool copyVisible;
@@ -621,42 +640,35 @@ class BalanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // width: MediaQuery.of(context).size.width * 0.89,
-      width: 279.w,
       decoration: BoxDecoration(
-          color: isDarkMode ? AppColors.balanceCardDark : AppColors.card,
-          borderRadius: BorderRadius.circular(14)),
+          color: isDarkMode ? AppColors.balanceCardDark : AppColors.white,
+          borderRadius: BorderRadius.circular(14.21),
+          border: Border.all(
+              color: isDarkMode
+                  ? AppColors.balanceCardBorder
+                  : AppColors.balanceCardBorderLight,
+              width: 0.7)),
       child: Padding(
-        padding: const EdgeInsets.only(top: 15, bottom: 0, right: 15, left: 15),
+        padding:
+            const EdgeInsets.only(top: 15, bottom: 15, right: 15, left: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Row(
-                //   children: [
-                //     ClipRRect(
-                //       child: SvgPicture.asset(
-                //         flag,
-                //         height: 30,
-                //         width: 30,
-                //       ),
-                //       borderRadius: BorderRadius.circular(30),
-                //     ),
-                //     addHorizontalSpace(
-                //       5.w,
-                //     ),
-                //     Text(
-                //       currency,
-                //       style: TextStyle(
-                //           fontFamily: "Mont",
-                //           fontSize: 14.sp,
-                //           color: isDarkMode ? AppColors.white : AppColors.black,
-                //           fontWeight: FontWeight.w400),
-                //     )
-                //   ],
-                // ),
+                Row(
+                  children: [
+                    ClipRRect(
+                      child: SvgPicture.asset(
+                        flag,
+                        height: 20,
+                        width: 20,
+                      ),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ],
+                ),
                 Text(
                   title,
                   style: TextStyle(
@@ -669,117 +681,156 @@ class BalanceCard extends StatelessWidget {
             ),
             addVerticalSpace(5.h),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      height: 60,
-                      child: showAmount
-                          ? Row(
-                              children: [
-                                Text(
-                                  symbol,
-                                  style: TextStyle(
-                                      fontFamily: "Mont",
-                                      fontSize: 14.sp,
-                                      color: isDarkMode
-                                          ? AppColors.white
-                                          : AppColors.black,
-                                      fontWeight: FontWeight.w700),
-                                ),
-                                Text(
-                                  naira,
-                                  style: TextStyle(
-                                      fontFamily: "Mont",
-                                      fontSize: 32.sp,
-                                      color: isDarkMode
-                                          ? AppColors.white
-                                          : AppColors.black,
-                                      fontWeight: FontWeight.w700),
-                                ),
-                                kobo != ""
-                                    ? Text(
-                                        ".",
-                                        style: TextStyle(
-                                            fontFamily: "Mont",
-                                            fontSize: 32.sp,
-                                            color: isDarkMode
-                                                ? AppColors.white
-                                                : AppColors.black,
-                                            fontWeight: FontWeight.w700),
-                                      )
-                                    : Text(""),
-                                Container(
-                                  margin: EdgeInsets.only(top: 5),
-                                  child: Text(
-                                    kobo,
+                Container(
+                  height: 60,
+                  child: showAmount
+                      ? Row(
+                          children: [
+                            Text(
+                              symbol,
+                              style: TextStyle(
+                                  fontFamily: "Mont",
+                                  fontSize: 14.sp,
+                                  color: isDarkMode
+                                      ? AppColors.white
+                                      : AppColors.black,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                            Text(
+                              naira,
+                              style: TextStyle(
+                                  fontFamily: "Mont",
+                                  fontSize: 32.sp,
+                                  color: isDarkMode
+                                      ? AppColors.white
+                                      : AppColors.black,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                            kobo != ""
+                                ? Text(
+                                    ".",
                                     style: TextStyle(
                                         fontFamily: "Mont",
-                                        fontSize: 16.sp,
+                                        fontSize: 32.sp,
                                         color: isDarkMode
                                             ? AppColors.white
                                             : AppColors.black,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                )
-                              ],
-                            )
-                          : Row(
-                              children: [
-                                Text(
-                                  "******",
-                                  style: TextStyle(
-                                      fontFamily: "Mont",
-                                      fontSize: 26.sp,
-                                      color: isDarkMode
-                                          ? AppColors.white
-                                          : AppColors.black,
-                                      fontWeight: FontWeight.w700),
-                                ),
-                              ],
-                            ),
-                    ),
-                    addHorizontalSpace(16.w),
-                    InkWell(
-                        onTap: setVisibility,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 10),
-                          child: Container(
-                            height: 20.h,
-                            width: 20.w,
-                            alignment: Alignment.topRight,
-                            decoration: BoxDecoration(
-                                color: isDarkMode
-                                    ? AppColors.black
-                                    : AppColors.white,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(0.0),
-                                child: Icon(
-                                    showAmount
-                                        ? CommunityMaterialIcons.eye_off_outline
-                                        : CommunityMaterialIcons.eye_outline,
-                                    size: 12,
+                                        fontWeight: FontWeight.w700),
+                                  )
+                                : Text(""),
+                            Container(
+                              margin: EdgeInsets.only(top: 5),
+                              child: Text(
+                                kobo,
+                                style: TextStyle(
+                                    fontFamily: "Mont",
+                                    fontSize: 16.sp,
                                     color: isDarkMode
                                         ? AppColors.white
-                                        : AppColors.black),
+                                        : AppColors.black,
+                                    fontWeight: FontWeight.w500),
                               ),
+                            )
+                          ],
+                        )
+                      : Row(
+                          children: [
+                            Text(
+                              "******",
+                              style: TextStyle(
+                                  fontFamily: "Mont",
+                                  fontSize: 26.sp,
+                                  color: isDarkMode
+                                      ? AppColors.white
+                                      : AppColors.black,
+                                  fontWeight: FontWeight.w700),
                             ),
+                          ],
+                        ),
+                ),
+                addHorizontalSpace(16.w),
+                InkWell(
+                    onTap: setVisibility,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Container(
+                        height: 32.96.h,
+                        width: 32.96.w,
+                        alignment: Alignment.topRight,
+                        decoration: BoxDecoration(
+                            color:
+                                isDarkMode ? AppColors.black : AppColors.grey,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(0.0),
+                            child: Icon(
+                                showAmount
+                                    ? CommunityMaterialIcons.eye_off_outline
+                                    : CommunityMaterialIcons.eye_outline,
+                                size: 16,
+                                color: isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.black),
                           ),
-                        ))
-                  ],
-                )
+                        ),
+                      ),
+                    ))
               ],
             ),
-            isApproved && !inReview ? addVerticalSpace(8.h) : SizedBox(),
+            isApproved && !inReview ? addVerticalSpace(16.h) : SizedBox(),
             isApproved && !inReview
                 ? Row(
                     mainAxisAlignment: bankVisible
                         ? MainAxisAlignment.spaceBetween
-                        : MainAxisAlignment.start,
+                        : MainAxisAlignment.end,
                     children: [
+                      InkWell(
+                          onTap: onTap,
+                          child: Visibility(
+                            visible: buttonVisible,
+                            child: Container(
+                              height: 28.h,
+                              decoration: BoxDecoration(
+                                  color: buttonColor,
+                                  borderRadius: BorderRadius.circular(60),
+                                  border: Border.all(
+                                      color: buttonBorder, width: 0.64)),
+                              child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 8),
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Visibility(
+                                          visible: iconVisible,
+                                          child: Icon(
+                                            Icons.add,
+                                            color: isDarkMode
+                                                ? AppColors.purple
+                                                : AppColors.primaryColor,
+                                            size: 14,
+                                          ),
+                                        ),
+                                        Visibility(
+                                          visible: iconVisible,
+                                          child: addHorizontalSpace(5.w),
+                                        ),
+                                        Text(
+                                          buttontext,
+                                          style: TextStyle(
+                                              fontFamily: "Mont",
+                                              color: isDarkMode
+                                                  ? AppColors.purple
+                                                  : AppColors.primaryColor,
+                                              fontSize: 10.sp,
+                                              fontWeight: FontWeight.w700),
+                                        )
+                                      ])),
+                            ),
+                          )),
                       Visibility(
                           visible: bankVisible,
                           child: Row(
@@ -839,39 +890,6 @@ class BalanceCard extends StatelessWidget {
                                         ]),
                                   )),
                             ],
-                          )),
-                      InkWell(
-                          onTap: onTap,
-                          child: Visibility(
-                            visible: buttonVisible,
-                            child: Container(
-                              width: 95.w,
-                              height: 24.h,
-                              decoration: BoxDecoration(
-                                  color: buttonColor,
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Visibility(
-                                      visible: iconVisible,
-                                      child: Icon(
-                                        Icons.add,
-                                        color: AppColors.white,
-                                        size: 14,
-                                      ),
-                                    ),
-                                    addHorizontalSpace(5.w),
-                                    Text(
-                                      buttontext,
-                                      style: TextStyle(
-                                          fontFamily: "Mont",
-                                          color: AppColors.white,
-                                          fontSize: 10.sp,
-                                          fontWeight: FontWeight.w700),
-                                    )
-                                  ]),
-                            ),
                           )),
                     ],
                   )

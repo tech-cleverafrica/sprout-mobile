@@ -46,6 +46,7 @@ class HomeController extends GetxController {
   RxBool inReview = false.obs;
   RxBool showAmount = true.obs;
   RxBool showSavingsAmount = true.obs;
+  RxBool showWalletBalanceCard = true.obs;
 
   var storageBalance;
   var storageSavingsBalance;
@@ -230,6 +231,14 @@ class HomeController extends GetxController {
     } catch (err) {
       rethrow;
     }
+  }
+
+  showSavingsCard() {
+    showWalletBalanceCard.value = false;
+  }
+
+  showWalletCard() {
+    showWalletBalanceCard.value = true;
   }
 
   @override

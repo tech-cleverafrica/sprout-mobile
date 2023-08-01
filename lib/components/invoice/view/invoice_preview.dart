@@ -389,7 +389,7 @@ class InvoicePreviewScreen extends StatelessWidget {
                                               child: Text(
                                                 "$currencySymbol${createInvoiceController.formatter.formatAsMoney(createInvoiceController.invoiceItems[index].price ?? 0)}",
                                                 style: TextStyle(
-                                                    fontFamily: "Monts",
+                                                    fontFamily: "Mont",
                                                     fontSize: 10.sp,
                                                     fontWeight: FontWeight.w700,
                                                     color: isDarkMode
@@ -406,7 +406,7 @@ class InvoicePreviewScreen extends StatelessWidget {
                                               child: Text(
                                                 "$currencySymbol${createInvoiceController.formatter.formatAsMoney(createInvoiceController.invoiceItems[index].amount ?? 0)}",
                                                 style: TextStyle(
-                                                    fontFamily: "Monts",
+                                                    fontFamily: "Mont",
                                                     fontSize: 10.sp,
                                                     fontWeight: FontWeight.w700,
                                                     color: isDarkMode
