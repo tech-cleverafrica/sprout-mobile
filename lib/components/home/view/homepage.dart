@@ -171,7 +171,9 @@ class HomePage extends StatelessWidget {
                         child: Center(
                           child: Text("Click to view savings balance",
                               style: TextStyle(
-                                  color: AppColors.blackBg,
+                                  color: isDarkMode
+                                      ? AppColors.white
+                                      : AppColors.blackBg,
                                   fontWeight: FontWeight.w500)),
                         )),
                   ),
@@ -278,7 +280,9 @@ class HomePage extends StatelessWidget {
                                 child: Text(
                                   "Click to view wallet balance",
                                   style: TextStyle(
-                                      color: AppColors.blackBg,
+                                      color: isDarkMode
+                                          ? AppColors.white
+                                          : AppColors.blackBg,
                                       fontWeight: FontWeight.w500),
                                 ),
                               )),

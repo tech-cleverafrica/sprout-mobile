@@ -79,4 +79,21 @@ class SendMoneyService {
     }
     return AppResponse(false, statusCode, responseBody);
   }
+
+  Future<AppResponse<dynamic>> getFxRates() async {
+    CustomLoader.show();
+    Response response =
+        await locator.get<SendMoneyRepositoryImpl>().getFxRates();
+    CustomLoader.dismiss();
+    int statusCode = response.statusCode ?? 000;
+    Map<String, dynamic> responseBody = response.data;
+
+    if (statusCode >= 200 && statusCode <= 300) {
+      print("vvv$responseBody");
+      // Banks banks = Banks.fromJson(responseBody["data"]);
+      // print("This is bannnnnnnnnnnnnnnnnnnnnnnnnkks:::::$banks");
+      return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
+    }
+    return AppResponse(false, statusCode, responseBody);
+  }
 }

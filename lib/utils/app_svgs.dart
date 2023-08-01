@@ -8,6 +8,8 @@ class AppSvg {
   static const String fingerprint = path + "finger.svg";
   static const String usa = path + "usa.svg";
   static const String nigeria = path + "nigeria.svg";
+  static const String gbp = path + "gbp.svg";
+  static const String eur = path + "eur.svg";
   static const String copy = path + "copy.svg";
   static const String send = path + "Send.svg";
   static const String basil_invoice = path + "basil-invoice.svg";
@@ -27,6 +29,7 @@ class AppSvg {
   static const String mark = path + "mark.svg";
   static const String share = path + "share.svg";
   static const String search = path + "Search.svg";
+  static const String abroad = path + "abroad.svg";
 
   static const String electricity = path + "electricity.svg";
   static const String cable = path + "cable.svg";
@@ -74,4 +77,6 @@ class AppSvg {
   static const String message = path + 'message.svg';
 
   static const String invoice_icon = path + "invoice-icon.svg";
+  static const String arrow_down_white = path + "arrow-down-white.svg";
+  static const String arrow_down_black = path + "arrow-down-black.svg";
 }

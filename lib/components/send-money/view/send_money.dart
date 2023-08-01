@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+// import 'package:sprout_mobile/components/send-money/view/send-abroad/send_abroad.dart';
 import 'package:sprout_mobile/components/send-money/view/send-to-bank/send_to_bank.dart';
 
 import 'package:sprout_mobile/utils/helper_widgets.dart';
@@ -92,6 +93,39 @@ class SendMoney extends StatelessWidget {
                   ),
                 ),
               ),
+              // addVerticalSpace(6.h),
+              // InkWell(
+              //   onTap: () {
+              //     Get.to(() => SendAbroad());
+              //   },
+              //   child: Container(
+              //     child: Column(
+              //       children: [
+              //         Row(
+              //           children: [
+              //             SvgPicture.asset(AppSvg.abroad),
+              //             addHorizontalSpace(10.w),
+              //             Text(
+              //               "Send Money Abroad",
+              //               style: TextStyle(
+              //                   fontFamily: "Mont",
+              //                   fontSize: 14.sp,
+              //                   color: isDarkMode
+              //                       ? AppColors.white
+              //                       : AppColors.black,
+              //                   fontWeight: FontWeight.w500),
+              //             ),
+              //           ],
+              //         ),
+              //         Divider(
+              //             thickness: 0.1,
+              //             color: isDarkMode
+              //                 ? AppColors.semi_white.withOpacity(0.3)
+              //                 : AppColors.black.withOpacity(0.3)),
+              //       ],
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),

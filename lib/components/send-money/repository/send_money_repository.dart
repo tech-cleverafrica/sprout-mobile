@@ -60,4 +60,26 @@ class SendMoneyRepositoryImpl implements SendMoneyRepository {
       e.printError();
     }
   }
+
+  @override
+  getFxRates() async {
+    try {
+      return await api.dio.get(
+        fxRatesUrl,
+      );
+    } on DioError catch (e) {
+      return api.handleError(e);
+    }
+  }
+
+  @override
+  makeFxTransfer(requestBody) async {
+    try {
+      return await api.dio.post(fxTransferUrl, data: requestBody);
+    } on DioError catch (e) {
+      return api.handleError(e);
+    } catch (e) {
+      e.printError();
+    }
+  }
 }
