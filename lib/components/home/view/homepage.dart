@@ -149,37 +149,37 @@ class HomePage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         addVerticalSpace(10.h),
-        Obx((() => homeController.showWalletBalanceCard.value
-            ? Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: InkWell(
-                  onTap: () => homeController.showSavingsCard(),
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: isDarkMode
-                            ? AppColors.balanceCardDark
-                            : AppColors.white,
-                        borderRadius: BorderRadius.circular(14.21),
-                        border: Border.all(
-                            color: isDarkMode
-                                ? AppColors.balanceCardBorder
-                                : AppColors.balanceCardBorderLight,
-                            width: 0.7)),
-                    child: Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Center(
-                          child: Text("Click to view savings balance",
-                              style: TextStyle(
-                                  color: isDarkMode
-                                      ? AppColors.white
-                                      : AppColors.blackBg,
-                                  fontWeight: FontWeight.w500)),
-                        )),
-                  ),
-                ))
-            : SizedBox())),
-        addVerticalSpace(6.h),
+        // Obx((() => homeController.showWalletBalanceCard.value
+        //     ? Padding(
+        //         padding: EdgeInsets.symmetric(horizontal: 20),
+        //         child: InkWell(
+        //           onTap: () => homeController.showSavingsCard(),
+        //           child: Container(
+        //             width: double.infinity,
+        //             decoration: BoxDecoration(
+        //                 color: isDarkMode
+        //                     ? AppColors.balanceCardDark
+        //                     : AppColors.white,
+        //                 borderRadius: BorderRadius.circular(14.21),
+        //                 border: Border.all(
+        //                     color: isDarkMode
+        //                         ? AppColors.balanceCardBorder
+        //                         : AppColors.balanceCardBorderLight,
+        //                     width: 0.7)),
+        //             child: Padding(
+        //                 padding: const EdgeInsets.all(12),
+        //                 child: Center(
+        //                   child: Text("Click to view savings balance",
+        //                       style: TextStyle(
+        //                           color: isDarkMode
+        //                               ? AppColors.white
+        //                               : AppColors.blackBg,
+        //                           fontWeight: FontWeight.w500)),
+        //                 )),
+        //           ),
+        //         ))
+        //     : SizedBox())),
+        // addVerticalSpace(6.h),
         SizedBox(
           width: double.infinity,
           child: Obx((() => Padding(
