@@ -169,7 +169,9 @@ class BuyAirtimeScreen extends StatelessWidget {
                                                       airtimeController.biller
                                                               .value?.slug ==
                                                           group.slug
-                                                  ? AppColors.greyText
+                                                  ? isDarkMode
+                                                      ? AppColors.greyDot
+                                                      : AppColors.greyText
                                                   : AppColors.transparent,
                                           borderRadius:
                                               BorderRadius.circular(5)),
