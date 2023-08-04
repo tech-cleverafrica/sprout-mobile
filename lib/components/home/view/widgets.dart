@@ -84,16 +84,16 @@ getHomeHeader(bool isDarkMode, abbreviation, int size, String fullName) {
         ),
         Row(
           children: [
-            InkWell(
-              onTap: () => Get.to(() => ComplaintScreen()),
-              child: SvgPicture.asset(
-                AppSvg.upload,
-                height: 18,
-                width: 20,
-                color: isDarkMode ? AppColors.white : AppColors.black,
-              ),
-            ),
-            addHorizontalSpace(24.w),
+            // InkWell(
+            //   onTap: () => Get.to(() => ComplaintScreen()),
+            //   child: SvgPicture.asset(
+            //     AppSvg.upload,
+            //     height: 18,
+            //     width: 20,
+            //     color: isDarkMode ? AppColors.white : AppColors.black,
+            //   ),
+            // ),
+            // addHorizontalSpace(24.w),
             InkWell(
                 onTap: () => Get.to(() => NotificationScreen()),
                 child: size == 0

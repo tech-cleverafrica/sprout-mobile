@@ -83,18 +83,18 @@ getHeader(bool isDarkMode, {hideHelp = false, hideNotification = false}) {
         ),
         Row(
           children: [
-            !hideHelp
-                ? InkWell(
-                    onTap: () => Get.to(() => ComplaintScreen()),
-                    child: SvgPicture.asset(
-                      AppSvg.upload,
-                      height: 18,
-                      color: isDarkMode ? AppColors.white : AppColors.black,
-                    ))
-                : SizedBox(),
-            !hideHelp && !hideNotification
-                ? addHorizontalSpace(24.w)
-                : SizedBox(),
+            // !hideHelp
+            //     ? InkWell(
+            //         onTap: () => Get.to(() => ComplaintScreen()),
+            //         child: SvgPicture.asset(
+            //           AppSvg.upload,
+            //           height: 18,
+            //           color: isDarkMode ? AppColors.white : AppColors.black,
+            //         ))
+            //     : SizedBox(),
+            // !hideHelp && !hideNotification
+            //     ? addHorizontalSpace(24.w)
+            //     : SizedBox(),
             !hideNotification
                 ? InkWell(
                     onTap: () => Get.to(() => NotificationScreen()),
