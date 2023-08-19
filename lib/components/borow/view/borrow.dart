@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:sprout_mobile/components/borow/view/nfc_page.dart';
 import 'package:sprout_mobile/components/borow/view/payment_link.dart';
+import 'package:sprout_mobile/public/screens/coming_soon.dart';
 import 'package:sprout_mobile/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/utils/app_svgs.dart';
 
@@ -28,7 +28,8 @@ class BorrowScren extends StatelessWidget {
                 addVerticalSpace(29.h),
                 InkWell(
                   onTap: () {
-                    Get.to(() => NFCScreen());
+                    Get.to(() => ComingSoon());
+                    // Get.to(() => NFCScreen());
                   },
                   child: Container(
                     child: Column(
