@@ -96,6 +96,9 @@ class SendAbroad extends StatelessWidget {
                       }
                       return null;
                     },
+                    onChanged: (value) {
+                      sendAbroadController.computeBeneficiaryValue();
+                    },
                     suffixIcon: Container(
                       width: 75,
                       decoration: BoxDecoration(
@@ -134,14 +137,16 @@ class SendAbroad extends StatelessWidget {
                     children: [
                       Text("Your Balance: ",
                           style: TextStyle(
-                            color: AppColors.black,
+                            color:
+                                isDarkMode ? AppColors.white : AppColors.black,
                             fontSize: 12.sp,
                             fontFamily: "Mont",
                           )),
                       Text(
                           "$currencySymbol${sendAbroadController.formatter.formatAsMoney(sendAbroadController.userBalance!)}",
                           style: TextStyle(
-                            color: AppColors.black,
+                            color:
+                                isDarkMode ? AppColors.white : AppColors.black,
                             fontSize: 12.sp,
                             fontFamily: "Mont",
                             fontWeight: FontWeight.w700,
@@ -175,30 +180,38 @@ class SendAbroad extends StatelessWidget {
                                       fontWeight: FontWeight.w600)),
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text("Rate: ",
-                          style: TextStyle(
-                            color: AppColors.black,
-                            fontSize: 12.sp,
-                            fontFamily: "Mont",
-                          )),
-                      Text("1 USD = 800 NGN",
-                          style: TextStyle(
-                            color: AppColors.black,
-                            fontSize: 12.sp,
-                            fontFamily: "Mont",
-                            fontWeight: FontWeight.w700,
-                          ))
-                    ],
-                  ),
+                  Obx((() => sendAbroadController.currency.value != ""
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text("Rate: ",
+                                style: TextStyle(
+                                  color: isDarkMode
+                                      ? AppColors.white
+                                      : AppColors.black,
+                                  fontSize: 12.sp,
+                                  fontFamily: "Mont",
+                                )),
+                            Text(
+                                "1 ${sendAbroadController.currency.value} = ${sendAbroadController.rate.value.toString()} NGN",
+                                style: TextStyle(
+                                  color: isDarkMode
+                                      ? AppColors.white
+                                      : AppColors.black,
+                                  fontSize: 12.sp,
+                                  fontFamily: "Mont",
+                                  fontWeight: FontWeight.w700,
+                                ))
+                          ],
+                        )
+                      : SizedBox())),
                   addVerticalSpace(5),
                   Obx((() => CustomTextFormField(
-                        controller:
-                            sendAbroadController.amountToReceiveController,
+                        controller: sendAbroadController
+                            .amountToReceiveController.value,
                         label: "Beneficiary gets",
                         required: true,
+                        enabled: false,
                         textInputType: TextInputType.phone,
                         textInputAction: TextInputAction.next,
                         fillColor: isDarkMode
@@ -210,87 +223,142 @@ class SendAbroad extends StatelessWidget {
                           else if (double.parse(value.split(",").join("")) ==
                               0) {
                             return "Invalid amount";
-                          } else if (double.parse(value.split(",").join("")) <
-                              MINIMUM_TRANSFER_AMOUNT) {
-                            return "Amount too small";
-                          } else if (double.parse(value.split(",").join()) >
-                              double.parse(sendAbroadController.userBalance
-                                  .toString()
-                                  .split(",")
-                                  .join())) {
-                            return "Amount is greater than wallet balance";
-                          } else if (double.parse(value.split(",").join("")) >
-                              MAXIMUM_TRANSFER_AMOUNT) {
-                            return "Maximum amount is $MAXIMUM_TRANSFER_AMOUNT_STRING";
                           }
                           return null;
                         },
-                        suffixIcon: GestureDetector(
-                            onTap: () => {
-                                  sendAbroadController.showCurrencyList(
-                                      context, isDarkMode)
-                                },
-                            child: Container(
-                              width: 100,
-                              decoration: BoxDecoration(
-                                  border: Border(
-                                      left: BorderSide(
-                                          color: isDarkMode
-                                              ? AppColors.lightGrey
-                                              : AppColors
-                                                  .balanceCardBorderLight))),
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    ClipRRect(
-                                      child: SvgPicture.asset(
-                                        sendAbroadController.currency.value ==
-                                                "USD"
-                                            ? AppSvg.usa
-                                            : sendAbroadController
-                                                        .currency.value ==
-                                                    "GBP"
-                                                ? AppSvg.gbp
-                                                : AppSvg.eur,
-                                        height: 20,
-                                        width: 20,
-                                      ),
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    addHorizontalSpace(6.w),
-                                    Text(
-                                      sendAbroadController.currency.value,
-                                      style: TextStyle(
-                                          color: isDarkMode
-                                              ? AppColors.white
-                                              : AppColors.black,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    addHorizontalSpace(5.w),
-                                    SvgPicture.asset(
-                                      isDarkMode
-                                          ? AppSvg.arrow_down_white
-                                          : AppSvg.arrow_down_black,
-                                      height: 16,
-                                      // width: 20,
-                                    ),
-                                    addHorizontalSpace(10.w)
-                                  ]),
-                            )),
-                        hasSuffixIcon: true,
+                        suffixIcon: Container(
+                          width: 75,
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  left: BorderSide(
+                                      color: isDarkMode
+                                          ? AppColors.lightGrey
+                                          : AppColors.balanceCardBorderLight))),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                ClipRRect(
+                                  child: SvgPicture.asset(
+                                    sendAbroadController.processCurrencyIcon(),
+                                    height: 20,
+                                    width: 20,
+                                  ),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                addHorizontalSpace(6.w),
+                                Text(
+                                  sendAbroadController.currency.value,
+                                  style: TextStyle(
+                                      color: isDarkMode
+                                          ? AppColors.white
+                                          : AppColors.black,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                addHorizontalSpace(10.w)
+                              ]),
+                        ),
+                        hasSuffixIcon:
+                            sendAbroadController.currency.value.isNotEmpty,
                       ))),
+                  // Obx((() => CustomTextFormField(
+                  //       controller:
+                  //           sendAbroadController.amountToReceiveController,
+                  //       label: "Beneficiary gets",
+                  //       required: true,
+                  //       textInputType: TextInputType.phone,
+                  //       textInputAction: TextInputAction.next,
+                  //       fillColor: isDarkMode
+                  //           ? AppColors.inputBackgroundColor
+                  //           : AppColors.grey,
+                  //       validator: (value) {
+                  //         if (value!.length == 0)
+                  //           return "Amount is required";
+                  //         else if (double.parse(value.split(",").join("")) ==
+                  //             0) {
+                  //           return "Invalid amount";
+                  //         } else if (double.parse(value.split(",").join("")) <
+                  //             MINIMUM_TRANSFER_AMOUNT) {
+                  //           return "Amount too small";
+                  //         } else if (double.parse(value.split(",").join()) >
+                  //             double.parse(sendAbroadController.userBalance
+                  //                 .toString()
+                  //                 .split(",")
+                  //                 .join())) {
+                  //           return "Amount is greater than wallet balance";
+                  //         } else if (double.parse(value.split(",").join("")) >
+                  //             MAXIMUM_TRANSFER_AMOUNT) {
+                  //           return "Maximum amount is $MAXIMUM_TRANSFER_AMOUNT_STRING";
+                  //         }
+                  //         return null;
+                  //       },
+                  //       suffixIcon: GestureDetector(
+                  //           onTap: () => {
+                  //                 sendAbroadController.showCurrencyList(
+                  //                     context, isDarkMode)
+                  //               },
+                  //           child: Container(
+                  //             width: 100,
+                  //             decoration: BoxDecoration(
+                  //                 border: Border(
+                  //                     left: BorderSide(
+                  //                         color: isDarkMode
+                  //                             ? AppColors.lightGrey
+                  //                             : AppColors
+                  //                                 .balanceCardBorderLight))),
+                  //             child: Row(
+                  //                 mainAxisAlignment: MainAxisAlignment.end,
+                  //                 children: [
+                  //                   ClipRRect(
+                  //                     child: SvgPicture.asset(
+                  //                       sendAbroadController.currency.value ==
+                  //                               "USD"
+                  //                           ? AppSvg.usa
+                  //                           : sendAbroadController
+                  //                                       .currency.value ==
+                  //                                   "GBP"
+                  //                               ? AppSvg.gbp
+                  //                               : AppSvg.eur,
+                  //                       height: 20,
+                  //                       width: 20,
+                  //                     ),
+                  //                     borderRadius: BorderRadius.circular(30),
+                  //                   ),
+                  //                   addHorizontalSpace(6.w),
+                  //                   Text(
+                  //                     sendAbroadController.currency.value,
+                  //                     style: TextStyle(
+                  //                         color: isDarkMode
+                  //                             ? AppColors.white
+                  //                             : AppColors.black,
+                  //                         fontWeight: FontWeight.w600),
+                  //                   ),
+                  //                   addHorizontalSpace(5.w),
+                  //                   SvgPicture.asset(
+                  //                     isDarkMode
+                  //                         ? AppSvg.arrow_down_white
+                  //                         : AppSvg.arrow_down_black,
+                  //                     height: 16,
+                  //                     // width: 20,
+                  //                   ),
+                  //                   addHorizontalSpace(10.w)
+                  //                 ]),
+                  //           )),
+                  //       hasSuffixIcon: true,
+                  //     ))),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text("Speed: ",
                           style: TextStyle(
-                            color: AppColors.black,
+                            color:
+                                isDarkMode ? AppColors.white : AppColors.black,
                             fontSize: 12.sp,
                             fontFamily: "Mont",
                           )),
                       Text("1 - 3 business days",
                           style: TextStyle(
-                            color: AppColors.black,
+                            color:
+                                isDarkMode ? AppColors.white : AppColors.black,
                             fontSize: 12.sp,
                             fontFamily: "Mont",
                             fontWeight: FontWeight.w700,

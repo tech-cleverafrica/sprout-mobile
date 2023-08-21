@@ -242,7 +242,7 @@ class _SendAbroadPinPageState extends State<SendAbroadPinPage> {
       strPin += e;
     });
     if (pinIndex == 4) {
-      await sendAbroadController.makeTransafer(strPin).then((value) => {
+      await sendAbroadController.makeFxTransfer(strPin).then((value) => {
             if (value == false)
               {
                 setPin(4, ""),

@@ -9,9 +9,11 @@ import 'package:get_storage/get_storage.dart';
 import 'package:sprout_mobile/api-setup/api_setup.dart';
 import 'package:sprout_mobile/api/api_response.dart';
 import 'package:sprout_mobile/components/authentication/service/auth_service.dart';
+import 'package:sprout_mobile/components/send-money/model/fx_rate.dart';
 import 'package:sprout_mobile/components/send-money/service/send_money_service.dart';
 import 'package:sprout_mobile/components/send-money/view/send-abroad/send_abroad_beneficiary.dart';
 import 'package:sprout_mobile/components/send-money/view/send-abroad/send_abroad_summary.dart';
+import 'package:sprout_mobile/config/Config.dart';
 import 'package:sprout_mobile/public/widgets/custom_toast_notification.dart';
 import 'package:sprout_mobile/utils/app_svgs.dart';
 import 'package:sprout_mobile/utils/helper_widgets.dart';
@@ -23,11 +25,12 @@ class SendAbroadController extends GetxController {
   final storage = GetStorage();
   final AppFormatter formatter = Get.put(AppFormatter());
   List<String> categories = ["Individual", "Business", "Education"];
-  List<String> destinations = ["United State", "United Kingdom"];
   List<String> currencies = ["USD", "GBP", "EUR"];
   RxString category = "".obs;
   RxString destination = "".obs;
-  RxString currency = "USD".obs;
+  RxString currency = "".obs;
+  RxDouble rate = 0.0.obs;
+  RxDouble beneficiaryValue = 0.0.obs;
   final DateTime now = DateTime.now();
   double? userBalance;
 
@@ -45,14 +48,14 @@ class SendAbroadController extends GetxController {
   late MoneyMaskedTextController amountToSendController =
       new MoneyMaskedTextController(
           initialValue: 0, decimalSeparator: ".", thousandSeparator: ",");
-  late MoneyMaskedTextController amountToReceiveController =
-      new MoneyMaskedTextController(
-          initialValue: 0, decimalSeparator: ".", thousandSeparator: ",");
+  var amountToReceiveController = Rxn<MoneyMaskedTextController>();
 
-  Timer? debounce;
+  RxList<FxRate> fxRate = <FxRate>[].obs;
 
   @override
   void onInit() {
+    amountToReceiveController.value = new MoneyMaskedTextController(
+        initialValue: 0, decimalSeparator: ".", thousandSeparator: ",");
     userBalance = storage.read("userBalance");
     getFxRates();
     super.onInit();
@@ -64,11 +67,11 @@ class SendAbroadController extends GetxController {
   }
 
   getFxRates() async {
-    AppResponse<dynamic> response =
+    AppResponse<List<FxRate>> response =
         await locator.get<SendMoneyService>().getFxRates();
     if (response.status) {
-      var fxRates = response.data["data"];
-      print(fxRates);
+      var fxRates = response.data;
+      fxRate.assignAll(fxRates);
     } else if (response.statusCode == 999) {
       AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {
@@ -80,16 +83,190 @@ class SendAbroadController extends GetxController {
     }
   }
 
-  Future<dynamic> makeTransafer(pin) async {
-    return true;
-  }
-
   validateFields() {
-    push(page: SendAbroadBeneficiary());
+    if (category.value.isNotEmpty &&
+        (double.parse(amountToSendController.text.split(",").join()) >=
+                MINIMUM_TRANSFER_AMOUNT &&
+            double.parse(amountToSendController.text.split(",").join()) <=
+                MAXIMUM_TRANSFER_AMOUNT &&
+            double.parse(amountToSendController.text.split(",").join()) <=
+                double.parse(userBalance.toString().split(",").join())) &&
+        destination.value.isNotEmpty) {
+      push(page: SendAbroadBeneficiary());
+    } else if (category.value.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please select a category"),
+          backgroundColor: AppColors.errorRed));
+    } else if (double.parse(amountToSendController.text.split(",").join("")) ==
+        0) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please enter a valid amount"),
+          backgroundColor: AppColors.errorRed));
+    } else if (double.parse(amountToSendController.text.split(",").join("")) <
+        MINIMUM_TRANSFER_AMOUNT) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Amount is too small"),
+          backgroundColor: AppColors.errorRed));
+    } else if (double.parse(amountToSendController.text.split(",").join()) >
+        double.parse(userBalance.toString().split(",").join())) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Amount is greater than wallet balance"),
+          backgroundColor: AppColors.errorRed));
+    } else if (double.parse(amountToSendController.text.split(",").join("")) >
+        MAXIMUM_TRANSFER_AMOUNT) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Maximum amount is $MAXIMUM_TRANSFER_AMOUNT"),
+          backgroundColor: AppColors.errorRed));
+    } else if (destination.value.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please select a destination"),
+          backgroundColor: AppColors.errorRed));
+    } else {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please supply all required fields"),
+          backgroundColor: AppColors.errorRed));
+    }
   }
 
   validateBeneficiaryFields() {
-    push(page: SendAbroadSummaryScreen());
+    if ((beneficiaryFirstNameController.text.isNotEmpty &&
+            beneficiaryFirstNameController.text.length > 1) &&
+        (beneficiaryLastNameController.text.isNotEmpty &&
+            beneficiaryLastNameController.text.length > 1) &&
+        (beneficiaryBankNameController.text.isNotEmpty &&
+            beneficiaryBankNameController.text.length > 1) &&
+        (swiftOrBicCodeController.text.isNotEmpty &&
+            swiftOrBicCodeController.text.length > 1) &&
+        (accountNumberController.text.isNotEmpty &&
+            accountNumberController.text.length == 10)) {
+      push(page: SendAbroadSummaryScreen());
+    } else if (beneficiaryFirstNameController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Beneficiary First name is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (beneficiaryFirstNameController.text.length < 2) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Beneficiary First name is too short"),
+          backgroundColor: AppColors.errorRed));
+    } else if (beneficiaryLastNameController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Beneficiary Last name is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (beneficiaryLastNameController.text.length < 2) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Beneficiary Last name is too short"),
+          backgroundColor: AppColors.errorRed));
+    } else if (beneficiaryBankNameController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Beneficiary Bank name is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (beneficiaryBankNameController.text.length < 2) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Beneficiary Bank name is too short"),
+          backgroundColor: AppColors.errorRed));
+    } else if (swiftOrBicCodeController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("SWIFT/BIC Code is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (swiftOrBicCodeController.text.length < 2) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("SWIFT/BIC Code is too short"),
+          backgroundColor: AppColors.errorRed));
+    } else if (accountNumberController.text.isEmpty) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("IBAN/Account number is required"),
+          backgroundColor: AppColors.errorRed));
+    } else if (accountNumberController.text.length < 10) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("IBAN/Account number should be 10 digits"),
+          backgroundColor: AppColors.errorRed));
+    } else {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text("Please supply all required fields"),
+          backgroundColor: AppColors.errorRed));
+    }
+  }
+
+  String processCurrencyIcon() {
+    String icon = "";
+    switch (currency.value) {
+      case "AUD":
+        icon = AppSvg.usa;
+        break;
+      case "CAD":
+        icon = AppSvg.usa;
+        break;
+      case "CHF":
+        icon = AppSvg.usa;
+        break;
+      case "CNH":
+        icon = AppSvg.usa;
+        break;
+      case "EUR":
+        icon = AppSvg.eur;
+        break;
+      case "GBP":
+        icon = AppSvg.gbp;
+        break;
+      case "HKD":
+        icon = AppSvg.usa;
+        break;
+      case "JPY":
+        icon = AppSvg.usa;
+        break;
+      case "NZD":
+        icon = AppSvg.usa;
+        break;
+      case "SAR":
+        icon = AppSvg.usa;
+        break;
+      default:
+        icon = AppSvg.usa;
+    }
+    return icon;
+  }
+
+  computeBeneficiaryValue() {
+    if (rate.value > 0) {
+      beneficiaryValue.value =
+          (amountToSendController.numberValue / rate.value);
+      amountToReceiveController.value = new MoneyMaskedTextController(
+          initialValue: beneficiaryValue.value,
+          decimalSeparator: ".",
+          thousandSeparator: ",");
+    }
+  }
+
+  Future<dynamic> makeFxTransfer(pin) async {
+    AppResponse response = await locator
+        .get<SendMoneyService>()
+        .makeFxTransfer(buildTransferModel(pin));
+    if (response.status) {
+      return true;
+    } else if (response.statusCode == 999) {
+      AppResponse res = await locator.get<AuthService>().refreshUserToken();
+      if (res.status) {
+        makeFxTransfer(pin);
+      }
+    } else {
+      CustomToastNotification.show(response.message, type: ToastType.error);
+    }
+    return false;
+  }
+
+  buildTransferModel(String pin) {
+    return {
+      "beneficiaryFirstName": beneficiaryFirstNameController.text,
+      "beneficiaryLastName": beneficiaryLastNameController.text,
+      "beneficiaryBankName": beneficiaryBankNameController.text,
+      "swiftCode": swiftOrBicCodeController.text,
+      "iban": accountNumberController.text,
+      "category": category.value,
+      "amount": amountToSendController.numberValue,
+      "fromCurrency": "NGN",
+      "toCurrency": currency.value,
+      "transactionPin": pin,
+    };
   }
 
   showCategoryList(context, isDarkMode) {
@@ -218,7 +395,7 @@ class SendAbroadController extends GetxController {
         isScrollControlled: true,
         builder: (context) {
           return FractionallySizedBox(
-            heightFactor: 0.3,
+            heightFactor: 0.5,
             child: Container(
               decoration: BoxDecoration(
                   color: isDarkMode ? AppColors.greyDot : AppColors.white,
@@ -255,7 +432,7 @@ class SendAbroadController extends GetxController {
                   ),
                   Expanded(
                       child: ListView.builder(
-                          itemCount: destinations.length,
+                          itemCount: fxRate.length,
                           shrinkWrap: true,
                           physics: BouncingScrollPhysics(),
                           itemBuilder: ((context, index) {
@@ -264,7 +441,12 @@ class SendAbroadController extends GetxController {
                                   vertical: 10.h, horizontal: 20.w),
                               child: GestureDetector(
                                 onTap: () {
-                                  destination.value = destinations[index];
+                                  destination.value =
+                                      fxRate[index].countryName!;
+                                  currency.value = fxRate[index].currency!;
+                                  rate.value = fxRate[index].rate!;
+                                  processCurrencyIcon();
+                                  computeBeneficiaryValue();
                                   pop();
                                 },
                                 child: Container(
@@ -287,7 +469,7 @@ class SendAbroadController extends GetxController {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                destinations[index],
+                                                fxRate[index].countryName!,
                                                 style: TextStyle(
                                                     fontFamily: "Mont",
                                                     fontSize: 12.sp,
@@ -295,8 +477,8 @@ class SendAbroadController extends GetxController {
                                                                     .value !=
                                                                 "" &&
                                                             destination.value ==
-                                                                destinations[
-                                                                    index]
+                                                                fxRate[index]
+                                                                    .countryName!
                                                         ? FontWeight.w700
                                                         : FontWeight.w600,
                                                     color: isDarkMode
@@ -308,7 +490,7 @@ class SendAbroadController extends GetxController {
                                           ),
                                           destination.value != "" &&
                                                   destination.value ==
-                                                      destinations[index]
+                                                      fxRate[index].countryName!
                                               ? SvgPicture.asset(
                                                   AppSvg.mark_green,
                                                   height: 20,
@@ -383,7 +565,6 @@ class SendAbroadController extends GetxController {
                                   vertical: 10.h, horizontal: 20.w),
                               child: GestureDetector(
                                 onTap: () {
-                                  print(currencies[index]);
                                   currency.value = currencies[index];
                                   pop();
                                 },

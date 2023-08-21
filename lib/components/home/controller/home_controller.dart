@@ -95,7 +95,7 @@ class HomeController extends GetxController {
     inReview.value = approvalStatus == "IN_REVIEW" ? true : false;
     loadTransactions();
     getWallet();
-    addNotificationID();
+    // addNotificationID();
     storage.remove("removeAll");
     super.onInit();
   }
@@ -202,7 +202,7 @@ class HomeController extends GetxController {
       dynamic outflowData = response.data['data']['outflow'];
       inflowGraph.value = setGraph(inflowData, "amount");
       outflowGraph.value = setGraph(outflowData, "amount");
-      fetchPlans();
+      // fetchPlans();
     } else if (response.statusCode == 999) {
       AppResponse res = await locator.get<AuthService>().refreshUserToken();
       if (res.status) {

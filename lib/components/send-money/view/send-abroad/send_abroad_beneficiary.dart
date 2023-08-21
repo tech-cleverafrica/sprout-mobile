@@ -57,7 +57,7 @@ class SendAbroadBeneficiary extends StatelessWidget {
                   ),
                   CustomTextFormField(
                     controller:
-                        sendAbroadController.beneficiaryFirstNameController,
+                        sendAbroadController.beneficiaryLastNameController,
                     label: "Beneficiary Last name",
                     hintText: "Enter Beneficiary Last name",
                     fillColor: isDarkMode
@@ -74,7 +74,7 @@ class SendAbroadBeneficiary extends StatelessWidget {
                   ),
                   CustomTextFormField(
                     controller:
-                        sendAbroadController.beneficiaryFirstNameController,
+                        sendAbroadController.beneficiaryBankNameController,
                     label: "Beneficiary Bank name",
                     hintText: "Enter Beneficiary Bank name",
                     fillColor: isDarkMode
@@ -90,8 +90,7 @@ class SendAbroadBeneficiary extends StatelessWidget {
                     textInputAction: TextInputAction.next,
                   ),
                   CustomTextFormField(
-                    controller:
-                        sendAbroadController.beneficiaryFirstNameController,
+                    controller: sendAbroadController.swiftOrBicCodeController,
                     label: "SWIFT/BIC Code",
                     hintText: "Enter SWIFT/BIC Code",
                     fillColor: isDarkMode
@@ -107,10 +106,13 @@ class SendAbroadBeneficiary extends StatelessWidget {
                     textInputAction: TextInputAction.next,
                   ),
                   CustomTextFormField(
-                    controller:
-                        sendAbroadController.beneficiaryFirstNameController,
+                    controller: sendAbroadController.accountNumberController,
                     label: "IBAN/Account number",
                     hintText: "Enter IBAN/Account number",
+                    maxLength: 10,
+                    maxLengthEnforced: true,
+                    showCounterText: false,
+                    textInputType: TextInputType.phone,
                     fillColor: isDarkMode
                         ? AppColors.inputBackgroundColor
                         : AppColors.grey,
@@ -118,7 +120,7 @@ class SendAbroadBeneficiary extends StatelessWidget {
                       if (value!.length == 0)
                         return "IBAN/Account number is required";
                       else if (value.length < 10)
-                        return "IBAN/Account number is too short";
+                        return "IBAN/Account number should be 10 digits";
                       return null;
                     },
                     textInputAction: TextInputAction.next,

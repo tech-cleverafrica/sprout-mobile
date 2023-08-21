@@ -3,6 +3,7 @@ import 'package:sprout_mobile/api-setup/api_setup.dart';
 import 'package:sprout_mobile/api/api_response.dart';
 import 'package:sprout_mobile/components/send-money/model/bank_beneficiary.dart';
 import 'package:sprout_mobile/components/send-money/model/banks.dart';
+import 'package:sprout_mobile/components/send-money/model/fx_rate.dart';
 import 'package:sprout_mobile/components/send-money/repository/send_money_repository.dart';
 import '../../../public/widgets/custom_loader.dart';
 
@@ -80,7 +81,7 @@ class SendMoneyService {
     return AppResponse(false, statusCode, responseBody);
   }
 
-  Future<AppResponse<dynamic>> getFxRates() async {
+  Future<AppResponse<List<FxRate>>> getFxRates() async {
     CustomLoader.show();
     Response response =
         await locator.get<SendMoneyRepositoryImpl>().getFxRates();
@@ -90,10 +91,23 @@ class SendMoneyService {
 
     if (statusCode >= 200 && statusCode <= 300) {
       print("vvv$responseBody");
-      // Banks banks = Banks.fromJson(responseBody["data"]);
-      // print("This is bannnnnnnnnnnnnnnnnnnnnnnnnkks:::::$banks");
-      return AppResponse<dynamic>(true, statusCode, responseBody, responseBody);
+      return AppResponse<List<FxRate>>(
+          true, statusCode, responseBody, FxRate.getList(responseBody["data"]));
     }
     return AppResponse(false, statusCode, responseBody);
+  }
+
+  Future<AppResponse<dynamic>> makeFxTransfer(
+      Map<String, dynamic> requestBody) async {
+    CustomLoader.show();
+    Response response = await locator
+        .get<SendMoneyRepositoryImpl>()
+        .makeFxTransfer(requestBody);
+    CustomLoader.dismiss();
+    int statusCode = response.statusCode ?? 000;
+    if (statusCode >= 200 && statusCode <= 300) {
+      return AppResponse<dynamic>(true, statusCode, {"": ""}, {"": ""});
+    }
+    return AppResponse(false, statusCode, {"": ""});
   }
 }

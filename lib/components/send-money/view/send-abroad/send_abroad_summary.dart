@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:sprout_mobile/components/send-money/controller/send_abroad_controller.dart';
 import 'package:sprout_mobile/components/send-money/view/send-abroad/send_abroad_pin_confirmation.dart';
 import 'package:sprout_mobile/public/widgets/general_widgets.dart';
 import 'package:sprout_mobile/utils/app_colors.dart';
@@ -12,8 +14,11 @@ class SendAbroadSummaryScreen extends StatelessWidget {
   double? amount;
   SendAbroadSummaryScreen({super.key});
 
+  late SendAbroadController sendAbroadController;
+
   @override
   Widget build(BuildContext context) {
+    sendAbroadController = Get.put(SendAbroadController());
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
       child: Scaffold(
@@ -51,7 +56,7 @@ class SendAbroadSummaryScreen extends StatelessWidget {
                             style: titleStyle(),
                           ),
                           Text(
-                            "100,000 NGN",
+                            "${sendAbroadController.amountToSendController.value.text} NGN",
                             style: detailStyle(isDarkMode),
                           )
                         ],
@@ -65,7 +70,7 @@ class SendAbroadSummaryScreen extends StatelessWidget {
                             style: titleStyle(),
                           ),
                           Text(
-                            "800 USD",
+                            "${sendAbroadController.rate.value.toString()} ${sendAbroadController.currency.value}",
                             style: detailStyle(isDarkMode),
                           )
                         ],
@@ -93,7 +98,7 @@ class SendAbroadSummaryScreen extends StatelessWidget {
                             style: titleStyle(),
                           ),
                           Text(
-                            "120 USD",
+                            "${sendAbroadController.amountToReceiveController.value!.text} ${sendAbroadController.currency.value}",
                             style: detailStyle(isDarkMode),
                           )
                         ],
@@ -130,7 +135,7 @@ class SendAbroadSummaryScreen extends StatelessWidget {
                             style: titleStyle(),
                           ),
                           Text(
-                            "Peter Obi",
+                            "${sendAbroadController.beneficiaryFirstNameController.text} ${sendAbroadController.beneficiaryLastNameController.text}",
                             style: detailStyle(isDarkMode),
                           )
                         ],
@@ -144,7 +149,7 @@ class SendAbroadSummaryScreen extends StatelessWidget {
                             style: titleStyle(),
                           ),
                           Text(
-                            "2222222222",
+                            "${sendAbroadController.accountNumberController.text}",
                             style: detailStyle(isDarkMode),
                           )
                         ],
@@ -158,7 +163,7 @@ class SendAbroadSummaryScreen extends StatelessWidget {
                             style: titleStyle(),
                           ),
                           Text(
-                            "014466",
+                            "${sendAbroadController.swiftOrBicCodeController.text}",
                             style: detailStyle(isDarkMode),
                           )
                         ],
@@ -172,7 +177,7 @@ class SendAbroadSummaryScreen extends StatelessWidget {
                             style: titleStyle(),
                           ),
                           Text(
-                            "Monzo",
+                            "${sendAbroadController.beneficiaryBankNameController.text}",
                             style: detailStyle(isDarkMode),
                           )
                         ],
@@ -186,7 +191,7 @@ class SendAbroadSummaryScreen extends StatelessWidget {
                             style: titleStyle(),
                           ),
                           Text(
-                            "Individual",
+                            "${sendAbroadController.category.value}",
                             style: detailStyle(isDarkMode),
                           )
                         ],
@@ -200,7 +205,7 @@ class SendAbroadSummaryScreen extends StatelessWidget {
                             style: titleStyle(),
                           ),
                           Text(
-                            "United Kingdom (UK)",
+                            "${sendAbroadController.destination.value}",
                             style: detailStyle(isDarkMode),
                           )
                         ],
