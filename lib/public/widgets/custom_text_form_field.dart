@@ -87,7 +87,7 @@ class CustomTextFormField extends StatelessWidget {
     this.errorText,
     this.required,
     this.showCounterText = true,
-    this.textInputAction = TextInputAction.none,
+    this.textInputAction = TextInputAction.next,
     this.textAlign = TextAlign.left,
     this.autofocus = false,
     this.onFieldSubmitted,

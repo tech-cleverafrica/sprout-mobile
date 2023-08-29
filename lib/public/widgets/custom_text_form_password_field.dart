@@ -23,7 +23,7 @@ class CustomTextFormPasswordField extends StatefulWidget {
     this.onChanged,
     this.validator,
     this.controller,
-    this.textInputAction = TextInputAction.none,
+    this.textInputAction = TextInputAction.next,
   }) : super(key: key);
 
   @override

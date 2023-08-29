@@ -51,7 +51,7 @@ class ComplaintScreen extends StatelessWidget {
               addVerticalSpace(16.h),
               Container(
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.75,
+                height: MediaQuery.of(context).size.height * 0.7,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
